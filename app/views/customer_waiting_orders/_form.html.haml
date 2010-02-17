@@ -1,0 +1,19 @@
+-# Required variables: "f" => a form_for instance
+%table.waiting-order
+  %thead.title
+    %tr
+      %th{:colspan => 2}
+        Waiting Order
+  %tbody
+    %tr
+      %th Publication
+      %td= f.select :publication_id, Publication.find(:all, :order => :name).collect{|p| [ p.name, p.id ]}
+    %tr
+      %th # Copies
+      %td= f.text_field :num_copies
+    %tr
+      %th Date Requested
+      %td= f.calendar_date_select :request_date
+    %tr
+      %th Comments
+      %td= f.text_field :comments

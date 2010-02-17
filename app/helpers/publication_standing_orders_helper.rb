@@ -1,0 +1,2 @@
+module PublicationStandingOrdersHelper
+end

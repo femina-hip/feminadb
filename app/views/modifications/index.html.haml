@@ -1,0 +1,10 @@
+= render_pretty_header 'Recent Changes' do
+  %p
+    This page lists what has changed recently in the database. It is for
+    informative purposes only.
+  %p
+    Listing changes since:
+    %b= format_datetime @start_time
+
+- @modifications.each do |modification|
+  = render :partial => 'modification', :locals => { :modification => modification }

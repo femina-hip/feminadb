@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+dm1:
+  id: 1
+  name: DM1
+  description: Delivery Method 1
+  warehouse_id: 1
+  include_in_distribution_quote_request: true
+
+dm2:
+  id: 2
+  name: DM2
+  description: Delivery Method 2
+  warehouse_id: 2
+  include_in_distribution_quote_request: false
+
+dm3:
+  id: 3
+  name: DM3
+  description: Delivery Method 3 with no Customers
+  warehouse_id: 1
+  include_in_distribution_quote_request: false

@@ -1,0 +1,77 @@
+-# Required variables: "f": a form_for
+%table.customer
+  %thead.title
+    %tr
+      %th{:colspan => 2} Customer Details
+  %thead
+    %tr
+      %th{:colspan => 2} General Information
+  %tbody
+    %tr{:class => cycle('odd', 'even')}
+      %th Name
+      %td= f.text_field :name
+    %tr{:class => cycle('odd', 'even')}
+      %th Type
+      %td= f.customer_type_select :customer_type_id
+    %tr{:class => cycle('odd', 'even')}
+      %th Region
+      %td= f.select :region_id, Region.find(:all, :order => :name).collect{|r| [ r.name, r.id ]}
+    %tr{:class => cycle('odd', 'even')}
+      %th District
+      %td= f.text_field :district
+
+  %thead
+    %tr
+      %th{:colspan => 2} Delivery Details
+  %tbody
+    - reset_cycle
+    %tr{:class => cycle('odd', 'even')}
+      %th Delivery Method
+      %td= f.select :delivery_method_id, DeliveryMethod.find(:all, :order => :abbreviation).collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+    %tr{:class => cycle('odd', 'even')}
+      %th
+        Deliver Via
+        - tooltip do
+          %p Company to which Femina will send Issues
+      %td= f.text_field :deliver_via
+    %tr{:class => cycle('odd', 'even')}
+      %th
+        Address
+        - tooltip do
+          %p Instructions for where to actually deliver
+      %td= f.text_field :address
+    %tr{:class => cycle('odd', 'even')}
+      %th PO Box
+      %td= f.text_field :po_box
+  %thead
+    %tr
+      %th{:colspan => 2} Contact Details
+  %tbody
+    - reset_cycle
+    %tr{:class => cycle('odd', 'even')}
+      %th Contact Name
+      %td= f.text_field :contact_name
+    %tr{:class => cycle('odd', 'even')}
+      %th Contact Position
+      %td= f.text_field :contact_position
+    %tr{:class => cycle('odd', 'even')}
+      %th Telephone (1)
+      %td= f.text_field :telephone_1
+    %tr{:class => cycle('odd', 'even')}
+      %th Telephone (2)
+      %td= f.text_field :telephone_2
+    %tr{:class => cycle('odd', 'even')}
+      %th Telephone (3)
+      %td= f.text_field :telephone_3
+    %tr{:class => cycle('odd', 'even')}
+      %th Fax
+      %td= f.text_field :fax
+    %tr{:class => cycle('odd', 'even')}
+      %th Email (1)
+      %td= f.text_field :email_1
+    %tr{:class => cycle('odd', 'even')}
+      %th Email (2)
+      %td= f.text_field :email_2
+    %tr{:class => cycle('odd', 'even')}
+      %th Website
+      %td= f.text_field :website

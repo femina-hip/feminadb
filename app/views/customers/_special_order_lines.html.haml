@@ -1,0 +1,32 @@
+-# Required variables: "special_order_lines", list of lines; "@customer"
+
+%table.customer-special-order-lines
+  %thead.title
+    %tr
+      %th{:colspan => 9} Special Orders
+  %thead
+    %tr
+      %th Publication
+      %th #
+      %th Issue
+      %th # Req
+      %th Qty
+      %th User
+      %th For Date
+      %th Status
+      %th
+  %tbody
+    - special_order_lines.each do |line|
+      %tr{:class => cycle('odd', 'even')}
+        %td{:class => 'publication'}= h line.issue.publication.name
+        %td{:class => 'issue_number'}= line.issue.issue_number
+        %td{:class => 'issue_name'}= h line.issue.name
+        %td{:class => 'num_copies_requested'}= h line.num_copies_requested
+        %td{:class => 'num_copies'}= h line.num_copies
+        %td{:class => 'user'}= render_user line.special_order.requested_by_user
+        %td{:class => 'order_date'}= h line.special_order.requested_for_date
+        %td{:class => 'status'}= h line.special_order.state_string
+        %td{:class => 'actions'}= link_to 'Show Order', line.special_order
+    %tr
+      %td{:colspan => 9, :class => 'add'}
+        = link_to 'Request New Special Order for this Customer', new_special_order_path(:customer_id => @customer)

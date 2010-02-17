@@ -1,0 +1,50 @@
+%h1 Approved Special Order
+
+= error_messages_for :special_order
+
+- if current_user.has_role?('complete-special-orders')
+  %p
+    Please give the Copies specified and then click the link at the bottom
+    of the page.
+-else
+  %p
+    This Special Order has been approved, but the copies have not yet been
+    given. A receptionist must give the Copies.
+
+%table{:class => 'special-order'}
+  %tr{:class => cycle('odd', 'even')}
+    %th Entered by
+    %td= render_user @special_order.requested_by_user
+  %tr{:class => cycle('odd', 'even')}
+    %th Requested for
+    %td= h @special_order.customer_name
+  %tr{:class => cycle('odd', 'even')}
+    %th On
+    %td= h @special_order.requested_at
+  %tr{:class => cycle('odd', 'even')}
+    %th Reason
+    %td= h @special_order.reason
+  %tr{:class => cycle('odd', 'even')}
+    %th Date Needed
+    %td= h @special_order.requested_for_date
+  %tr{:class => cycle('odd', 'even')}
+    %th Approved by
+    %td= render_user @special_order.authorized_by_user
+  %tr{:class => cycle('odd', 'even')}
+    %th Approved on
+    %td= h @special_order.authorized_at.to_formatted_s
+  %tr{:class => cycle('odd', 'even')}
+    %th Comments
+    %td= h @special_order.authorize_comments
+
+= render :partial => 'lines', :locals => { :lines => @special_order.lines, :show_num_copies => true }
+
+- if current_user.has_role?('edit-special-orders')
+  - form_for(@special_order, :url => { :action => 'complete' }) do |f|
+    %p After the Copies have been given, click here:
+    %p= submit_tag 'Mark Special Order as Complete'
+
+= render :partial => 'notes', :locals => { :special_order => @special_order }
+
+%p.actions
+  = link_to 'List Pending Requests', :action => 'index'

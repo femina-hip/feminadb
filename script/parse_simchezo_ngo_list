@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+#
+# Script to populate the database from old Excel sheets
+#
+# The Excel sheets had data in a special format, and if the Excel sheets no
+# longer exist this script is no longer useful beyond as an educational tool.
+#
+# The script was run as follows:
+#
+# 1. Copy/paste to make it such that there is always a Final Recipient
+# 2. Export to CSV
+# 3. Crop the data, so that all the rows in the file are off the same delivery
+#    method (Dar, Up-Country, or Up-Country Corporate)
+# 4. Run the script to make sure there will be no errors (e.g., missing region)
+# 5. Run the script again with --really
+# 6. Repeat steps 4, 5 with RAILS_ENV=production
+
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+require 'console_app'
+
+require 'optparse'
+require 'csv'
+
+User.current_user = User.find_by_login('admin') # for updated_by
+
+options = { :file => nil }
+OptionParser.new do |opt|
+  opt.banner = 'Usage: parse_ss_script [options]'
+  opt.on('-f', '--file=', 'Specify input file') { |v| options[:file] = v }
+  opt.on('-d', '--delivery-method=', 'Specify delivery method') { |v| options[:delivery_method] = v }
+  opt.on('-p', '--publication=', 'Specify publication') { |v| options[:publication] = v }
+  opt.on('-r', '--really', 'Actually modify the DB') { |v| options[:really] = true }
+  opt.parse!(ARGV)
+end
+
+if not options[:file]
+  puts 'Please specify a filename'
+  exit 1
+end
+
+customer_type = CustomerType.find_by_name('Unknown')
+if not customer_type
+  puts 'Internal error: No Customer Type named "Unknown"'
+  exit 1
+end
+
+publication = Publication.find_by_name(options[:publication])
+if not publication
+  puts 'Please specify a valid publication with --publication=, one of:'
+  Publication.find(:all).each do |p|
+    puts " - #{p.name}"
+  end
+  exit 1
+end
+
+delivery_method = DeliveryMethod.find_by_name(options[:delivery_method])
+if not delivery_method
+  puts 'Please specify a valid delivery method with --delivery-method=, one of:'
+  DeliveryMethod.find(:all).each do |dm|
+    puts " - #{dm.name}"
+  end
+  exit 1
+end
+
+region_name = ''
+district = ''
+deliver_via = ''
+CSV::Reader.parse(File.open(options[:file], 'rb')) do |row|
+  begin
+    row.collect! { |x| x ? (x.strip ? x.strip : nil) : nil }
+  rescue NoMethodError
+    next
+  end
+
+  next if (not row[3] and not row[2]) or row[0] == 'Region' or not row[5]
+
+  region_name = row[0].strip.capitalize if row[0]
+  region_name = 'Dar es Salaam' if region_name == 'Dar es salaam'
+  region_name = 'Dar es Salaam' if region_name == "D'salaam"
+  if row[1] and row[1].strip
+    district = row[1].strip.capitalize
+    deliver_via = ''
+  end
+  deliver_via = row[2].strip if row[2]
+  customer_name = row[3] ? row[3].strip : nil
+  contact_details = row[4] ? row[4].strip : nil
+  num_copies = row[5].tr(',','').to_i
+
+  if not customer_name
+    if not deliver_via
+      puts "Error: no deliver_via or customer_name"
+      exit 1
+    end
+    customer_name = deliver_via
+  end
+
+  region = Region.find_by_name(region_name)
+
+  if not region
+    puts "Region #{region_name} is not in the database! You must add it!"
+    if options[:really]
+      puts 'Also, you specified --really, so now the database is screwy.'
+      puts 'Undo manually what has been done already, then start again.'
+    end
+    exit 1
+  end
+
+  puts "Creating #{customer_name} (#{region.name})... -- #{num_copies}"
+
+  if options[:really]
+    customer = Customer.create({
+        :name => customer_name,
+        :district => district,
+        :deliver_via => deliver_via,
+        :delivery_method_id => delivery_method.id,
+        :customer_type_id => customer_type.id,
+        :region => region })
+    pr = Subscription.create({
+        :customer => customer,
+        :publication => publication,
+        :num_copies => num_copies })
+    customer.save
+    pr.save
+  end
+end
+
+if not options[:really]
+  puts 'Now run again, with --really'
+end

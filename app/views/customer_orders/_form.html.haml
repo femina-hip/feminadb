@@ -1,0 +1,22 @@
+-# Required variables: "f" => a form_for instance
+%table.order
+  %thead.title
+    %tr
+      %th{:colspan => 2}
+        = glossary_term_and_tooltip 'Order'
+  %tbody
+    %tr
+      %th Issue
+      %td= f.issue_select :issue_id
+    %tr
+      %th # Copies
+      %td= f.text_field :num_copies
+    %tr
+      %th Order Date
+      %td= f.calendar_date_select :order_date
+    %tr
+      %th Delivery Method
+      %td= f.select :delivery_method_id, DeliveryMethod.find(:all, :order => :abbreviation).collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+    %tr
+      %th Comments
+      %td= f.text_field :comments

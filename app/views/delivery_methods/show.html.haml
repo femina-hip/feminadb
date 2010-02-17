@@ -1,0 +1,39 @@
+%h1 Showing Delivery Method
+
+%p
+  %b Abbreviation:
+  = h @delivery_method.abbreviation
+  - tooltip do
+    %p Shown when there is very little room
+%p
+  %b Name:
+  = h @delivery_method.name
+  - tooltip do
+    %p Short name of the delivery method
+%p
+  %b Description:
+  = h @delivery_method.description
+  - tooltip do
+    %p Clarification of how the delivery occurs
+%p
+  %b Warehouse:
+  = h @delivery_method.warehouse.name
+  - tooltip do
+    %p Which warehouse the Issues come from
+%p
+  %b Include in Distribution Quote Request:
+  - if @delivery_method.include_in_distribution_quote_request?
+    Yes
+  - else
+    No
+  -tooltip do
+    %p
+      If Yes, Orders with this Delivery Method will be included in
+      Distribution Quote Requests.
+
+%p{:class => 'actions'}
+  = link_to 'Edit', edit_admin_delivery_method_path(@delivery_method)
+  |
+  = link_to 'Destroy', admin_delivery_method_path(@delivery_method), :confirm => 'Are you sure you want to delete this delivery method?', :method => :delete
+  |
+  = link_to 'Back', admin_delivery_methods_path

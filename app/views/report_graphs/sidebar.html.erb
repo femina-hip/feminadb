@@ -1,0 +1,19 @@
+<%=
+
+g = Gruff::SideBar.new
+g.title = @report.class.title
+
+d = []
+labels = {}
+@report.data.each_with_index do |row, i|
+  d << row[1]
+  labels[i] = format(row[0])
+end
+
+g.data "Data", d
+g.labels = labels
+g.hide_legend = true
+
+g.to_blob
+
+%>

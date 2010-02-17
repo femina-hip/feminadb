@@ -1,0 +1,12 @@
+= render_pretty_header 'Creating Customer' do
+  %p You may create a new Customer by entering information here.
+  %p The Customer will only be saved when you click <q>Create Customer</q>.
+
+= error_messages_for :customer
+
+- form_for :customer, :url => customers_path do |f|
+  = render :partial => 'customer_form', :locals => { :f => f }
+  %p= submit_tag 'Create Customer'
+
+%p.actions
+  = link_to 'Return without Creating', customers_path

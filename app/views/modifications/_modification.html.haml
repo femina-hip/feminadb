@@ -1,0 +1,10 @@
+-# Required variables: "modification", a Modification
+.modification
+  %p
+    %b= h modification.new_o.class.name.humanize
+    = h modification.type
+    by
+    %b= render_user modification.new_o.updated_by_user
+    at
+    %b= h format_datetime(modification.new_version_timestamp)
+    = link_to '[details]', :action => 'show', :params => { :klass => modification.new_o.class.name, :start_time => @start_time, :object_id => modification.o_id }

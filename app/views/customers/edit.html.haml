@@ -1,0 +1,13 @@
+= render_pretty_header 'Editing Customer' do
+  %p You may change the Customer's information here.
+  %p Changes will only be applied when you click <q>Save changes</q>.
+
+= error_messages_for :customer
+
+- form_for :customer, :url => customer_path(@customer), :html => { :method => :put } do |f|
+  = render :partial => 'customer_form', :locals => { :f => f }
+  %p
+    = submit_tag
+
+%p.actions
+  = link_to 'Return without Saving', customer_path(@customer)

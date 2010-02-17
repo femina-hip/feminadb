@@ -1,0 +1,14 @@
+div.report-form {
+  margin: 1em; }
+  div.report-form h2 {
+    font-size: inherit;
+    font-weight: bold;
+    margin: 0; }
+  div.report-form form {
+    margin-left: 2em; }
+
+div.reports {
+  margin-left: 168px; }
+
+p.report {
+  margin-left: 0 !important; }

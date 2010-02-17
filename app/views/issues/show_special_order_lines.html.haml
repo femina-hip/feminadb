@@ -1,0 +1,33 @@
+= render_pretty_header 'Special Orders' do
+  %h2= h(@issue.full_name)
+
+  %p
+    This page shows only the interesting lines of Special Orders for this
+    issue. You may click on any Special Order to see any other lines of
+    in that Special Order.
+
+  %p= link_to 'View Issue Information', [@publication, @issue]
+
+- if @special_order_lines.empty?
+  %p There are no Special Orders for this Issue.
+- else
+  %table{:class => 'issue-special-order-lines'}
+    %thead
+      %tr
+        %th By
+        %th Qty
+        %th Customer
+        %th Reason
+        %th When
+        %th Status
+        %th
+    %tbody
+      - @special_order_lines.each do |line|
+        %tr{:class => cycle('odd', 'even')}
+          %td= render_user line.special_order.requested_by_user
+          %td= number_with_delimiter(line.num_copies)
+          %td= h line.special_order.customer_name
+          %td= h line.special_order.reason
+          %td= line.special_order.requested_for_date
+          %td= h line.special_order.state_string
+          %td= link_to 'Details', line.special_order

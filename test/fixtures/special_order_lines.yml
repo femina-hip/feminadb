@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  special_order_id: 1
+  issue_id: 1
+  num_copies_requested: 1
+two:
+  id: 2
+  special_order_id: 1
+  issue_id: 2
+  num_copies_requested: 2
+three:
+  id: 3
+  special_order_id: 2
+  issue_id: 1
+  num_copies_requested: 1

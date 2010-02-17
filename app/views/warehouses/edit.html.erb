@@ -1,0 +1,29 @@
+<h1>Editing Warehouse</h1>
+
+<%= error_messages_for :warehouse %>
+
+<% form_for(:warehouse, :url => admin_warehouse_path(@warehouse), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Warehouse Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Comment</b><br />
+    <%= f.text_field :comment %>
+  </p>
+
+  <p>
+    <label>
+      <%= f.check_box :tracks_inventory %>
+      Tracks Inventory
+    </label>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_warehouse_path(@warehouse) %> |
+<%= link_to 'Back', admin_warehouses_path %>

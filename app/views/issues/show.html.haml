@@ -1,0 +1,77 @@
+= render_pretty_header h(@issue.full_name) do
+  %p
+    From this page, you can view all details concerning this Issue.
+
+  %p= link_to "View Other Issues of #{h(@publication.name)}", @publication
+
+%table.issue
+  %tbody
+    %tr{:class => cycle('odd', 'even')}
+      %th= glossary_term_and_tooltip('Publication')
+      %td= link_to @publication.name, @publication
+    %tr{:class => cycle('odd', 'even')}
+      %th= glossary_term_and_tooltip('Issue Number')
+      %td= @issue.issue_number
+    %tr{:class => cycle('odd', 'even')}
+      %th Name
+      %td= h @issue.name
+    %tr{:class => cycle('odd', 'even')}
+      %th Date
+      %td= @issue.issue_date
+    %tr{:class => cycle('odd', 'even')}
+      %th Quantity Printed
+      %td= number_with_delimiter @issue.quantity
+    %tr{:class => cycle('odd', 'even')}
+      %th Box Sizes
+      %td= @issue.issue_box_sizes_string
+    %tr{:class => cycle('odd', 'even')}
+      %th Inventory
+      %td
+        Total:
+        = number_with_delimiter @issue.num_copies_in_stock
+        %br/
+        In-House:
+        = @issue.num_copies_in_house
+        - @warehouses.each do |warehouse|
+          %br/
+          = "#{h(warehouse.name)}: "
+          = number_with_delimiter @issue.num_copies_in_warehouse(warehouse)
+
+    %tr{:class => cycle('odd', 'even')}
+      %td{:colspan => 2}
+        - if @issue.allows_new_special_orders?
+          People can request this Issue using Special Orders.
+        - else
+          People may not file Special Orders for this Issue.
+    - if current_user.has_role?('edit-issues')
+      %tr
+        %td{:class => 'edit', :colspan => 2}
+          = link_to 'Edit Details', edit_publication_issue_url(@publication, @issue)
+      %tr
+        %td.delete{:colspan => 2}
+          = button_to 'Delete', publication_issue_path(@publication, @issue.id), :method => :delete, :confirm => 'WATCH OUT! All Orders will be deleted also. Are you sure you want to Delete this Issue?'
+
+%ul.actions
+  - if @publication.tracks_standing_orders? and controller.authorized_for_generate_orders?
+    %li= button_to 'Generate Orders from Standing Orders', { :controller => 'standing_orders_to_orders', :action => 'start_task', :id => @issue }, :onclick => render_loading
+  %li= link_to 'Show Orders', publication_issue_orders_url(@publication, @issue)
+  %li= link_to 'Show Special Orders', show_special_order_lines_publication_issue_url(@publication, @issue)
+  %li= link_to 'Show Packing Instructions', show_packing_instructions_publication_issue_url(@publication, @issue), :onclick => render_loading
+  %li= link_to 'Show Distribution Quote Request', show_distribution_quote_request_publication_issue_url(@publication, @issue), :onclick => render_loading
+  %li= link_to 'Show Distribution Order', show_distribution_order_publication_issue_url(@publication, @issue), :onclick => render_loading
+  %li
+    %span
+      = link_to 'Show Distribution List [Web]', show_distribution_list_publication_issue_url(@publication, @issue), :onclick => render_loading
+      = link_to '[Print]', formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf), :onclick => render_loading
+      (All Delivery Methods)
+    %div
+      Or show the Distribution List for only one Delivery Method:
+      %ul
+        - DeliveryMethod.find(:all, :order => :name).each do |dm|
+          - if Order.count(:all, :conditions => { :issue_id => @issue.id, :delivery_method_id => dm.id }) != 0
+            %li
+              = link_to "Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id), :onclick => render_loading
+              = link_to '[Print]', formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf, :delivery_method_id => dm.id), :onclick => render_loading
+  %li= link_to 'Back to Issue List', publication_issues_url(@publication)
+
+= render :partial => 'notes', :locals => { :issue => @issue }

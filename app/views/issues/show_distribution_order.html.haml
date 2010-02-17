@@ -1,0 +1,11 @@
+= render_pretty_header 'Distribution Order' do
+  %p
+    This is a
+    = glossary_term_and_tooltip('Distribution Order')
+    for
+    = "#{h(@issue.full_name)}."
+
+  %p= link_to 'View Issue Information', [@publication, @issue]
+
+- @delivery_methods.each do |delivery_method|
+  = render :partial => 'distribution_quote_request_table', :locals => { :delivery_method => delivery_method, :table => @data[delivery_method] }

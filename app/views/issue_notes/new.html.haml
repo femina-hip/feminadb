@@ -1,0 +1,9 @@
+%h1 Creating Issue Note
+
+= error_messages_for :note
+
+- form_for @note, :url => objects_path do |f|
+  %div
+    = f.text_area :note
+  %p
+    = f.submit 'Write Note'

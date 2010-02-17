@@ -1,0 +1,8 @@
+-# Called with "term" and (maybe-null) "definition"
+%span.glossary
+  %span.term= h term
+  - if definition
+    - tooltip do
+      %h1= h term
+      = textilize definition
+      = link_to 'Glossary', 'http://wiki/FeminaDbGlossary', :popup => true

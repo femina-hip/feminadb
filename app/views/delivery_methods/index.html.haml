@@ -1,0 +1,32 @@
+= render_pretty_header 'Delivery Methods' do
+  %p Administrators may edit the master list of Delivery Methods here.
+
+%table.delivery-methods
+  %thead
+    %tr
+      %th Abbr
+      %th Name
+      %th Description
+      %th
+        Quote?
+        - tooltip do
+          %p
+            If Yes, Orders with this Delivery Method will be included in
+            Distribution Quote Requests.
+      %th
+  %tbody
+    - @delivery_methods.each do |delivery_method|
+      %tr{:class => cycle('odd', 'even')}
+        %td{:class => 'abbreviation'}= h delivery_method.abbreviation
+        %td{:class => 'name'}= h delivery_method.name
+        %td{:class => 'description'}= h delivery_method.description
+        %td{:class => 'quote'}
+          - if delivery_method.include_in_distribution_quote_request?
+            Yes
+          - else
+            No
+        %td{:class => 'actions'}
+          = link_to 'Show', admin_delivery_method_path(delivery_method)
+    %tr{:class => 'add'}
+      %td{:colspan => 5}
+        = link_to 'Create new Delivery Method', new_admin_delivery_method_path

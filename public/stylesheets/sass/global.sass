@@ -1,0 +1,75 @@
+body
+  :background = !background_color
+  :color = !color
+  :margin 0
+  :font-family Verdana, sans-serif
+
+h2
+  :font-size 1.15em
+
+h3
+  :font-size 1.05em
+
+p
+  :line-height 1.5em
+
+a
+  :color = !link_color
+  :text-decoration none
+
+form.button-to
+  :display inline
+  :padding 0
+  :margin 0
+
+  div
+    :display inline
+
+  input
+    :background inherit
+    :border none
+    :color = !link_color
+    :cursor pointer
+
+p.image
+  :text-align center
+
+  span
+    :margin-top 6px
+    :display block
+
+  img
+    :border 2px dotted gray
+
+table
+  :clear both
+  :border-collapse collapse
+
+  th, td
+    :white-space nowrap
+    :padding 2px 6px
+
+    p, .redcloth, .overflow
+      white-space: normal
+
+    .redcloth
+      :margin -1em 0
+
+    .cut-off
+      overflow: hidden
+
+p.actions
+  :text-align center
+
+div.tooltip
+  :color black
+  :font-size 10pt
+
+  h1
+    :font-size 1em
+    :font-weight bold
+    :padding 0
+
+  a
+    :background inherit !important
+    :color = !link_color !important

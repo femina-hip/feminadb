@@ -1,0 +1,16 @@
+-# Required variables: "f" => a form_for instance
+%table.standing-order
+  %thead.title
+    %tr
+      %th{:colspan => 2}
+        Standing Order
+  %tbody
+    %tr
+      %th Publication
+      %td= f.select :publication_id, Publication.find_all_tracking_standing_orders(:order => :name).collect{|p| [ p.name, p.id ]}
+    %tr
+      %th # Copies
+      %td= f.text_field :num_copies
+    %tr
+      %th Comments
+      %td= f.text_field :comments

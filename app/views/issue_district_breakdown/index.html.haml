@@ -1,0 +1,33 @@
+= render_pretty_header 'Issue/District Quantities' do
+  %h2
+    For
+    = h @publication.name
+  %p
+    This report shows how many Copies of each Issue were sent to each
+    District. Click on a quantity to view a per-Order breakdown
+
+  %p
+    You are looking at details for one Publication: you may want to
+    = link_to 'zoom out', :controller => 'publication_district_breakdown'
+
+%table{:class => 'issue-district-breakdown'}
+  %thead
+    %tr
+      %th Region
+      %th District
+      - @publication.issues.reverse.each do |issue|
+        %th
+          %abbr{:title => issue.name}= issue.issue_number
+  %tbody
+    - @data.each do |region_name, district, values|
+      %tr{:class => cycle('odd', 'even')}
+        - region = Region.find_by_name(region_name)
+        %td{:class => 'region'}= h region_name
+        %td{:class => 'district'}= h district
+        - @publication.issues.reverse.each do |issue|
+          - value = values[issue].to_i
+          - if value == 0
+            %td
+          - else
+            %td.num-copies
+              = link_to number_with_delimiter(value), { :action => 'orders', :publication_id => @publication.id, :issue_id => issue.id, :region_id => region.id, :district => district }

@@ -1,0 +1,42 @@
+= render_pretty_header('Customers') do
+  %p
+    Each Customer can have
+    = glossary_term_and_tooltip('Standing Orders')
+    to periodical
+    = link_to 'Publications', publications_path
+    and
+    = glossary_term_and_tooltip('Orders')
+    for Publications' individual Issues.  Customers also have Notes.
+
+= render :partial => 'application/customer_search', :locals => { :path => customers_path, :num_results => @customers.total_entries }
+
+%table.customers
+  %thead
+    %tr
+      %th Region
+      %th District
+      %th Type
+      %th Customer
+      %th
+  %tbody
+    - @customers.each do |customer|
+      %tr{:class => cycle('odd', 'even')}
+        %td.region= h customer.region.name
+        %td.district= h customer.district
+        %td.type= "<abbr title=\"#{h(customer.type.description)}\">#{h(customer.type.name)}</abbr>"
+        %td.customer-name
+          .cut-off= h customer.name
+        %td.actions
+          =link_to 'Show', customer
+    - if current_user.has_role? 'edit-customers'
+      %tr
+        %td{:colspan => 5, :class => 'add'}
+          = link_to 'Create New Customer', new_customer_path
+
+= will_paginate @customers
+
+%p.actions
+  = link_to 'Export Data to Excel', formatted_customers_url(:csv, params.slice(:q))
+  - if current_user.has_role?('edit-orders')
+    |
+    = link_to 'Create Orders for everybody in this list', :controller => :bulk_order, :action => :prepare, :q => params[:q]

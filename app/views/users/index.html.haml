@@ -1,0 +1,19 @@
+= render_pretty_header 'Users' do
+  %p You may edit the master list of Users here.
+  %p If a User has trouble logging in, you may change the User's password.
+
+%table.users
+  %thead
+    %tr
+      %th Login
+      %th Email
+      %th
+  %tbody
+    - @users.each do |user|
+      %tr{:class => cycle('odd', 'even')}
+        %td= h user.login
+        %td= h user.email
+        %td= link_to 'Show', admin_user_path(user)
+    %tr
+      %td.add{:colspan => 3}
+        = link_to 'Create New User', new_admin_user_path

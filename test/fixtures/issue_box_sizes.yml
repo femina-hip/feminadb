@@ -1,0 +1,30 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+ibs11:
+  id: 1
+  issue_id: 1
+  num_copies: 1
+ibs12:
+  id: 2
+  issue_id: 1
+  num_copies: 2
+ibs13:
+  id: 3
+  issue_id: 1
+  num_copies: 50
+ibs14:
+  id: 4
+  issue_id: 1
+  num_copies: 75
+ibs15:
+  id: 5
+  issue_id: 1
+  num_copies: 100
+
+ibs21:
+  id: 6
+  issue_id: 2
+  num_copies: 100
+ibs22:
+  id: 7
+  issue_id: 2
+  num_copies: 200

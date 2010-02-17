@@ -1,0 +1,2 @@
+module PublicationWaitingOrdersHelper
+end

@@ -1,0 +1,14 @@
+messenger:
+  jid: test@localhost/test
+  password: test
+  host: localhost
+
+  special_order_created_recipients:
+    - test@localhost
+    - test2@localhost
+
+  special_order_approved_recipients:
+    - test@localhost
+
+  special_order_denied_recipients:
+    - test2@localhost

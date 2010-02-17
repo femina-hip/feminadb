@@ -1,0 +1,2 @@
+page['standingOrderToOrderProgressBar'].set_style "margin-right: #{(100 - @percent).to_i}%"
+page.replace_html 'standingOrderToOrderMessage', h(@msg)

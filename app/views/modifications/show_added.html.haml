@@ -1,0 +1,27 @@
+%h1
+  Added
+  = h @modification.new_o.class.name.humanize
+
+%p
+  %b Added/Last Updated by:
+  = render_user @modification.new_o.updated_by_user
+%p
+  %b Added/Last Updated at:
+  = h format_datetime(@modification.new_o.updated_at)
+
+%h2 Current Attributes
+
+%table.attributes
+  %thead
+    %tr
+      %th Attribute
+      %th Value
+  %tbody
+    - @modification.new_o.attributes.keys.sort.each do |key|
+      %tr
+        %th= h key
+        %td
+          %div= show_attribute(@modification.new_o, key)
+
+%p.actions
+  = link_to 'Back to Modifications List', :action => 'index'

@@ -1,0 +1,26 @@
+-# Required variables: "f", a form_for
+%p
+  %b Abbreviation:
+  = f.text_field :abbreviation
+  - tooltip do
+    %p Shown when there is very little room
+%p
+  %b Name:
+  = f.text_field :name
+  - tooltip do
+    %p Short name of the delivery method
+%p
+  %b Description:
+  = f.text_field :description
+  - tooltip do
+    %p Clarification of how the delivery occurs
+%p
+  %b Warehouse:
+  = f.select :warehouse_id, Warehouse.find(:all, :order => :name).collect{|w| [ w.name, w.id]}
+  - tooltip do
+    %p Which warehouse the Issues come from
+%p
+  %label
+    = f.check_box :include_in_distribution_quote_request
+    Include Orders with this Delivery Method when creating a Distribution
+    Quote Request

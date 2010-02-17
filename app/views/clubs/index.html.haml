@@ -1,0 +1,43 @@
+= render_pretty_header 'Clubs' do
+  %p
+    This page lets you search for all Customers and their Clubs.
+
+  %p
+    Each Customer may have one Club. This page lets you perform the same
+    search as the
+    = link_to 'Customers', customers_path
+    page, except that only Customers with Clubs are searched.
+
+= render :partial => 'application/customer_search', :locals => { :path => clubs_path, :num_results => @clubs.total_entries }
+
+%table.clubs
+  %thead
+    %tr
+      %th Region
+      %th District
+      %th Club
+      %th
+      %th
+  %tbody
+    - @clubs.each do |club|
+      %tr{:class => cycle('odd', 'even')}
+        %td.region= h club.customer.region.name
+        %td.district= h club.customer.district
+        %td.club-name
+          .cut-off= h club.name
+        %td.actions
+          = link_to 'Show Club', club
+        %td.actions
+          = link_to 'Show Customer', club.customer
+
+= will_paginate @clubs
+
+%p.actions
+  = link_to 'Export Data to Excel', formatted_clubs_path(:csv, params.slice(:q))
+
+%p
+  To create a new Club,
+  = link_to 'search for a Customer', customers_path
+  and add the Club from the Customer's page. If no Customer exists,
+  = link_to 'create a new Customer', new_customer_path
+  with a Customer Type of CLB and then add a Club to that Customer.

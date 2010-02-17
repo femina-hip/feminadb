@@ -1,0 +1,16 @@
+= render_pretty_header 'Reports' do
+  %p
+    Reports are statistics and graphs. Below is a list of reports which
+    can be displayed. Click next to each Report's name to see details.
+
+%h3 Simple Charts
+
+.reports
+  - Report::Base.all_reports.each do |klass|
+    = render :partial => 'report_form', :locals => { :klass => klass }
+
+%h3 Other Ways of Seeing Data
+
+%p
+  Here is
+  = link_to 'a breakdown by District of where our Copies are sent', :controller => 'publication_district_breakdown'

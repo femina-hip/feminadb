@@ -1,0 +1,22 @@
+= render_pretty_header 'Regions' do
+  %p You may edit the master list of Regions here.
+  %p
+    Regions are used by Customers, Orders, and Districts. Many Reports use
+    this list of Regions, as well.
+
+%table.regions
+  %thead
+    %tr
+      %th Name
+      %th Population
+      %th
+
+  %tbody
+    - @regions.each do |region|
+      %tr{:class => cycle('odd', 'even')}
+        %td= h region.name
+        %td= h region.population
+        %td= link_to 'Show', admin_region_path(region)
+    %tr
+      %td.add{:colspan => 3}
+        = link_to 'Create New Region', new_admin_region_path

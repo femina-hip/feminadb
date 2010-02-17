@@ -1,0 +1,12 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  warehouse_id: 1
+  issue_box_size_id: 1
+  num_boxes: 10
+
+two:
+  id: 2
+  warehouse_id: 1
+  issue_box_size_id: 2
+  num_boxes: 20

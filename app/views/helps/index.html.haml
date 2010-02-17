@@ -1,0 +1,35 @@
+= render_pretty_header 'Help' do
+  %p
+    Welcome to FeminaDB. FeminaDB stores information on all Femina HIP's
+    Customers and Publications.
+  %p
+    FeminaDB ought to be easy to use. If you do not log in, you cannot
+    alter any data; so feel free to click around! If you have a specific
+    task which you want to solve, these Help pages can tell you exactly
+    what to do.
+
+%p
+  First of all, read the
+  = link_to 'Responsibilities', :doc => 'responsibilities'
+  page to see what you are meant to do.
+
+%p
+  After reading the
+  = link_to 'Responsibilities', :doc => 'responsibilities'
+  page, you can find detailed instructions on most tasks here:
+
+%ul
+  %li= link_to 'Finding a Customer', :doc => 'find_customer'
+  %li= link_to 'Editing a Customer', :doc => 'edit_customer'
+  %li= link_to 'Viewing an Issue', :doc => 'show_issue'
+  %li= link_to 'Special Orders', :doc => 'special_orders'
+  %li= link_to 'Customer Types', :doc => 'customer_types'
+  %li= link_to 'Tags (another way to Search for Customers)', :doc => 'tags'
+  %li= link_to 'Kinds of Orders', :doc => 'kinds_of_orders'
+
+%p
+  Any problems with FeminaDB should be reported to Adam. Click on the
+  "Problems" link below to view known problems.
+
+%p
+  If you have any questions whatsoever, ask Adam.

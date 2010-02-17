@@ -1,0 +1,13 @@
+= render_pretty_header 'Showing Club' do
+  %p Here are the details for the selected Club.
+
+  %p
+    Each Customer may only have one Club. This Club is for the customer,
+    = link_to @club.customer.name, @club.customer
+
+= render :partial => 'clubs/club', :locals => { :club => @club }
+
+%p.actions
+  = link_to 'Show Customer', @club.customer
+  |
+  = link_to 'Show All Clubs', clubs_path

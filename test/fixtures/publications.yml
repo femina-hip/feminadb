@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+p1:
+  id: 1
+  name: Publication One
+  tracks_standing_orders: true
+
+p2:
+  id: 2
+  name: Publication Two
+  tracks_standing_orders: true
+
+p3:
+  id: 3
+  name: Publication without associations
+  tracks_standing_orders: false

@@ -1,0 +1,9 @@
+.pagination form {
+  display: inline;
+  margin: 0;
+  padding: 0; }
+  .pagination form div {
+    display: inline; }
+    .pagination form div input {
+      font: inherit;
+      width: 3em; }

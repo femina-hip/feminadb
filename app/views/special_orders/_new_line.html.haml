@@ -1,0 +1,10 @@
+-# Required variables: "index", a unique no; "line", a line
+- row_id = "special_order_line_#{index}"
+%tr{:id => row_id}
+  - fields_for "lines[#{index}]", line do |fl|
+    %td.num-copies-requested
+      = fl.text_field :num_copies_requested
+    %td.issue-id
+      = issue_select_tag "lines[#{index}][issue_id]", line.issue, :params => { :allows_new_special_orders => true }
+    %td
+      = link_to_function('Remove') { |p| p.remove row_id }

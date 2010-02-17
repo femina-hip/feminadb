@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+require 'console_app'
+
+require 'optparse'
+
+User.current_user = User.find_by_login('admin') # for updated_by
+
+$options = { :region_name => nil, :old_district => nil, :new_district => nil }
+OptionParser.new do |opt|
+  opt.banner = 'Usage: rename_district [options]'
+  opt.on('--region=', 'Specify Region') { |v| $options[:region_name] = v }
+  opt.on('--old-district=', 'Specify Bad District Name') { |v| $options[:old_district] = v }
+  opt.on('--new-district=', 'Specify Good District Name') { |v| $options[:new_district] = v }
+  opt.on('--really', 'Actually modify the DB') { |v| $options[:really] = true }
+  opt.parse!(ARGV)
+end
+
+region = Region.find_by_name($options[:region_name])
+if not region
+  puts "Please specify an existing Region. #{$options[:region_name]} does not work"
+  exit
+end
+
+old_district = $options[:old_district]
+new_district = $options[:new_district]
+
+if not old_district or not new_district
+  puts "Please specify old and new districts."
+  exit
+end
+
+puts "Renaming #{old_district} to #{new_district}..."
+
+Customer.find_all_by_region_id_and_district(region.id, old_district).each do |c|
+  puts "Altering Customer #{c.id}..."
+  if $options[:really]
+    c.district = new_district
+    c.save!
+  end
+end
+
+Order.find_all_by_region_id_and_district(region.id, old_district).each do |o|
+  puts "Altering Order #{o.id}..."
+  if $options[:really]
+    o.district = new_district
+    o.save!
+  end
+end
+
+puts "Done!"
+
+if not $options[:really]
+  puts "Now run again with --really to actually change the database."
+end

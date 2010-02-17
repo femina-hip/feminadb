@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+require 'console_app'
+
+require 'optparse'
+require 'csv'
+
+User.current_user = User.find_by_login('admin') # for updated_by
+
+options = { :file => nil }
+OptionParser.new do |opt|
+  opt.banner = 'Usage: apply_school_districts [options]'
+  opt.on('-r', '--really', 'Actually modify the DB') { |v| options[:really] = true }
+  opt.parse!(ARGV)
+end
+
+Fema5Report = File.dirname(__FILE__) + '/../doc/fema5-eaml-report.csv'
+
+def find_region(name)
+  name = 'Dar es Salaam' if name == 'DSM'
+  name = 'Pwani' if name == 'COAST'
+  region = Region.find_by_name(name.capitalize)
+  puts "Could not find region named '#{name}'" unless region
+  region
+end
+
+# Returns a dictionary of { Region => { Name => { po_box: string, area: string } } }
+def raw_excel_data
+  file = File.open(Fema5Report, 'rb')
+  region = nil
+  ret = {}
+  CSV::Reader.parse(file) do |row|
+    if row[0].to_s.empty? and not row[1].to_s.empty?
+      region = find_region(row[1])
+      ret[region] ||= {}
+    elsif region and row[0].to_i > 0
+      school_name = row[1].to_s.strip
+      po_box = row[5].to_s.strip
+      area = row[6].to_s.strip
+
+      ret[region][school_name] = { :po_box => po_box, :area => area }
+    end
+  end
+  ret
+end
+
+def with_schools(&block)
+  ct = CustomerType.find_by_name('SS')
+  Customer.find_all_by_customer_type_id(ct.id).each do |customer|
+    yield customer
+  end
+end
+
+def find_in_csv_data(customer, csv_data)
+  region = customer.region
+  region_data = csv_data[region]
+
+  if not region_data
+    puts "Could not find Region #{region.name}"
+    return nil
+  end
+
+  ret = region_data[customer.name]
+
+  if not ret
+    puts "Could not find Customer #{customer.name} in Region #{region.name}"
+    return nil
+  end
+
+  ret
+end
+
+DistrictsFromAreas = {
+  [ 'Dar es Salaam', 'Masaki' ] => 'Kinondoni',
+  [ 'Dar es Salaam', 'Town' ] => 'Ilala',
+  [ 'Kilimanjaro', 'Ugweno' ] => 'Same'
+}
+
+def district_from_area(region, area)
+  DistrictsFromAreas[[region.name, area]]
+end
+
+csv_data = raw_excel_data
+
+with_schools do |customer|
+  excel_row = find_in_csv_data(customer, csv_data)
+
+  if excel_row
+    area = excel_row[:area]
+    po_box = excel_row[:po_box]
+
+    if excel_row
+      if customer.district.to_s.empty? and not area.to_s.empty?
+        district = district_from_area(customer.region, area)
+        if district.nil?
+          puts "We have no district on #{customer.name}. Fill DistrictsFromAreas[['#{customer.region.name}','#{area}']]"
+        else
+          puts "Setting district on #{customer.name} to #{district}"
+          Customer.transaction do
+            customer.district = district
+            customer.save! if options[:really]
+            customer.orders.each do |order|
+              order.district = district
+              order.save! if options[:really]
+            end
+          end
+        end
+      end
+
+      if customer.po_box.to_s.empty? and not po_box.to_s.empty?
+        puts "Setting po_box on #{customer.name} to #{po_box}"
+        customer.po_box = po_box
+        customer.save! if options[:really]
+      end
+    end
+  end
+end
+
+if not options[:really]
+  puts 'Now run again, with --really'
+end

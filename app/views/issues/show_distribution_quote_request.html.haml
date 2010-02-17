@@ -1,0 +1,36 @@
+= render_pretty_header 'Distribution Quote Request' do
+  %p
+    This is a
+    = glossary_term_and_tooltip('Distribution Quote Request')
+    for
+    = "#{h(@issue.full_name)}."
+
+  %p= link_to 'View Issue Information', [@publication, @issue]
+
+%table.distribution-quote-request
+  %thead.title
+    %tr
+      %th{:colspan => 4} Distribution Quote Request
+  %thead
+    %tr
+      %th Region
+      %th # Recipients
+      %th # Copies
+      %th # Units of 50
+  %tbody
+    - @data.each do |row|
+      %tr{:class => cycle('odd', 'even')}
+        %td=h row[:region_name]
+        %td= row[:num_recipients].to_i
+        %td= number_with_delimiter row[:num_copies].to_i
+        %td= number_with_delimiter(row[:num_copies].to_i / 50)
+    %tr.total
+      %th Total
+      %td= @data.inject(0) { |sum, row| sum + row[:num_recipients].to_i }
+      %td= number_with_delimiter(@data.inject(0) { |sum, row| sum + row[:num_copies].to_i })
+      %td= number_with_delimiter(@data.inject(0) { |sum, row| sum + row[:num_copies].to_i } / 50)
+
+%p Only the following Delivery Methods are included in this Quote Request:
+%ul
+  - @delivery_methods.each do |dm|
+    %li= h "#{dm.abbreviation} — #{dm.name} (#{dm.description})"

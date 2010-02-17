@@ -1,0 +1,38 @@
+= render_pretty_header "Standing Orders for #{h(@publication.name)}" do
+  %p
+    These
+    = glossary_term_and_tooltip 'Standing Orders'
+    will become Orders for every coming Issue of
+    = "#{h(@publication.name)}."
+
+  %p
+    If you are logged in and authorized, you may click on the listed
+    quantities to edit them.
+
+= render :partial => 'application/customer_search', :locals => { :path => publication_standing_orders_url(@publication), :num_results => @standing_orders.total_entries }
+
+%table{:class => 'publication-standing-orders'}
+  %thead
+    %tr
+      %th
+        %abbr{:title => 'Delivery Method'} DM
+      %th Region
+      %th District
+      %th Customer
+      %th Qty
+      %th
+  %tbody
+    - @standing_orders.each do |standing_order|
+      = render :partial => 'list_item', :locals => { :standing_order => standing_order }
+= will_paginate @standing_orders
+
+%p.actions
+  = link_to 'Export Data to Excel', formatted_publication_standing_orders_url(@publication, :csv, params.slice(:q))
+  - if current_user.has_role?('edit-orders')
+    |
+    = link_to 'Create Orders for an Issue using this list', :controller => 'bulk_order', :action => 'prepare', :from_publication_id => @publication.id, :q => params[:q]
+
+%p
+  To add a new Standing Order, go to the
+  = link_to 'Customers', customers_url
+  page, find the Customer, and add a Standing Order in that Customer's page.

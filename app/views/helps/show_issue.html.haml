@@ -1,0 +1,17 @@
+= render_pretty_header 'Showing an Issue' do
+  %p
+    This page describes how to view various aspects of an Issue.
+
+  %p
+    Remember, an Issue corresponds to a single print run. Fema is not an
+    Issue. Fema #7 is an Issue.
+
+= render_help_steps do
+  = render_help_step "List a Publication's Issues" do
+    %p
+      Browse to
+      = link_to 'Publications', publications_url
+      and click on the "[issues]" link next to the Publication in question.
+  = render_help_step 'Show the Issue' do
+    %p
+      Click on the "[details]" link next to the Issue in question.

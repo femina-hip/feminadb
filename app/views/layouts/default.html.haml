@@ -1,0 +1,65 @@
+!!! XML
+!!!
+%html
+  %head
+    %title FeminaDB
+    %meta{'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}
+    = javascript_include_tag :defaults
+    = calendar_date_select_includes :silver
+    = record_select_includes
+    = stylesheet_link_tag 'main'
+    = stylesheet_link_tag 'print', :media => 'print'
+  %body
+    .nav
+      %ul
+        %li= link_to 'Customers', customers_path
+        %li= link_to 'Clubs', clubs_path
+        %li= link_to 'Publications', publications_path
+        %li= link_to 'Inventory', :controller => 'inventory'
+        %li= link_to 'Special Orders', special_orders_path
+        %li= link_to 'Reports', :controller => 'reports'
+        %li= link_to 'Help', :controller => 'helps', :doc => 'index'
+      - if current_user.has_role?('admin')
+        .admin
+          %p Admin:
+          %ul
+            %li= link_to 'Users', admin_users_path
+            %li= link_to 'Regions', admin_regions_path
+            %li= link_to 'Warehouses', admin_warehouses_path
+            %li= link_to 'Customer Types', admin_customer_types_path
+            %li= link_to 'Delivery Methods', admin_delivery_methods_path
+
+    .login
+      %p
+        - if logged_in?
+          Logged in as
+          %span.login= h current_user.login
+          = link_to 'Log out', { :controller => 'account', :action => 'logout', :return_to => request.request_uri}, :method => :post
+        - else
+          %b Not logged in
+          = link_to 'Log in', { :controller => 'account', :action => 'login', :return_to => request.request_uri }
+
+    - if flash[:notice]
+      .flash= flash[:notice]
+
+    .main
+      = yield
+
+    .footer
+      %ul
+        %li= link_to 'Recent Data Changes', :controller => 'modifications'
+        %li= link_to 'Problems', 'http://bugs/projects/list_issues/1', :popup => true
+        - if RAILS_ENV == 'development' and params[:debug]
+          %li
+            = link_to_function 'Debug', 'show_debug_popup()'
+            = debug_popup
+
+    #loading{:style => "display: none; background: url(#{image_path('fade.png')}) repeat;"}
+      .frame
+        .outer
+          .inner1
+            = image_tag 'loading.gif', :alt => '...'
+          .inner2
+            Loading...
+            %br
+            %span.fine-print In case of error, Refresh this page

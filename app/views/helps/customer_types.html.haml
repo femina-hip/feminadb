@@ -1,0 +1,26 @@
+= render_pretty_header 'Customer Types' do
+  %p
+    Each Customer has a Customer Type, which describes what kind of work
+    that Customer does. We use Customer Types to request funding and for
+    general statistics.
+
+  %p
+    See the
+    = link_to 'Reports', :controller => 'reports'
+    to see how we use the Customer Type data.
+
+%p
+  The following is a list of all Customer Types:
+
+%table{:class => 'customer-types'}
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Category
+  %tbody
+    - CustomerType.find(:all, :order => :name).each do |type|
+      %tr{:class => cycle('odd', 'even')}
+        %td{:class => 'name'}= h type.name
+        %td{:class => 'description'}= h type.description
+        %td{:class => 'category'}= h type.category

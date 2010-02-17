@@ -1,0 +1,44 @@
+%h3= h delivery_method ? delivery_method.name : 'Unknown'
+%h4= h delivery_method ? delivery_method.description : 'Database inconsistencies'
+
+%table{:class => 'distribution-list'}
+  %thead
+    %tr
+      %th Region
+      %th District
+      %th Final Recipient
+      %th Distribution Instructions
+      %th # Copies
+      - @issue.issue_box_sizes_i.each do |ibs|
+        %th= "x#{ibs}"
+
+  %tbody
+    - regions.each do |region, districts|
+      - new_region = true
+      - reset_cycle
+      - districts.each do |district, orders|
+        - new_district = true
+        - orders.each do |order|
+          %tr{:class => cycle('odd', 'even')}
+            %th= h new_region ? (order.region ? order.region.name : 'INCONSISTENT') : ''
+            - new_region = false
+            %th= h new_district ? order.district : ''
+            - new_district = false
+            %td= h order.customer_name
+            %td= h order.deliver_via
+            %td.num-copies= number_with_delimiter order.num_copies.to_i
+            - @issue.issue_box_sizes_i.each do |ibs|
+              %td.num-copies
+                = number_with_delimiter(order.num_boxes[ibs] > 0 ? order.num_boxes[ibs] : '')
+      %tr.subtotal
+        %td
+        %td{:colspan => 3}
+          = h 'Region subtotal'
+        %td.num-copies= number_with_delimiter districts.total(:num_copies)
+        - @issue.issue_box_sizes_i.each do |ibs|
+          %td.num-copies= number_with_delimiter districts.total_boxes(ibs)
+    %tr.total
+      %td{:colspan => 4} Total
+      %td.num-copies= number_with_delimiter regions.total(:num_copies)
+      - @issue.issue_box_sizes_i.each do |ibs|
+        %td.num-copies= number_with_delimiter regions.total_boxes(ibs)

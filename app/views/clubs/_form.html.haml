@@ -1,0 +1,68 @@
+-# Required variables: "club", a new or existing club with a Customer set
+= error_messages_for :object => club
+
+- c = Proc.new{cycle('odd', 'even', :name => 'club')}
+- form_for club do |f|
+  %table.club
+    %thead
+      %tr
+        %th{:colspan => 2}
+          Club Information:
+          %b= h club.name
+    %tbody
+      %tr{:class => c.call}
+        %th Name
+        %td= f.text_field :name
+      %tr{:class => c.call}
+        %th Customer
+        %td
+          = link_to club.customer.name, club.customer
+          - if club.new_record?
+            = f.hidden_field :customer_id
+      %tr{:class => c.call}
+        %th Address
+        %td= f.text_field :address
+      %tr{:class => c.call}
+        %th Telephone 1
+        %td= f.text_field :telephone_1
+      %tr{:class => c.call}
+        %th Telephone 2
+        %td= f.text_field :telephone_2
+      %tr{:class => c.call}
+        %th Email
+        %td= f.text_field :email
+      %tr{:class => c.call}
+        %th # Members
+        %td= f.text_field :num_members
+      %tr{:class => c.call}
+        %th Date Founded
+        %td= f.calendar_date_select :date_founded
+      %tr{:class => c.call}
+        %th Motto
+        %td= f.text_field :motto
+      %tr{:class => c.call}
+        %th Objective
+        %td= f.text_field :objective
+      %tr{:class => c.call}
+        %th Eligibility
+        %td= f.text_field :eligibility
+      %tr{:class => c.call}
+        %th Work Plan
+        %td= f.text_field :work_plan
+      %tr{:class => c.call}
+        %th Applicant's Position
+        %td= f.text_field :form_submitter_position
+      %tr{:class => c.call}
+        %th Patron
+        %td= f.text_field :patron
+      %tr{:class => c.call}
+        %th Intended Duty
+        %td= f.text_area :intended_duty
+      %tr{:class => c.call}
+        %th Founding Motivation
+        %td= f.text_field :founding_motivation
+      %tr{:class => c.call}
+        %th Cooperation Ideas
+        %td= f.text_area :cooperation_ideas
+  %p
+    = f.submit(club.new_record? ? 'Create Club' : 'Update Club')

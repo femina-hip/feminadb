@@ -1,0 +1,70 @@
+/*
+Sass::SyntaxError: Undefined constant: "!border_color"
+on line 2 of /usr/src/mine/feminadb/public/stylesheets/sass/helps.sass
+
+1: table.role-descriptions
+2:   :border = 2px solid !border_color
+3: 
+4:   thead
+5:     :border = 2px solid !heading_border_color
+6: 
+7:     th
+8:       :font-weight normal
+
+
+Backtrace:
+/usr/src/mine/feminadb/public/stylesheets/sass/helps.sass:2
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:240:in `get_constant'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:223:in `operationalize'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:228:in `operationalize'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:233:in `operationalize'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:45:in `parse'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:266:in `parse_attribute'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:232:in `parse_line'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:172:in `build_tree'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:198:in `build_tree'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:105:in `render_to_tree'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:82:in `render'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:53:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `each'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin/rails.rb:13:in `process'
+/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:388:in `process'
+/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:171:in `handle_request'
+/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:115:in `dispatch'
+/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:126:in `dispatch_cgi'
+/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:9:in `dispatch'
+/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:76:in `process'
+/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `synchronize'
+/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `process'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:155:in `process_client'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `each'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `process_client'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `initialize'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `new'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `initialize'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `new'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:282:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `each'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:128:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/command.rb:212:in `run'
+/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:281
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/servers/mongrel.rb:64
+/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/server.rb:39
+/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
+script/server:3
+*/

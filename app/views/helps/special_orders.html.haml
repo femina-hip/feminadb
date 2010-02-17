@@ -1,0 +1,19 @@
+= render_pretty_header 'Special Orders' do
+  %p
+    Special Orders are requests for small quantities, distributed in-house.
+
+%p
+  Special Orders must be approved and completed. The procedure looks like
+  this:
+
+%p.image
+  = image_tag 'special-order-states.png'
+
+%p
+  The blue rectangles describe tasks which must be performed by somebody.
+  Here are guides to completing these tasks:
+
+%ul
+  %li= link_to 'Making a Special Order', :doc => 'make_special_order'
+  %li= link_to 'Approving/Denying a Special Order', :doc => 'approve_deny_special_order'
+  %li= link_to 'Completing a Special Order', :doc => 'complete_special_order'

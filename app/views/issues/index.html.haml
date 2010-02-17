@@ -1,0 +1,22 @@
+= render_pretty_header "Issues of #{h(@publication.name)}" do
+  %p
+    An Issue is a collection of printed Copies. This list displays Issues
+    which have been distributed, are being distributed, and are about to be
+    distributed.
+
+- if @issues.empty?
+  %p There are no issues of this Publication
+- else
+  %ul{:class => 'issues'}
+    - @issues.each do |issue|
+      %li
+        %span= "#{issue.issue_number}: #{h(issue.name)}"
+        = link_to '[details]', [ @publication, issue ]
+        = link_to '[orders]', publication_issue_orders_path(@publication, issue)
+
+%p.actions
+  - if current_user.has_role?('admin')
+    = link_to 'Create new Issue', new_publication_issue_url(@publication)
+    |
+  = link_to 'Back to Publications List', publications_url
+</p>

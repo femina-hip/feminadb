@@ -1,0 +1,26 @@
+= render_pretty_header 'Customer Types' do
+  %p Administrators may edit the master list of Customer Types here.
+
+  %p
+    The list of Customer Types is also visible in the
+    = link_to 'Help', :controller => 'helps'
+    pages.
+
+%table.customer-types
+  %thead
+    %tr
+      %th Category
+      %th Name
+      %th Description
+      %th
+
+  %tbody
+    - @customer_types.each do |customer_type|
+      %tr{:class => cycle('odd', 'even')}
+        %td= h customer_type.category
+        %td= h customer_type.name
+        %td= h customer_type.description
+        %td= link_to 'Show', admin_customer_type_path(customer_type)
+    %tr
+      %td.add{:colspan => 4}
+        = link_to 'Create New Customer Type', new_admin_customer_type_path

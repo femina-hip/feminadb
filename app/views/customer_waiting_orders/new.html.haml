@@ -1,0 +1,20 @@
+= render_pretty_header 'New Waiting Order' do
+  %p
+    Customer:
+    = link_to @customer.name, customer_path(@customer)
+
+  %p
+    This
+    = glossary_term_and_tooltip 'Waiting Order'
+    will not make any Copies of any Issues go anywhere. It is simply a note
+    which is to be used to decide how many extra Copies to print when a new
+    Issue is released.
+
+= error_messages_for :waiting_order
+
+- form_for :waiting_order, :url => customer_waiting_orders_path(@customer) do |f|
+  = render :partial => 'form', :locals => { :f => f }
+  %p= submit_tag 'Create New Waiting Order'
+
+%p.actions
+  = link_to 'Back to Customer', customer_path(@customer)

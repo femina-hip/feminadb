@@ -1,0 +1,63 @@
+= render_pretty_header 'Help: Finding a Customer' do
+  %p
+    Follow these instructions to find a Customer and view all our
+    information about it.
+
+= render_help_steps do
+  = render_help_step 'Browse to the Customers list' do
+    %p
+      Browse to
+      = link_to customers_path(:only_path => false), customers_path(:only_path => false)
+      to view the list of customers.
+  = render_help_step 'Enter a search term' do
+    %p
+      In the Search field, enter the Customer's name: for instance,
+      "save the children" or "UNFPA"
+    %p
+      You may also enter other parts of the Customer's details instead: you
+      can enter the Customer's Region, for instance, or Type.
+  = render_help_step 'Click the "Search" button' do
+    %p The Search Results will appear
+  = render_help_step 'If you found 0 results' do
+    %p
+      If the search results are empty, make your search more broad. For
+      instance, if you typed in "Save the Children Arusha", change the
+      search term to "Save the Children" and try again.
+  = render_help_step 'If you found too many results' do
+    %p
+      If you have too many search results and you cannot find the Customer
+      you want, you will need to enter more information about the Customer.
+      Underneath the Search field you can refine the search. Choose a
+      search field and write some text, then click "Refine".
+    %p
+      For example: if you searched for "NGO" and cannot find what you want,
+      Search for "Region" containing "Dodoma" and click "Refine".
+  = render_help_step 'If you found the Customer' do
+    %p
+      If the Customer you want to find appears in the search, you can click
+      the "Show" link in the search results to view the Customer's
+      information.
+  = render_help_step 'Customer Details' do
+    %p
+      After clicking "Show", the Customer's details will appear. The
+      details are as follows:
+    %dl
+      %dt General Information
+      %dd Contact details and address.
+      %dt Standing Orders
+      %dd
+        Whether the Customer is to receive the next issues of Fema and/or
+        Si Mchezo!
+      %dt Orders
+      %dd How many copies of each Issue the Customer should have received.
+      %dt Special Order Lines
+      %dd
+        How many copies of each Issue the Customer received through
+        in-house distribution.
+      %dt Notes
+      %dd
+        Any comments we have about the Customer. Any information at all.
+        For example: "I called this Customer and told him we would send
+        50 Si Mchezo!"; "The Customer said he did not receive the latest
+        issue of Fema"; "I tried the phone number and it did not work";
+        "I don't like this guy"; anything!

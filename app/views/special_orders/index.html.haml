@@ -1,0 +1,90 @@
+= render_pretty_header 'Special Orders' do
+  %p
+    A Special Order is an internal request for Copies. Every employee is
+    allowed to file Special Orders when logged in.
+  %p= link_to 'Make a New Special Order', new_special_order_url
+
+- unless @approved_special_orders.empty?
+  %h2
+    Approved Special Orders
+  %p
+    The following Special Orders are approved. Now, they may simply be
+    given to the Customer by our receptionist.
+  %table{:class => 'approved-special-orders'}
+    %thead
+      %tr
+        %th By
+        %th Qty
+        %th Approved by
+        %th Customer
+        %th Reason
+        %th When
+        %th
+    %tbody
+      - @approved_special_orders.each do |special_order|
+        %tr{:class => cycle('odd', 'even')}
+          %td= render_user special_order.requested_by_user
+          %td= special_order.total_num_copies
+          %td= render_user special_order.authorized_by_user
+          %td= h special_order.customer_name
+          %td
+            .cut-off= h special_order.reason
+          %td= h special_order.requested_for_date
+          %td= link_to 'Show', special_order
+
+- unless @pending_special_orders.empty?
+  %h2 Pending Special Orders
+
+  %p
+    The following Special Orders must be approved by Amandus or Hamisi.
+    Epheta or Gloria may approve them if Amandus and Hamisi are unavailable.
+
+  %table{:class => 'pending-special-orders'}
+    %thead
+      %tr
+        %th By
+        %th Qty
+        %th Customer
+        %th Reason
+        %th When
+        %th
+    %tbody
+      - reset_cycle
+      - @pending_special_orders.each do |special_order|
+        %tr{:class => cycle('odd', 'even')}
+          %td= render_user special_order.requested_by_user
+          %td= special_order.total_num_copies
+          %td= h special_order.customer_name
+          %td
+            .cut-off= h special_order.reason
+          %td= h special_order.requested_for_date
+          %td= link_to 'Show', special_order
+
+- unless @special_orders.empty?
+  %h2 All Special Orders
+
+  %p Below is a list of all Special Orders, sorted by date.
+
+  %table{:class => 'special-orders'}
+    %thead
+      %tr
+        %th By
+        %th Qty
+        %th Customer
+        %th Reason
+        %th When
+        %th State
+        %th
+    %tbody
+      - reset_cycle
+      - @special_orders.each do |special_order|
+        %tr{:class => cycle('odd', 'even')}
+          %td= render_user special_order.requested_by_user
+          %td= special_order.total_num_copies
+          %td= h special_order.customer_name
+          %td
+            .cut-off= h special_order.reason
+          %td= h special_order.requested_for_date
+          %td= h special_order.state_string
+          %td= link_to 'Show', special_order
+  = will_paginate @special_orders

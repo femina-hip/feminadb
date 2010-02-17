@@ -1,0 +1,80 @@
+-# Required variables:
+-# - path, the destination URL
+-# - num_results, the number of results
+-# "params":
+-# - q, the search query
+- form_tag path, :method => :get, :class => 'search' do
+  %table
+    %tr
+      %td
+        %label{:for => :q}
+          Search:
+          - tooltip do
+            %p Enter a search term here
+            %p Example searches:
+            %ul
+              %li
+                %b save children
+                finds Customers containing <q>save</q> and <q>children</q>
+              %li
+                %b &quot;the children&quot;
+                finds Customers containing <q>the children</q>
+              %li
+                %b save OR children
+                finds Customers containing <q>save</q> or <q>children</q>
+              %li
+                %b sav*
+                finds Customers containing a word starting with <q>sav</q>
+              %li
+                %b sav~
+                finds Customers containing text sort of like <q>sav</q>
+              %li
+                %b region:arusha awet
+                finds "awet" in Arusha
+              %li
+                %b type:ngo OR type:ingo
+                finds NGOs and INGOs
+              %li
+                %b type:ngo AND NOT region:Arusha
+                finds NGOs outside Arusha
+              %li
+                %b NOT type:U
+                finds Customers we have classified
+              %li
+                %b type:SS AND club:no
+                finds schools without clubs
+            %p Fields: po, region, district, via, address, name, delivery_method, club, tag
+      %td.stretch
+        = text_field_tag :q, params[:q]
+      %td
+        = submit_tag 'Search'
+        = submit_tag 'Show All Customers', :onclick => 'javascript:$("q").value = ""; form.submit();'
+- form_remote_tag :url => 'javascript:void{}', :html => { :onsubmit => 'javascript:if ($("refine_q").value.strip() == "") return; if ($("refine_term").value != " ") { $("q").value = ($("q").value + " " + $("refine_term").value + ":\"" + $("refine_q").value + "\"").strip(); } else { $("q").value = ($("q").value + " \"" + $("refine_q").value).strip() + "\""; }; $("refine_q").value = ""; $("refine_term").value = " "; $("q").form.submit(); disable()', :class => 'refine-search' } do
+  %table.refine-search
+    %tr
+      %td
+        %b= num_results
+        results.
+      %td
+        %label
+          Search for
+          %select{:id => 'refine_term', :name => 'refine_term'}
+            %option{:value => ' '} (Anything)
+            %option{:value => 'region'} Region
+            %option{:value => 'district'} District
+            %option{:value => 'category'} Category
+            %option{:value => 'type'} Type
+            %option{:value => 'name'} Name
+            %option{:value => 'address'} Address
+            %option{:value => 'po'} PO Box
+            %option{:value => 'via'} Deliver Via
+            %option{:value => 'delivery_method'} Delivery Method
+            %option{:value => 'club'} Has club? ('yes' or 'no')
+            %option{:value => 'tag'} Tag
+        %label{:for => :refine_q}
+          containing
+      %td.stretch
+        = text_field_tag :refine_q
+      %td
+        = submit_tag 'Refine'
+

@@ -1,0 +1,30 @@
+= render_pretty_header "Waiting Orders for #{h(@publication.name)}" do
+  %p
+    These
+    = glossary_term_and_tooltip 'Waiting Orders'
+    will never become Orders. They only show that the Customers
+    %em want
+    to have Standing Orders.
+
+%table.publication-waiting-orders
+  %thead
+    %tr
+      %th Type
+      %th Region
+      %th District
+      %th Customer
+      %th Qty
+      %th
+
+  %tbody
+    - @waiting_orders.each do |waiting_order|
+      = render :partial => 'list_item', :locals => { :waiting_order => waiting_order }
+= will_paginate @waiting_orders
+
+%p.actions
+  = link_to 'Export Data to Excel', formatted_publication_waiting_orders_url(@publication, :csv)
+
+%p
+  To add a new Waiting Order, go to the
+  = link_to 'Customers', customers_url
+  page, find the Customer, and add a Waiting Order in that Customer's page.

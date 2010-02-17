@@ -1,0 +1,27 @@
+<h1>Editing Customer Type</h1>
+
+<%= error_messages_for :customer_type %>
+
+<% form_for(:customer_type, :url => admin_customer_type_path(@customer_type), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_field :description %>
+  </p>
+
+  <p>
+    <b>Category</b><br />
+    <%= f.text_field :category %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_customer_type_path(@customer_type) %> |
+<%= link_to 'Back', admin_customer_types_path %>

@@ -1,0 +1,56 @@
+= render_pretty_header 'Help: Editing a Customer' do
+  %p
+    Follow these instructions to edit a Customer's details: anything from
+    name to address, Orders to Notes.
+
+= render_help_steps do
+  = render_help_step 'Find the Customer' do
+    %p
+      Follow all steps in
+      = link_to 'the Find a Customer Help', :doc => 'find_customer'
+      to arrive at the Customer's page (after clicking "Show").
+  = render_help_step 'Log in' do
+    %p
+      Log in. Different FeminaDB users are authorized to edit different
+      parts of the Customer information. Some Users can edit General
+      Information; others can edit Orders. All Users can make new Special
+      Orders and Notes for a Customer.
+  = render_help_step 'Edit General Information' do
+    %p
+      To edit General Information, scroll to the bottom of the
+      "General Information" table and click on "Edit Customer". Edit
+      whichever fields you like and click on "Save Changes". To cancel
+      editing, click "Return without Saving".
+  = render_help_step 'Edit Standing Orders' do
+    %p
+      To add the Customer to "the Fema list" or "the Si Mchezo! list",
+      scroll to the bottom of the "Standing Orders" table and click
+      "Add New Standing Order". Choose a publication and number of copies,
+      then click "Create New Standing Order".
+    %p
+      To alter the number of copies a Customer receives, find the desired
+      Publication in the Standing Orders table and click on "Edit". Edit
+      the quantity and click on "Save changes".
+    %p
+      To remove the Customer from a list, click the "Delete" button next to
+      the Publication in question.
+  = render_help_step 'Edit Orders' do
+    %p
+      To add an Order for the Customer, scroll to the bottom of the
+      "Orders" table and click "Add New Order". Enter the order details and
+      click on "Create New Order".
+    %p
+      To change details on an Order, scroll to the desired Order in the
+      Orders table and click on "Edit". Edit the details and click on
+      "Save Changes".
+  = render_help_step 'Make Special Order' do
+    %p
+      To request a new Special Order for the Customer, click on
+      "Request New Special Order for this Customer". Follow the instructions
+      in
+      = link_to 'the Making a Special Order Help', :doc => 'make_special_order'
+      for more details.
+  = render_help_step 'Write Note' do
+    %p
+      To write a Note on this Customer, simply type in the Note and click
+      on "Write Note".

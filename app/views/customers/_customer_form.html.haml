@@ -1,0 +1,82 @@
+-# Required variables: "f": a form_for; @customer: the Customer
+%table.customer
+  %thead
+    %tr
+      %th{:colspan => 2}
+        General Information:
+        %b= h @customer.name
+  %tbody
+    %tr.first
+      %th Name
+      %td= f.text_field :name
+    %tr
+      %th Type
+      %td= f.customer_type_select :customer_type_id
+    %tr
+      %th Region
+      %td= f.select :region_id, Region.find(:all, :order => :name).collect{|r| [ r.name, r.id ]}
+    %tr.last
+      %th District
+      %td= f.text_field :district
+
+  %thead
+    %tr
+      %th Delivery Details
+  %tbody
+    %tr.first
+      %th Delivery Method
+      %td= f.select :delivery_method_id, DeliveryMethod.find(:all, :order => :abbreviation).collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+    %tr
+      %th
+        Deliver Via
+        - tooltip do
+          %p Company to which Femina will send Issues
+      %td= f.text_field :deliver_via
+    %tr
+      %th
+        Route
+        - tooltip do
+          %p
+            Order in which to deliver. This should be a name of a route and
+            then a number: for instance, <b>city07</b>.
+      %td= f.text_field :route
+    %tr
+      %th
+        Address
+        - tooltip do
+          %p Instructions for where to actually deliver
+      %td= f.text_field :address
+    %tr.last
+      %th PO Box
+      %td= f.text_field :po_box
+  %thead
+    %tr
+      %th Contact Details
+  %tbody
+    %tr.first
+      %th Contact Name
+      %td= f.text_field :contact_name
+    %tr
+      %th Contact Position
+      %td= f.text_field :contact_position
+    %tr
+      %th Telephone (1)
+      %td= f.text_field :telephone_1
+    %tr
+      %th Telephone (2)
+      %td= f.text_field :telephone_2
+    %tr
+      %th Telephone (3)
+      %td= f.text_field :telephone_3
+    %tr
+      %th Fax
+      %td= f.text_field :fax
+    %tr
+      %th Email (1)
+      %td= f.text_field :email_1
+    %tr
+      %th Email (2)
+      %td= f.text_field :email_2
+    %tr.last
+      %th Website
+      %td= f.text_field :website

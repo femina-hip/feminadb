@@ -1,0 +1,28 @@
+= render_pretty_header 'Publication/District Quantities' do
+  %p
+    This report shows how many Copies of all Issues of each Publication have
+    been sent directly to which Districts. Click on a Publication name (a
+    column header) to view a per-Issue breakdown.
+
+  %p
+    The data shown here does not include Special Orders. Only regular Orders
+    are displayed.
+
+%table{:class => 'publication-district-breakdown'}
+  %thead
+    %tr
+      %th Region
+      %th District
+      - @publications.each do |publication|
+        %th= link_to publication.name, :controller => 'issue_district_breakdown', :publication_id => publication.id
+  %tbody
+    - @data.each do |region_name, district, values|
+      %tr{:class => cycle('odd', 'even')}
+        %td= h region_name
+        %td= h district
+        - @publications.each do |publication|
+          - value = values[publication.name].to_i
+          - if value == 0
+            %td
+          - else
+            %td.num-copies= number_with_delimiter value

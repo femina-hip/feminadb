@@ -1,0 +1,264 @@
+!background_color = #fffbd9
+!alt_background_color = #cc061e
+!alt_color = white
+!inverse_border_color = #990000
+!alt2_background_color = black
+!alt2_color = yellow
+!error_background_color = #ffaaaa
+!error_color = #771111
+!heading_border_color = #cc061e
+!border_color = #009ee0
+!color = black
+!link_color = #cc0000
+!flash_color = green
+!input_color = black
+!input_background_color = #e4d3ac
+!input_focus_background_color = #e4db9c
+!input_border_color = !alt_background_color
+!input_focus_border_color = !alt_background_color + #333
+!even_background_color = #faedcc
+!odd_background_color = #f8e4b3
+!horiz_heading_color = #f2d280
+!horiz_odd_background_color = #f5db99
+!horiz_even_background_color = !odd_background_color
+!progress_bar_empty_color = white
+!progress_bar_full_color = blue
+!faded_color = #666
+
+@import global.sass
+@import pretty-header.sass
+@import data-table.sass
+@import detail-table.sass
+@import reports.sass
+@import pagination.sass
+@import helps.sass
+@import loading.sass
+@import search.sass
+@import nav.sass
+
+div.fieldWithErrors
+  :display inline
+  :border 2px solid red
+  :padding 4px 2px
+
+div.login
+  :float right
+  :font-size small
+
+  span.login
+    :font-weight bold
+
+  p
+    :margin .5em
+
+div.flash
+  :color = !flash_color
+
+div.main
+  :margin 1em
+
+  >p, >h1, >h2, >h3, >ul
+    :margin-left 168px
+    :padding-left 1em
+
+  >p.actions
+    :margin-left 0
+
+div.footer
+  :margin 1em 25%
+  :border-top 1px solid gray
+
+  ul
+    :margin .5em auto 0
+    :padding 0
+    :text-align center
+
+    li
+      :margin 0
+      :display inline
+      :padding 0 1em
+
+.progress_bar
+  .progress_bar_outside
+    :margin 2em
+    :padding 2px
+    :border 2px solid gray
+    :height 1.5em
+    :background-color = !background_color
+
+    .progress_bar_inside
+      :margin 0 100% 0 0
+      :height 100%
+      :background blue
+
+  p
+    :margin 2em
+    :text-align center
+
+textarea.note-input
+  :width 100%
+
+ul.publications, ul.issues
+  :list-style none
+
+  li
+    :margin-left 3em
+    :padding 0
+
+    span
+      :font-size 1.2em
+      :line-height 150%
+      :display block
+      :margin-left -2.5em
+
+table.packing-instructions
+  :margin-bottom 1em
+
+.pagination
+  :margin-top 6px
+  :text-align center
+
+table.attributes
+  :width 100%
+
+  th
+    :background = !alt_background_color
+    :border-bottom 1px dotted black
+
+  td
+    :border-bottom 1px dotted black
+    div
+      :overflow hidden
+
+  tbody
+    th
+      :text-align right
+
+  tr.modified
+    td
+      :background = !alt2_background_color
+
+.progress_bar
+  .progress_bar_outside
+    :margin 2em
+    :padding 2px
+    :border 2px solid gray
+    :height 1.5em
+    :background-color = !progress_bar_empty_color
+
+  .progress_bar_inside
+    :margin 0 100% 0 0
+    :height 100%
+    :background-color = !progress_bar_full_color
+
+  p
+    :margin 2em
+    :text-align center
+
+div.errorExplanation
+  :border 2px solid black
+  :padding 1em
+  :margin 1em
+  :background = !error_background_color
+  :color = !error_color
+
+  h2
+    :margin 0
+    :padding 0
+    :font-size 1.1em
+    :border-bottom 2px solid black
+
+  p
+    :margin 1em 0 0 0
+    :padding 0
+
+  ul
+    :margin 0 0 0 2em
+    :padding 0
+
+  input, select
+    :border none
+    :background inherit
+    :color inherit
+    :padding 2px
+
+table.special-order-lines
+  :border none
+  :margin 1em auto
+
+  thead.title
+    th
+      :background = !horiz_heading_color
+
+  tr.denied td
+    :text-decoration line-through
+
+  td, th
+    :border none
+    :background #fff8b2
+
+  input
+    :background = !input_background_color
+    :border = 1px solid !input_border_color
+    :color = !input_color
+
+    &:focus
+      :background = !input_focus_background_color
+      :border-color = !input_focus_border_color
+
+  td.num-copies-requested, td.num-copies-granted, td.num-copies-in-stock, td.num-copies-on-hold
+    :text-align right
+
+    input
+      :width 3em
+
+  td.num-copies-granted
+    :font-weight bold
+
+.record-select
+  :width auto
+  :border = 1px solid !border_color
+  :font inherit
+  :font-size .8em
+
+  form
+    .text-input
+      :display none
+
+  a
+    :color = !link_color
+
+  ol
+    a
+      :background-color = !horiz_odd_background_color
+
+    .even a
+      :background-color = !horiz_even_background_color
+
+    a, .even a
+      &:hover
+        :background-color = white
+
+    .pagination
+      :border-top = 1px solid !border_color
+
+    .pagination a
+      :background-color = !horiz_heading_color
+    .previous a
+      :border none
+    .next a
+      :border none
+
+    .found
+      :background-color = !horiz_heading_color
+      :color = !color
+      :border-bottom = 1px solid !border_color
+
+  div.issue-select-entry
+    label
+      :font-weight bold
+      :font-size 1.1em
+
+    span.inventory
+      :display block
+      :margin-left 1em

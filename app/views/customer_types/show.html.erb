@@ -1,0 +1,21 @@
+<h1>Customer Type</h1>
+
+<p>
+  <b>Name:</b>
+  <%=h @customer_type.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @customer_type.description %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @customer_type.category %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_customer_type_path(@customer_type) %> |
+<%= link_to 'Destroy', admin_customer_type_path(@customer_type), :confirm => 'Are you sure you want to delete this Customer Type?', :method => :delete %> |
+<%= link_to 'Back', admin_customer_types_path %>

@@ -1,0 +1,10 @@
+messenger:
+  special_order_created_recipients:
+    - adamh@feminahip.or.tz
+    - epheta@feminahip.or.tz
+
+  special_order_approved_recipients:
+    - adamh@feminahip.or.tz
+
+  special_order_denied_recipients:
+    - adamh@feminahip.or.tz

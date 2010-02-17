@@ -1,0 +1,36 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+issue1:
+  id: 1
+  publication_id: 1
+  name: Issue One
+  issue_number: 1
+  issue_date: 2007-08-30
+  num_copies_in_house: 1
+  inventory_comment: inv1
+
+issue2:
+  id: 2
+  publication_id: 1
+  name: Issue Two
+  issue_number: 2
+  issue_date: 2007-08-30
+  num_copies_in_house: 2
+  inventory_comment: inv2
+
+issue21:
+  id: 3
+  publication_id: 2
+  name: P2 Issue One
+  issue_number: 1
+  issue_date: 2007-10-15
+  num_copies_in_house: 3
+  inventory_comment: inv3
+  
+issue_free:
+  id: 4
+  publication_id: 1
+  name: Issue without Orders
+  issue_number: 99
+  issue_date: 2007-12-03
+  num_copies_in_house: 4
+  inventory_comment: inv4

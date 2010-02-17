@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+s11:
+  id: 1
+  customer_id: 1
+  publication_id: 1
+  num_copies: 50
+
+s12:
+  id: 2
+  customer_id: 1
+  publication_id: 2
+  num_copies: 75
+
+s21:
+  id: 3
+  customer_id: 2
+  publication_id: 1
+  num_copies: 100

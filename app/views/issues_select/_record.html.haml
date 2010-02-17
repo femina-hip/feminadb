@@ -1,0 +1,7 @@
+-# Required variables: "record", an Issue
+.issue-select-entry
+  %label= h record.full_name
+  %span.inventory
+    In stock:
+    %b= record.num_copies_in_stock
+    %span.comment= h record.inventory_comment

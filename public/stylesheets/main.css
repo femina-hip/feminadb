@@ -1,0 +1,620 @@
+body {
+  background: #fffbd9;
+  color: #000000;
+  margin: 0;
+  font-family: Verdana, sans-serif; }
+
+h2 {
+  font-size: 1.15em; }
+
+h3 {
+  font-size: 1.05em; }
+
+p {
+  line-height: 1.5em; }
+
+a {
+  color: #cc0000;
+  text-decoration: none; }
+
+form.button-to {
+  display: inline;
+  padding: 0;
+  margin: 0; }
+  form.button-to div {
+    display: inline; }
+  form.button-to input {
+    background: inherit;
+    border: none;
+    color: #cc0000;
+    cursor: pointer; }
+
+p.image {
+  text-align: center; }
+  p.image span {
+    margin-top: 6px;
+    display: block; }
+  p.image img {
+    border: 2px dotted gray; }
+
+table {
+  clear: both;
+  border-collapse: collapse; }
+  table th, table td {
+    white-space: nowrap;
+    padding: 2px 6px; }
+    table th p, table th .redcloth, table th .overflow, table td p, table td .redcloth, table td .overflow {
+      white-space: normal; }
+    table th .redcloth, table td .redcloth {
+      margin: -1em 0; }
+    table th .cut-off, table td .cut-off {
+      overflow: hidden; }
+
+p.actions {
+  text-align: center; }
+
+div.tooltip {
+  color: black;
+  font-size: 10pt; }
+  div.tooltip h1 {
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0; }
+  div.tooltip a {
+    background: inherit !important;
+    color: #cc0000 !important; }
+
+div.logo {
+  float: left;
+  width: 168px; }
+
+div.pretty-header {
+  margin-left: 168px;
+  padding-left: 1em; }
+  div.pretty-header h1 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 1.5em; }
+
+table.customers, table.clubs, table.approved-special-orders, table.pending-special-orders, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-special-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-orders, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods {
+  border: 2px solid #009ee0;
+  margin: 1em auto; }
+  table.customers tbody tr:first-child td, table.clubs tbody tr:first-child td, table.approved-special-orders tbody tr:first-child td, table.pending-special-orders tbody tr:first-child td, table.packing-instructions tbody tr:first-child td, table.publication-standing-orders tbody tr:first-child td, table.publication-waiting-orders tbody tr:first-child td, table.customer-orders tbody tr:first-child td, table.customer-special-orders tbody tr:first-child td, table.customer-standing-orders tbody tr:first-child td, table.customer-waiting-orders tbody tr:first-child td, table.customer-special-order-lines tbody tr:first-child td, table.customer-notes tbody tr:first-child td, table.issue-orders tbody tr:first-child td, table.issue-notes tbody tr:first-child td, table.special-orders tbody tr:first-child td, table.special-order-notes tbody tr:first-child td, table.report tbody tr:first-child td, table.issue-special-order-lines tbody tr:first-child td, table.distribution-quote-request tbody tr:first-child td, table.distribution-list tbody tr:first-child td, table.publication-district-breakdown tbody tr:first-child td, table.issue-district-breakdown tbody tr:first-child td, table.issue-district-breakdown-orders tbody tr:first-child td, table.customer-types tbody tr:first-child td, table.inventory tbody tr:first-child td, table.users tbody tr:first-child td, table.regions tbody tr:first-child td, table.warehouses tbody tr:first-child td, table.delivery-methods tbody tr:first-child td {
+    padding-top: 8px; }
+  table.customers tbody th, table.customers tbody td, table.clubs tbody th, table.clubs tbody td, table.approved-special-orders tbody th, table.approved-special-orders tbody td, table.pending-special-orders tbody th, table.pending-special-orders tbody td, table.packing-instructions tbody th, table.packing-instructions tbody td, table.publication-standing-orders tbody th, table.publication-standing-orders tbody td, table.publication-waiting-orders tbody th, table.publication-waiting-orders tbody td, table.customer-orders tbody th, table.customer-orders tbody td, table.customer-special-orders tbody th, table.customer-special-orders tbody td, table.customer-standing-orders tbody th, table.customer-standing-orders tbody td, table.customer-waiting-orders tbody th, table.customer-waiting-orders tbody td, table.customer-special-order-lines tbody th, table.customer-special-order-lines tbody td, table.customer-notes tbody th, table.customer-notes tbody td, table.issue-orders tbody th, table.issue-orders tbody td, table.issue-notes tbody th, table.issue-notes tbody td, table.special-orders tbody th, table.special-orders tbody td, table.special-order-notes tbody th, table.special-order-notes tbody td, table.report tbody th, table.report tbody td, table.issue-special-order-lines tbody th, table.issue-special-order-lines tbody td, table.distribution-quote-request tbody th, table.distribution-quote-request tbody td, table.distribution-list tbody th, table.distribution-list tbody td, table.publication-district-breakdown tbody th, table.publication-district-breakdown tbody td, table.issue-district-breakdown tbody th, table.issue-district-breakdown tbody td, table.issue-district-breakdown-orders tbody th, table.issue-district-breakdown-orders tbody td, table.customer-types tbody th, table.customer-types tbody td, table.inventory tbody th, table.inventory tbody td, table.users tbody th, table.users tbody td, table.regions tbody th, table.regions tbody td, table.warehouses tbody th, table.warehouses tbody td, table.delivery-methods tbody th, table.delivery-methods tbody td {
+    border: 1px solid #009ee0; }
+  table.customers tbody td, table.clubs tbody td, table.approved-special-orders tbody td, table.pending-special-orders tbody td, table.packing-instructions tbody td, table.publication-standing-orders tbody td, table.publication-waiting-orders tbody td, table.customer-orders tbody td, table.customer-special-orders tbody td, table.customer-standing-orders tbody td, table.customer-waiting-orders tbody td, table.customer-special-order-lines tbody td, table.customer-notes tbody td, table.issue-orders tbody td, table.issue-notes tbody td, table.special-orders tbody td, table.special-order-notes tbody td, table.report tbody td, table.issue-special-order-lines tbody td, table.distribution-quote-request tbody td, table.distribution-list tbody td, table.publication-district-breakdown tbody td, table.issue-district-breakdown tbody td, table.issue-district-breakdown-orders tbody td, table.customer-types tbody td, table.inventory tbody td, table.users tbody td, table.regions tbody td, table.warehouses tbody td, table.delivery-methods tbody td {
+    font-family: Times, serif;
+    font-size: .9em;
+    padding: 2px 9px; }
+    table.customers tbody td .add, table.clubs tbody td .add, table.approved-special-orders tbody td .add, table.pending-special-orders tbody td .add, table.packing-instructions tbody td .add, table.publication-standing-orders tbody td .add, table.publication-waiting-orders tbody td .add, table.customer-orders tbody td .add, table.customer-special-orders tbody td .add, table.customer-standing-orders tbody td .add, table.customer-waiting-orders tbody td .add, table.customer-special-order-lines tbody td .add, table.customer-notes tbody td .add, table.issue-orders tbody td .add, table.issue-notes tbody td .add, table.special-orders tbody td .add, table.special-order-notes tbody td .add, table.report tbody td .add, table.issue-special-order-lines tbody td .add, table.distribution-quote-request tbody td .add, table.distribution-list tbody td .add, table.publication-district-breakdown tbody td .add, table.issue-district-breakdown tbody td .add, table.issue-district-breakdown-orders tbody td .add, table.customer-types tbody td .add, table.inventory tbody td .add, table.users tbody td .add, table.regions tbody td .add, table.warehouses tbody td .add, table.delivery-methods tbody td .add {
+      text-align: center; }
+  table.customers tbody tr.even th, table.customers tbody tr.even td, table.clubs tbody tr.even th, table.clubs tbody tr.even td, table.approved-special-orders tbody tr.even th, table.approved-special-orders tbody tr.even td, table.pending-special-orders tbody tr.even th, table.pending-special-orders tbody tr.even td, table.packing-instructions tbody tr.even th, table.packing-instructions tbody tr.even td, table.publication-standing-orders tbody tr.even th, table.publication-standing-orders tbody tr.even td, table.publication-waiting-orders tbody tr.even th, table.publication-waiting-orders tbody tr.even td, table.customer-orders tbody tr.even th, table.customer-orders tbody tr.even td, table.customer-special-orders tbody tr.even th, table.customer-special-orders tbody tr.even td, table.customer-standing-orders tbody tr.even th, table.customer-standing-orders tbody tr.even td, table.customer-waiting-orders tbody tr.even th, table.customer-waiting-orders tbody tr.even td, table.customer-special-order-lines tbody tr.even th, table.customer-special-order-lines tbody tr.even td, table.customer-notes tbody tr.even th, table.customer-notes tbody tr.even td, table.issue-orders tbody tr.even th, table.issue-orders tbody tr.even td, table.issue-notes tbody tr.even th, table.issue-notes tbody tr.even td, table.special-orders tbody tr.even th, table.special-orders tbody tr.even td, table.special-order-notes tbody tr.even th, table.special-order-notes tbody tr.even td, table.report tbody tr.even th, table.report tbody tr.even td, table.issue-special-order-lines tbody tr.even th, table.issue-special-order-lines tbody tr.even td, table.distribution-quote-request tbody tr.even th, table.distribution-quote-request tbody tr.even td, table.distribution-list tbody tr.even th, table.distribution-list tbody tr.even td, table.publication-district-breakdown tbody tr.even th, table.publication-district-breakdown tbody tr.even td, table.issue-district-breakdown tbody tr.even th, table.issue-district-breakdown tbody tr.even td, table.issue-district-breakdown-orders tbody tr.even th, table.issue-district-breakdown-orders tbody tr.even td, table.customer-types tbody tr.even th, table.customer-types tbody tr.even td, table.inventory tbody tr.even th, table.inventory tbody tr.even td, table.users tbody tr.even th, table.users tbody tr.even td, table.regions tbody tr.even th, table.regions tbody tr.even td, table.warehouses tbody tr.even th, table.warehouses tbody tr.even td, table.delivery-methods tbody tr.even th, table.delivery-methods tbody tr.even td {
+    background: #faedcc; }
+  table.customers tbody tr.odd th, table.customers tbody tr.odd td, table.clubs tbody tr.odd th, table.clubs tbody tr.odd td, table.approved-special-orders tbody tr.odd th, table.approved-special-orders tbody tr.odd td, table.pending-special-orders tbody tr.odd th, table.pending-special-orders tbody tr.odd td, table.packing-instructions tbody tr.odd th, table.packing-instructions tbody tr.odd td, table.publication-standing-orders tbody tr.odd th, table.publication-standing-orders tbody tr.odd td, table.publication-waiting-orders tbody tr.odd th, table.publication-waiting-orders tbody tr.odd td, table.customer-orders tbody tr.odd th, table.customer-orders tbody tr.odd td, table.customer-special-orders tbody tr.odd th, table.customer-special-orders tbody tr.odd td, table.customer-standing-orders tbody tr.odd th, table.customer-standing-orders tbody tr.odd td, table.customer-waiting-orders tbody tr.odd th, table.customer-waiting-orders tbody tr.odd td, table.customer-special-order-lines tbody tr.odd th, table.customer-special-order-lines tbody tr.odd td, table.customer-notes tbody tr.odd th, table.customer-notes tbody tr.odd td, table.issue-orders tbody tr.odd th, table.issue-orders tbody tr.odd td, table.issue-notes tbody tr.odd th, table.issue-notes tbody tr.odd td, table.special-orders tbody tr.odd th, table.special-orders tbody tr.odd td, table.special-order-notes tbody tr.odd th, table.special-order-notes tbody tr.odd td, table.report tbody tr.odd th, table.report tbody tr.odd td, table.issue-special-order-lines tbody tr.odd th, table.issue-special-order-lines tbody tr.odd td, table.distribution-quote-request tbody tr.odd th, table.distribution-quote-request tbody tr.odd td, table.distribution-list tbody tr.odd th, table.distribution-list tbody tr.odd td, table.publication-district-breakdown tbody tr.odd th, table.publication-district-breakdown tbody tr.odd td, table.issue-district-breakdown tbody tr.odd th, table.issue-district-breakdown tbody tr.odd td, table.issue-district-breakdown-orders tbody tr.odd th, table.issue-district-breakdown-orders tbody tr.odd td, table.customer-types tbody tr.odd th, table.customer-types tbody tr.odd td, table.inventory tbody tr.odd th, table.inventory tbody tr.odd td, table.users tbody tr.odd th, table.users tbody tr.odd td, table.regions tbody tr.odd th, table.regions tbody tr.odd td, table.warehouses tbody tr.odd th, table.warehouses tbody tr.odd td, table.delivery-methods tbody tr.odd th, table.delivery-methods tbody tr.odd td {
+    background: #f8e4b3; }
+  table.customers tbody tr.total, table.clubs tbody tr.total, table.approved-special-orders tbody tr.total, table.pending-special-orders tbody tr.total, table.packing-instructions tbody tr.total, table.publication-standing-orders tbody tr.total, table.publication-waiting-orders tbody tr.total, table.customer-orders tbody tr.total, table.customer-special-orders tbody tr.total, table.customer-standing-orders tbody tr.total, table.customer-waiting-orders tbody tr.total, table.customer-special-order-lines tbody tr.total, table.customer-notes tbody tr.total, table.issue-orders tbody tr.total, table.issue-notes tbody tr.total, table.special-orders tbody tr.total, table.special-order-notes tbody tr.total, table.report tbody tr.total, table.issue-special-order-lines tbody tr.total, table.distribution-quote-request tbody tr.total, table.distribution-list tbody tr.total, table.publication-district-breakdown tbody tr.total, table.issue-district-breakdown tbody tr.total, table.issue-district-breakdown-orders tbody tr.total, table.customer-types tbody tr.total, table.inventory tbody tr.total, table.users tbody tr.total, table.regions tbody tr.total, table.warehouses tbody tr.total, table.delivery-methods tbody tr.total {
+    border: 2px solid #009ee0;
+    font-weight: bold;
+    background: #cc061e; }
+  table.customers tbody tr.subtotal, table.clubs tbody tr.subtotal, table.approved-special-orders tbody tr.subtotal, table.pending-special-orders tbody tr.subtotal, table.packing-instructions tbody tr.subtotal, table.publication-standing-orders tbody tr.subtotal, table.publication-waiting-orders tbody tr.subtotal, table.customer-orders tbody tr.subtotal, table.customer-special-orders tbody tr.subtotal, table.customer-standing-orders tbody tr.subtotal, table.customer-waiting-orders tbody tr.subtotal, table.customer-special-order-lines tbody tr.subtotal, table.customer-notes tbody tr.subtotal, table.issue-orders tbody tr.subtotal, table.issue-notes tbody tr.subtotal, table.special-orders tbody tr.subtotal, table.special-order-notes tbody tr.subtotal, table.report tbody tr.subtotal, table.issue-special-order-lines tbody tr.subtotal, table.distribution-quote-request tbody tr.subtotal, table.distribution-list tbody tr.subtotal, table.publication-district-breakdown tbody tr.subtotal, table.issue-district-breakdown tbody tr.subtotal, table.issue-district-breakdown-orders tbody tr.subtotal, table.customer-types tbody tr.subtotal, table.inventory tbody tr.subtotal, table.users tbody tr.subtotal, table.regions tbody tr.subtotal, table.warehouses tbody tr.subtotal, table.delivery-methods tbody tr.subtotal {
+    background: #000000;
+    border-top: 2px solid #009ee0;
+    border-bottom: 2px solid #009ee0;
+    font-weight: bold; }
+  table.customers tbody tr.subsubtotal, table.clubs tbody tr.subsubtotal, table.approved-special-orders tbody tr.subsubtotal, table.pending-special-orders tbody tr.subsubtotal, table.packing-instructions tbody tr.subsubtotal, table.publication-standing-orders tbody tr.subsubtotal, table.publication-waiting-orders tbody tr.subsubtotal, table.customer-orders tbody tr.subsubtotal, table.customer-special-orders tbody tr.subsubtotal, table.customer-standing-orders tbody tr.subsubtotal, table.customer-waiting-orders tbody tr.subsubtotal, table.customer-special-order-lines tbody tr.subsubtotal, table.customer-notes tbody tr.subsubtotal, table.issue-orders tbody tr.subsubtotal, table.issue-notes tbody tr.subsubtotal, table.special-orders tbody tr.subsubtotal, table.special-order-notes tbody tr.subsubtotal, table.report tbody tr.subsubtotal, table.issue-special-order-lines tbody tr.subsubtotal, table.distribution-quote-request tbody tr.subsubtotal, table.distribution-list tbody tr.subsubtotal, table.publication-district-breakdown tbody tr.subsubtotal, table.issue-district-breakdown tbody tr.subsubtotal, table.issue-district-breakdown-orders tbody tr.subsubtotal, table.customer-types tbody tr.subsubtotal, table.inventory tbody tr.subsubtotal, table.users tbody tr.subsubtotal, table.regions tbody tr.subsubtotal, table.warehouses tbody tr.subsubtotal, table.delivery-methods tbody tr.subsubtotal {
+    background: #000000;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    font-weight: bold; }
+
+table.customers thead, table.clubs thead, table.approved-special-orders thead, table.pending-special-orders thead, table.publication-standing-orders thead, table.publication-waiting-orders thead, table.issue-orders thead, table.special-orders thead, table.report thead, table.issue-special-order-lines thead, table.distribution-list thead, table.publication-district-breakdown thead, table.issue-district-breakdown thead, table.issue-district-breakdown-orders thead, table.customer-types thead, table.users thead, table.regions thead, table.warehouses thead, table.delivery-methods thead {
+  border: 2px solid #cc061e; }
+  table.customers thead th, table.clubs thead th, table.approved-special-orders thead th, table.pending-special-orders thead th, table.publication-standing-orders thead th, table.publication-waiting-orders thead th, table.issue-orders thead th, table.special-orders thead th, table.report thead th, table.issue-special-order-lines thead th, table.distribution-list thead th, table.publication-district-breakdown thead th, table.issue-district-breakdown thead th, table.issue-district-breakdown-orders thead th, table.customer-types thead th, table.users thead th, table.regions thead th, table.warehouses thead th, table.delivery-methods thead th {
+    font-weight: normal;
+    background-color: #cc061e;
+    color: #ffffff;
+    padding: 8px 6px 2px; }
+    table.customers thead th a, table.clubs thead th a, table.approved-special-orders thead th a, table.pending-special-orders thead th a, table.publication-standing-orders thead th a, table.publication-waiting-orders thead th a, table.issue-orders thead th a, table.special-orders thead th a, table.report thead th a, table.issue-special-order-lines thead th a, table.distribution-list thead th a, table.publication-district-breakdown thead th a, table.issue-district-breakdown thead th a, table.issue-district-breakdown-orders thead th a, table.customer-types thead th a, table.users thead th a, table.regions thead th a, table.warehouses thead th a, table.delivery-methods thead th a {
+      background-color: #cc061e;
+      color: #ffffff;
+      text-decoration: underline; }
+
+table.packing-instructions thead.title, table.customer-orders thead.title, table.customer-special-orders thead.title, table.customer-standing-orders thead.title, table.customer-waiting-orders thead.title, table.customer-special-order-lines thead.title, table.customer-notes thead.title, table.issue-notes thead.title, table.special-order-notes thead.title, table.distribution-quote-request thead.title, table.inventory thead.title {
+  border: 2px solid #cc061e; }
+  table.packing-instructions thead.title th, table.customer-orders thead.title th, table.customer-special-orders thead.title th, table.customer-standing-orders thead.title th, table.customer-waiting-orders thead.title th, table.customer-special-order-lines thead.title th, table.customer-notes thead.title th, table.issue-notes thead.title th, table.special-order-notes thead.title th, table.distribution-quote-request thead.title th, table.inventory thead.title th {
+    font-weight: normal;
+    background-color: #cc061e;
+    color: #ffffff;
+    padding: 8px 6px 2px; }
+    table.packing-instructions thead.title th a, table.customer-orders thead.title th a, table.customer-special-orders thead.title th a, table.customer-standing-orders thead.title th a, table.customer-waiting-orders thead.title th a, table.customer-special-order-lines thead.title th a, table.customer-notes thead.title th a, table.issue-notes thead.title th a, table.special-order-notes thead.title th a, table.distribution-quote-request thead.title th a, table.inventory thead.title th a {
+      background-color: #cc061e;
+      color: #ffffff;
+      text-decoration: underline; }
+table.packing-instructions thead, table.customer-orders thead, table.customer-special-orders thead, table.customer-standing-orders thead, table.customer-waiting-orders thead, table.customer-special-order-lines thead, table.customer-notes thead, table.issue-notes thead, table.special-order-notes thead, table.distribution-quote-request thead, table.inventory thead {
+  border: 2px solid #cc061e;
+  background: #000000;
+  color: #ffff00; }
+  table.packing-instructions thead th, table.customer-orders thead th, table.customer-special-orders thead th, table.customer-standing-orders thead th, table.customer-waiting-orders thead th, table.customer-special-order-lines thead th, table.customer-notes thead th, table.issue-notes thead th, table.special-order-notes thead th, table.distribution-quote-request thead th, table.inventory thead th {
+    font-weight: normal; }
+
+table.approved-special-orders, table.pending-special-orders, table.special-orders {
+  width: 100%; }
+
+table.customers, table.clubs {
+  width: 100%; }
+  table.customers td.region, table.customers td.district, table.customers td.type, table.customers td.actions, table.clubs td.region, table.clubs td.district, table.clubs td.type, table.clubs td.actions {
+    width: 1em; }
+  table.customers td.type, table.clubs td.type {
+    text-align: center; }
+
+table.customer-standing-orders td.publication, table.customer-standing-orders td.num_copies, table.customer-standing-orders td.request_date, table.customer-waiting-orders td.publication, table.customer-waiting-orders td.num_copies, table.customer-waiting-orders td.request_date {
+  width: 1em; }
+table.customer-standing-orders td.num_copies, table.customer-waiting-orders td.num_copies {
+  text-align: right; }
+
+table.publication-standing-orders, table.publication-waiting-orders {
+  width: 100%; }
+  table.publication-standing-orders td.type, table.publication-standing-orders td.region, table.publication-standing-orders td.delivery-method, table.publication-standing-orders td.district, table.publication-standing-orders td.num-copies, table.publication-standing-orders td.actions, table.publication-waiting-orders td.type, table.publication-waiting-orders td.region, table.publication-waiting-orders td.delivery-method, table.publication-waiting-orders td.district, table.publication-waiting-orders td.num-copies, table.publication-waiting-orders td.actions {
+    width: 1em; }
+  table.publication-standing-orders td.delivery-method, table.publication-waiting-orders td.delivery-method {
+    text-align: center; }
+  table.publication-standing-orders tr.details p, table.publication-waiting-orders tr.details p {
+    white-space: normal; }
+  table.publication-standing-orders tr.details td div, table.publication-waiting-orders tr.details td div {
+    margin: 0 1em;
+    padding: 1em;
+    border: 1px dashed gray;
+    border-top: none; }
+  table.publication-standing-orders form.inplaceeditor-form input, table.publication-waiting-orders form.inplaceeditor-form input {
+    display: block;
+    width: 100%; }
+
+table.customer-orders td.publication, table.customer-orders td.issue_number, table.customer-orders td.num_copies, table.customer-orders td.order_date, table.customer-orders td.status, table.customer-orders td.delivery_method {
+  width: 1em; }
+table.customer-orders td.num_copies {
+  text-align: right; }
+table.customer-orders td.order_date, table.customer-orders td.delivery_method {
+  text-align: center; }
+
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.special-order-notes, table.issue-notes {
+  margin-bottom: 1em; }
+  table.customer-standing-orders tbody td, table.customer-waiting-orders tbody td, table.customer-orders tbody td, table.customer-notes tbody td, table.special-order-notes tbody td, table.issue-notes tbody td {
+    vertical-align: top;
+    border-bottom: 1px solid #009ee0; }
+
+table.customer-notes td.user, table.customer-notes td.date, table.customer-notes td.actions, table.special-order-notes td.user, table.special-order-notes td.date, table.special-order-notes td.actions, table.issue-notes td.user, table.issue-notes td.date, table.issue-notes td.actions {
+  width: 1em; }
+
+table.issue-orders {
+  width: 100%; }
+  table.issue-orders td.delivery-method, table.issue-orders td.region, table.issue-orders td.district, table.issue-orders td.qty, table.issue-orders td.actions {
+    width: 1em; }
+  table.issue-orders td.customer {
+    width: auto; }
+  table.issue-orders form.inplaceeditor-form input {
+    display: block;
+    width: 100%; }
+
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.customer-special-order-lines, table.special-order-notes, table.issue-notes {
+  width: 100%;
+  margin-bottom: 1em; }
+  table.customer-standing-orders tbody td.actions, table.customer-waiting-orders tbody td.actions, table.customer-orders tbody td.actions, table.customer-notes tbody td.actions, table.customer-special-order-lines tbody td.actions, table.special-order-notes tbody td.actions, table.issue-notes tbody td.actions {
+    width: 1em; }
+  table.customer-standing-orders tbody td.num_copies, table.customer-standing-orders tbody td.num_copies_requested, table.customer-waiting-orders tbody td.num_copies, table.customer-waiting-orders tbody td.num_copies_requested, table.customer-orders tbody td.num_copies, table.customer-orders tbody td.num_copies_requested, table.customer-notes tbody td.num_copies, table.customer-notes tbody td.num_copies_requested, table.customer-special-order-lines tbody td.num_copies, table.customer-special-order-lines tbody td.num_copies_requested, table.special-order-notes tbody td.num_copies, table.special-order-notes tbody td.num_copies_requested, table.issue-notes tbody td.num_copies, table.issue-notes tbody td.num_copies_requested {
+    text-align: right; }
+  table.customer-standing-orders tbody td.delete, table.customer-waiting-orders tbody td.delete, table.customer-orders tbody td.delete, table.customer-notes tbody td.delete, table.customer-special-order-lines tbody td.delete, table.special-order-notes tbody td.delete, table.issue-notes tbody td.delete {
+    text-align: center;
+    font-size: smaller; }
+    table.customer-standing-orders tbody td.delete *, table.customer-waiting-orders tbody td.delete *, table.customer-orders tbody td.delete *, table.customer-notes tbody td.delete *, table.customer-special-order-lines tbody td.delete *, table.special-order-notes tbody td.delete *, table.issue-notes tbody td.delete * {
+      font-size: inherit; }
+
+table.distribution-list td.num-copies {
+  text-align: right; }
+
+table.publication-district-breakdown td.num-copies, table.issue-district-breakdown td.num-copies, table.issue-district-breakdown-orders td.num-copies {
+  text-align: right; }
+
+table.inventory {
+  width: 100%; }
+  table.inventory td {
+    vertical-align: top;
+    background: #faedcc; }
+  table.inventory td.odd-col {
+    background: #f8e4b3; }
+  table.inventory tr.first {
+    height: 1em; }
+  table.inventory td.total {
+    font-weight: bold;
+    text-align: right; }
+  table.inventory td.breakdown * {
+    font-weight: bold; }
+  table.inventory td.comment {
+    padding-left: 1em;
+    color: #666666; }
+  table.inventory span.box-size {
+    font-size: .85em;
+    font-weight: normal; }
+  table.inventory th {
+    vertical-align: top;
+    text-align: left; }
+  table.inventory thead tr:first-child th {
+    padding-bottom: 0; }
+  table.inventory thead tr:first-child+tr th {
+    padding-top: 0; }
+
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-special-order-lines {
+  width: 95%;
+  margin: .5em auto; }
+  table.customer-standing-orders thead th, table.customer-waiting-orders thead th, table.customer-orders thead th, table.customer-special-order-lines thead th {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: left; }
+  table.customer-standing-orders thead.title, table.customer-waiting-orders thead.title, table.customer-orders thead.title, table.customer-special-order-lines thead.title {
+    border: none; }
+    table.customer-standing-orders thead.title th, table.customer-waiting-orders thead.title th, table.customer-orders thead.title th, table.customer-special-order-lines thead.title th {
+      font-size: 1em;
+      text-align: left;
+      padding: 4px; }
+
+table.customer, table.special-order, table.issue, table.club {
+  width: 100%;
+  margin: 1em auto;
+  border: 1px solid #009ee0;
+  background: #f8e4b3; }
+  table.customer thead th, table.special-order thead th, table.issue thead th, table.club thead th {
+    font-weight: normal;
+    text-align: left;
+    background: #cc061e;
+    color: #ffffff;
+    padding: 10px 4px; }
+  table.customer thead.title, table.special-order thead.title, table.issue thead.title, table.club thead.title {
+    border: none; }
+    table.customer thead.title th, table.special-order thead.title th, table.issue thead.title th, table.club thead.title th {
+      font-size: 1.1em;
+      background: inherit;
+      color: inherit; }
+  table.customer tr.odd, table.special-order tr.odd, table.issue tr.odd, table.club tr.odd {
+    background: #f5db99; }
+  table.customer tr.even, table.special-order tr.even, table.issue tr.even, table.club tr.even {
+    background: #f8e4b3; }
+  table.customer tbody th, table.special-order tbody th, table.issue tbody th, table.club tbody th {
+    width: 1em;
+    padding-right: .5em; }
+  table.customer tbody th, table.customer tbody td, table.special-order tbody th, table.special-order tbody td, table.issue tbody th, table.issue tbody td, table.club tbody th, table.club tbody td {
+    font-weight: normal;
+    font-family: inherit;
+    text-align: left;
+    vertical-align: top; }
+  table.customer tbody td, table.special-order tbody td, table.issue tbody td, table.club tbody td {
+    padding-left: .5em; }
+  table.customer tbody tr.footer td, table.special-order tbody tr.footer td, table.issue tbody tr.footer td, table.club tbody tr.footer td {
+    padding: 4px;
+    text-align: center; }
+  table.customer input, table.customer select, table.customer textarea, table.special-order input, table.special-order select, table.special-order textarea, table.issue input, table.issue select, table.issue textarea, table.club input, table.club select, table.club textarea {
+    background: #e4d3ac;
+    border: 1px solid #cc061e;
+    color: #000000; }
+    table.customer input:focus, table.customer select:focus, table.customer textarea:focus, table.special-order input:focus, table.special-order select:focus, table.special-order textarea:focus, table.issue input:focus, table.issue select:focus, table.issue textarea:focus, table.club input:focus, table.club select:focus, table.club textarea:focus {
+      background: #e4db9c;
+      border-color: #ff3951; }
+
+table.customer tbody tr.first td, table.customer tbody tr.first th {
+  padding-top: 10px; }
+table.customer tbody tr.last td, table.customer tbody tr.last th {
+  padding-bottom: 10px; }
+
+div.report-form {
+  margin: 1em; }
+  div.report-form h2 {
+    font-size: inherit;
+    font-weight: bold;
+    margin: 0; }
+  div.report-form form {
+    margin-left: 2em; }
+
+div.reports {
+  margin-left: 168px; }
+
+p.report {
+  margin-left: 0 !important; }
+
+.pagination form {
+  display: inline;
+  margin: 0;
+  padding: 0; }
+  .pagination form div {
+    display: inline; }
+    .pagination form div input {
+      font: inherit;
+      width: 3em; }
+
+table.role-descriptions {
+  border: 2px solid #009ee0; }
+  table.role-descriptions thead {
+    border: 2px solid #cc061e; }
+    table.role-descriptions thead th {
+      font-weight: normal;
+      background-color: #cc061e;
+      color: #ffffff;
+      padding: 10px 2px; }
+  table.role-descriptions tbody td {
+    vertical-align: top;
+    font-family: Times, serif;
+    font-size: .9em; }
+    table.role-descriptions tbody td p {
+      margin: 0; }
+  table.role-descriptions tbody td.title {
+    font-weight: bold; }
+  table.role-descriptions tbody tr.even th, table.role-descriptions tbody tr.even td {
+    background: #faedcc; }
+  table.role-descriptions tbody tr.odd th, table.role-descriptions tbody tr.odd td {
+    background: #f8e4b3; }
+
+div#loading {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  cursor: wait; }
+  div#loading div.frame {
+    position: fixed;
+    width: 30%;
+    height: 20%;
+    top: 40%;
+    bottom: 40%;
+    left: 35%;
+    right: 35%;
+    text-align: center;
+    border: 2px dotted black;
+    background: white; }
+    div#loading div.frame div.outer {
+      position: relative;
+      width: 100%;
+      height: 100%; }
+      div#loading div.frame div.outer div {
+        position: absolute;
+        height: 1em;
+        margin-top: -.5em;
+        text-align: center;
+        width: 100%; }
+        div#loading div.frame div.outer div.inner1 {
+          top: 25%; }
+        div#loading div.frame div.outer div.inner2 {
+          top: 60%; }
+    div#loading div.frame span.fine-print {
+      font-size: .5em; }
+
+form.search table, form.refine-search table {
+  width: 100%;
+  border: none; }
+  form.search table td, form.refine-search table td {
+    border: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    width: 1em; }
+    form.search table td input, form.search table td select, form.refine-search table td input, form.refine-search table td select {
+      font-size: inherit; }
+    form.search table td input[type="text"], form.refine-search table td input[type="text"] {
+      width: 100%; }
+  form.search table td.stretch, form.refine-search table td.stretch {
+    padding: 1px 3px;
+    width: auto; }
+
+form.search {
+  clear: both;
+  margin: 1em 5% 2em;
+  width: 90%;
+  font-size: 1.1em; }
+
+form.refine-search {
+  font-size: .9em;
+  margin: 1em 10%;
+  width: 80%; }
+  form.refine-search td {
+    font-family: inherit; }
+
+div.nav {
+  border-bottom: 4px solid black;
+  background: #cc061e;
+  color: #ffffff;
+  padding: .7em; }
+  div.nav a {
+    color: inherit; }
+  div.nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none; }
+    div.nav ul li {
+      display: inline;
+      margin: 0 .7em; }
+      div.nav ul li:hover {
+        background-color: #fffbd9;
+        color: #cc0000; }
+  div.nav div.admin {
+    margin-left: 1em;
+    font-size: small; }
+    div.nav div.admin p, div.nav div.admin ul {
+      display: inline; }
+
+div.fieldWithErrors {
+  display: inline;
+  border: 2px solid red;
+  padding: 4px 2px; }
+
+div.login {
+  float: right;
+  font-size: small; }
+  div.login span.login {
+    font-weight: bold; }
+  div.login p {
+    margin: .5em; }
+
+div.flash {
+  color: #008000; }
+
+div.main {
+  margin: 1em; }
+  div.main >p, div.main >h1, div.main >h2, div.main >h3, div.main >ul {
+    margin-left: 168px;
+    padding-left: 1em; }
+  div.main >p.actions {
+    margin-left: 0; }
+
+div.footer {
+  margin: 1em 25%;
+  border-top: 1px solid gray; }
+  div.footer ul {
+    margin: .5em auto 0;
+    padding: 0;
+    text-align: center; }
+    div.footer ul li {
+      margin: 0;
+      display: inline;
+      padding: 0 1em; }
+
+.progress_bar .progress_bar_outside {
+  margin: 2em;
+  padding: 2px;
+  border: 2px solid gray;
+  height: 1.5em;
+  background-color: #fffbd9; }
+  .progress_bar .progress_bar_outside .progress_bar_inside {
+    margin: 0 100% 0 0;
+    height: 100%;
+    background: blue; }
+.progress_bar p {
+  margin: 2em;
+  text-align: center; }
+
+textarea.note-input {
+  width: 100%; }
+
+ul.publications, ul.issues {
+  list-style: none; }
+  ul.publications li, ul.issues li {
+    margin-left: 3em;
+    padding: 0; }
+    ul.publications li span, ul.issues li span {
+      font-size: 1.2em;
+      line-height: 150%;
+      display: block;
+      margin-left: -2.5em; }
+
+table.packing-instructions {
+  margin-bottom: 1em; }
+
+.pagination {
+  margin-top: 6px;
+  text-align: center; }
+
+table.attributes {
+  width: 100%; }
+  table.attributes th {
+    background: #cc061e;
+    border-bottom: 1px dotted black; }
+  table.attributes td {
+    border-bottom: 1px dotted black; }
+    table.attributes td div {
+      overflow: hidden; }
+  table.attributes tbody th {
+    text-align: right; }
+  table.attributes tr.modified td {
+    background: #000000; }
+
+.progress_bar .progress_bar_outside {
+  margin: 2em;
+  padding: 2px;
+  border: 2px solid gray;
+  height: 1.5em;
+  background-color: #ffffff; }
+.progress_bar .progress_bar_inside {
+  margin: 0 100% 0 0;
+  height: 100%;
+  background-color: #0000ff; }
+.progress_bar p {
+  margin: 2em;
+  text-align: center; }
+
+div.errorExplanation {
+  border: 2px solid black;
+  padding: 1em;
+  margin: 1em;
+  background: #ffaaaa;
+  color: #771111; }
+  div.errorExplanation h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.1em;
+    border-bottom: 2px solid black; }
+  div.errorExplanation p {
+    margin: 1em 0 0 0;
+    padding: 0; }
+  div.errorExplanation ul {
+    margin: 0 0 0 2em;
+    padding: 0; }
+  div.errorExplanation input, div.errorExplanation select {
+    border: none;
+    background: inherit;
+    color: inherit;
+    padding: 2px; }
+
+table.special-order-lines {
+  border: none;
+  margin: 1em auto; }
+  table.special-order-lines thead.title th {
+    background: #f2d280; }
+  table.special-order-lines tr.denied td {
+    text-decoration: line-through; }
+  table.special-order-lines td, table.special-order-lines th {
+    border: none;
+    background: #fff8b2; }
+  table.special-order-lines input {
+    background: #e4d3ac;
+    border: 1px solid #cc061e;
+    color: #000000; }
+    table.special-order-lines input:focus {
+      background: #e4db9c;
+      border-color: #ff3951; }
+  table.special-order-lines td.num-copies-requested, table.special-order-lines td.num-copies-granted, table.special-order-lines td.num-copies-in-stock, table.special-order-lines td.num-copies-on-hold {
+    text-align: right; }
+    table.special-order-lines td.num-copies-requested input, table.special-order-lines td.num-copies-granted input, table.special-order-lines td.num-copies-in-stock input, table.special-order-lines td.num-copies-on-hold input {
+      width: 3em; }
+  table.special-order-lines td.num-copies-granted {
+    font-weight: bold; }
+
+.record-select {
+  width: auto;
+  border: 1px solid #009ee0;
+  font: inherit;
+  font-size: .8em; }
+  .record-select form .text-input {
+    display: none; }
+  .record-select a {
+    color: #cc0000; }
+  .record-select ol a {
+    background-color: #f5db99; }
+  .record-select ol .even a {
+    background-color: #f8e4b3; }
+  .record-select ol a:hover, .record-select ol .even a:hover {
+    background-color: #ffffff; }
+  .record-select ol .pagination {
+    border-top: 1px solid #009ee0; }
+  .record-select ol .pagination a {
+    background-color: #f2d280; }
+  .record-select ol .previous a {
+    border: none; }
+  .record-select ol .next a {
+    border: none; }
+  .record-select ol .found {
+    background-color: #f2d280;
+    color: #000000;
+    border-bottom: 1px solid #009ee0; }
+  .record-select div.issue-select-entry label {
+    font-weight: bold;
+    font-size: 1.1em; }
+  .record-select div.issue-select-entry span.inventory {
+    display: block;
+    margin-left: 1em; }

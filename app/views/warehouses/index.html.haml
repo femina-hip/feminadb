@@ -1,0 +1,20 @@
+= render_pretty_header 'Warehouses' do
+  %p Administrators may edit the master list of Warehouses here.
+  %p Warehouses are used by Delivery Methods.
+
+%table.warehouses
+  %thead
+    %tr
+      %th Name
+      %th Comment
+      %th
+
+  %tbody
+    - @warehouses.each do |warehouse|
+      %tr{:class => cycle('odd', 'even')}
+        %td= h warehouse.name
+        %td= h warehouse.comment
+        %td= link_to 'Show', admin_warehouse_path(warehouse)
+    %tr
+      %td.add{:colspan => 3}
+        = link_to 'Create New Warehouse', new_admin_warehouse_path

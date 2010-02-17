@@ -1,0 +1,11 @@
+<h1>Editing Publication</h1>
+
+<%= error_messages_for :publication %>
+
+<% form_for @publication do |f| %>
+  <p><b>Publication name</b>: <%= f.text_field :name %></p>
+  <p><label><%= f.check_box :tracks_standing_orders %> Needs Standing Orders</p>
+  <p><%= submit_tag 'Modify Publication' %></p>
+<% end %>
+
+<p><%= link_to 'Back to Publications List', publications_url %></p>

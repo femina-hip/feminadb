@@ -1,0 +1,21 @@
+<h1>District</h1>
+
+<p>
+  <b>Region:</b>
+  <%=h @district.region.name %>
+</p>
+
+<p>
+  <b>District Name:</b>
+  <%=h @district.name %>
+</p>
+
+<p>
+  <b>Color:</b>
+  #<%=h @district.color %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_district_path(@district) %> |
+<%= link_to 'Destroy', admin_district_path(@district), :confirm => 'Are you sure you want to delete this District?', :method => :delete %> |
+<%= link_to 'Back', admin_districts_path %>

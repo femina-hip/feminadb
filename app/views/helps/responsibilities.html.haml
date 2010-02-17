@@ -1,0 +1,196 @@
+= render_pretty_header 'Responsibilities' do
+  %p
+    Different people use FeminaDB in different ways. This page describes
+    who is meant to do what.
+
+%h2 Titles
+
+%p
+  Here are job titles and brief descriptions of how the jobs relate to
+  FeminaDB.
+
+- names = {}
+- names[:distribution_officer] = 'amandus'
+- names[:inventory_manager] = 'amandus'
+- names[:production_manager] = 'lynn'
+- names[:administrator] = 'zakaria'
+- names[:m_e_manager] = 'aran'
+- names[:community_outreach_officer] = 'constancia/gloria'
+- names[:community_outreach_manager] = 'hamisi'
+- names[:receptionist] = 'epheta/gloria'
+
+%table.role-descriptions
+  %thead
+    %tr{:class => cycle('odd', 'even')}
+      %th Title
+      %th Description
+      %th Who
+  %tbody
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Distribution Officer', '#distribution_officer'
+      %td
+        %p Ensures every Copy reaches its destination, using FeminaDB
+      %td= names[:distribution_officer]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Inventory Manager', '#inventory_manager'
+      %td
+        %p Ensures FeminaDB has accurate inventory
+      %td= names[:inventory_manager]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Production Manager', '#production_manager'
+      %td
+        %p
+          Maintains FeminaDB's lists of Publications (Products) and their
+          Issues
+      %td= names[:production_manager]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Administrator', '#administrator'
+      %td
+        %p
+          First point of contact when FeminaDB's data must be changed and
+          nobody knows how to do so
+      %td= names[:administrator]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'M&E Manager', '#m_e_manager'
+      %td
+        %p Uses FeminaDB's Reports and identifies missing data
+      %td= names[:m_e_manager]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Community Outreach Officer', '#community_outreach_officer'
+      %td
+        %p
+          Documents in FeminaDB what outreach events occurred and the
+          progress of Fema Clubs (Constancia/Gloria)
+      %td= names[:community_outreach_officer]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Community Outreach Manager', '#community_outreach_manager'
+      %td
+        %p
+          Documents in FeminaDB requests for Standing Orders and pushes for
+          their approval (i.e., for more Copies to be printed)
+      %td= names[:community_outreach_manager]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Receptionist', '#receptionist'
+      %td
+        %p Prepares Special Orders after they have been approved
+      %td= names[:receptionist]
+    %tr{:class => cycle('odd', 'even')}
+      %td.title
+        = link_to 'Employee', '#everybody'
+      %td
+        %p
+          Requests Copies via Special Orders. Enters new information about
+          Customers. Adds Notes in FeminaDB when things are amiss. Views
+          Reports.
+      %td everybody
+
+%h2 Role Breakdowns
+
+%p This section provides a list of Tasks which each person must perform.
+
+%h3#distribution_officer
+  Distribution Officer
+  = "(#{names[:distribution_officer]})"
+
+%ul
+  %li Alter Standing Orders
+  %li Alter Orders
+  %li Prepare Packing Instructions
+  %li Prepare Delivery Quote Requests
+  %li Prepare Delivery Orders
+  %li Prepare Distribution Lists
+  %li Approve Special Orders
+  %li Add Notes to Issues
+  %li Add Notes to Customers
+  %li Add Notes to Special Orders
+
+%h3#inventory_manager
+  Inventory Manager
+  = "(#{names[:inventory_manager]})"
+
+%ul
+  %li Alter Inventory
+  %li Add Notes to Issues
+
+%h3#production_manager
+  Production Manager
+  = "(#{names[:production_manager]})"
+
+%ul
+  %li Enter Publications
+  %li Enter Issues
+  %li Enter Orders
+  %li Add Notes to Issues
+
+%h3#administrator
+  Administrator
+  = "(#{names[:administrator]})"
+
+%ul
+  %li Assist with all other Tasks listed here
+  %li Enter Regions
+  %li Enter Warehouses
+  %li Enter Users
+  %li Enter Customer Types
+  %li Enter Delivery Methods
+  %li Fix bugs
+
+%h3#m_e_manager
+  M&amp;E Manager
+  = "(#{names[:m_e_manager]})"
+
+%ul
+  %li Review work of Distribution Officer and follow up on problems
+  %li Identify data inconsistencies and notify Administrator
+  %li View Reports
+
+%h3#community_outreach_officer
+  Community Outreach Officer
+  = "(#{names[:community_outreach_officer]})"
+
+%ul
+  %li Enter Customers
+  %li Enter Clubs
+  %li Add Outreach information to Customers and Clubs
+  %li Provide statistics on Clubs
+
+%h3#community_outreach_manager
+  Community Outreach Manager
+  = "(#{names[:community_outreach_manager]})"
+
+%ul
+  %li Enter Customers
+  %li Enter Waiting Orders
+  %li Provide reports on Waiting Orders
+  %li
+    Notify Distribution Officer when Standing Orders or Orders should be
+    entered; follow up to ensure the Distribution Manager does so
+
+%h3#receptionist
+  Receptionist
+  = "(#{names[:receptionist]})"
+
+%ul
+  %li Enter Customers
+  %li Help other Employees enter Special Orders
+  %li Approve Special Orders when the Distribution Officer is unavailable
+  %li Prepare Special Orders and mark them as Complete
+
+%h3#everybody
+  Everybody
+
+%ul
+  %li Enter Customer information
+  %li Enter Special Orders
+  %li Add Notes to Customers
+  %li Add Notes for Special Orders
+  %li View Reports
+  %li Report incorrect data to the responsible people
