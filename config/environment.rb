@@ -20,8 +20,10 @@ Rails::Initializer.run do |config|
   #config.active_record.observers = :special_order
 
   config.gem 'will_paginate', :version => '2.3.12'
-  config.gem 'RedCloth', :version => '4.1.9', :require => 'redcloth'
+  config.gem 'RedCloth', :version => '4.1.9', :lib => 'redcloth'
   config.gem 'vestal_versions', :version => '1.0.2'
+  config.gem 'sunspot', :version => '0.10.8'
+  config.gem 'sunspot_rails', :version => '0.11.5', :lib => 'sunspot/rails'
 end
 
 # This is a Rails bug #9773 and there is a patch

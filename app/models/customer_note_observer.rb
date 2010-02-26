@@ -1,19 +1,15 @@
 class CustomerNoteObserver < ActiveRecord::Observer
   def after_create(note)
-    update_ferret note
+    note.index
     maybe_add_tag note
   end
 
   def after_destroy(note)
-    update_ferret note
+    note.index
     maybe_remove_tag note
   end
 
   private
-    def update_ferret(note)
-      note.customer.ferret_update
-    end
-
     # Returns a Tag from the given Note, or nil if there is no such Tag.
     # If may_create is true, the Tag will be created if it does not exist.
     def tag_from_note(note, may_create)

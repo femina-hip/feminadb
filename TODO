@@ -1,2 +1,4 @@
 - Fix /modifications to use VestalVersions
 - Move old modifications into VestalVersions table?
+- Fix search tooltip
+- Test that editing club reindexes customer

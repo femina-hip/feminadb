@@ -8,7 +8,7 @@
     = glossary_term_and_tooltip('Orders')
     for Publications' individual Issues.  Customers also have Notes.
 
-= render :partial => 'application/customer_search', :locals => { :path => customers_path, :num_results => @customers.total_entries }
+= render :partial => 'application/customer_search', :locals => { :path => customers_path, :num_results => @customers.count }
 
 %table.customers
   %thead

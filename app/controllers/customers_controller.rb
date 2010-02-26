@@ -12,15 +12,19 @@ class CustomersController < ApplicationController
   # GET /customers.csv
   # GET /customers.xml
   def index
-    @customers = Customer.paginate_search(
-      customers_query(requested_q),
-      {
-        :page => requested_page,
-        :per_page => requested_per_page,
-        :sort => 'region_name_for_sorting,district_for_sorting,name_for_sorting'
-      },
-      :include => default_includes
-    )
+    q = requested_q
+    page = requested_page
+    per_page = requested_per_page
+
+    search = Customer.search do
+      keywords q
+      order_by :region_name_for_sorting
+      order_by :district_for_sorting
+      order_by :name_for_sorting
+      paginate :page => page, :per_page => per_page
+    end
+
+    @customers = search.results
 
     respond_to do |type|
       type.html do

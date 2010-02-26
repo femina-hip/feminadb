@@ -5,56 +5,40 @@ class Customer < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  STOP_WORDS = Ferret::Analysis::FULL_ENGLISH_STOP_WORDS - [ 'yes', 'no' ]
-
-  def self.ferret_fields
-    normal = { :store => :no, :term_vector => :no }
-    sortable = { :store => :yes, :index => :untokenized, :term_vector => :no }
-    ret = {
-      :region_name_for_sorting => sortable,
-      :district_for_sorting => sortable,
-      :name_for_sorting => sortable,
-      :delivery_method_abbreviation_for_sorting => sortable,
-      :type_name_for_sorting => sortable,
-      :type_category_for_sorting => sortable,
-      # columns
-      :district => normal,
-      :name => normal,
-      :contact_name => normal,
-      :deliver_via => normal,
-      :address => normal,
-      :full_name => normal,
-      :contact_position => normal,
-      :telephone_1 => normal,
-      :telephone_2 => normal,
-      :telephone_3 => normal,
-      :fax => normal,
-      :email_1 => normal,
-      :email_2 => normal,
-      :website => normal,
-      :po_box => normal,
-      # derived
-      :delivery_method_abbreviation => normal,
-      :delivery_method_name => normal,
-      :customer_note_text => normal,
-      :region_name => normal,
-      :type_name => normal,
-      :type_description => normal,
-      :type_category => normal,
-      :club_yes_no => normal
-    }
+  searchable do
+    string :region_name_for_sorting
+    string :district_for_sorting
+    string :name_for_sorting
+    string :delivery_method_abbreviation_for_sorting
+    string :type_name_for_sorting
+    string :type_category_for_sorting
+    text :district
+    text :name
+    text :contact_name
+    text :deliver_via
+    text :address
+    text :full_name
+    text :contact_position
+    text :telephone_1
+    text :telephone_2
+    text :telephone_3
+    text :fax
+    text :email_1
+    text :email_2
+    text :website
+    text :po_box
+    text :delivery_method_abbreviation
+    text :delivery_method_name
+    text :customer_note_text
+    text :region_name
+    text :type_name
+    text :type_description
+    text :type_category
+    text :club_yes_no
     Club.column_names.each do |c|
-      ret["club_#{c}"] = normal
+      text("club_#{c}")
     end
-
-    ret
   end
-
-  acts_as_ferret(
-    :remote => true,
-    :fields => ferret_fields,
-    :ferret => { :analyzer => Ferret::Analysis::StandardAnalyzer.new(STOP_WORDS) }
-  )
 
   belongs_to :type, :class_name => 'CustomerType',
              :foreign_key => 'customer_type_id'
@@ -167,17 +151,6 @@ class Customer < ActiveRecord::Base
 
   def contact_details_string
     [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
-  end
-
-  class << self
-    def records_for_rebuild_with_includes(batch_size = 1000)
-      with_scope(:find => { :include => [ :region, :club, :delivery_method, :type ] }) do
-        records_for_rebuild_without_includes(batch_size) do |rows, offset|
-          yield rows, offset
-        end
-      end
-    end
-    alias_method_chain :records_for_rebuild, :includes
   end
 
   private
