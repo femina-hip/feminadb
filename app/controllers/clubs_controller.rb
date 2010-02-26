@@ -90,7 +90,8 @@ class ClubsController < ApplicationController
   # GET /clubs/new?customer_id=1
   # GET /clubs/new.xml?customer_id=1
   def new
-    @club = Club.new :customer_id => params[:customer_id].to_i
+    customer = Customer.find(params[:customer_id].to_i)
+    @club = customer.build_club
 
     respond_to do |format|
       format.html # new.html.erb
