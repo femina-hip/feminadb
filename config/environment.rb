@@ -21,6 +21,7 @@ Rails::Initializer.run do |config|
 
   config.gem 'will_paginate', :version => '2.3.12'
   config.gem 'RedCloth', :version => '4.1.9', :require => 'redcloth'
+  config.gem 'vestal_versions', :version => '1.0.2'
 end
 
 # This is a Rails bug #9773 and there is a patch

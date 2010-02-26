@@ -1,5 +1,5 @@
 # This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of ActiveRecord to incrementally modify your database, and
+# please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
 # Note that this schema.rb definition is the authoritative source for your database schema. If you need
@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 74) do
+ActiveRecord::Schema.define(:version => 20100226031231) do
 
   create_table "club_versions", :force => true do |t|
     t.integer  "club_id"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 74) do
 
   create_table "customer_notes", :force => true do |t|
     t.integer  "customer_id"
-    t.text     "note"
+    t.text     "note",        :limit => 16777215
     t.datetime "created_at"
     t.integer  "created_by"
     t.datetime "deleted_at"
@@ -275,8 +275,8 @@ ActiveRecord::Schema.define(:version => 74) do
     t.datetime "deleted_at"
   end
 
-  add_index "orders", ["issue_id"], :name => "index_orders_on_issue_id"
   add_index "orders", ["customer_id"], :name => "index_orders_on_customer_id"
+  add_index "orders", ["issue_id"], :name => "index_orders_on_issue_id"
 
   create_table "publication_versions", :force => true do |t|
     t.integer  "publication_id"
@@ -432,8 +432,8 @@ ActiveRecord::Schema.define(:version => 74) do
   end
 
   add_index "standing_orders", ["customer_id", "publication_id"], :name => "index_standing_orders_on_customer_id_and_publication_id"
-  add_index "standing_orders", ["publication_id"], :name => "index_standing_orders_on_publication_id"
   add_index "standing_orders", ["customer_id"], :name => "index_standing_orders_on_customer_id"
+  add_index "standing_orders", ["publication_id"], :name => "index_standing_orders_on_publication_id"
 
   create_table "tags", :force => true do |t|
     t.string  "name",                         :null => false
@@ -451,6 +451,26 @@ ActiveRecord::Schema.define(:version => 74) do
     t.datetime "remember_token_expires_at"
     t.datetime "deleted_at"
   end
+
+  create_table "versions", :force => true do |t|
+    t.integer  "versioned_id"
+    t.string   "versioned_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "user_name"
+    t.text     "changes"
+    t.integer  "number"
+    t.string   "tag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "versions", ["created_at"], :name => "index_versions_on_created_at"
+  add_index "versions", ["number"], :name => "index_versions_on_number"
+  add_index "versions", ["tag"], :name => "index_versions_on_tag"
+  add_index "versions", ["user_id", "user_type"], :name => "index_versions_on_user_id_and_user_type"
+  add_index "versions", ["user_name"], :name => "index_versions_on_user_name"
+  add_index "versions", ["versioned_id", "versioned_type"], :name => "index_versions_on_versioned_id_and_versioned_type"
 
   create_table "waiting_order_versions", :force => true do |t|
     t.integer  "waiting_order_id"
