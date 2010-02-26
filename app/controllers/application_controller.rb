@@ -9,8 +9,6 @@ class ApplicationController < ActionController::Base
 
   include ExceptionNotifiable
 
-  around_filter :retardase_inhibitor # Bug #18
-
   before_filter :set_user_current_user
 
   protect_from_forgery

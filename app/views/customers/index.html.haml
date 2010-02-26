@@ -36,7 +36,7 @@
 = will_paginate @customers
 
 %p.actions
-  = link_to 'Export Data to Excel', formatted_customers_url(:csv, params.slice(:q))
+  = link_to 'Export Data to Excel', customers_url(params.slice(:q), :format => :csv)
   - if current_user.has_role?('edit-orders')
     |
     = link_to 'Create Orders for everybody in this list', :controller => :bulk_order, :action => :prepare, :q => params[:q]

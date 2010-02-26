@@ -1,28 +1,21 @@
 class Pagination::Renderer < WillPaginate::LinkRenderer
-  protected
-    def windowed_paginator
-      ret = []
-      ret << 'Page'
-      ret << page_form
-      ret << 'of %d' % total_pages
-    end
+  def to_html
+    stuff = []
+    stuff << 'Page'
+    stuff << page_form
+    stuff << 'of %d' % send(:total_pages)
+
+    @template.content_tag(:div, stuff, html_attributes)
+  end
 
   private
-    def current_page
-      @collection.current_page
-    end
-
-    def total_pages
-      @collection.page_count
-    end
-
     def hidden_inputs
-      options = params
+      options = @template.params.dup
       options.delete :page
       options.delete :commit
       options.delete :controller
       options.delete :action
-      options.rec_marge!(@options[:params]) if @options[:params]
+      options.merge(@options[:params]) if @options[:params]
 
       options.collect{ |k,v| @template.hidden_field_tag k, v }
     end
@@ -31,7 +24,7 @@ class Pagination::Renderer < WillPaginate::LinkRenderer
       @template.content_tag(:form, @template.url_for) do
         @template.content_tag(:div) do
           hidden_inputs + [
-            @template.text_field_tag(:page, current_page)
+            @template.text_field_tag(:page, send(:current_page))
           ]
         end
       end
