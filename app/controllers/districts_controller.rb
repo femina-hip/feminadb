@@ -56,7 +56,7 @@ class DistrictsController < ApplicationController
     @district = District.find(params[:id])
 
     respond_to do |format|
-      if @district.update_attributes(params[:district])
+      if @district.update_attributes(params[:district], :updated_by => current_user)
         flash[:notice] = 'District was successfully updated.'
         format.html { redirect_to admin_district_url(@district) }
         format.xml  { head :ok }

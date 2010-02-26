@@ -1,7 +1,8 @@
 class Issue < ActiveRecord::Base
   class DoesNotFitInBoxesException < Exception; end
 
-  acts_as_paranoid_versioned
+  acts_as_paranoid
+  versioned
   acts_as_reportable
 
   belongs_to :publication

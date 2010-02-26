@@ -1,5 +1,6 @@
 class SpecialOrder < ActiveRecord::Base
-  acts_as_paranoid_versioned
+  acts_as_paranoid
+  versioned
   acts_as_reportable
 
   belongs_to :updated_by_user,
@@ -34,12 +35,12 @@ class SpecialOrder < ActiveRecord::Base
   validates_presence_of :requested_for_date
   validates_presence_of :line_ids
 
-  scope_out :pending, :conditions => 'special_orders.authorized_by IS NULL'
-  scope_out :approved, :conditions => 'special_orders.approved = 1'
-  scope_out :completed,
-            :conditions => 'special_orders.completed_by IS NOT NULL'
-  scope_out :incomplete_approved, :conditions => 'special_orders.approved = 1 AND special_orders.completed_by IS NULL'
-  scope_out :denied, :conditions => 'special_orders.approved = 0 AND special_orders.authorized_by IS NOT NULL'
+  named_scope :pending, :conditions => 'special_orders.authorized_by IS NULL'
+  named_scope :approved, :conditions => 'special_orders.approved = 1'
+  named_scope :completed,
+              :conditions => 'special_orders.completed_by IS NOT NULL'
+  named_scope :incomplete_approved, :conditions => 'special_orders.approved = 1 AND special_orders.completed_by IS NULL'
+  named_scope :denied, :conditions => 'special_orders.approved = 0 AND special_orders.authorized_by IS NOT NULL'
 
   def approve
     if state != :pending

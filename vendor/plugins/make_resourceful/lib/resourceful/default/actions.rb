@@ -49,7 +49,7 @@ module Resourceful
       def update
         load_object
         before :update
-        if current_object.update_attributes object_parameters
+        if current_object.update_attributes(object_parameters.merge(:updated_by => current_user))
           save_succeeded!
           after :update
           response_for :update

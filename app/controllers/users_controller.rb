@@ -56,7 +56,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(params[:user], :updated_by => current_user)
         flash[:notice] = 'User was successfully updated.'
         format.html { redirect_to admin_user_url(@user) }
         format.xml  { head :ok }

@@ -127,7 +127,7 @@ class ClubsController < ApplicationController
     @club = Club.find(params[:id])
 
     respond_to do |format|
-      if @club.update_attributes(params[:club])
+      if @club.update_attributes(params[:club], :updated_by => current_user)
         flash[:notice] = 'Club was successfully updated.'
         format.html { redirect_to(@club.customer) }
         format.xml  { head :ok }

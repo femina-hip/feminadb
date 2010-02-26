@@ -1,7 +1,8 @@
 class Customer < ActiveRecord::Base
   extend Forwardable
 
-  acts_as_paranoid_versioned
+  acts_as_paranoid
+  versioned
   acts_as_reportable
 
   STOP_WORDS = Ferret::Analysis::FULL_ENGLISH_STOP_WORDS - [ 'yes', 'no' ]

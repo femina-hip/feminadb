@@ -1,5 +1,6 @@
 class Region < ActiveRecord::Base
-  acts_as_paranoid_versioned
+  acts_as_paranoid
+  versioned
   acts_as_reportable
 
   belongs_to :updated_by_user,

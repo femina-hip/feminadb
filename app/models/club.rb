@@ -1,5 +1,6 @@
 class Club < ActiveRecord::Base
-  acts_as_paranoid_versioned
+  versioned
+  acts_as_paranoid
   acts_as_reportable
 
   validates_presence_of :customer_id
