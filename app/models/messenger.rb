@@ -1,6 +1,5 @@
 class Messenger
   @@sender_class = XMPP
-  cattr_accessor :sender_class
 
   def initialize(sender = @@sender_class.new)
     @sender = sender
