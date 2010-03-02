@@ -1,5 +1,5 @@
 class IssueNote < ActiveRecord::Base
-  acts_as_paranoid
+  # acts_as_paranoid
   acts_as_reportable
 
   belongs_to :issue

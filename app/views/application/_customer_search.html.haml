@@ -9,7 +9,7 @@
       %td
         %label{:for => :q}
           Search:
-          - tooltip do
+          %div.tooltip{:style => 'display:none'}
             %p Enter a search term here
             %p Example searches:
             %ul
@@ -49,7 +49,6 @@
       %td
         = submit_tag 'Search'
         = submit_tag 'Show All Customers', :onclick => 'javascript:$("q").value = ""; form.submit();'
-- form_remote_tag :url => 'javascript:void{}', :html => { :onsubmit => 'javascript:if ($("refine_q").value.strip() == "") return; if ($("refine_term").value != " ") { $("q").value = ($("q").value + " " + $("refine_term").value + ":\"" + $("refine_q").value + "\"").strip(); } else { $("q").value = ($("q").value + " \"" + $("refine_q").value).strip() + "\""; }; $("refine_q").value = ""; $("refine_term").value = " "; $("q").form.submit(); disable()', :class => 'refine-search' } do
   %table.refine-search
     %tr
       %td

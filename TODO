@@ -2,3 +2,8 @@
 - Move old modifications into VestalVersions table?
 - Fix search tooltip
 - Test that editing club reindexes customer
+- Replace calendar_date_select (broken currently!)
+- Reimplement acts_as_paranoid, manually
+- replace tooltip widget. %span.glossary[%span.term,definition]
+- Fix "refine" button
+- Fix customer.special_order_lines ordering

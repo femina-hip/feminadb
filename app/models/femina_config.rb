@@ -2,10 +2,10 @@ class FeminaConfig
   def initialize
     @default = YAML::load_file(path('DEFAULT'))
     begin
-      @env = YAML::load_file(path(RAILS_ENV))
+      @env = YAML::load_file(path(Rails.env))
     rescue Errno::ENOENT
-      RAILS_DEFAULT_LOGGER.warn "Please create the configuration file '#{path(RAILS_ENV)}'."
-      RAILS_DEFAULT_LOGGER.warn "Defaults will be used instead."
+      Rails.logger.warn "Please create the configuration file '#{path(RAILS_ENV)}'."
+      Rails.logger.warn "Defaults will be used instead."
     end
   end
 
@@ -19,6 +19,6 @@ class FeminaConfig
 
   private
     def path(env)
-      "#{RAILS_ROOT}/config/feminadb.#{env}.yml"
+      "#{Rails.root}/config/feminadb.#{env}.yml"
     end
 end

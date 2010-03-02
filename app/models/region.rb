@@ -1,5 +1,5 @@
 class Region < ActiveRecord::Base
-  acts_as_paranoid
+  # acts_as_paranoid
   versioned
   acts_as_reportable
 

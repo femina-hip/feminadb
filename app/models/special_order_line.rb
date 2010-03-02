@@ -1,5 +1,5 @@
 class SpecialOrderLine < ActiveRecord::Base
-  acts_as_paranoid
+  # acts_as_paranoid
   versioned
   acts_as_reportable
 
@@ -15,7 +15,7 @@ class SpecialOrderLine < ActiveRecord::Base
   validates_presence_of :issue_id
   validates_presence_of :num_copies_requested
   validate :must_be_non_zero
-  validate_on_create :must_be_allowed_for_this_issue
+  validate :must_be_allowed_for_this_issue
 
   def denied?
     special_order.state != :pending and num_copies == 0
@@ -27,6 +27,6 @@ class SpecialOrderLine < ActiveRecord::Base
     end
 
     def must_be_allowed_for_this_issue
-      errors.add_to_base('This Issue does not allow new Special Order lines') unless issue.allows_new_special_orders
+      errors.add_to_base('This Issue does not allow new Special Order lines') if new_record? && !issue.allows_new_special_orders
     end
 end

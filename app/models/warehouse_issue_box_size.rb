@@ -1,5 +1,5 @@
 class WarehouseIssueBoxSize < ActiveRecord::Base
-  acts_as_paranoid
+  # acts_as_paranoid
   versioned
 
   belongs_to :warehouse

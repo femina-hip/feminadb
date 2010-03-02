@@ -22,7 +22,7 @@
 = render :partial => 'customer_orders/orders', :locals => { :orders => @customer.orders }
 
 %a#special_orders
-= render :partial => 'special_order_lines', :locals => { :special_order_lines => @customer.special_order_lines }
+= render(:partial => 'special_order_lines')
 
 %a#club
 - if @customer.club

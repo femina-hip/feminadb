@@ -4,9 +4,9 @@ class CustomersController < ApplicationController
 
   before_filter :remember_q_and_page, :only => :index
 
-  make_resourceful do
-    actions :show, :new, :edit, :create, :update, :destroy
-  end
+#  make_resourceful do
+#    actions :show, :new, :edit, :create, :update, :destroy
+#  end
 
   # GET /customers
   # GET /customers.csv
@@ -25,6 +25,7 @@ class CustomersController < ApplicationController
     end
 
     @customers = search.results
+    Customer.send(:preload_associations, @customers, [:region, :type])
 
     respond_to do |type|
       type.html do
@@ -70,28 +71,37 @@ class CustomersController < ApplicationController
     end
   end
 
+  def show
+    @customer = find_customer
+  end
+
   private
-    def default_includes
-      [ :region, :type, :delivery_method ]
-    end
 
-    def requested_page
-      return params[:page].to_i if params[:page].to_i > 0
-      return session[:customers_page] if not params[:q]
-      1
-    end
+  def default_includes
+    [ :region, :type, :delivery_method ]
+  end
 
-    def requested_per_page
-      return :all if request.format == Mime::CSV
-      Customer.per_page
-    end
+  def requested_page
+    return params[:page].to_i if params[:page].to_i > 0
+    return session[:customers_page] if not params[:q]
+    1
+  end
 
-    def requested_q
-      params[:q] || session[:customers_q] || ''
-    end
+  def requested_per_page
+    return :all if request.format == Mime::CSV
+    Customer.per_page
+  end
 
-    def remember_q_and_page
-      session[:customers_q] = params[:q] if params[:q]
-      session[:customers_page] = requested_page
-    end
+  def requested_q
+    params[:q] || session[:customers_q] || ''
+  end
+
+  def remember_q_and_page
+    session[:customers_q] = params[:q] if params[:q]
+    session[:customers_page] = requested_page
+  end
+
+  def find_customer
+    Customer.find(params[:id])
+  end
 end

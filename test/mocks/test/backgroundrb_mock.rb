@@ -9,7 +9,7 @@ modify database entries will hit the instance's environment database (eg.
 'development' instead of the 'test' database), flunking tests in the best
 case and corrupting the instance's environment data in the worst case.
 
-To use, simply add the following line in your RAILS_ROOT/test_helper.rb:
+To use, simply add the following line in your Rails.root/test_helper.rb:
 
 # inject the mock backgroundrb to the test environment.
 require File.dirname(__FILE__) + '/mocks/test/backgroundrb_mock.rb'

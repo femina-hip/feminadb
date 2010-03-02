@@ -12,9 +12,9 @@ module ApplicationHelper
   end
 
   def render_pretty_header(title, &block)
-    description = capture &block
+    description = capture(&block)
 
-    render :partial => 'application/pretty_header', :locals => { :title => title, :description => description }
+    render(:partial => 'application/pretty_header', :locals => { :title => title, :description => description.html_safe })
   end
 
   # Displays a User as a string

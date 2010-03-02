@@ -4,18 +4,15 @@ class SpecialOrdersController < ApplicationController
 
   # GET /special_orders
   def index
-    @pending_special_orders = SpecialOrder.find_pending(
-      :all,
+    @pending_special_orders = SpecialOrder.pending.all(
       :order => 'special_orders.requested_at DESC',
       :include => [ :requested_by_user, :lines ]
     )
-    @approved_special_orders = SpecialOrder.find_incomplete_approved(
-      :all,
+    @approved_special_orders = SpecialOrder.incomplete_approved.all(
       :order => 'special_orders.requested_at DESC',
       :include => [ :requested_by_user, :authorized_by_user, :lines ]
     )
-    @special_orders = SpecialOrder.paginate(
-      :all,
+    @special_orders = SpecialOrder.all.paginate(
       :order => 'special_orders.requested_for_date DESC, special_orders.requested_at DESC',
       :include => [ :requested_by_user, :authorized_by_user, :lines ],
       :page => (params[:page] || 1).to_i

@@ -4,23 +4,23 @@
     %tr
       %th{:colspan => 2}
         General Information:
-        %b= h customer.name
+        %b= customer.name
   %tbody
     %tr.first
       %th Name
-      %td= h customer.name
+      %td= customer.name
     %tr
       %th Type
       %td
-        = h customer.type.name
+        = customer.type.name
         = '-'
-        = h customer.type.description
+        = customer.type.description
     %tr
       %th Region
-      %td= h customer.region.name
+      %td= customer.region.name
     %tr.last
       %th District
-      %td= h customer.district
+      %td= customer.district
 
   %thead
     %tr
@@ -29,46 +29,39 @@
     %tr.first
       %th Delivery Method
       %td
-        = h customer.delivery_method.abbreviation
+        = customer.delivery_method.abbreviation
         = '-'
-        = h customer.delivery_method.name
-        = h "(#{customer.delivery_method.description})"
+        = customer.delivery_method.name
+        = "(#{customer.delivery_method.description})"
     %tr
       %th
-        Deliver Via
-        - tooltip do
-          %p Company to which Femina will send Issues
-      %td= h customer.deliver_via
+        = glossary_term_and_tooltip('Deliver Via')
+      %td= customer.deliver_via
     %tr
       %th
-        Route
-        - tooltip do
-          %p
-            Order in which to deliver. This should be a name of a route and
-            then a number: for instance, <b>city07</b>.
-      %td= h customer.route
+        = glossary_term_and_tooltip('Route')
+      %td= customer.route
     %tr
       %th
         Address
-        - tooltip do
-          %p Instructions for where to actually deliver
-      %td= h customer.address
+        = glossary_term_and_tooltip('Address')
+      %td= customer.address
     %tr.last
       %th PO Box
-      %td= h customer.po_box
+      %td= customer.po_box
   %thead
     %tr
       %th Contact Details
   %tbody
     %tr.first
       %th Name/Position
-      %td= "#{h(customer.contact_name)}#{customer.contact_position ? ', ' + h(customer.contact_position) : ''}"
+      %td= "#{customer.contact_name}#{customer.contact_position ? ', ' + customer.contact_position : ''}"
     %tr
       %th Telephone
       %td= telephones_string(customer)
     %tr
       %th Fax
-      %td= h customer.fax
+      %td= customer.fax
     %tr
       %th Email
       %td= emails_string(customer)

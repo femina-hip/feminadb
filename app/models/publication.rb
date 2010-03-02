@@ -1,5 +1,5 @@
 class Publication < ActiveRecord::Base
-  acts_as_paranoid
+  # acts_as_paranoid
   versioned
   acts_as_reportable
 
@@ -13,15 +13,15 @@ class Publication < ActiveRecord::Base
   has_many :standing_orders,
            :dependent => :destroy,
            :conditions => 'standing_orders.deleted_at IS NULL'
-  has_and_belongs_to_many :customers,
-                          :join_table => :standing_orders,
-                          :include => :region,
-                          :order => 'regions.name, customers.district, customers.name',
-                          :conditions => 'customers.deleted_at IS NULL'
+  has_many :customers,
+           :through => :standing_orders,
+           :include => :region,
+           :order => 'regions.name, customers.district, customers.name',
+           :conditions => 'customers.deleted_at IS NULL'
 
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  named_scope :tracking_standing_orders,
-              :conditions => { :tracks_standing_orders => true }
+  scope :tracking_standing_orders,
+        :conditions => { :tracks_standing_orders => true }
 end

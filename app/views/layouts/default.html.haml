@@ -5,8 +5,7 @@
     %title FeminaDB
     %meta{'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}
     = javascript_include_tag :defaults
-    = calendar_date_select_includes :silver
-    = record_select_includes
+    -#= record_select_includes
     = stylesheet_link_tag 'main'
     = stylesheet_link_tag 'print', :media => 'print'
   %body
@@ -48,11 +47,7 @@
     .footer
       %ul
         %li= link_to 'Recent Data Changes', :controller => 'modifications'
-        %li= link_to 'Problems', 'http://bugs/projects/list_issues/1', :popup => true
-        - if RAILS_ENV == 'development' and params[:debug]
-          %li
-            = link_to_function 'Debug', 'show_debug_popup()'
-            = debug_popup
+        %li= link_to 'Problems', 'http://bugs/projects/list_issues/1'
 
     #loading{:style => "display: none; background: url(#{image_path('fade.png')}) repeat;"}
       .frame
