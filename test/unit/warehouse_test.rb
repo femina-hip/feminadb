@@ -1,34 +1,38 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class WarehouseTest < Test::Unit::TestCase
-  self.use_instantiated_fixtures = true
+class WarehouseTest < ActiveSupport::TestCase
   fixtures :warehouses, :delivery_methods, :warehouse_issue_box_sizes, :issues, :issue_box_sizes
 
   # Cannot delete if delivery method depends on it
-  def test_protected_by_delivery_method
-    assert_raise(ActiveRecord::ReferentialIntegrityProtectionError) { @w2.destroy }
+  test 'cannot delete Warehouse if DeliveryMethod depends on it' do
+    Order.delete_all
+    Customer.delete_all
 
-    DeliveryMethod.delete(@dm2.id)
-    assert_nothing_raised(ActiveRecord::ReferentialIntegrityProtectionError) { @w2.destroy }
+    assert_raise(ActiveRecord::ReferentialIntegrityProtectionError) { warehouses(:w2).destroy }
+
+    delivery_methods(:dm2).destroy
+    assert_nothing_raised(ActiveRecord::ReferentialIntegrityProtectionError) { warehouses(:w2).destroy }
   end
 
-  def test_destroys_warehouse_issue_box_sizes
-    DeliveryMethod.delete(@dm1.id)
-    DeliveryMethod.delete(@dm3.id)
-    @w1.destroy
+  test 'destroying Warehouse destroys WarehouseIssueBoxSizes' do
+    Order.delete_all
+    Customer.delete_all
+    delivery_methods(:dm1).destroy
+    delivery_methods(:dm3).destroy
+    warehouses(:w1).destroy
 
     assert_raise(ActiveRecord::RecordNotFound) { WarehouseIssueBoxSize.find(1) }
   end
 
-  def test_num_copies
+  test 'num_copies works' do
     assert_equal 50, warehouses(:w1).num_copies(issues(:issue1))
   end
 
-  def test_num_copies_when_no_issue_box_sizes
+  test 'num_copies works when there are no IssueBoxSizes' do
     assert_equal 0, warehouses(:w2).num_copies(issues(:issue1))
   end
 
-  def test_num_copies_when_no_warehouse_issue_box_sizes
+  test 'num_copies works when there are no WarehouseIssueBoxSizes' do
     WarehouseIssueBoxSize.delete_all
     assert_equal 0, warehouses(:w1).num_copies(issues(:issue1))
   end
