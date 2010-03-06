@@ -50,5 +50,4 @@ Feminadb::Application.routes.draw do
 
   root :to => 'customers#index'
   match ':controller/service.wsdl' => '#wsdl'
-  match ':controller(/:action(/:id))'
 end
