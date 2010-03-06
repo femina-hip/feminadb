@@ -16,6 +16,7 @@ gem 'vestal_versions', '1.0.2'
 gem 'sunspot', '0.10.8'
 gem 'sunspot_rails', '0.11.5', :require => 'sunspot/rails'
 gem 'haml', '2.2.20'
+gem 'xmpp4r', '0.5'
 gem 'ruport', '1.6.3'
 gem 'acts_as_reportable', '1.1.1'
 
