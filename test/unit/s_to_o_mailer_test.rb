@@ -6,7 +6,7 @@ class SToOMailerTest < ActionMailer::TestCase
     issue = Issue.find(1)
     log = { :errors => [], :skipped => [], :created => [], :updated => [] }
 
-    response = SToOMailer.create_report(recipients, issue, log)
+    response = SToOMailer.report(recipients, issue, log)
 
     assert true
   end

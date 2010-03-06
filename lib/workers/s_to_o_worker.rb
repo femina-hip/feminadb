@@ -50,12 +50,12 @@ class SToOWorker < BackgrounDRb::Worker::RailsBase
   
       logger.info "Completed: created #{@num_complete} orders"
 
-      SToOMailer.deliver_report(args[:recipients], issue, log)
+      SToOMailer.report(args[:recipients], issue, log).deliver
 
       logger.info "Sent report mail to #{args[:recipients].to_s}"
   
     rescue StandardError => e
-      SToOMailer.deliver_exception(args[:recipients], e)
+      SToOMailer.exception(args[:recipients], e).deliver
 
     ensure
       self.delete

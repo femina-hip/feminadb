@@ -1,11 +1,10 @@
 class BulkOrderMailer < ActionMailer::Base
+  default :from => 'db@feminahip.or.tz'
 
   def exception(recipients, exception)
-    recipients recipients
-    subject 'ERROR in Bulk Order Creation'
-    from 'db@feminahip.or.tz'
+    @exception = exception
+    @main_url = customers_url
 
-    body :exception => exception,
-         :main_url => customers_url
+    mail(:to => recipients, :subject => 'ERROR in bulk Order creation')
   end
 end

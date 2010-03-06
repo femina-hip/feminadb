@@ -24,7 +24,7 @@ class BulkOrderWorker < BackgrounDRb::Worker::RailsBase
       end
     rescue StandardError => e
       logger.error "Error! #{e.inspect}"
-      BulkOrderMailer.deliver_exception(recipients, e)
+      BulkOrderMailer.exception(recipients, e).deliver
     ensure
       self.delete
     end
