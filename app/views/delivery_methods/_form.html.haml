@@ -16,7 +16,7 @@
     %p Clarification of how the delivery occurs
 %p
   %b Warehouse:
-  = f.select :warehouse_id, Warehouse.find(:all, :order => :name).collect{|w| [ w.name, w.id]}
+  = f.select :warehouse_id, Warehouse.where(:deleted_at => nil).order(:name).all.collect{|w| [ w.name, w.id]}
   - tooltip do
     %p Which warehouse the Issues come from
 %p

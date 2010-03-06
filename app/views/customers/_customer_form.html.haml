@@ -14,7 +14,7 @@
       %td= f.customer_type_select :customer_type_id
     %tr
       %th Region
-      %td= f.select :region_id, Region.find(:all, :order => :name).collect{|r| [ r.name, r.id ]}
+      %td= f.select :region_id, Region.where(:deleted_at => nil).order(:name).all.collect{|r| [ r.name, r.id ]}
     %tr.last
       %th District
       %td= f.text_field :district
@@ -25,7 +25,7 @@
   %tbody
     %tr.first
       %th Delivery Method
-      %td= f.select :delivery_method_id, DeliveryMethod.find(:all, :order => :abbreviation).collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+      %td= f.select :delivery_method_id, DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
     %tr
       %th
         Deliver Via

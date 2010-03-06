@@ -67,8 +67,8 @@
     %div
       Or show the Distribution List for only one Delivery Method:
       %ul
-        - DeliveryMethod.find(:all, :order => :name).each do |dm|
-          - if Order.count(:all, :conditions => { :issue_id => @issue.id, :delivery_method_id => dm.id }) != 0
+        - DeliveryMethod.where(:deleted_at => nil).order(:name).all.each do |dm|
+          - if Order.where(:deleted_at => nil).where(:issue_id => @issue.id).where(:delivery_method_id => dm.id).count != 0
             %li
               = link_to "Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id), :onclick => render_loading
               = link_to '[Print]', formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf, :delivery_method_id => dm.id), :onclick => render_loading

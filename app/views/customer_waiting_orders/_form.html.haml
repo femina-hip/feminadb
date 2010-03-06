@@ -7,7 +7,7 @@
   %tbody
     %tr
       %th Publication
-      %td= f.select :publication_id, Publication.find(:all, :order => :name).collect{|p| [ p.name, p.id ]}
+      %td= f.select :publication_id, Publication.where(:deleted_at => nil).order(:name).all.collect{|p| [ p.name, p.id ]}
     %tr
       %th # Copies
       %td= f.text_field :num_copies

@@ -16,7 +16,7 @@
       %td= f.calendar_date_select :order_date
     %tr
       %th Delivery Method
-      %td= f.select :delivery_method_id, DeliveryMethod.find(:all, :order => :abbreviation).collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+      %td= f.select :delivery_method_id, DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
     %tr
       %th Comments
       %td= f.text_field :comments
