@@ -18,6 +18,7 @@ gem 'sunspot_rails', '0.11.5', :require => 'sunspot/rails'
 gem 'haml', '2.2.20'
 gem 'xmpp4r', '0.5'
 gem 'ruport', '1.6.3'
+gem 'thin', '1.2.7'
 gem 'acts_as_reportable', '1.1.1'
 
 ## Bundle gems used only in certain environments:
