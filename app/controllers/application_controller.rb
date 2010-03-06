@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include RoleRequirement
 
-  include ExceptionNotifiable
-
   protect_from_forgery
 
   layout 'default'
