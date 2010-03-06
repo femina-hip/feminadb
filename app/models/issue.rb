@@ -216,7 +216,7 @@ class Issue < ActiveRecord::Base
     def initialize(issue, delivery_method = nil)
       @delivery_methods = {}
 
-      conditions = { :issue_id => issue.id }
+      conditions = { :deleted_at => nil, :issue_id => issue.id }
       if delivery_method
         conditions.merge!(:delivery_method_id => delivery_method.id)
       end
