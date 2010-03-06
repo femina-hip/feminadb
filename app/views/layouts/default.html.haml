@@ -22,11 +22,11 @@
         .admin
           %p Admin:
           %ul
-            %li= link_to 'Users', admin_users_path
-            %li= link_to 'Regions', admin_regions_path
-            %li= link_to 'Warehouses', admin_warehouses_path
-            %li= link_to 'Customer Types', admin_customer_types_path
-            %li= link_to 'Delivery Methods', admin_delivery_methods_path
+            %li= link_to('Users', [:admin, :users])
+            %li= link_to('Regions', [:admin, :regions])
+            %li= link_to('Warehouses', [:admin, :warehouses])
+            %li= link_to('Customer Types', [:admin, :customer_types])
+            %li= link_to('Delivery Methods', [:admin, :delivery_methods])
 
     .login
       %p

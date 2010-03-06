@@ -1,5 +1,5 @@
 Feminadb::Application.routes.draw do
-  resource :admin do
+  namespace :admin do
     resources :customer_types
     resources :delivery_methods
     resources :districts
