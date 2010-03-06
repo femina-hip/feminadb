@@ -210,14 +210,12 @@ class Issue < ActiveRecord::Base
     def initialize(issue, delivery_method = nil)
       @delivery_methods = {}
 
-      conditions = { :delivery_method_id => delivery_method.id } if delivery_method
+      conditions = { :issue_id => issue.id }
+      if delivery_method
+        conditions.merge!(:delivery_method_id => delivery_method.id)
+      end
 
-      orders = Order.find_all_by_issue_id(
-        issue.id,
-        :order => 'delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.deliver_via = \'\' DESC, orders.customer_name',
-        :conditions => conditions,
-        :include => [ :customer, :region, :delivery_method ]
-      )
+      orders = Order.where(conditions).includes(:customer, :region, :delivery_method).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name').all
 
       orders.each do |order|
         @delivery_methods[order.delivery_method] ||= DistributionListSubData.new
@@ -226,8 +224,8 @@ class Issue < ActiveRecord::Base
     end
 
     def each
-      DeliveryMethod.find(:all, :order => :name).select{|dm| @delivery_methods.include? dm}.each do |dm|
-        yield [ dm, @delivery_methods[dm] ]
+      @delivery_methods.keys.sort(&:name).each do |dm|
+        yield [dm, @delivery_methods[dm]]
       end
     end
 
@@ -250,8 +248,8 @@ class Issue < ActiveRecord::Base
       end
 
       def each
-        Region.find(:all, :order => :name).select{|r| @regions.include? r }.each do |r|
-          yield [ r, @regions[r] ]
+        @regions.sort(&:name).each do |r|
+          yield [r, @regions[r]]
         end
       end
 
