@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class IssueTest < Test::Unit::TestCase
+class IssueTest < ActiveSupport::TestCase
   self.use_instantiated_fixtures = true
-  fixtures :issues, :issue_box_sizes, :publications, :orders, :delivery_methods, :regions
+  fixtures(:issues, :issue_box_sizes, :publications, :orders, :delivery_methods, :regions)
 
   def test_new_with_box_sizes
     i = Issue.new(:publication_id => 3, :name => 'Testing Testing', :issue_date => Date.parse('3 December, 2007'), :issue_number => 1)
     ibs = i.issue_box_sizes.build(:num_copies => 1)
-    assert_valid ibs
-    assert_valid i
+    assert ibs.valid?
+    assert i.valid?
     i.save!
     i.issue_box_sizes.each { |ibs| ibs.save! }
     id = i.id
@@ -59,15 +59,12 @@ class IssueTest < Test::Unit::TestCase
 
   def test_issue_box_sizes_string_setter
     @issue1.issue_box_sizes_string = '1, 2, 3'
-    assert_equal '1, 2, 3', @issue1.issue_box_sizes_string
+    assert_equal '1, 2, 3', @issue1.issue_box_sizes_string(true)
   end
 
   def test_issue_box_sizes_string_setter_remove_one
     @issue1.issue_box_sizes_string = '1, 50, 75, 100'
-    [ @ibs11, @ibs13, @ibs14, @ibs15 ].each do |ibs|
-      assert IssueBoxSize.exists?(ibs)
-    end
-    assert_equal false, IssueBoxSize.exists?(@ibs2)
+    assert_equal '1, 50, 75, 100', @issue1.issue_box_sizes_string(true)
   end
 
   def test_issue_box_sizes_string_setter_add_one
@@ -137,7 +134,7 @@ class IssueTest < Test::Unit::TestCase
   def test_distribution_list_does_not_hold_deleted_items
     i = issues(:issue_free)
     o = i.orders.create!(:num_copies => 20, :delivery_method_id => 1, :region_id => 1, :customer_id => 1)
-    o.destroy!
+    o.destroy
 
     dl = i.distribution_list_data
     assert dl.to_a.empty?
@@ -146,7 +143,7 @@ class IssueTest < Test::Unit::TestCase
   def test_distribution_quote_request_does_not_hold_deleted_items
     i = issues(:issue_free)
     o = i.orders.create!(:num_copies => 20, :delivery_method_id => 1, :region_id => 1, :customer_id => 1)
-    o.destroy!
+    o.destroy
 
     dqr = i.distribution_quote_request_data
     assert dqr.empty?
@@ -160,7 +157,7 @@ class IssueTest < Test::Unit::TestCase
 
   def test_issue_number_format
     i = issues(:issue1)
-   assert_valid i
+   assert i.valid?
     [ 'A', 'Y', '123', '01', '23.3', '12a', '2-3' ].each do |num|
       i.issue_number = num
       assert i.valid?, "allows issue_number of #{num}"

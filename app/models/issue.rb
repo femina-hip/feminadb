@@ -40,6 +40,7 @@ class Issue < ActiveRecord::Base
   validates_format_of :issue_number,
                       :with => /\A[-\.A-Za-z0-9]+\Z$/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
+  validate :validate_issue_box_sizes_string
 
   # Returns "Publication 2.3: name"
   def full_name
@@ -63,6 +64,7 @@ class Issue < ActiveRecord::Base
     @issue_box_sizes_string_invalid = !(val =~ /^(|\d+(,\s*(\d+)\s*)*)$/)
     return if @issue_box_sizes_string_invalid
 
+    # FIXME: don't commit IBS changes until save
     transaction do
       new_sizes = val.split(/[,;]/).map{ |s| s.to_i }.select{ |i| i > 0 }.sort.uniq
       # Copy the old one, since we'll be editing the real list
@@ -84,7 +86,9 @@ class Issue < ActiveRecord::Base
         end
 
         if new > old
-          issue_box_sizes.delete(issue_box_sizes.find_by_num_copies(old))
+          ibs = issue_box_sizes.find_by_num_copies(old)
+          issue_box_sizes.delete(ibs)
+          ibs.destroy
           old_i += 1
           next
         end
@@ -104,7 +108,9 @@ class Issue < ActiveRecord::Base
       end
 
       while old_i < old_sizes.length
-        issue_box_sizes.delete(issue_box_sizes.find_by_num_copies(old_sizes[old_i]))
+        ibs = issue_box_sizes.find_by_num_copies(old_sizes[old_i])
+        issue_box_sizes.delete(ibs)
+        ibs.destroy
         old_i += 1
       end
 
@@ -362,7 +368,9 @@ class Issue < ActiveRecord::Base
     num_copies_in_house + num_copies_in_all_warehouses
   end
 
-  def validate
+  private
+
+  def validate_issue_box_sizes_string
     # Since issue_box_sizes_string isn't an attribute, this is a bit of
     # a hack. Fixes bug #32.
     if @issue_box_sizes_string_invalid
@@ -373,69 +381,68 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  private
-    def issue_box_sizes_reversed
-      @issue_box_sizes_reversed ||= issue_box_sizes.reverse
-    end
+  def issue_box_sizes_reversed
+    @issue_box_sizes_reversed ||= issue_box_sizes.reverse
+  end
 
-    def issue_box_sizes_reversed_i
-      @issue_box_sizes_reversed_i ||= issue_box_sizes_reversed.collect{|ibs| ibs.num_copies}
-    end
+  def issue_box_sizes_reversed_i
+    @issue_box_sizes_reversed_i ||= issue_box_sizes_reversed.collect{|ibs| ibs.num_copies}
+  end
 
-    def issue_box_sizes_reversed_i_without_1
-      issue_box_sizes_reversed_i.last == 1 ? issue_box_sizes_reversed_i[0..-2] : issue_box_sizes_reversed_i
-    end
+  def issue_box_sizes_reversed_i_without_1
+    issue_box_sizes_reversed_i.last == 1 ? issue_box_sizes_reversed_i[0..-2] : issue_box_sizes_reversed_i
+  end
 
-    # Returns a hash of { # copies => # boxes }
-    def find_box_sizes(num_copies)
-      @find_box_sizes_cache ||= {}
-      return @find_box_sizes_cache[num_copies] if @find_box_sizes_cache.include? num_copies
+  # Returns a hash of { # copies => # boxes }
+  def find_box_sizes(num_copies)
+    @find_box_sizes_cache ||= {}
+    return @find_box_sizes_cache[num_copies] if @find_box_sizes_cache.include? num_copies
 
-      # Try to shortcut: if it divides evenly, use it
-      issue_box_sizes_reversed_i.each do |ibs_num_copies|
-        next if ibs_num_copies == 1
-        i, r = num_copies.divmod(ibs_num_copies)
-        return @find_box_sizes_cache[num_copies] = Hash.new(0).merge(ibs_num_copies => i) if r == 0
-      end
-
-      ans = find_box_sizes_helper(num_copies)
-      @find_box_sizes_cache[num_copies] = if ans.nil?
-        nil
-      else
-        ans.last.default = 0
-        ans.last
-      end
-    end
-
-    # Returns nil or a pair of (# copies remaining, { # copies => # boxes })
-    def find_box_sizes_helper(num_copies, remaining_sizes = issue_box_sizes_reversed_i_without_1)
-      return [ num_copies, {} ] if num_copies == 0
-      return nil if remaining_sizes.empty?
-
-      ibs_num_copies, other_sizes = remaining_sizes[0], remaining_sizes[1..-1]
-
+    # Try to shortcut: if it divides evenly, use it
+    issue_box_sizes_reversed_i.each do |ibs_num_copies|
+      next if ibs_num_copies == 1
       i, r = num_copies.divmod(ibs_num_copies)
-      return [ 0, { ibs_num_copies => i } ] if r == 0
+      return @find_box_sizes_cache[num_copies] = Hash.new(0).merge(ibs_num_copies => i) if r == 0
+    end
 
-      while i > 0 do
-        ans = find_box_sizes_helper(r, other_sizes)
-        if ans
-          ans.last.update({ ibs_num_copies => i })
-          return ans
-        end
+    ans = find_box_sizes_helper(num_copies)
+    @find_box_sizes_cache[num_copies] = if ans.nil?
+      nil
+    else
+      ans.last.default = 0
+      ans.last
+    end
+  end
 
-        i -= 1
-        r += ibs_num_copies
+  # Returns nil or a pair of (# copies remaining, { # copies => # boxes })
+  def find_box_sizes_helper(num_copies, remaining_sizes = issue_box_sizes_reversed_i_without_1)
+    return [ num_copies, {} ] if num_copies == 0
+    return nil if remaining_sizes.empty?
+
+    ibs_num_copies, other_sizes = remaining_sizes[0], remaining_sizes[1..-1]
+
+    i, r = num_copies.divmod(ibs_num_copies)
+    return [ 0, { ibs_num_copies => i } ] if r == 0
+
+    while i > 0 do
+      ans = find_box_sizes_helper(r, other_sizes)
+      if ans
+        ans.last.update({ ibs_num_copies => i })
+        return ans
       end
 
-      return find_box_sizes_helper(num_copies, other_sizes)
+      i -= 1
+      r += ibs_num_copies
     end
 
-    def only_box_size_1_hash(num_copies)
-      return nil if @box_size_1_nil
-      @box_size_1 ||= issue_box_sizes.find_by_num_copies(1)
-      @box_size_1_nil ||= @box_size_1.nil?
-      return nil if @box_size_1_nil
-      Hash.new(0).merge(1 => num_copies)
-    end
+    return find_box_sizes_helper(num_copies, other_sizes)
+  end
+
+  def only_box_size_1_hash(num_copies)
+    return nil if @box_size_1_nil
+    @box_size_1 ||= issue_box_sizes.find_by_num_copies(1)
+    @box_size_1_nil ||= @box_size_1.nil?
+    return nil if @box_size_1_nil
+    Hash.new(0).merge(1 => num_copies)
+  end
 end
