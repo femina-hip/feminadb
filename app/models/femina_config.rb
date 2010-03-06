@@ -4,7 +4,7 @@ class FeminaConfig
     begin
       @env = YAML::load_file(path(Rails.env))
     rescue Errno::ENOENT
-      Rails.logger.warn "Please create the configuration file '#{path(RAILS_ENV)}'."
+      Rails.logger.warn "Please create the configuration file '#{path(Rails.env)}'."
       Rails.logger.warn "Defaults will be used instead."
     end
   end
