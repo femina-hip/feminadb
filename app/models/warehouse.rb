@@ -19,6 +19,5 @@ class Warehouse < ActiveRecord::Base
 
   def num_copies(issue)
     warehouse_issue_box_sizes.includes(:issue_box_size).where('issue_box_sizes.issue_id' => issue.id).inject(0){ |sum, wibs| sum + wibs.num_copies }
-    #warehouse_issue_box_sizes.find(:all, :include => :issue_box_size, :conditions => { 'issue_box_sizes.issue_id' => issue.id}).inject(0){|sum, wibs| sum + wibs.num_copies}
   end
 end
