@@ -24,11 +24,12 @@ class WarehousesController < ApplicationController
   end
 
   protected
-    def url_helper_prefix
-      "admin_"
-    end
 
-    def current_objects
-      @current_objects ||= Warehouse.find(:all, :order => :name)
-    end
+  def url_helper_prefix
+    "admin_"
+  end
+
+  def current_objects
+    @current_objects ||= Warehouse.where(:deleted_at => nil).order(:name).all
+  end
 end

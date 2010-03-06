@@ -58,7 +58,8 @@ class PublicationsController < ApplicationController
   end
 
   protected
-    def current_objects
-      @current_objects ||= Publication.find(:all, :order => :name)
-    end
+
+  def current_objects
+    @current_objects ||= Publication.where(:deleted_at => nil).order(:name).all
+  end
 end

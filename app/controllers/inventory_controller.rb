@@ -6,7 +6,7 @@ class InventoryController < ApplicationController
   in_place_edit_for :issue, 'inventory_comment'
 
   def index
-    @publications = Publication.find(:all, :include => { :issues => { :issue_box_sizes => :warehouse_issue_box_sizes } }, :order => 'publications.name, issues.issue_number DESC, issue_box_sizes.num_copies')
+    @publications = Publication.where(:deleted_at => nil).includes(:issues => { :issue_box_sizes => :warehouse_issue_box_sizes }).order('publications.name, issues.issue_number DESC, issue_box_sizes.num_copies').all # FIXME test this works
     @warehouses = Warehouse.find_all_inventory(:order => :name)
   end
 end

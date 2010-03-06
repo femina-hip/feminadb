@@ -31,11 +31,12 @@ class DeliveryMethodsController < ApplicationController
   end
 
   protected
-    def url_helper_prefix
-      "admin_"
-    end
 
-    def current_objects
-      @current_objects ||= DeliveryMethod.find(:all, :order => :name)
-    end
+  def url_helper_prefix
+    "admin_"
+  end
+
+  def current_objects
+    @current_objects ||= DeliveryMethod.where(:deleted_at => nil).order(:name).all
+  end
 end

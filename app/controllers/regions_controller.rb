@@ -25,11 +25,12 @@ class RegionsController < ApplicationController
   end
 
   protected
-    def url_helper_prefix
-      "admin_"
-    end
 
-    def current_objects
-      @current_objects ||= Region.find(:all, :order => :name)
-    end
+  def url_helper_prefix
+    "admin_"
+  end
+
+  def current_objects
+    @current_objects ||= Region.where(:deleted_at => nil).order(:name).all
+  end
 end

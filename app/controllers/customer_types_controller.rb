@@ -25,11 +25,12 @@ class CustomerTypesController < ApplicationController
   end
 
   protected
-    def url_helper_prefix
-      "admin_"
-    end
 
-    def current_objects
-      @current_objects ||= CustomerType.find(:all, :order => 'category, name')
-    end
+  def url_helper_prefix
+    "admin_"
+  end
+
+  def current_objects
+    @current_objects ||= CustomerType.where(:deleted_at => nil).order([:category, :name]).all
+  end
 end

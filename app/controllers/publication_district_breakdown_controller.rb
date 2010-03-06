@@ -1,6 +1,6 @@
 class PublicationDistrictBreakdownController < ApplicationController
   def index
     @data = PublicationDistrictBreakdown.new.data
-    @publications = Publication.find(:all, :order => :name)
+    @publications = Publication.where(:deleted_at => nil).order(:name).find
   end
 end

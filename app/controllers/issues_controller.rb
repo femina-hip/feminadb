@@ -32,7 +32,7 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_quote_request_data
 
     @delivery_methods =
-      DeliveryMethod.find(:all, :order => :name, :conditions => { :include_in_distribution_quote_request => true })
+      DeliveryMethod.where(:include_in_distribution_quote_request => true).where(:deleted_at => nil).order(:name).all
   end
 
   # GET /publications/1/issues/1/show_distribution_order
@@ -43,7 +43,7 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_order_data
 
     @delivery_methods =
-      DeliveryMethod.find(:all, :order => :name).select{|dm| @data.include? dm}
+      DeliveryMethod.where(:deleted_at => nil).order(:name).all.select{|dm| @data.include?(dm)}
   end
 
   # GET /publications/1/issues/1/show_distribution_list

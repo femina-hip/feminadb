@@ -4,7 +4,7 @@ class DistrictsController < ApplicationController
   # GET /districts
   # GET /districts.xml
   def index
-    @districts = District.find(:all, :include => :region, :order => 'regions.name, districts.name')
+    @districts = District.where(:deleted_at => nil).includes(:region).order('regions.name, districts.name').all
 
     respond_to do |format|
       format.html # index.rhtml
