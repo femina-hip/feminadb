@@ -4,9 +4,9 @@ class CustomersController < ApplicationController
 
   before_filter :remember_q_and_page, :only => :index
 
-#  make_resourceful do
-#    actions :show, :new, :edit, :create, :update, :destroy
-#  end
+  make_resourceful do
+    actions :show, :new, :edit, :create, :update, :destroy
+  end
 
   # GET /customers
   # GET /customers.csv
