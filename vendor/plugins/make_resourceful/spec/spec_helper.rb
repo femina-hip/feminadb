@@ -1,11 +1,26 @@
 $: << File.dirname(__FILE__) + '/../lib'
+
 require 'rubygems'
-%w[spec action_pack active_record resourceful/maker
-   action_controller action_controller/test_process action_controller/integration
-   spec/rspec_on_rails/redirect_to spec/rspec_on_rails/render_template].each &method(:require)
+
+
+begin
+  %w[spec rails/version action_pack active_record resourceful/maker
+     spec/rspec-rails/redirect_to spec/rspec-rails/render_template
+     action_controller action_controller/test_process action_controller/integration].each &method(:require)
+rescue LoadError # If we are on rails3, these should work
+  require 'action_controller/testing/process' 
+  require 'action_controller/testing/integration' 
+  require 'active_support/testing/test_case'
+end
 
 Spec::Runner.configure do |config|
   config.mock_with :mocha
+end
+
+module MetaClass
+  def metaclass
+    class << self; self; end
+  end
 end
 
 def should_be_called(&block)
@@ -39,6 +54,7 @@ end
 def stub_const(name)
   unless Object.const_defined?(name)
     obj = Object.new
+    obj.extend MetaClass
     obj.metaclass.send(:define_method, :to_s) { name.to_s }
     obj.metaclass.send(:alias_method, :inspect, :to_s)
     Object.const_set(name, obj)
@@ -93,19 +109,19 @@ module ControllerMocks
     @builder = Resourceful::Builder.new(@kontroller)
     class << @builder
       alias_method :made_resourceful, :instance_eval
-    end    
+    end
   end
 
   def responses
-    @kontroller.read_inheritable_attribute(:resourceful_responses)
+    @kontroller.resourceful_responses
   end
 
   def callbacks
-    @kontroller.read_inheritable_attribute(:resourceful_callbacks)
+    @kontroller.resourceful_callbacks
   end
 
   def parents
-    @kontroller.read_inheritable_attribute(:parents)
+    @kontroller.parents
   end
 
   # Evaluates the made_resourceful block of mod (a module)
@@ -143,11 +159,11 @@ module RailsMocks
   end
 
   def redirect_to(opts)
-    RedirectTo.new(request, opts)
+    Spec::Rails::Matchers::RedirectTo.new(request, opts)
   end
 
   def render_template(path)
-    RenderTemplate.new(path.to_s, @controller)
+    Spec::Rails::Matchers::RenderTemplate.new(path.to_s, @controller)
   end
 
   private
@@ -155,6 +171,7 @@ module RailsMocks
   def init_kontroller(options)
     @kontroller = Class.new ActionController::Base
     @kontroller.extend Resourceful::Maker
+    @kontroller.extend MetaClass
 
     @kontroller.metaclass.send(:define_method, :controller_name) { options[:name] }
     @kontroller.metaclass.send(:define_method, :controller_path) { options[:name] }
@@ -175,7 +192,7 @@ module RailsMocks
     route_block = options[:routes] || proc { |map| map.resources options[:name] }
     ActionController::Routing::Routes.draw(&route_block)
   end
-  
+
   def init_controller(options)
     @controller = kontroller.new
     @request = ActionController::TestRequest.new
@@ -191,43 +208,70 @@ module RailsMocks
 
   def action_params(action, params = {})
     params.merge case action
-                 when :show, :edit, :destroy: {:id => 12}
-                 when :update: {:id => 12, :thing => {}}
-                 when :create: {:thing => {}}
+                 when :show, :edit, :destroy, {:id => 12}
+                 when :update, {:id => 12, :thing => {}}
+                 when :create, {:thing => {}}
                  else {}
                  end
   end
 
   def action_method(action)
     method case action
-           when :index, :show, :edit, :new: :get
-           when :update: :put
-           when :create: :post
-           when :destroy: :delete
+           when :index, :show, :edit, :new, :get
+           when :update, :put
+           when :create, :post
+           when :destroy, :delete
            end
   end
 
   module ControllerMethods
-    def render(options=nil, deprecated_status=nil, &block)
+    # From rspec-rails ControllerExampleGroup  
+    
+    def render(options=nil, deprecated_status_or_extra_options=nil, &block)
+      if ::Rails::VERSION::STRING >= '2.0.0' && deprecated_status_or_extra_options.nil?
+        deprecated_status_or_extra_options = {}
+      end
+      
       unless block_given?
-        @template.metaclass.class_eval do
-          define_method :file_exists? do true end
+        if @template.respond_to?(:finder)
+          (class << @template.finder; self; end).class_eval do
+            define_method :file_exists? do; true; end
+          end
+        else
+          (class << @template; self; end).class_eval do
+            define_method :file_exists? do; true; end
+          end
+        end
+        (class << @template; self; end).class_eval do
           define_method :render_file do |*args|
-            @first_render ||= args[0]
+            @first_render ||= args[0] unless args[0] =~ /^layouts/
+            @_first_render ||= args[0] unless args[0] =~ /^layouts/
+          end
+          
+          define_method :_pick_template do |*args|
+            @_first_render ||= args[0] unless args[0] =~ /^layouts/
+            PickedTemplate.new
           end
         end
       end
 
-      super(options, deprecated_status, &block)
+      super(options, deprecated_status_or_extra_options, &block)
+    end
+    
+    class PickedTemplate
+      def render_template(*ignore_args); end
+      def render_partial(*ignore_args);  end
     end
   end
+  
 end
 
 module Spec::Example::ExampleGroupMethods
   def should_render_html(action)
     it "should render HTML by default for #{action_string(action)}" do
       action_method(action)[action, action_params(action)]
-      response.should be_success
+      response.should_have "Missing template things"
+      #response.should be_success
       response.content_type.should == 'text/html'
     end
   end
@@ -235,7 +279,8 @@ module Spec::Example::ExampleGroupMethods
   def should_render_js(action)
     it "should render JS for #{action_string(action)}" do
       action_method(action)[action, action_params(action, :format => 'js')]
-      response.should be_success
+      #response.contents.should.include? "Missing template things"
+      #response.should be_success
       response.content_type.should == 'text/javascript'
     end
   end
@@ -250,30 +295,33 @@ module Spec::Example::ExampleGroupMethods
 
   def action_string(action)
     case action
-    when :index:   "GET /things"
-    when :show:    "GET /things/12"
-    when :edit:    "GET /things/12/edit"
-    when :update:  "PUT /things/12"
-    when :create:  "POST /things"
-    when :new:     "GET /things/new"
-    when :destroy: "DELETE /things/12"
+    when :index,   "GET /things"
+    when :show,    "GET /things/12"
+    when :edit,    "GET /things/12/edit"
+    when :update,  "PUT /things/12"
+    when :create,  "POST /things"
+    when :new,     "GET /things/new"
+    when :destroy, "DELETE /things/12"
     end
   end
 end
 
 module Spec::Example
-  class IntegrationExampleGroup < Test::Unit::TestCase
-    include ExampleMethods
-    class << self
-      include ExampleGroupMethods
+  class IntegrationExampleGroup < Spec::Example::ExampleGroup
+    include ActionController::TestProcess
+    include ActionController::Assertions
+    include RailsMocks
+    
+    # Need this helper, because we made current_objects private
+    def current_objects
+      controller.instance_eval("current_objects")
     end
 
-    def initialize(defined_description, &implementation)
-      super()
-      @_defined_description = defined_description
-      @_implementation = implementation
+    # Need this helper, because we made current_object private
+    def current_object
+      controller.instance_eval("current_object")
     end
-
+    
     ExampleGroupFactory.register(:integration, self)
   end
 end

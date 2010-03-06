@@ -77,7 +77,7 @@ describe Resourceful::Default::Accessors, "#current_object on a singular control
   before :each do
     mock_controller Resourceful::Default::Accessors
     @controller.stubs(:plural?).returns(false)
-    @controller.stubs(:instance_variable_name).returns("post")
+    @controller.stubs(:controller_name).returns("posts")
 
     @parent = stub('parent')
     @controller.stubs(:parent_object).returns(@parent)
@@ -86,7 +86,7 @@ describe Resourceful::Default::Accessors, "#current_object on a singular control
     @object = stub
   end
 
-  it "should look up the instance object of the parent object" do
+  it "should return the instance object from parent object" do
     @parent.expects(:post).returns(@object)
     @controller.current_object.should == @object
   end
@@ -250,7 +250,7 @@ describe Resourceful::Default::Accessors, " with two parent classes set on the c
     mock_controller Resourceful::Default::Accessors
     @parents = %w{post comment}
     @models = @parents.map(&:camelize).map(&method(:stub_const))
-    @kontroller.write_inheritable_attribute(:parents, @parents)
+    @kontroller.parents = @parents
     @controller.stubs(:singular?).returns(false)
     @controller.stubs(:instance_variable_name).returns('lines')
 
@@ -312,7 +312,7 @@ describe Resourceful::Default::Accessors, " with two parent classes set on the c
     mock_controller Resourceful::Default::Accessors
     @parents = %w{post comment}
     @models = @parents.map(&:camelize).map(&method(:stub_const))
-    @kontroller.write_inheritable_attribute(:parents, @parents)
+    @kontroller.parents = @parents
     @controller.stubs(:params).returns({})
     @controller.stubs(:controller_name).returns('line')
     stub_const('Line')
@@ -342,6 +342,7 @@ describe Resourceful::Default::Accessors, " with no parents" do
     mock_controller Resourceful::Default::Accessors
     @controller.stubs(:parents).returns([])
     @controller.stubs(:current_model_name).returns('Line')
+    @controller.stubs(:params).returns({})
     stub_const 'Line'
   end
 
