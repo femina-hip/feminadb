@@ -53,7 +53,8 @@ Feminadb::Application.routes.draw do
   resource :inventory
   resource :help
 
-  match 'bulk_order/prepare/:q' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
+  match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
+
   match 'login(/:return_to)' => 'account#login', :as => 'login'
   match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
 
