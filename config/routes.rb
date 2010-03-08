@@ -18,6 +18,7 @@ Feminadb::Application.routes.draw do
     resource :club
   end
   match 'customers/:customer_id/tag/create' => 'Tag#create'
+  match 'tag/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
     resources :issues do
@@ -42,11 +43,19 @@ Feminadb::Application.routes.draw do
     end
   end
 
+  resources :modifications
+  resources :reports
+
   resources :special_orders do
     resources :notes
   end
 
+  resource :inventory
   resource :help
+
+  match 'bulk_order/prepare/:q' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
+  match 'login(/:return_to)' => 'account#login', :as => 'login'
+  match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
 
   root :to => 'customers#index'
   match ':controller/service.wsdl' => '#wsdl'
