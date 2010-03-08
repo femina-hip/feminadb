@@ -8,7 +8,7 @@ class ReportGraphsController < ApplicationController
   #   image_tag graph_url(:action => 'show', :id => 42)
 
   def show
-    report_class = Report.const_get(params[:report].classify)
+    report_class = Report.const_get(params[:id].classify)
 
     args = report_class.parameters.collect do |parameter|
       if parameter[:class].ancestors.include? ActiveRecord::Base

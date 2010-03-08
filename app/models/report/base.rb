@@ -1,11 +1,20 @@
 class Report::Base
-
   # Returns an Array of Arrays.
   #
   # Each Array is a row of data. Each cell within that row is of the type
   # which is specified by columns.
   def data
     raise NotImplementedError
+  end
+
+  def id
+    self.class.name.demodulize.underscore
+  end
+
+  alias_method :to_param, :id
+
+  def params
+    {}
   end
 
   # Returns a String for <h2>, etc.

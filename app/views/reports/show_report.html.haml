@@ -18,4 +18,4 @@
             = h format v
 
 %p.report
-  %img{:class => 'report', :alt => 'image', :src => url_for(:overwrite_params => { :controller => 'report_graphs' })}
+  %img{:class => 'report', :alt => 'image', :src => report_graph_path(@report.to_param, @report.params)}

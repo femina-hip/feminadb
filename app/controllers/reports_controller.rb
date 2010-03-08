@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    report_class = Report.const_get(params[:report].classify)
+    report_class = Report.const_get(params[:id].classify)
 
     args = report_class.parameters.collect do |parameter|
       if parameter[:class].ancestors.include? ActiveRecord::Base
@@ -25,15 +25,15 @@ class ReportsController < ApplicationController
     render :action => 'show_report'
   end
 
-  def issues_per_region
-    @issue = Issue.find(params[:issue_id])
-    @report = Report::IssuesPerRegion.new(@issue)
-    render :action => 'show_report'
-  end
-
-  def issues_per_person_per_region
-    @issue = Issue.find(params[:issue_id])
-    @report = Report::IssuesPerPersonPerRegion.new(@issue)
-    render :action => 'show_report'
-  end
+#  def issues_per_region
+#    @issue = Issue.find(params[:issue_id])
+#    @report = Report::IssuesPerRegion.new(@issue)
+#    render :action => 'show_report'
+#  end
+#
+#  def issues_per_person_per_region
+#    @issue = Issue.find(params[:issue_id])
+#    @report = Report::IssuesPerPersonPerRegion.new(@issue)
+#    render :action => 'show_report'
+#  end
 end

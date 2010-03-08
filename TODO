@@ -7,3 +7,4 @@
 - replace tooltip widget. %span.glossary[%span.term,definition]
 - Fix "refine" button
 - Fix customer.special_order_lines ordering
+- Fix param-ful reports

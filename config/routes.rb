@@ -44,7 +44,8 @@ Feminadb::Application.routes.draw do
   end
 
   resources :modifications
-  resources :reports
+  resources :reports, :only => [ :index, :show ]
+  resources :report_graphs, :only => [ :show ]
 
   resources :special_orders do
     resources :notes
@@ -53,7 +54,9 @@ Feminadb::Application.routes.draw do
   resource :inventory
   resource :help
 
+  match 'issues_select' => 'issues_select#browse', :as => 'issues_select'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
+  match 'publication_district_breakdown' => 'publication_district_breakdown#index', :as => 'publication_district_breakdown'
 
   match 'login(/:return_to)' => 'account#login', :as => 'login'
   match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
