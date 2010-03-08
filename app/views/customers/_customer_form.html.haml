@@ -11,10 +11,10 @@
       %td= f.text_field :name
     %tr
       %th Type
-      %td= f.customer_type_select :customer_type_id
+      %td= f.customer_type_field :customer_type_id
     %tr
       %th Region
-      %td= f.select :region_id, Region.where(:deleted_at => nil).order(:name).all.collect{|r| [ r.name, r.id ]}
+      %td= f.region_field :region_id
     %tr.last
       %th District
       %td= f.text_field :district
@@ -29,22 +29,25 @@
     %tr
       %th
         Deliver Via
-        - tooltip do
-          %p Company to which Femina will send Issues
+        -#FIXME: tooltip
+        -#- tooltip do
+        -#  %p Company to which Femina will send Issues
       %td= f.text_field :deliver_via
     %tr
       %th
         Route
-        - tooltip do
-          %p
-            Order in which to deliver. This should be a name of a route and
-            then a number: for instance, <b>city07</b>.
+        -#FIXME: tooltip
+        -#- tooltip do
+        -#  %p
+        -#    Order in which to deliver. This should be a name of a route and
+        -#    then a number: for instance, <b>city07</b>.
       %td= f.text_field :route
     %tr
       %th
         Address
-        - tooltip do
-          %p Instructions for where to actually deliver
+        -#FIXME: tooltip
+        -#- tooltip do
+        -#  %p Instructions for where to actually deliver
       %td= f.text_field :address
     %tr.last
       %th PO Box

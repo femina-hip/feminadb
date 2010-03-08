@@ -14,10 +14,10 @@
         %li= link_to 'Customers', customers_path
         %li= link_to 'Clubs', clubs_path
         %li= link_to 'Publications', publications_path
-        %li= link_to 'Inventory', :controller => 'inventory'
+        %li= link_to 'Inventory', inventory_path
         %li= link_to 'Special Orders', special_orders_path
-        %li= link_to 'Reports', :controller => 'reports'
-        %li= link_to 'Help', :controller => 'helps', :doc => 'index'
+        %li= link_to 'Reports', reports_path
+        %li= link_to 'Help', help_path
       - if current_user.has_role?('admin')
         .admin
           %p Admin:
@@ -33,10 +33,10 @@
         - if logged_in?
           Logged in as
           %span.login= h current_user.login
-          = link_to 'Log out', { :controller => 'account', :action => 'logout', :return_to => request.request_uri}, :method => :post
+          = link_to('Log out', logout_path(request.request_uri), :method => :post)
         - else
           %b Not logged in
-          = link_to 'Log in', { :controller => 'account', :action => 'login', :return_to => request.request_uri }
+          = link_to('Log in', login_path(request.request_uri))
 
     - if flash[:notice]
       .flash= flash[:notice]
