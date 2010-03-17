@@ -3,6 +3,7 @@ source 'http://gemcutter.org'
 gem "rails", "3.0.0.beta"
 
 gem 'acts_as_reportable', '1.1.1'
+gem 'exception_notifier', '1.0.0'
 gem 'gruff', '0.3.6'
 gem 'haml', '2.2.20'
 gem 'mysql', '2.8.1'

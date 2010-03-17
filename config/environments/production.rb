@@ -30,4 +30,11 @@ Feminadb::Application.configure do
 
   # Enable threaded mode
   # config.threadsafe!
+
+
+  config.middleware.use(ExceptionNotifier,
+    :email_prefix => '[FeminaDB] ',
+    :sender_address => 'FeminaDB <adam@adamhooper.com>',
+    :exception_recipients => %w{adam@adamhooper.com}
+  )
 end
