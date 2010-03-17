@@ -21,7 +21,15 @@ Feminadb::Application.routes.draw do
   match 'tag/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
+    member do
+      get :issue_district_breakdown
+    end
+
     resources :issues do
+      member do
+        get :orders_in_district
+      end
+
       resources :notes
       resources :orders do
         member do

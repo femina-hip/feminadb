@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_special_order_lines, :show_distribution_order ]
+  require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_special_order_lines, :show_distribution_order, :orders_in_district ]
   before_filter :get_publication
 
   make_resourceful do
@@ -77,6 +77,14 @@ class IssuesController < ApplicationController
       :include => { :special_order => :requested_by_user },
       :order => 'special_orders.requested_at DESC'
     )
+  end
+
+  def orders_in_district
+    @issue = Issue.find(params[:id])
+    @region = Region.find(params[:region_id])
+    @district = params[:district]
+
+    @orders = Order.where(:region_id => @region.id, :district => @district, :issue_id => @issue.id).order('num_copies DESC').all
   end
 
   def authorized_for_generate_orders?

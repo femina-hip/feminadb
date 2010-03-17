@@ -1,5 +1,5 @@
 class PublicationsController < ApplicationController
-  require_role 'edit-publications', :except => [ :index, :show ]
+  require_role 'edit-publications', :except => [ :index, :show, :issue_district_breakdown ]
 
   make_resourceful do
     actions :index, :new, :create, :edit, :update
@@ -55,6 +55,11 @@ class PublicationsController < ApplicationController
         format.xml  { render :xml => @delivery_method.errors.to_xml }
       end
     end
+  end
+
+  def issue_district_breakdown
+    @publication = Publication.find(params[:id])
+    @data = IssueDistrictBreakdown.new(@publication).data
   end
 
   protected

@@ -30,4 +30,4 @@
             %td
           - else
             %td.num-copies
-              = link_to number_with_delimiter(value), { :action => 'orders', :publication_id => @publication.id, :issue_id => issue.id, :region_id => region.id, :district => district }
+              = link_to(number_with_delimiter(value), orders_in_district_publication_issue_path(issue.publication, issue, :region_id => region.id, :district => district))

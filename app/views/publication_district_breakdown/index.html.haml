@@ -14,7 +14,7 @@
       %th Region
       %th District
       - @publications.each do |publication|
-        %th= link_to publication.name, :controller => 'issue_district_breakdown', :publication_id => publication.id
+        %th= link_to(publication.name, issue_district_breakdown_publication_path(publication))
   %tbody
     - @data.each do |region_name, district, values|
       %tr{:class => cycle('odd', 'even')}

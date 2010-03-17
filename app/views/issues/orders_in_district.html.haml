@@ -6,7 +6,7 @@
 
   %p
     You are looking at fine details: you may want to
-    = link_to 'zoom out', { :action => 'index', :publication_id => params[:publication_id] }
+    = link_to('zoom out', issue_district_breakdown_publication_path(@issue.publication))
 
 %table{:class => 'issue-district-breakdown-orders'}
   %thead
