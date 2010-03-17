@@ -62,6 +62,11 @@ class PublicationsController < ApplicationController
     @data = IssueDistrictBreakdown.new(@publication).data
   end
 
+  def district_breakdown
+    @publications = Publication.where(:deleted_at => nil).order(:name).all
+    @data = PublicationDistrictBreakdown.new.data
+  end
+
   protected
 
   def current_objects

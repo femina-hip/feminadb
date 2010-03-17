@@ -21,6 +21,10 @@ Feminadb::Application.routes.draw do
   match 'tag/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
+    collection do
+      get :district_breakdown
+    end
+
     member do
       get :issue_district_breakdown
     end
@@ -64,7 +68,6 @@ Feminadb::Application.routes.draw do
 
   match 'issues_select' => 'issues_select#browse', :as => 'issues_select'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
-  match 'publication_district_breakdown' => 'publication_district_breakdown#index', :as => 'publication_district_breakdown'
 
   match 'login(/:return_to)' => 'account#login', :as => 'login'
   match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
