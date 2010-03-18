@@ -1,24 +1,20 @@
 -# Required variables: "f", a form_for
 %p
-  %b Abbreviation:
+  %b
+    %abbr{:title => 'Shown when there is very little space'} Abbreviation:
   = f.text_field :abbreviation
-  - tooltip do
-    %p Shown when there is very little room
 %p
-  %b Name:
+  %b
+    %abbr{:title => 'Short name of the delivery method'} Name:
   = f.text_field :name
-  - tooltip do
-    %p Short name of the delivery method
 %p
-  %b Description:
+  %b
+    %abbr{:title => 'Clarification of how the delivery occurs'} Description:
   = f.text_field :description
-  - tooltip do
-    %p Clarification of how the delivery occurs
 %p
-  %b Warehouse:
+  %b
+    %abbr{:title => 'Which warehouse the Issues come from'} Warehouse:
   = f.select :warehouse_id, Warehouse.where(:deleted_at => nil).order(:name).all.collect{|w| [ w.name, w.id]}
-  - tooltip do
-    %p Which warehouse the Issues come from
 %p
   %label
     = f.check_box :include_in_distribution_quote_request

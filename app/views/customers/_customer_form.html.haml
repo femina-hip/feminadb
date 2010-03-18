@@ -28,26 +28,15 @@
       %td= f.select :delivery_method_id, DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
     %tr
       %th
-        Deliver Via
-        -#FIXME: tooltip
-        -#- tooltip do
-        -#  %p Company to which Femina will send Issues
+        %abbr{:title => 'Company to which Femina will send Issues'} Deliver Via
       %td= f.text_field :deliver_via
     %tr
       %th
-        Route
-        -#FIXME: tooltip
-        -#- tooltip do
-        -#  %p
-        -#    Order in which to deliver. This should be a name of a route and
-        -#    then a number: for instance, <b>city07</b>.
+        %abbr{:title => 'Order in which to deliver. This should be the name of a route and then a number: for instance, "city07"'} Route
       %td= f.text_field :route
     %tr
       %th
-        Address
-        -#FIXME: tooltip
-        -#- tooltip do
-        -#  %p Instructions for where to actually deliver
+        %abbr{:title => 'Instructions for where to actually deliver'} Address
       %td= f.text_field :address
     %tr.last
       %th PO Box

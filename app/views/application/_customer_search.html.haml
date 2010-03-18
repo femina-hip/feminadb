@@ -7,43 +7,7 @@
   %table
     %tr
       %td
-        %label{:for => 'customer_search_q'}
-          Search:
-          %div.tooltip{:style => 'display:none'}
-            %p Enter a search term here
-            %p Example searches:
-            %ul
-              %li
-                %b save children
-                finds Customers containing <q>save</q> and <q>children</q>
-              %li
-                %b &quot;the children&quot;
-                finds Customers containing <q>the children</q>
-              %li
-                %b save OR children
-                finds Customers containing <q>save</q> or <q>children</q>
-              %li
-                %b sav*
-                finds Customers containing a word starting with <q>sav</q>
-              %li
-                %b sav~
-                finds Customers containing text sort of like <q>sav</q>
-              %li
-                %b region:arusha awet
-                finds "awet" in Arusha
-              %li
-                %b type:ngo OR type:ingo
-                finds NGOs and INGOs
-              %li
-                %b type:ngo AND NOT region:Arusha
-                finds NGOs outside Arusha
-              %li
-                %b NOT type:U
-                finds Customers we have classified
-              %li
-                %b type:SS AND club:no
-                finds schools without clubs
-            %p Fields: po, region, district, via, address, name, delivery_method, club, tag
+        %label{:for => 'customer_search_q'} Search:
       %td.stretch
         = text_field_tag(:q, params[:q], :id => 'customer_search_q')
       %td

@@ -8,11 +8,7 @@
       %th Name
       %th Description
       %th
-        Quote?
-        - tooltip do
-          %p
-            If Yes, Orders with this Delivery Method will be included in
-            Distribution Quote Requests.
+        %abbr{:title => 'If Yes, Orders with this Delivery Method will be included in Distribution Quote Requests'} Quote?
       %th
   %tbody
     - @delivery_methods.each do |delivery_method|
