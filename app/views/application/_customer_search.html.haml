@@ -7,7 +7,7 @@
   %table
     %tr
       %td
-        %label{:for => :q}
+        %label{:for => 'customer_search_q'}
           Search:
           %div.tooltip{:style => 'display:none'}
             %p Enter a search term here
@@ -45,10 +45,10 @@
                 finds schools without clubs
             %p Fields: po, region, district, via, address, name, delivery_method, club, tag
       %td.stretch
-        = text_field_tag :q, params[:q]
+        = text_field_tag(:q, params[:q], :id => 'customer_search_q')
       %td
         = submit_tag 'Search'
-        = submit_tag 'Show All Customers', :onclick => 'javascript:$("q").value = ""; form.submit();'
+        = submit_tag('Show All Customers', :id => 'customer_search_reset')
   %table.refine-search
     %tr
       %td
@@ -57,8 +57,8 @@
       %td
         %label
           Search for
-          %select{:id => 'refine_term', :name => 'refine_term'}
-            %option{:value => ' '} (Anything)
+          %select{:id => 'customer_search_refine_term', :name => 'refine_term'}
+            %option{:value => ''} (Anything)
             %option{:value => 'region'} Region
             %option{:value => 'district'} District
             %option{:value => 'category'} Category
@@ -70,10 +70,9 @@
             %option{:value => 'delivery_method'} Delivery Method
             %option{:value => 'club'} Has club? ('yes' or 'no')
             %option{:value => 'tag'} Tag
-        %label{:for => :refine_q}
+        %label{:for => 'customer_search_refine_q'}
           containing
       %td.stretch
-        = text_field_tag :refine_q
+        = text_field_tag('customer_search_refine_q')
       %td
-        = submit_tag 'Refine'
-
+        = submit_tag('Refine', :id => 'customer_search_refine_submit')

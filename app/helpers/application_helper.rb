@@ -4,6 +4,7 @@ require 'lib/customer_type_selector'
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include Glossary
+  include HtmlNamespacing::Plugin::Rails::Helpers
   include Forms::ApplicationHelper
 
   def render_loading
