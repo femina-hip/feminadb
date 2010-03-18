@@ -1,4 +1,6 @@
 class SpecialOrder < ActiveRecord::Base
+  extend DateField
+
   # acts_as_paranoid
   versioned
   acts_as_reportable
@@ -41,6 +43,8 @@ class SpecialOrder < ActiveRecord::Base
         :conditions => 'special_orders.completed_by IS NOT NULL'
   scope :incomplete_approved, :conditions => 'special_orders.approved = 1 AND special_orders.completed_by IS NULL'
   scope :denied, :conditions => 'special_orders.approved = 0 AND special_orders.authorized_by IS NOT NULL'
+
+  date_field :requested_for_date
 
   def approve
     if state != :pending

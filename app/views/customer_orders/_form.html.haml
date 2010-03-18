@@ -13,7 +13,7 @@
       %td= f.text_field :num_copies
     %tr
       %th Order Date
-      %td= f.calendar_date_select :order_date
+      %td= f.date_field :order_date
     %tr
       %th Delivery Method
       %td= f.select :delivery_method_id, DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}

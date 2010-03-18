@@ -6,4 +6,8 @@ module Forms::ApplicationHelper
   def customer_type_field(object_name, method, options = {})
     select(object_name, method, CustomerType.where(:deleted_at => nil).order(:name).all.collect{|ct| ["#{ct.name}: #{ct.description}", ct.id]}, options)
   end
+
+  def date_field(object_name, method, options = {})
+    text_field(object_name, "#{method}_string", :class => 'date_field')
+  end
 end

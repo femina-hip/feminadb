@@ -1,4 +1,6 @@
 class Issue < ActiveRecord::Base
+  extend DateField
+
   class DoesNotFitInBoxesException < Exception; end
 
   # acts_as_paranoid
@@ -41,6 +43,8 @@ class Issue < ActiveRecord::Base
                       :with => /\A[-\.A-Za-z0-9]+\Z$/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
   validate :validate_issue_box_sizes_string
+
+  date_field :issue_date
 
   # Returns "Publication 2.3: name"
   def full_name

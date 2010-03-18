@@ -14,7 +14,7 @@
 = error_messages_for :special_order
 
 - form_for(:special_order, :url => { :action => 'create' }) do |f|
-  %table{:class => 'special-order'}
+  %table.special-order
     %tbody
       %tr{:class => cycle('odd', 'even')}
         %th Entered by
@@ -33,9 +33,9 @@
         %td= f.text_field :reason
       %tr{:class => cycle('odd', 'even')}
         %th Date Needed
-        %td= f.calendar_date_select :requested_for_date
-  %table{:class => 'special-order-lines'}
-    %thead{:class => 'title'}
+        %td= f.date_field :requested_for_date
+  %table.special-order-lines
+    %thead.title
       %tr
         %th{:colspan => 3} Copies Ordered
     %thead

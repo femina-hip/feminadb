@@ -48,7 +48,7 @@
     %p
       %label
         Date to set on each Order:
-        = calendar_date_select_tag 'order_date', nil, :value => Date.today
+        = input_tag('order_date', nil, :value => Date.today, :type => 'text', :class => 'date_field')
 
     %p
       %label

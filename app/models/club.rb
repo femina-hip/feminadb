@@ -1,4 +1,6 @@
 class Club < ActiveRecord::Base
+  extend DateField
+
   versioned
   # acts_as_paranoid
   acts_as_reportable
@@ -6,6 +8,8 @@ class Club < ActiveRecord::Base
   validates_presence_of :customer_id
   validates_uniqueness_of :customer_id
   validates_presence_of :name
+
+  date_field :date_founded
 
   belongs_to :customer
   belongs_to :updated_by_user,
