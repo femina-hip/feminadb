@@ -14,7 +14,7 @@
 %p
   %b
     %abbr{:title => 'Which warehouse the Issues come from'} Warehouse:
-  = f.select :warehouse_id, Warehouse.where(:deleted_at => nil).order(:name).all.collect{|w| [ w.name, w.id]}
+  = f.warehouse_field(:warehouse_id)
 %p
   %label
     = f.check_box :include_in_distribution_quote_request

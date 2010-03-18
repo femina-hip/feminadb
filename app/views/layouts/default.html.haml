@@ -48,8 +48,8 @@
 
     .footer
       %ul
-        %li= link_to 'Recent Data Changes', :controller => 'modifications'
-        %li= link_to 'Problems', 'http://bugs/projects/list_issues/1'
+        %li= link_to('Recent Data Changes', modifications_path)
+        %li= link_to('Problems', 'http://bugs/projects/list_issues/1')
 
     #loading{:style => "display: none; background: url(#{image_path('fade.png')}) repeat;"}
       .frame

@@ -4,4 +4,3 @@
 - Reimplement acts_as_paranoid, manually
 - Fix customer.special_order_lines ordering
 - Fix param-ful reports
-- Fix make_resourceful actions

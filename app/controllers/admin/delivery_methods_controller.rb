@@ -1,4 +1,4 @@
-class DeliveryMethodsController < ApplicationController
+class Admin::DeliveryMethodsController < ApplicationController
   require_role 'admin'
 
   make_resourceful do

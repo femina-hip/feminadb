@@ -10,4 +10,8 @@ module Forms::ApplicationHelper
   def date_field(object_name, method, options = {})
     text_field(object_name, "#{method}_string", :class => 'date_field')
   end
+
+  def warehouse_field(object_name, method, options = {})
+    select(object_name, method, Warehouse.order(:name).all.collect{|w| [w.name, w.id]})
+  end
 end

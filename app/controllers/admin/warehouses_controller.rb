@@ -1,4 +1,4 @@
-class WarehousesController < ApplicationController
+class Admin::WarehousesController < ApplicationController
   require_role 'admin'
 
   make_resourceful do
@@ -30,6 +30,6 @@ class WarehousesController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= Warehouse.where(:deleted_at => nil).order(:name).all
+    @current_objects ||= Warehouse.order(:name).all
   end
 end

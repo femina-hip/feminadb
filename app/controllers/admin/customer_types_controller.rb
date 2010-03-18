@@ -1,4 +1,4 @@
-class CustomerTypesController < ApplicationController
+class Admin::CustomerTypesController < ApplicationController
   require_role 'admin'
 
   make_resourceful do

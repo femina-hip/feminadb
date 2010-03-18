@@ -1,4 +1,4 @@
-class RegionsController < ApplicationController
+class Admin::RegionsController < ApplicationController
   require_role 'admin'
 
   make_resourceful do
