@@ -53,17 +53,6 @@ table {
 p.actions {
   text-align: center; }
 
-div.tooltip {
-  color: black;
-  font-size: 10pt; }
-  div.tooltip h1 {
-    font-size: 1em;
-    font-weight: bold;
-    padding: 0; }
-  div.tooltip a {
-    background: inherit !important;
-    color: #cc0000 !important; }
-
 abbr {
   border-bottom: 1px dotted gray; }
 
