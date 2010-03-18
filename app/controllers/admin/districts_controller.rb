@@ -1,4 +1,4 @@
-class DistrictsController < ApplicationController
+class Admin::DistrictsController < ApplicationController
   require_role 'edit-districts'
 
   # GET /districts
