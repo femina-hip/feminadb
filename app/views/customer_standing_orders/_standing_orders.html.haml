@@ -4,7 +4,7 @@
   %thead.title
     %tr
       %th{:colspan => (current_user.has_role?('edit-orders') ? 4 : 3)}
-        = glossary_term_and_tooltip 'Standing Orders'
+        = glossary_term('Standing Orders')
   %thead
     %tr
       %th Publication

@@ -7,10 +7,10 @@
 %table.issue
   %tbody
     %tr{:class => cycle('odd', 'even')}
-      %th= glossary_term_and_tooltip('Publication')
+      %th= glossary_term('Publication')
       %td= link_to @publication.name, @publication
     %tr{:class => cycle('odd', 'even')}
-      %th= glossary_term_and_tooltip('Issue Number')
+      %th= glossary_term('Issue Number')
       %td= @issue.issue_number
     %tr{:class => cycle('odd', 'even')}
       %th Name

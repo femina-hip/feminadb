@@ -1,6 +1,6 @@
 body {
   background: #fffbd9;
-  color: #000000;
+  color: black;
   margin: 0;
   font-family: Verdana, sans-serif; }
 
@@ -64,6 +64,9 @@ div.tooltip {
     background: inherit !important;
     color: #cc0000 !important; }
 
+abbr {
+  border-bottom: 1px dotted gray; }
+
 div.logo {
   float: left;
   width: 168px; }
@@ -98,12 +101,12 @@ table.customers, table.clubs, table.approved-special-orders, table.pending-speci
     font-weight: bold;
     background: #cc061e; }
   table.customers tbody tr.subtotal, table.clubs tbody tr.subtotal, table.approved-special-orders tbody tr.subtotal, table.pending-special-orders tbody tr.subtotal, table.packing-instructions tbody tr.subtotal, table.publication-standing-orders tbody tr.subtotal, table.publication-waiting-orders tbody tr.subtotal, table.customer-orders tbody tr.subtotal, table.customer-special-orders tbody tr.subtotal, table.customer-standing-orders tbody tr.subtotal, table.customer-waiting-orders tbody tr.subtotal, table.customer-special-order-lines tbody tr.subtotal, table.customer-notes tbody tr.subtotal, table.issue-orders tbody tr.subtotal, table.issue-notes tbody tr.subtotal, table.special-orders tbody tr.subtotal, table.special-order-notes tbody tr.subtotal, table.report tbody tr.subtotal, table.issue-special-order-lines tbody tr.subtotal, table.distribution-quote-request tbody tr.subtotal, table.distribution-list tbody tr.subtotal, table.publication-district-breakdown tbody tr.subtotal, table.issue-district-breakdown tbody tr.subtotal, table.issue-district-breakdown-orders tbody tr.subtotal, table.customer-types tbody tr.subtotal, table.inventory tbody tr.subtotal, table.users tbody tr.subtotal, table.regions tbody tr.subtotal, table.warehouses tbody tr.subtotal, table.delivery-methods tbody tr.subtotal {
-    background: #000000;
+    background: black;
     border-top: 2px solid #009ee0;
     border-bottom: 2px solid #009ee0;
     font-weight: bold; }
   table.customers tbody tr.subsubtotal, table.clubs tbody tr.subsubtotal, table.approved-special-orders tbody tr.subsubtotal, table.pending-special-orders tbody tr.subsubtotal, table.packing-instructions tbody tr.subsubtotal, table.publication-standing-orders tbody tr.subsubtotal, table.publication-waiting-orders tbody tr.subsubtotal, table.customer-orders tbody tr.subsubtotal, table.customer-special-orders tbody tr.subsubtotal, table.customer-standing-orders tbody tr.subsubtotal, table.customer-waiting-orders tbody tr.subsubtotal, table.customer-special-order-lines tbody tr.subsubtotal, table.customer-notes tbody tr.subsubtotal, table.issue-orders tbody tr.subsubtotal, table.issue-notes tbody tr.subsubtotal, table.special-orders tbody tr.subsubtotal, table.special-order-notes tbody tr.subsubtotal, table.report tbody tr.subsubtotal, table.issue-special-order-lines tbody tr.subsubtotal, table.distribution-quote-request tbody tr.subsubtotal, table.distribution-list tbody tr.subsubtotal, table.publication-district-breakdown tbody tr.subsubtotal, table.issue-district-breakdown tbody tr.subsubtotal, table.issue-district-breakdown-orders tbody tr.subsubtotal, table.customer-types tbody tr.subsubtotal, table.inventory tbody tr.subsubtotal, table.users tbody tr.subsubtotal, table.regions tbody tr.subsubtotal, table.warehouses tbody tr.subsubtotal, table.delivery-methods tbody tr.subsubtotal {
-    background: #000000;
+    background: black;
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
     font-weight: bold; }
@@ -113,11 +116,11 @@ table.customers thead, table.clubs thead, table.approved-special-orders thead, t
   table.customers thead th, table.clubs thead th, table.approved-special-orders thead th, table.pending-special-orders thead th, table.publication-standing-orders thead th, table.publication-waiting-orders thead th, table.issue-orders thead th, table.special-orders thead th, table.report thead th, table.issue-special-order-lines thead th, table.distribution-list thead th, table.publication-district-breakdown thead th, table.issue-district-breakdown thead th, table.issue-district-breakdown-orders thead th, table.customer-types thead th, table.users thead th, table.regions thead th, table.warehouses thead th, table.delivery-methods thead th {
     font-weight: normal;
     background-color: #cc061e;
-    color: #ffffff;
+    color: white;
     padding: 8px 6px 2px; }
     table.customers thead th a, table.clubs thead th a, table.approved-special-orders thead th a, table.pending-special-orders thead th a, table.publication-standing-orders thead th a, table.publication-waiting-orders thead th a, table.issue-orders thead th a, table.special-orders thead th a, table.report thead th a, table.issue-special-order-lines thead th a, table.distribution-list thead th a, table.publication-district-breakdown thead th a, table.issue-district-breakdown thead th a, table.issue-district-breakdown-orders thead th a, table.customer-types thead th a, table.users thead th a, table.regions thead th a, table.warehouses thead th a, table.delivery-methods thead th a {
       background-color: #cc061e;
-      color: #ffffff;
+      color: white;
       text-decoration: underline; }
 
 table.packing-instructions thead.title, table.customer-orders thead.title, table.customer-special-orders thead.title, table.customer-standing-orders thead.title, table.customer-waiting-orders thead.title, table.customer-special-order-lines thead.title, table.customer-notes thead.title, table.issue-notes thead.title, table.special-order-notes thead.title, table.distribution-quote-request thead.title, table.inventory thead.title {
@@ -125,16 +128,16 @@ table.packing-instructions thead.title, table.customer-orders thead.title, table
   table.packing-instructions thead.title th, table.customer-orders thead.title th, table.customer-special-orders thead.title th, table.customer-standing-orders thead.title th, table.customer-waiting-orders thead.title th, table.customer-special-order-lines thead.title th, table.customer-notes thead.title th, table.issue-notes thead.title th, table.special-order-notes thead.title th, table.distribution-quote-request thead.title th, table.inventory thead.title th {
     font-weight: normal;
     background-color: #cc061e;
-    color: #ffffff;
+    color: white;
     padding: 8px 6px 2px; }
     table.packing-instructions thead.title th a, table.customer-orders thead.title th a, table.customer-special-orders thead.title th a, table.customer-standing-orders thead.title th a, table.customer-waiting-orders thead.title th a, table.customer-special-order-lines thead.title th a, table.customer-notes thead.title th a, table.issue-notes thead.title th a, table.special-order-notes thead.title th a, table.distribution-quote-request thead.title th a, table.inventory thead.title th a {
       background-color: #cc061e;
-      color: #ffffff;
+      color: white;
       text-decoration: underline; }
 table.packing-instructions thead, table.customer-orders thead, table.customer-special-orders thead, table.customer-standing-orders thead, table.customer-waiting-orders thead, table.customer-special-order-lines thead, table.customer-notes thead, table.issue-notes thead, table.special-order-notes thead, table.distribution-quote-request thead, table.inventory thead {
   border: 2px solid #cc061e;
-  background: #000000;
-  color: #ffff00; }
+  background: black;
+  color: yellow; }
   table.packing-instructions thead th, table.customer-orders thead th, table.customer-special-orders thead th, table.customer-standing-orders thead th, table.customer-waiting-orders thead th, table.customer-special-order-lines thead th, table.customer-notes thead th, table.issue-notes thead th, table.special-order-notes thead th, table.distribution-quote-request thead th, table.inventory thead th {
     font-weight: normal; }
 
@@ -266,7 +269,7 @@ table.customer, table.special-order, table.issue, table.club {
     font-weight: normal;
     text-align: left;
     background: #cc061e;
-    color: #ffffff;
+    color: white;
     padding: 10px 4px; }
   table.customer thead.title, table.special-order thead.title, table.issue thead.title, table.club thead.title {
     border: none; }
@@ -294,7 +297,7 @@ table.customer, table.special-order, table.issue, table.club {
   table.customer input, table.customer select, table.customer textarea, table.special-order input, table.special-order select, table.special-order textarea, table.issue input, table.issue select, table.issue textarea, table.club input, table.club select, table.club textarea {
     background: #e4d3ac;
     border: 1px solid #cc061e;
-    color: #000000; }
+    color: black; }
     table.customer input:focus, table.customer select:focus, table.customer textarea:focus, table.special-order input:focus, table.special-order select:focus, table.special-order textarea:focus, table.issue input:focus, table.issue select:focus, table.issue textarea:focus, table.club input:focus, table.club select:focus, table.club textarea:focus {
       background: #e4db9c;
       border-color: #ff3951; }
@@ -336,7 +339,7 @@ table.role-descriptions {
     table.role-descriptions thead th {
       font-weight: normal;
       background-color: #cc061e;
-      color: #ffffff;
+      color: white;
       padding: 10px 2px; }
   table.role-descriptions tbody td {
     vertical-align: top;
@@ -419,7 +422,7 @@ form.refine-search {
 div.nav {
   border-bottom: 4px solid black;
   background: #cc061e;
-  color: #ffffff;
+  color: white;
   padding: .7em; }
   div.nav a {
     color: inherit; }
@@ -453,7 +456,7 @@ div.login {
     margin: .5em; }
 
 div.flash {
-  color: #008000; }
+  color: green; }
 
 div.main {
   margin: 1em; }
@@ -522,18 +525,18 @@ table.attributes {
   table.attributes tbody th {
     text-align: right; }
   table.attributes tr.modified td {
-    background: #000000; }
+    background: black; }
 
 .progress_bar .progress_bar_outside {
   margin: 2em;
   padding: 2px;
   border: 2px solid gray;
   height: 1.5em;
-  background-color: #ffffff; }
+  background-color: white; }
 .progress_bar .progress_bar_inside {
   margin: 0 100% 0 0;
   height: 100%;
-  background-color: #0000ff; }
+  background-color: blue; }
 .progress_bar p {
   margin: 2em;
   text-align: center; }
@@ -574,7 +577,7 @@ table.special-order-lines {
   table.special-order-lines input {
     background: #e4d3ac;
     border: 1px solid #cc061e;
-    color: #000000; }
+    color: black; }
     table.special-order-lines input:focus {
       background: #e4db9c;
       border-color: #ff3951; }
@@ -599,7 +602,7 @@ table.special-order-lines {
   .record-select ol .even a {
     background-color: #f8e4b3; }
   .record-select ol a:hover, .record-select ol .even a:hover {
-    background-color: #ffffff; }
+    background-color: white; }
   .record-select ol .pagination {
     border-top: 1px solid #009ee0; }
   .record-select ol .pagination a {
@@ -610,7 +613,7 @@ table.special-order-lines {
     border: none; }
   .record-select ol .found {
     background-color: #f2d280;
-    color: #000000;
+    color: black;
     border-bottom: 1px solid #009ee0; }
   .record-select div.issue-select-entry label {
     font-weight: bold;

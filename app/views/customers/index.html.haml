@@ -1,11 +1,11 @@
 = render_pretty_header('Customers') do
   %p
     Each Customer can have
-    = glossary_term_and_tooltip('Standing Orders')
+    = glossary_term('Standing Orders')
     to periodical
     = link_to 'Publications', publications_path
     and
-    = glossary_term_and_tooltip('Orders')
+    = glossary_term('Orders')
     for Publications' individual Issues.  Customers also have Notes.
 
 = render(:partial => 'application/customer_search', :locals => { :path => customers_path, :num_results => @customers.total_entries })

@@ -1,7 +1,7 @@
 -# Called with "term" and (maybe-null) "definition"
-%span.glossary
+%div.glossary
   %span.term= term
   - if definition
-    %span.definition
-      = textilize(definition)
-      = link_to('Glossary', 'http://wiki/FeminaDbGlossary', :popup => true)
+    %div.definition
+      %div= definition
+      %p= link_to('Glossary', 'http://wiki/FeminaDbGlossary', :popup => true)
