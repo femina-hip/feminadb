@@ -51,6 +51,10 @@ class Issue < ActiveRecord::Base
     "#{publication.name} #{issue_number}: #{name}"
   end
 
+  def number_and_name
+    "#{issue_number}: #{name}"
+  end
+
   # Returns a string list of issue box sizes
   def issue_box_sizes_string(force_reload = false)
     issue_box_sizes(force_reload).map{|ibs| ibs.num_copies}.sort.join(', ')

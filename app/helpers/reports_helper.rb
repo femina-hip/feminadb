@@ -8,9 +8,9 @@ module ReportsHelper
   end
 
   # Returns a form input tag based on the given report parameter.
-  def html_form_input(p)
+  def html_form_input(p, f)
     if p[:class] == Issue
-      issue_select_tag p[:key]
+      f.issue_field(p[:key])
     else
       raise NotImplementedException
     end

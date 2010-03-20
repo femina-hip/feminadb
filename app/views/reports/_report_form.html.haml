@@ -11,11 +11,11 @@
     - klass.description.each do |line|
       %p= line
 
-    - form_tag(report_path(report_name), :method => :get, :id => form_id) do
+    - form_for(:report, :url => report_path(report_name), :html => { :method => :get, :id => form_id }) do |f|
       %div.parameters
         - klass.parameters.each do |p|
           %p
             %label
-              = h(p[:title] + ':')
-              = html_form_input(p)
-      %p= submit_tag 'Report'
+              = p[:title] + ':'
+              = html_form_input(p, f)
+      %p= f.submit 'Report'

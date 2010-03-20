@@ -12,7 +12,7 @@ class ReportGraphsController < ApplicationController
 
     args = report_class.parameters.collect do |parameter|
       if parameter[:class].ancestors.include? ActiveRecord::Base
-        parameter[:class].find params[parameter[:class].name.foreign_key]
+        parameter[:class].find params[:report][parameter[:class].name.foreign_key]
       elsif parameter[:class] == String
         params[parameter[:class].name.underscore]
       else
