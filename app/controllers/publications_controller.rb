@@ -1,5 +1,5 @@
 class PublicationsController < ApplicationController
-  require_role 'edit-publications', :except => [ :index, :show, :issue_district_breakdown ]
+  require_role 'edit-publications', :except => [ :index, :show, :district_breakdown, :issue_district_breakdown ]
 
   make_resourceful do
     actions :index, :new, :create, :edit, :update
