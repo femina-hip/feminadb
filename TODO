@@ -3,5 +3,4 @@
 - Test that editing club reindexes customer
 - Reimplement acts_as_paranoid, manually
 - Fix customer.special_order_lines ordering
-- Fix param-ful reports
 - Fix search term recognition ("name", etc)

@@ -21,7 +21,10 @@ class ReportGraphsController < ApplicationController
     end
 
     @report = report_class.new *args
-    s = render_to_string :action => report_class.graph_view
-    send_data(s, :disposition => 'inline', :type => 'image/png')
+    respond_to do |format|
+      format.png do
+        render(:action => report_class.graph_view)
+      end
+    end
   end
 end

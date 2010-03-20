@@ -15,7 +15,7 @@ class Report::IssuesPerCategory < Report::Base
     total = sums.inject(0){|t,r| t + r[1]}
 
     d = sums.collect do |c,n|
-      [ c, n, 100.0 * n / total ]
+      [ c || '(deleted)', n, 100.0 * n / total ]
     end
     @data = d.sort{|a,b| b[1] <=> a[1]}
   end

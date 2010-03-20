@@ -2,3 +2,4 @@
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register "application/x-mobile", :mobile
 Mime::Type.register "application/pdf", :pdf
+Mime::Type.register "image/png", :png
