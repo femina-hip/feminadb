@@ -6,3 +6,5 @@
 - Fix search term recognition ("name", etc)
 - mailers
 - bg processes
+- drop issue_select_tag everywhere
+- fix special orders creation

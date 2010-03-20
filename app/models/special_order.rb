@@ -46,21 +46,21 @@ class SpecialOrder < ActiveRecord::Base
 
   date_field :requested_for_date
 
-  def approve
+  def approve(by_user)
     if state != :pending
       @double_approve_or_deny = true
       return
     end
-    write_authorization_timestamps
+    write_authorization_timestamps(by_user)
     write_attribute :approved, true
   end
 
-  def deny
+  def deny(by_user)
     if state != :pending
       @double_approve_or_deny = true
       return
     end
-    write_authorization_timestamps
+    write_authorization_timestamps(by_user)
     write_attribute :approved, false
   end
 
@@ -72,8 +72,8 @@ class SpecialOrder < ActiveRecord::Base
     authorized_by.to_i != 0 and not approved
   end
 
-  def complete
-    write_completed_timestamps
+  def complete(by_user)
+    write_completed_timestamps(by_user)
   end
 
   def completed?
@@ -114,13 +114,13 @@ class SpecialOrder < ActiveRecord::Base
     end
 
   private
-    def write_authorization_timestamps
-      write_attribute :authorized_by, User.current_user.id
+    def write_authorization_timestamps(by_user)
+      write_attribute :authorized_by, by_user.id
       write_attribute :authorized_at, DateTime.now
     end
 
-    def write_completed_timestamps
-      write_attribute :completed_by, User.current_user.id
+    def write_completed_timestamps(by_user)
+      write_attribute :completed_by, by_user.id
       write_attribute :completed_at, DateTime.now
     end
 end

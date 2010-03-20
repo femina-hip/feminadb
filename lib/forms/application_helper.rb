@@ -15,8 +15,19 @@ module Forms::ApplicationHelper
     select(object_name, method, Warehouse.order(:name).all.collect{|w| [w.name, w.id]})
   end
 
+  # issue field
+  #
+  # Options:
+  #  :conditions: extra conditions for search
   def issue_field(object_name, method, options = {})
-    select(object_name, method, Issue.where(:deleted_at => nil).includes(:publication).order(['issues.issue_number DESC', 'publications.name']).all.collect{|i| ["[#{i.publication.name}] #{i.number_and_name}", i.id]}, {}, forms_application_helper_add_class_to_options(options, 'issue_field'))
+    issues = Issue.where(:deleted_at => nil).includes(:publication).order(['issues.issue_number DESC', 'publications.name'])
+    if conditions = options.delete(:conditions)
+      issues = issues.where(conditions)
+    end
+
+    select_options = issues.all.collect{|i| ["[#{i.publication.name}] #{i.number_and_name}", i.id]}
+
+    select(object_name, method, select_options, {}, forms_application_helper_add_class_to_options(options, 'issue_field'))
   end
 
   private

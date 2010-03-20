@@ -42,7 +42,7 @@ class SpecialOrdersController < ApplicationController
   # GET /special_orders/new
   def new
     @special_order = SpecialOrder.new(
-      :requested_by => User.current_user.id,
+      :requested_by => current_user.id,
       :requested_at => DateTime.now,
       :requested_for_date => Date.today
     )
@@ -50,7 +50,7 @@ class SpecialOrdersController < ApplicationController
     if params[:customer_id]
       @special_order.customer_id = params[:customer_id].to_i
     else
-      @special_order.customer_name = User.current_user.login
+      @special_order.customer_name = current_user.login
     end
 
     @special_order.lines.build # Creates a first line
@@ -63,7 +63,7 @@ class SpecialOrdersController < ApplicationController
   # POST /special_orders
   def create
     @special_order = SpecialOrder.new(params[:special_order])
-    @special_order.requested_by = User.current_user.id
+    @special_order.requested_by = current_user.id
     @special_order.requested_at = DateTime.now
     @special_order.customer_name = @special_order.customer.name if @special_order.customer
     params[:lines].each_value do |line|
@@ -83,7 +83,7 @@ class SpecialOrdersController < ApplicationController
     @special_order = SpecialOrder.find(params[:id])
 
     @special_order.attributes = params[:special_order]
-    @special_order.approve
+    @special_order.approve(current_user)
     @special_order.lines.each do |line|
       line.attributes = params[:lines][line.id.to_s]
     end
@@ -117,7 +117,7 @@ class SpecialOrdersController < ApplicationController
     @special_order = SpecialOrder.find(params[:id])
 
     @special_order.attributes = params[:special_order]
-    @special_order.deny
+    @special_order.deny(current_user)
 
     if @special_order.save
       flash[:notice] = 'Special Order was denied.'
@@ -132,7 +132,7 @@ class SpecialOrdersController < ApplicationController
     @special_order = SpecialOrder.find(params[:id])
 
     @special_order.attributes = params[:special_order]
-    @special_order.complete
+    @special_order.complete(current_user)
 
     if @special_order.save
       flash[:notice] = 'Special Order is now complete.'

@@ -46,27 +46,22 @@ Feminadb::Application.routes.draw do
     resources :waiting_orders
   end
 
-  resources :issues_select do
-    collection do
-      get :browse
-    end
-    member do
-      post :select
-    end
-  end
-
   resources :modifications
   resources :reports, :only => [ :index, :show ]
   resources :report_graphs, :only => [ :show ]
 
   resources :special_orders do
+    member do
+      post :approve
+      post :deny
+      post :complete
+    end
     resources :notes
   end
 
   resource :inventory
   resource :help
 
-  match 'issues_select' => 'issues_select#browse', :as => 'issues_select'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
 
   match 'login(/:return_to)' => 'account#login', :as => 'login'

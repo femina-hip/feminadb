@@ -5,6 +5,6 @@
     %td.num-copies-requested
       = fl.text_field :num_copies_requested
     %td.issue-id
-      = issue_select_tag "lines[#{index}][issue_id]", line.issue, :params => { :allows_new_special_orders => true }
+      = fl.issue_field :issue_id, :conditions => { :allows_new_special_orders => true }
     %td
-      = link_to_function('Remove') { |p| p.remove row_id }
+      = link_to('Remove', 'FIXME')
