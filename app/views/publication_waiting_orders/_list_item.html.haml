@@ -1,22 +1,21 @@
 -# Required variables: "waiting_order", the waiting order
 - row_class = cycle 'even', 'odd'
-- row_id = "waiting_order_#{waiting_order.id}_details"
+
 %tr{:class => row_class}
   %td.type
-    %abbr{:title => waiting_order.customer.type.description}= h waiting_order.customer.type.name
-  %td.region= h waiting_order.customer.region.name
-  %td.district= h waiting_order.customer.district
+    %abbr{:title => waiting_order.customer.type.description}= waiting_order.customer.type.name
+  %td.region= waiting_order.customer.region.name
+  %td.district= waiting_order.customer.district
   %td.name
     %div{:style => 'overflow: hidden'}= link_to waiting_order.customer.name, waiting_order.customer
   %td.num-copies= waiting_order.num_copies
-  %td{:class => 'actions'}
-    = link_to_function('details') { |p| p.toggle(row_id) }
-%tr{:id => row_id, :class => row_class, :style => 'display: none;'}
+  %td.actions
+    = link_to('Details', '#', :class => 'details')
+%tr.details{:class => row_class, :style => 'display:none'}
   %td{:colspan => 6}
-    %div
-      %p
-        %b Request Date:
-        = waiting_order.request_date
-      %div
-        %b Comments:
-        .redcloth= textilize waiting_order.comments
+    %p
+      %b Request Date:
+      = waiting_order.request_date
+    %p
+      %b Comments:
+    .redcloth= raw textilize(waiting_order.comments)

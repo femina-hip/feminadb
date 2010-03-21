@@ -44,7 +44,7 @@ Feminadb::Application.routes.draw do
     end
 
     resources :standing_orders, :controller => 'publication_standing_orders'
-    resources :waiting_orders
+    resources :waiting_orders, :controller => 'publication_waiting_orders'
   end
 
   resources :modifications

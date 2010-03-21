@@ -22,7 +22,7 @@
 = will_paginate @waiting_orders
 
 %p.actions
-  = link_to 'Export Data to Excel', formatted_publication_waiting_orders_url(@publication, :csv)
+  = link_to 'Export Data to Excel', publication_waiting_orders_path(@publication, :format => :csv)
 
 %p
   To add a new Waiting Order, go to the
