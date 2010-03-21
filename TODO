@@ -2,9 +2,8 @@
 - Move old modifications into VestalVersions table?
 - Test that editing club reindexes customer
 - Reimplement acts_as_paranoid, manually
-- Fix customer.special_order_lines ordering
 - Fix search term recognition ("name", etc)
 - mailers
 - bg processes
-- drop issue_select_tag everywhere
 - fix special orders creation
+- Fix customer.special_order_lines ordering
