@@ -56,14 +56,12 @@ class SpecialOrdersController < ApplicationController
     @special_order.lines.build # Creates a first line
   end
 
-  def add_new_line
-    @line = SpecialOrderLine.new
-  end
-
   # POST /special_orders
   def create
     @special_order = SpecialOrder.new(params[:special_order])
-    @special_order.requested_by = current_user.id
+    @special_order.updated_by= current_user.id
+    @special_order.updated_at = DateTime.now
+    @special_order.requested_by= current_user.id
     @special_order.requested_at = DateTime.now
     @special_order.customer_name = @special_order.customer.name if @special_order.customer
     params[:lines].each_value do |line|

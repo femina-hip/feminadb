@@ -26,8 +26,9 @@ module Forms::ApplicationHelper
     end
 
     select_options = issues.all.collect{|i| ["[#{i.publication.name}] #{i.number_and_name}", i.id]}
+    selected = options[:object] && options[:object].send(method)
 
-    select(object_name, method, select_options, {}, forms_application_helper_add_class_to_options(options, 'issue_field'))
+    select(object_name, method, select_options, { :selected => selected }, forms_application_helper_add_class_to_options(options, 'issue_field'))
   end
 
   private

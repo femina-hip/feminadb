@@ -1,4 +1,0 @@
-page.insert_html :bottom, :lines, :partial => 'new_line',
-                 :locals => { :line => @line, :index => params[:index] }
-page.replace :add_line_link, :partial => 'add_line_link',
-                 :locals => { :index => (params[:index].to_i + 1) }

@@ -3,10 +3,6 @@ class SpecialOrderLine < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
-
   belongs_to :special_order
   belongs_to :issue
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100226031231) do
+ActiveRecord::Schema.define(:version => 20100321234420) do
 
   create_table "club_versions", :force => true do |t|
     t.integer  "club_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20100226031231) do
     t.text     "cooperation_ideas",                       :null => false
     t.datetime "updated_at",                              :null => false
     t.integer  "updated_by",                              :null => false
-    t.integer  "version",                                 :null => false
+    t.integer  "version"
     t.datetime "deleted_at"
   end
 
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(:version => 20100226031231) do
     t.string   "color",      :null => false
     t.datetime "updated_at", :null => false
     t.string   "updated_by", :null => false
-    t.integer  "version",    :null => false
+    t.integer  "version"
     t.datetime "deleted_at"
   end
 
@@ -348,8 +348,8 @@ ActiveRecord::Schema.define(:version => 20100226031231) do
     t.integer  "num_copies_requested", :null => false
     t.integer  "num_copies"
     t.datetime "updated_at",           :null => false
-    t.integer  "updated_by",           :null => false
-    t.integer  "version",              :null => false
+    t.integer  "updated_by"
+    t.integer  "version"
     t.datetime "deleted_at"
   end
 
@@ -396,8 +396,8 @@ ActiveRecord::Schema.define(:version => 20100226031231) do
     t.integer  "authorized_by"
     t.datetime "authorized_at"
     t.datetime "updated_at",                            :null => false
-    t.integer  "updated_by",                            :null => false
-    t.integer  "version",                               :null => false
+    t.integer  "updated_by"
+    t.integer  "version"
     t.datetime "deleted_at"
     t.integer  "requested_by",       :default => 0,     :null => false
     t.string   "authorize_comments", :default => "",    :null => false
@@ -492,7 +492,7 @@ ActiveRecord::Schema.define(:version => 20100226031231) do
     t.string   "comments",       :default => "", :null => false
     t.datetime "updated_at",                     :null => false
     t.integer  "updated_by",                     :null => false
-    t.integer  "version",                        :null => false
+    t.integer  "version"
     t.datetime "deleted_at"
     t.date     "request_date",                   :null => false
   end
