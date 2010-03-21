@@ -1,5 +1,4 @@
 class IssueOrdersController < ApplicationController
-  include CustomersQueryRewriter
   include ActsAsReportableControllerHelper
 
   require_role 'edit-orders', :except => [ :index ]
@@ -11,25 +10,18 @@ class IssueOrdersController < ApplicationController
   # GET /publications/1/issues/1/orders
   # GET /publications/1/issues/1/orders.xml
   def index
-    conditions = {}
-    if customers_query(requested_q) != '*'
-      customers = Customer.find_by_contents(
-        customers_query(requested_q),
-        {},
-        :include => [ :orders ],
-        :conditions => [ 'orders.issue_id = ?', @issue.id ]
-      )
-      conditions[:customer_id] = customers.collect(&:id)
+    conditions = { :issue_id => @issue.id }
+    if requested_q != ''
+      q = requested_q
+      lots = 999999
+      all_ids = Customer.search_ids do
+        CustomersSearcher.apply_query_string_to_search(q)
+        paginate(:page => 1, :per_page => lots)
+      end
+      conditions[:customer_id] = Customer.includes(:orders).where('orders.issue_id' => @issue.id, :id => all_ids).collect(&:id)
     end
 
-    @orders = Order.paginate_by_issue_id(
-      @issue.id,
-      :order => 'delivery_methods.name, regions.name, orders.district, orders.customer_name',
-      :include => requested_include,
-      :conditions => conditions,
-      :page => requested_page,
-      :per_page => requested_per_page
-    )
+    @orders = Order.includes(requested_include).where(conditions).order('delivery_methods.name, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |format|
       format.html # index.haml

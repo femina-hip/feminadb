@@ -33,7 +33,7 @@
 = will_paginate @clubs
 
 %p.actions
-  = link_to 'Export Data to Excel', formatted_clubs_path(:csv, params.slice(:q))
+  = link_to 'Export Data to Excel', clubs_path(:format => :csv, :q => params[:q])
 
 %p
   To create a new Club,

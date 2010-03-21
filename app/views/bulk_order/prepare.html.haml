@@ -6,60 +6,69 @@
     Customers getting new orders.
 
   - if @creation_type == :customers
-    %p= "You found these Customers by searching for <q><b>#{h(params[:q])}</b></q>."
+    %p
+      You found these Customers by searching for
+      %b= @bulk_order.q
 
   - elsif @creation_type == :publication
-    %p= "You found these Customers by searching for <q><b>#{h(params[:q])}</b></q> on the list of Standing Orders for <b>#{h(@from_publication.name)}</b>."
+    %p
+      You found these Customers by searching for
+      %b= @bulk_order.q
+      on the list of Standing Orders for
+      %b= @from_publication.name
 
   - else
-    %p= "You found these Customers by searching for <q><b>#{h(params[:q])}</b></q> on the list of Orders for <b>#{h(@from_issue.full_name)}</b>."
+    %p
+      You found these Customers by searching for
+      %b= @bulk_order.q
+      on the list of Orders for
+      %b= @from_issue.full_name
 
   %p
     After filling in this information, you may browse to the list of new
     Orders, from which you can edit the quantities.
 
--#FIXME use form_for
-- form_tag({:action => :run}) do
+- form_for(:bulk_order, :url => run_bulk_order_path) do |f|
   %div
-    = hidden_field_tag 'q', params[:q]
-    - if params[:from_publication_id]
-      = hidden_field_tag 'from_publication_id', params[:from_publication_id]
-    - elsif params[:from_issue_id]
-      = hidden_field_tag 'from_issue_id', params[:from_issue_id]
+    = f.hidden_field(:q)
+    - if @bulk_order.from_publication_id
+      = f.hidden_field('from_publication_id')
+    - elsif @bulk_order.from_issue_id
+      = f.hidden_field('from_issue_id')
   %div
     %p
       Prepare Orders for this Issue:
-      = issue_select_tag 'issue_id'
+      = f.issue_field(:issue_id)
 
     %p
       Number of Copies on each Order:
       - if @creation_type == :customers
-        = text_field_tag 'num_copies', params[:num_copies]
+        = f.text_field(:num_copies)
       - else
         %br/
         %label
-          = radio_button_tag 'enable_num_copies', false, params[:num_copies].to_i <= 0
+          = radio_button_tag 'bulk_order[enable_num_copies]', false, @bulk_order.num_copies.to_i <= 0
           Copy the quantities from the Orders we are using as templates
         %br/
         %label
-          = radio_button_tag 'enable_num_copies', true, params[:num_copies].to_i > 0
+          = radio_button_tag 'bulk_order[enable_num_copies]', true, @bulk_order.num_copies.to_i > 0
           Make all new Orders have the same number of copies:
-        = text_field_tag 'num_copies', params[:num_copies]
+        = f.text_field(:num_copies)
 
     %p
       %label
         Date to set on each Order:
-        = input_tag('order_date', nil, :value => Date.today, :type => 'text', :class => 'date_field')
+        = f.date_field(:order_date)
 
     %p
       %label
         Delivery Method for each Order:
-        = select_tag 'delivery_method_id', '<option value="">Use Customer defaults</option>' + options_from_collection_for_select(DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all, :id, :full_name, params[:delivery_method_id].to_i)
+        = select_tag 'bulk_order[delivery_method_id]', '<option value="">Use Customer defaults</option>' + options_from_collection_for_select(DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all, :id, :full_name, @bulk_order.delivery_method_id.to_i)
 
     %p
       %label
         Comment to write on each Order:
-        = text_field_tag 'comments', params[:comments]
+        = f.text_field(:comments)
 
     %p
-      = submit_tag 'Create Orders (may take time)'
+      = f.submit('Create Orders (may take time)')

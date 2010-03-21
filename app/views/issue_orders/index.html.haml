@@ -25,16 +25,16 @@
   %tbody
     - @orders.each do |o|
       %tr{:class => cycle('odd', 'even')}
-        %td{:class => 'delivery-method'}= delivery_method_abbr(o.delivery_method)
-        %td{:class => 'region'}= h o.region.name
-        %td{:class => 'district'}= h o.district
-        %td{:class => 'customer'}
+        %td.delivery_method= delivery_method_abbr(o.delivery_method)
+        %td.region= o.region.name
+        %td.district= o.district
+        %td.customer
           .cut-off
             - if o.customer_id
               = link_to o.customer_name, customer_url(o.customer_id)
             - else
               = h o.customer_name
-        %td{:class => 'qty'}
+        %td.qty
           - if current_user.has_role? 'edit-orders'
             -# HACK for in_place_editor_field
             - old_order = @order
@@ -49,7 +49,7 @@
 = will_paginate @orders
 
 %p.actions
-  = link_to 'Export Data to Excel', formatted_publication_issue_orders_url(@publication, @issue, :csv, params.slice(:q))
+  = link_to 'Export Data to Excel', publication_issue_orders_path(@publication, @issue, :format => :csv, :q => params[:q])
   - if current_user.has_role?('edit-orders')
     |
     = link_to 'Create Orders for an Issue using this list', :controller => 'bulk_order', :action => 'prepare', :from_issue_id => @issue.id, :q => params[:q]

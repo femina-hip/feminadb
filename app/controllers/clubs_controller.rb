@@ -1,5 +1,4 @@
 class ClubsController < ApplicationController
-  include CustomersQueryRewriter
   include ActsAsReportableControllerHelper
 
   require_role 'edit-customers', :except => [ :index, :show ]
@@ -9,23 +8,18 @@ class ClubsController < ApplicationController
   # GET /clubs.xml
   def index
     conditions = {}
-    if customers_query(requested_q) != '*'
-      customers = Customer.find_by_contents(
-        customers_query(requested_q),
-        {},
-        :include => [ :club ],
-        :conditions => [ 'clubs.id IS NOT NULL' ]
-      )
-      conditions[:customer_id] = customers.collect{|c| c.id}
+
+    if requested_q != ''
+      q = requested_1
+      lots = 999999
+      all_ids = Customer.search_ids do
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        paginate(:page => 1, :per_page => lots)
+      end
+      conditions[:customer_id] = Customer.includes(:clubs).where(:id => all_ids).where('clubs.id IS NOT NULL').collect(&:id)
     end
 
-    @clubs = Club.paginate(
-      :order => 'regions.name, customers.district, clubs.name',
-      :include => { :customer => [ :region ] },
-      :conditions => conditions,
-      :page => requested_page,
-      :per_page => requested_per_page
-    )
+    @clubs = Club.includes(:customer => [ :region ]).where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |format|
       format.html # index.html.haml

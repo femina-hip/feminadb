@@ -1,7 +1,5 @@
 class BulkOrderCreator
   class <<self
-    include CustomersQueryRewriter
-
     def do_copy_from_publication(args)
       args.assert_valid_keys(
         :issue_id, :q, :from_publication_id,
@@ -95,28 +93,29 @@ class BulkOrderCreator
     end
 
     def find_customers_from_publication_id(publication_id, q)
-      Customer.find_by_contents(
-        customers_query(q),
-        {:per_page => lots},
-        :include => [ :standing_orders ],
-        :conditions => [ 'standing_orders.publication_id = ?', publication_id ]
-      )
+      ids = Customer.search_ids do
+        lots = 999999
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        paginate(:page => 1, :per_page => lots)
+      end
+      Customer.includes(:standing_orders).where('standing_orders.publication_id' => publication_id, :id => ids).all
     end
 
     def find_customers_from_issue_id(issue_id, q)
-      Customer.find_by_contents(
-        customers_query(q),
-        {:per_page => lots},
-        :include => [ :orders ],
-        :conditions => [ 'orders.issue_id = ?', issue_id ]
-      )
+      ids = Customer.search_ids do
+        lots = 999999
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        paginate(:page => 1, :per_page => lots)
+      end
+      Customer.includes(:orders).where('orders.issue_id' => issue_id, :id => ids)
     end
 
     def find_customers(q)
-      Customer.find_by_contents(
-        customers_query(q),
-        {:per_page => lots}
-      )
+      Customer.search do
+        lots = 999999
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        paginate(:page => 1, :per_page => lots)
+      end.results
     end
 
     def create_order!(customer, issue_id, num_copies, options = {})
@@ -140,8 +139,5 @@ class BulkOrderCreator
     end
 
     private
-      def lots
-        9999999
-      end
   end
 end

@@ -1,7 +1,5 @@
 source 'http://gemcutter.org'
 
-gem "rails", "3.0.0.beta"
-
 gem 'acts_as_reportable', '1.1.1'
 gem 'exception_notifier', '1.0.0'
 gem 'gruff', '0.3.6'
@@ -20,8 +18,13 @@ gem 'xmpp4r', '0.5'
 
 gem 'ruby-debug', :group => [ :development, :test ]
 
-## Bundle gems used only in certain environments:
-# gem "rspec", :group => :test
-# group :test do
-#   gem "webrat"
-# end
+group :test do
+  gem 'webrat', '0.7.0'
+  gem 'rspec', '2.0.0.beta.4'
+  gem 'rspec-core', '2.0.0.beta.4'
+  gem 'rspec-expectations', '2.0.0.beta.4'
+  gem 'rspec-mocks', '2.0.0.beta.4'
+  gem 'rspec-rails', '2.0.0.beta.4'
+end
+
+gem "rails", "3.0.0.beta"

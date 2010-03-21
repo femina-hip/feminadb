@@ -1,5 +1,4 @@
 class PublicationStandingOrdersController < ApplicationController
-  include CustomersQueryRewriter
   include ActsAsReportableControllerHelper
 
   require_role 'edit-orders', :except => :index
@@ -12,24 +11,17 @@ class PublicationStandingOrdersController < ApplicationController
   # GET /publications/1/standing_orders.csv
   def index
     conditions = {}
-    if customers_query(requested_q) != '*'
-      customers = Customer.find_by_contents(
-        customers_query(requested_q),
-        {},
-        :include => [ :standing_orders ],
-        :conditions => [ 'standing_orders.publication_id = ?', @publication.id ]
-      )
-      conditions[:customer_id] = customers.collect{|c| c.id}
+    if requested_q != ''
+      q = requested_q
+      lots = 999999
+      all_ids = Customer.search_ids do
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        paginate(:page => 1, :per_page => lots)
+      end
+      conditions[:customer_id] = Customer.includes(:standing_orders).where('standing_orders.publication_id' => @publication.id).where(:id => all_ids).collect(&:id)
     end
 
-    @standing_orders = StandingOrder.paginate_by_publication_id(
-      @publication.id,
-      :order => 'delivery_methods.abbreviation, regions.name, customers.district, customers.name',
-      :include => { :customer => [ :region, :delivery_method, :type ] },
-      :conditions => conditions,
-      :page => requested_page,
-      :per_page => requested_per_page
-    )
+    @standing_orders = StandingOrder.where(:publication_id => @publication_id).includes(:customer => [ :region, :delivery_method, :type ]).order('delivery_methods.abbreviation, regions.name, customers.district, customers.name').where(conditions).paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |type|
       type.html do
@@ -80,21 +72,22 @@ class PublicationStandingOrdersController < ApplicationController
   end
 
   private
-    def load_publication
-      @publication = Publication.find(params[:publication_id])
-    end
 
-    def requested_page
-      return params[:page].to_i if params[:page].to_i > 0
-      1
-    end
+  def load_publication
+    @publication = Publication.find(params[:publication_id])
+  end
 
-    def requested_per_page
-      return 2**30 if request.format == Mime::CSV
-      StandingOrder.per_page
-    end
+  def requested_page
+    return params[:page].to_i if params[:page].to_i > 0
+    1
+  end
 
-    def requested_q
-      params[:q] || ''
-    end
+  def requested_per_page
+    return 2**30 if request.format == Mime::CSV
+    StandingOrder.per_page
+  end
+
+  def requested_q
+    params[:q] || ''
+  end
 end

@@ -1,9 +1,9 @@
-= render_pretty_header "Standing Orders for #{h(@publication.name)}" do
+= render_pretty_header "Standing Orders for #{@publication.name}" do
   %p
     These
     = glossary_term('Standing Orders')
     will become Orders for every coming Issue of
-    = "#{h(@publication.name)}."
+    = "#{@publication.name}."
 
   %p
     If you are logged in and authorized, you may click on the listed
@@ -27,7 +27,7 @@
 = will_paginate @standing_orders
 
 %p.actions
-  = link_to 'Export Data to Excel', formatted_publication_standing_orders_url(@publication, :csv, params.slice(:q))
+  = link_to('Export Data to Excel', publication_standing_orders_path(@publication, :format => :csv, :q => params[:q])
   - if current_user.has_role?('edit-orders')
     |
     = link_to 'Create Orders for an Issue using this list', :controller => 'bulk_order', :action => 'prepare', :from_publication_id => @publication.id, :q => params[:q]

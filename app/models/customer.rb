@@ -6,37 +6,37 @@ class Customer < ActiveRecord::Base
   acts_as_reportable
 
   searchable do
-    string :region_name_for_sorting
-    string :district_for_sorting
-    string :name_for_sorting
-    string :delivery_method_abbreviation_for_sorting
-    string :type_name_for_sorting
-    string :type_category_for_sorting
-    text :district
-    text :name
-    text :contact_name
-    text :deliver_via
-    text :address
-    text :full_name
-    text :contact_position
-    text :telephone_1
-    text :telephone_2
-    text :telephone_3
-    text :fax
-    text :email_1
-    text :email_2
-    text :website
-    text :po_box
-    text :delivery_method_abbreviation
-    text :delivery_method_name
-    text :customer_note_text
-    text :region_name
-    text :type_name
-    text :type_description
-    text :type_category
-    text :club_yes_no
+    string(:region) { region.name }
+    string(:district) { (district.nil? || district.empty?) ? 'AAAAA' : district }
+    string(:name) { name }
+    string(:delivery_method) { delivery_method.abbreviation }
+    string(:type) { type.name }
+    string(:category) { type.category }
+    text(:district)
+    text(:name)
+    text(:contact_name)
+    text(:deliver_via)
+    text(:address)
+    text(:full_name)
+    text(:contact_position)
+    text(:telephone_1)
+    text(:telephone_2)
+    text(:telephone_3)
+    text(:fax)
+    text(:email_1)
+    text(:email_2)
+    text(:website)
+    text(:po_box)
+    text(:delivery_method) { delivery_method.abbreviation }
+    text(:delivery_method_name) { delivery_method.name }
+    text(:customer_note_text) { notes.collect(&:note).join('\n') }
+    text(:region) { region.name }
+    text(:type) { type.name }
+    text(:type_description) { type.description }
+    text(:category) { type.category }
+    boolean(:club) { !club.nil? }
     Club.column_names.each do |c|
-      text("club_#{c}")
+      text("club_#{c}") { club && club.send(c) }
     end
   end
 
@@ -89,58 +89,6 @@ class Customer < ActiveRecord::Base
 
   before_validation :clear_deliver_via_if_same_as_name
 
-  def delivery_method_name
-    delivery_method.name
-  end
-
-  def delivery_method_abbreviation
-    delivery_method.abbreviation
-  end
-  alias_method :delivery_method_abbreviation_for_sorting, :delivery_method_abbreviation
-
-  def region_name
-    region.name
-  end
-  alias_method :region_name_for_sorting, :region_name
-
-  def name_for_sorting
-    name
-  end
-
-  def district_for_sorting
-    if district.nil? or district.empty?
-      'AAA'
-    else
-      district
-    end
-  end
-
-  Club.column_names.each do |a|
-    define_method("club_#{a}".to_sym) { club and club.send(a.to_sym) }
-  end
-
-  def customer_note_text
-    notes.collect{|n| n.note}.join(' ')
-  end
-
-  def type_name
-    type.name
-  end
-  alias_method :type_name_for_sorting, :type_name
-
-  def type_description
-    type.description
-  end
-
-  def type_category
-    type.category
-  end
-  alias_method :type_category_for_sorting, :type_category
-
-  def club_yes_no
-    club and 'yes' or 'no'
-  end
-
   def deliver_via_string
     (deliver_via and not deliver_via.empty? and deliver_via != name) ? "via #{deliver_via}" : nil
   end
@@ -154,10 +102,11 @@ class Customer < ActiveRecord::Base
   end
 
   private
-    def clear_deliver_via_if_same_as_name
-      if deliver_via == name
-        write_attribute :deliver_via, nil
-      end
-      true # Returning false will cancel save
+
+  def clear_deliver_via_if_same_as_name
+    if deliver_via == name
+      write_attribute :deliver_via, nil
     end
+    true # Returning false will cancel save
+  end
 end

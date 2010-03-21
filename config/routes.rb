@@ -35,14 +35,15 @@ Feminadb::Application.routes.draw do
       end
 
       resources :notes
-      resources :orders do
+
+      resources :orders, :controller => 'issue_orders' do
         member do
           post :set_order_num_copies
         end
       end
     end
 
-    resources :standing_orders
+    resources :standing_orders, :controller => 'publication_standing_orders'
     resources :waiting_orders
   end
 
@@ -62,6 +63,7 @@ Feminadb::Application.routes.draw do
   resource :inventory
   resource :help
 
+  match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
 
   match 'login(/:return_to)' => 'account#login', :as => 'login'

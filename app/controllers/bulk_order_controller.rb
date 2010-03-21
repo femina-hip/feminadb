@@ -6,8 +6,9 @@ class BulkOrderController < ApplicationController
          :xhr => true, :session => :bulk_order_key
 
   def prepare
-    @customers = customers
-    @creation_type = creation_type
+    @customers = customers(params)
+    @creation_type = creation_type(params)
+    @bulk_order = OpenStruct.new(params.dup)
     if @creation_type == :publication
       @from_publication = Publication.find(params[:from_publication_id])
     elsif @creation_type == :issue
@@ -17,13 +18,16 @@ class BulkOrderController < ApplicationController
 
   def run
     options = {}
-    options[:issue_id] = params[:issue_id]
-    options[:q] = params[:q]
-    options[:from_issue_id] = params[:from_issue_id] if params[:from_issue_id]
-    options[:from_publication_id] = params[:from_publication_id] if params[:from_publication_id]
-    options[:num_copies] = params[:num_copies].to_i if params[:enable_num_copies] == 'true'
-    options[:delivery_method_id] = params[:delivery_method_id] if params[:delivery_method_id].to_i > 0
-    options[:comments] = params[:comments] unless params[:comments].to_s.strip.empty?
+
+    bulk_order_in = params[:bulk_order] || {}
+
+    options[:issue_id] = bulk_order_in[:issue_id]
+    options[:q] = bulk_order_in[:q]
+    options[:from_issue_id] = bulk_order_in[:from_issue_id] if bulk_order_in[:from_issue_id]
+    options[:from_publication_id] = bulk_order_in[:from_publication_id] if bulk_order_in[:from_publication_id]
+    options[:num_copies] = bulk_order_in[:num_copies].to_i if bulk_order_in[:enable_num_copies] == 'true'
+    options[:delivery_method_id] = bulk_order_in[:delivery_method_id] if bulk_order_in[:delivery_method_id].to_i > 0
+    options[:comments] = bulk_order_in[:comments] unless bulk_order_in[:comments].to_s.strip.empty?
     options[:recipients] = [ current_user.email ]
 
     Customer.logger.info("XXXX #{options.inspect} XXXX")
@@ -75,21 +79,22 @@ class BulkOrderController < ApplicationController
   end
 
   private
-    def creation_type
-      if params[:from_publication_id]
-        :publication
-      elsif params[:from_issue_id]
-        :issue
-      else
-        :customers
-      end
-    end
 
-    def customers
-      case creation_type
-      when :publication then BulkOrderCreator.find_customers_from_publication_id(params[:from_publication_id].to_i, params[:q])
-      when :issue then BulkOrderCreator.find_customers_from_issue_id(params[:from_issue_id].to_i, params[:q])
-      when :customers then BulkOrderCreator.find_customers(params[:q])
-      end
+  def creation_type(hash)
+    if hash[:from_publication_id]
+      :publication
+    elsif hash[:from_issue_id]
+      :issue
+    else
+      :customers
     end
+  end
+
+  def customers(hash)
+    case creation_type(hash)
+    when :publication then BulkOrderCreator.find_customers_from_publication_id(hash[:from_publication_id].to_i, hash[:q])
+    when :issue then BulkOrderCreator.find_customers_from_issue_id(hash[:from_issue_id].to_i, hash[:q])
+    when :customers then BulkOrderCreator.find_customers(hash[:q])
+    end
+  end
 end

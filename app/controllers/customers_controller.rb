@@ -1,5 +1,4 @@
 class CustomersController < ApplicationController
-  include CustomersQueryRewriter
   include ActsAsReportableControllerHelper
 
   before_filter :remember_q_and_page, :only => :index
@@ -17,10 +16,10 @@ class CustomersController < ApplicationController
     per_page = requested_per_page
 
     search = Customer.search do
-      keywords q
-      order_by :region_name_for_sorting
-      order_by :district_for_sorting
-      order_by :name_for_sorting
+      CustomersSearcher.apply_query_string_to_search(self, q)
+      order_by :region
+      order_by :district
+      order_by :name
       paginate :page => page, :per_page => per_page
     end
 
