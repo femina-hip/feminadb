@@ -89,6 +89,8 @@ class Customer < ActiveRecord::Base
 
   before_validation :clear_deliver_via_if_same_as_name
 
+  def self.can_visit_url?; true; end
+
   def deliver_via_string
     (deliver_via and not deliver_via.empty? and deliver_via != name) ? "via #{deliver_via}" : nil
   end

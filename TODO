@@ -1,7 +1,6 @@
-- Fix /modifications to use VestalVersions
-- Move old modifications into VestalVersions table?
+- Make VestalVersions include original version
+- Make destroying just set deleted_at
 - Test that editing club reindexes customer
-- Reimplement acts_as_paranoid, manually
 - Fix search term recognition ("name", etc)
 - mailers
 - bg processes

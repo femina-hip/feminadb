@@ -1,22 +1,15 @@
 class ModificationsController < ApplicationController
   def index
-    @start_time = if params.include? :start_time
-      DateTime.parse(params[:start_time]).to_time
-    else
-      Time.now - 3.days
-    end
-
-    @modifications = Modification.find_all_modifications(@start_time)
+    @versions = VestalVersions::Version.order('updated_at DESC').limit(per_page).offset((page - 1) * per_page)
   end
 
-  def show
-    @klass = Kernel.const_get(params[:klass])
-    @object_id = params[:object_id].to_i
-    @start_time = DateTime.parse(params[:start_time]).to_time
+  private
 
-    o = @klass.send('find_with_deleted', @object_id)
-    @modification = Modification.new(o, @start_time)
+  def page
+    params[:page] || 1
+  end
 
-    render :action => "show_#{@modification.type.to_s}"
+  def per_page
+    50
   end
 end

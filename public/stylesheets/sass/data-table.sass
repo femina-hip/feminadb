@@ -1,4 +1,4 @@
-table.customers, table.clubs, table.approved-special-orders, table.pending-special-orders, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-special-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-orders, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods
+table.customers, table.clubs, table.approved-special-orders, table.pending-special-orders, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-special-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-orders, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions
   :border = 2px solid !border_color
   :margin 1em auto
 
@@ -243,3 +243,32 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
       :font-size 1em
       :text-align left
       :padding 4px
+
+table.versions
+  :width 95%
+  :margin .5em auto
+
+  td.changes
+    :padding 0
+    :overflow hidden
+
+    div
+      :overflow hidden
+
+    table
+      :width 100%
+      :margin 0
+      :overflow hidden
+
+      th
+        :border-left none
+        :border-right none
+        :border-top none
+
+      td
+        :border none
+        :white-space pre-wrap
+        :width 50%
+
+        &.old
+          :color red

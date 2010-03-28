@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
   before_filter :remember_q_and_page, :only => :index
 
   make_resourceful do
-    actions :show, :new, :edit, :create, :update, :destroy
+    actions :new, :edit, :create, :update, :destroy
   end
 
   # GET /customers
@@ -72,6 +72,17 @@ class CustomersController < ApplicationController
 
   def show
     @customer = find_customer
+  end
+
+  def destroy
+    before :destroy
+    if current_object.update_attributes(:deleted_at => Time.now)
+      after :destroy
+      response_for :destroy
+    else
+      after :destroy_fails
+      response_for :destroy_fails
+    end
   end
 
   private
