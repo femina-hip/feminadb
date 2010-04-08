@@ -3,7 +3,7 @@ class Issue < ActiveRecord::Base
 
   class DoesNotFitInBoxesException < Exception; end
 
-  # acts_as_paranoid
+  include SoftDeletable
   versioned
   acts_as_reportable
 

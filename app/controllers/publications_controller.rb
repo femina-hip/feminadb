@@ -37,7 +37,7 @@ class PublicationsController < ApplicationController
   def destroy
     @publication = Publication.find(params[:id])
 
-    success = @publication.issues.empty? && @publication.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+    success = @publication.soft_delete(:updated_by => current_user)
 
     respond_to do |format|
       if success

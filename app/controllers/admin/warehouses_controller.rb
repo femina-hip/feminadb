@@ -11,8 +11,8 @@ class Admin::WarehousesController < ApplicationController
     @warehouse = Warehouse.find(params[:id])
 
     respond_to do |format|
-      if !@warehouse.delivery_methods.empty?
-        @warehouse.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+      if !@warehouse.soft_delete_would_delete_protected_dependents?
+        @warehouse.soft_delete!(:updated_by => current_user)
         format.html { redirect_to admin_warehouses_url }
         format.xml  { head :ok }
       else

@@ -10,16 +10,9 @@ class Admin::DeliveryMethodsController < ApplicationController
   def destroy
     @delivery_method = DeliveryMethod.find(params[:id])
 
-    success = true
-    begin
-      @delivery_method.destroy
-    rescue ActiveRecord::ReferentialIntegrityProtectionError
-      success = false
-    end
-
     respond_to do |format|
-      if @delivery_method.customers.length == 0 && @delivery_method.orders.length == 0
-        @delivery_method.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+      if !@delivery_method.soft_delete_would_delete_protected_dependents?
+        @delivery_method.soft_delete!(:updated_by => current_user)
         flash[:notice] = 'DeliveryMethod was successfully deleted.'
         format.html { redirect_to admin_delivery_methods_url }
         format.xml  { head :ok }

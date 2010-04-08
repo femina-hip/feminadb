@@ -71,7 +71,7 @@ class Admin::UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
-    @user.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+    @user.soft_delete!(:updated_by => current_user)
 
     respond_to do |format|
       format.html { redirect_to admin_users_url }

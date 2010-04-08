@@ -1,5 +1,5 @@
 class StandingOrder < ActiveRecord::Base
-  # acts_as_paranoid
+  include SoftDeletable
   versioned
   acts_as_reportable
 

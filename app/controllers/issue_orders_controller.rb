@@ -78,7 +78,7 @@ class IssueOrdersController < ApplicationController
   # DELETE /publications/1/issues/1/orders/1.xml
   def destroy
     @order = Order.find(params[:id])
-    @order.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+    @order.soft_delete!(:updated_by => current_user)
 
     respond_to do |format|
       flash[:notice] = 'Order was successfully deleted.'

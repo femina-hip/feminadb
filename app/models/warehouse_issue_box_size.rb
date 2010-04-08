@@ -1,5 +1,5 @@
 class WarehouseIssueBoxSize < ActiveRecord::Base
-  # acts_as_paranoid
+  include SoftDeletable
   versioned
 
   belongs_to :warehouse

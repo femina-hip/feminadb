@@ -72,7 +72,7 @@ class Admin::DistrictsController < ApplicationController
   def destroy
     @district = District.find(params[:id])
 
-    @district.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+    @district.soft_delete!(:updated_by => current_user)
 
     respond_to do |format|
       format.html { redirect_to admin_districts_url }

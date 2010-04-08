@@ -11,8 +11,7 @@ class Admin::CustomerTypesController < ApplicationController
     @customer_type = CustomerType.find(params[:id])
 
     respond_to do |format|
-      if @customer_type.customers.length == 0
-        @customer_type.update_attributes!(:deleted_at, Time.now, :updated_by => current_user)
+      if @customer_type.soft_delete(:updated_by => current_user)
         flash[:notice] = 'CustomerType successfully deleted'
         format.html { redirect_to admin_customer_types_url }
         format.xml  { head :ok }

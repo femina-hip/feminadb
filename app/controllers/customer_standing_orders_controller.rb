@@ -33,7 +33,7 @@ class CustomerStandingOrdersController < ApplicationController
   def destroy
     #load_object
     before :destroy
-    if current_object.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+    if current_object.soft_delete(:updated_by => current_user)
       after :destroy
       response_for :destroy
     else

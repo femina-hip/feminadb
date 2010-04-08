@@ -2,7 +2,7 @@ class Club < ActiveRecord::Base
   extend DateField
 
   versioned
-  # acts_as_paranoid
+  include SoftDeletable
   acts_as_reportable
 
   validates_presence_of :customer_id

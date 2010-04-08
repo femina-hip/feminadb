@@ -137,7 +137,8 @@ class ClubsController < ApplicationController
   def destroy
     @club = Club.find(params[:id])
     customer_id = @club.customer_id
-    @club.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+
+    @club.soft_delete(:updated_by => current_user)
 
     respond_to do |format|
       format.html { redirect_to(customer_url(customer_id)) }
