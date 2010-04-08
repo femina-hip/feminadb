@@ -137,7 +137,7 @@ class ClubsController < ApplicationController
   def destroy
     @club = Club.find(params[:id])
     customer_id = @club.customer_id
-    @club.destroy
+    @club.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
 
     respond_to do |format|
       format.html { redirect_to(customer_url(customer_id)) }
@@ -146,17 +146,18 @@ class ClubsController < ApplicationController
   end
 
   private
-    def requested_q
-      params[:q] || ''
-    end
 
-    def requested_page
-      return params[:page].to_i if params[:page].to_i > 0
-      1
-    end
+  def requested_q
+    params[:q] || ''
+  end
 
-    def requested_per_page
-      return 2**30 if request.format == Mime::CSV
-      Club.per_page
-    end
+  def requested_page
+    return params[:page].to_i if params[:page].to_i > 0
+    1
+  end
+
+  def requested_per_page
+    return 2**30 if request.format == Mime::CSV
+    Club.per_page
+  end
 end

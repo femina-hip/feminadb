@@ -71,7 +71,8 @@ class Admin::DistrictsController < ApplicationController
   # DELETE /districts/1.xml
   def destroy
     @district = District.find(params[:id])
-    @district.destroy
+
+    @district.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
 
     respond_to do |format|
       format.html { redirect_to admin_districts_url }

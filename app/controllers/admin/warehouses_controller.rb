@@ -11,11 +11,11 @@ class Admin::WarehousesController < ApplicationController
     @warehouse = Warehouse.find(params[:id])
 
     respond_to do |format|
-      begin
-        @warehouse.destroy
+      if !@warehouse.delivery_methods.empty?
+        @warehouse.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
         format.html { redirect_to admin_warehouses_url }
         format.xml  { head :ok }
-      rescue ActiveRecord::ReferentialIntegrityProtectionError
+      else
         flash[:notice] = 'Could not delete Warehouse: it is used by some DeliveryMethods'
         format.html { redirect_to admin_warehouses_url }
         format.xml  { render :xml => @warehouse.errors.to_xml }

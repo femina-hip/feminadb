@@ -11,15 +11,15 @@ class Admin::RegionsController < ApplicationController
     @region = Region.find(params[:id])
 
     respond_to do |format|
-      begin
-        @region.destroy
-        flash[:notice] = 'Region successfully deleted'
-        format.html { redirect_to admin_regions_url }
-        format.xml  { head :ok }
-      rescue ActiveRecord::ReferentialIntegrityProtectionError
+      if !@region.customers.empty? || !@region.orders.empty?
         flash[:notice] = 'Could not delete Region: it is used by some Customers/Orders'
         format.html { redirect_to admin_regions_url }
         format.xml  { render :xml => @region.errors.to_xml }
+      else
+        @region.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
+        flash[:notice] = 'Region successfully deleted'
+        format.html { redirect_to admin_regions_url }
+        format.xml  { head :ok }
       end
     end
   end

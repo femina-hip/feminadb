@@ -11,12 +11,12 @@ class Admin::CustomerTypesController < ApplicationController
     @customer_type = CustomerType.find(params[:id])
 
     respond_to do |format|
-      begin
-        @customer_type.destroy
+      if @customer_type.customers.length == 0
+        @customer_type.update_attributes!(:deleted_at, Time.now, :updated_by => current_user)
         flash[:notice] = 'CustomerType successfully deleted'
         format.html { redirect_to admin_customer_types_url }
         format.xml  { head :ok }
-      rescue ActiveRecord::ReferentialIntegrityProtectionError
+      else
         flash[:notice] = 'Could not delete CustomerType: it is used by some Customers'
         format.html { redirect_to admin_customer_types_url }
         format.xml  { render :xml => @customer_type.errors.to_xml }

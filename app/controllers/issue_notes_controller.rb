@@ -25,16 +25,29 @@ class IssueNotesController < ApplicationController
     end
   end
 
+  def destroy
+    #load_object
+    before :destroy
+    if current_object.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+      after :destroy
+      response_for :destroy
+    else
+      after :destroy_fails
+      response_for :destroy_fails
+    end
+  end
+
   protected
-    def instance_variable_name
-      'notes'
-    end
 
-    def objects_path
-      publication_issue_notes_path(@issue.publication, @issue)
-    end
+  def instance_variable_name
+    'notes'
+  end
 
-    def parent_path
-      publication_issue_path(@issue.publication, @issue)
-    end
+  def objects_path
+    publication_issue_notes_path(@issue.publication, @issue)
+  end
+
+  def parent_path
+    publication_issue_path(@issue.publication, @issue)
+  end
 end

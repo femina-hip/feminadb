@@ -18,7 +18,8 @@ class Admin::DeliveryMethodsController < ApplicationController
     end
 
     respond_to do |format|
-      if success
+      if @delivery_method.customers.length == 0 && @delivery_method.orders.length == 0
+        @delivery_method.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
         flash[:notice] = 'DeliveryMethod was successfully deleted.'
         format.html { redirect_to admin_delivery_methods_url }
         format.xml  { head :ok }

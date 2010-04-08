@@ -78,7 +78,7 @@ class IssueOrdersController < ApplicationController
   # DELETE /publications/1/issues/1/orders/1.xml
   def destroy
     @order = Order.find(params[:id])
-    @order.destroy
+    @order.update_attributes!(:deleted_at => Time.now, :updated_by => current_user)
 
     respond_to do |format|
       flash[:notice] = 'Order was successfully deleted.'
@@ -88,29 +88,30 @@ class IssueOrdersController < ApplicationController
   end
 
   private
-    def get_publication
-      @publication = Publication.find(params[:publication_id])
-    end
 
-    def get_issue
-      @issue = Issue.find(params[:issue_id])
-    end
+  def get_publication
+    @publication = Publication.find(params[:publication_id])
+  end
 
-    def requested_q
-      params[:q] || ''
-    end
+  def get_issue
+    @issue = Issue.find(params[:issue_id])
+  end
 
-    def requested_page
-      (params[:page] || 1).to_i
-    end
+  def requested_q
+    params[:q] || ''
+  end
 
-    def requested_per_page
-      return :all if request.format == Mime::CSV
-      Order.per_page
-    end
+  def requested_page
+    (params[:page] || 1).to_i
+  end
 
-    def requested_include
-      return [ :region, :delivery_method, { :customer => :type } ] if request.format == Mime::CSV
-      [ :region, :delivery_method ]
-    end
+  def requested_per_page
+    return :all if request.format == Mime::CSV
+    Order.per_page
+  end
+
+  def requested_include
+    return [ :region, :delivery_method, { :customer => :type } ] if request.format == Mime::CSV
+    [ :region, :delivery_method ]
+  end
 end

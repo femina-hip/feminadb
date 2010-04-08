@@ -91,6 +91,18 @@ class IssuesController < ApplicationController
     current_user.has_role?('admin')
   end
 
+  def destroy
+    #load_object
+    before :destroy
+    if current_object.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+      after :destroy
+      response_for :destroy
+    else
+      after :destroy_fails
+      response_for :destroy_fails
+    end
+  end
+
   protected
     def current_objects
       @current_objects ||= Issue.find_all_by_publication_id(

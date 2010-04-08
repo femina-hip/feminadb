@@ -30,12 +30,25 @@ class CustomerStandingOrdersController < ApplicationController
     end
   end
 
-  protected
-    def current_model_name
-      'StandingOrder'
+  def destroy
+    #load_object
+    before :destroy
+    if current_object.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
+      after :destroy
+      response_for :destroy
+    else
+      after :destroy_fails
+      response_for :destroy_fails
     end
+  end
 
-    def instance_variable_name
-      'standing_orders'
-    end
+  protected
+
+  def current_model_name
+    'StandingOrder'
+  end
+
+  def instance_variable_name
+    'standing_orders'
+  end
 end

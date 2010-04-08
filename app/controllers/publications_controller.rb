@@ -37,12 +37,7 @@ class PublicationsController < ApplicationController
   def destroy
     @publication = Publication.find(params[:id])
 
-    success = true
-    begin
-      @publication.destroy
-    rescue ActiveRecord::ReferentialIntegrityProtectionError
-      success = false
-    end
+    success = @publication.issues.empty? && @publication.update_attributes(:deleted_at => Time.now, :updated_by => current_user)
 
     respond_to do |format|
       if success
