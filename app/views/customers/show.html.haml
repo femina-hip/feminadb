@@ -1,5 +1,5 @@
 = render_pretty_header 'Showing Customer' do
-  %p= "This page has all our information on <b>#{h(@customer.name)}</b>:"
+  %p= "This page has all our information on <b>#{h(@customer.name)}</b>:".html_safe
   %ul
     %li= link_to 'General Information', :anchor => 'general_information'
     %li= link_to 'Standing Orders', :anchor => 'standing_orders'
