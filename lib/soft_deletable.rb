@@ -1,7 +1,7 @@
 module SoftDeletable
   def soft_delete(options = {})
     self.class.transaction do
-      !soft_delete_would_delete_protected_dependents? && update_attributes(options.merge(:deleted_at => Time.now)) && soft_delete_dependents
+      !soft_delete_would_delete_protected_dependents? && update_attributes(options.merge(:deleted_at => Time.now)) && soft_delete_dependents(options)
     end
   end
 
@@ -10,8 +10,8 @@ module SoftDeletable
   end
 
   def soft_delete_would_delete_protected_dependents?
-    reflect_on_all_associations.any? do |assoc|
-      assoc.collection? && assoc.soft_delete_would_delete_protected_dependent?(assoc)
+    self.class.reflect_on_all_associations.any? do |assoc|
+      assoc.collection? && soft_delete_would_delete_protected_dependent?(assoc)
     end
   end
 
@@ -27,16 +27,24 @@ module SoftDeletable
   end
 
   def soft_delete_dependents(options)
-    reflect_on_all_associations.each { |assoc| soft_delete_assoc(assoc, options) }
+    self.class.reflect_on_all_associations.each do |assoc|
+      if [:destroy, :delete_all].include?(assoc.options[:dependent]) && assoc.name != :versions
+        soft_delete_assoc(assoc, options)
+      end
+    end
   end
 
   def soft_delete_assoc(assoc, options)
+    Rails.logger.warn("Assoc #{assoc.name}... destroy!")
     # soft-delete anything soft-deletable (:has_one, :has_many, :has_many_through, :has_and_belongs_to_many)
     # raise error if we'd have to delete something permanently
+    raise ActiveRecord::ReferentialIntegrityProtectionError.new("Can't soft-delete because of #{assoc.name}") unless assoc.klass.method_defined?(:soft_delete)
+
     to_delete = send(assoc.name)
+
     if assoc.collection?
       to_delete.each { |o| o.soft_delete(options) }
-    else
+    elsif !to_delete.nil?
       to_delete.soft_delete(options)
     end
   end
