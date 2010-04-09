@@ -11,7 +11,7 @@
     - klass.description.each do |line|
       %p= line
 
-    - form_for(:report, :url => report_path(report_name), :html => { :method => :get, :id => form_id }) do |f|
+    = form_for(:report, :url => report_path(report_name), :html => { :method => :get, :id => form_id }) do |f|
       %div.parameters
         - klass.parameters.each do |p|
           %p

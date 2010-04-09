@@ -2,7 +2,7 @@
 
 <%= error_messages_for :region %>
 
-<% form_for(:region, :url => admin_region_path(@region), :html => { :method => :put }) do |f| %>
+<%= form_for(:region, :url => admin_region_path(@region), :html => { :method => :put }) do |f| %>
   <p>
     <b>Name</b><br />
     <%= f.text_field :name %>

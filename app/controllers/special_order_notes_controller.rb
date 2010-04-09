@@ -6,6 +6,10 @@ class SpecialOrderNotesController < ApplicationController
     actions :new, :create, :destroy
     belongs_to :special_order
 
+    before(:create) do
+      current_object.created_by = current_user.id
+    end
+
     response_for(:create) do |format|
       format.html do
         set_default_flash(:notice, 'Note successfully created.')
@@ -36,6 +40,11 @@ class SpecialOrderNotesController < ApplicationController
   end
 
   protected
+
+  def parent_path
+    # Work around bug in make_resourceful
+    special_order_path(parent_object)
+  end
 
   def instance_variable_name
     'notes'

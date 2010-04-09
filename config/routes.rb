@@ -53,11 +53,12 @@ Feminadb::Application.routes.draw do
 
   resources :special_orders do
     member do
-      post :approve
-      post :deny
-      post :complete
+      put :approve
+      put :deny
+      put :complete
     end
-    resources :notes
+
+    resources :notes, :controller => 'special_order_notes'
   end
 
   resource :inventory

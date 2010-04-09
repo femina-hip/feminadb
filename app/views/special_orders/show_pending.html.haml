@@ -26,7 +26,7 @@
 - if current_user.has_role?('edit-special-orders')
   %h2 Approve
 
-  - form_for(@special_order, :url => approve_special_order_path(@special_order)) do |f|
+  = form_for(@special_order, :url => approve_special_order_path(@special_order)) do |f|
     %table{:class => 'special-order-lines'}
       %thead{:class => 'title'}
         %tr
@@ -52,7 +52,7 @@
       = submit_tag 'Approve Request'
 
   %h2 Deny
-  - form_for(@special_order, :url => { :action => 'deny' }) do |f|
+  = form_for(@special_order, :url => { :action => 'deny' }) do |f|
     %p
       Comments:
       = f.text_field :authorize_comments, :id => :special_order_comments_deny

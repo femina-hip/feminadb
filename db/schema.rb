@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100328143001) do
+ActiveRecord::Schema.define(:version => 20100409032107) do
 
   create_table "club_versions", :force => true do |t|
     t.integer  "club_id"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.text     "intended_duty",                           :null => false
     t.string   "founding_motivation",     :default => "", :null => false
     t.text     "cooperation_ideas",                       :null => false
-    t.datetime "updated_at",                              :null => false
-    t.integer  "updated_by",                              :null => false
+    t.datetime "updated_at"
+    t.datetime "updated_by"
     t.integer  "version"
     t.datetime "deleted_at"
   end
@@ -144,6 +144,21 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.string   "route",              :default => "", :null => false
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "delivery_methods", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -168,8 +183,8 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.integer  "region_id",  :null => false
     t.string   "name",       :null => false
     t.string   "color",      :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "updated_by", :null => false
+    t.datetime "updated_at"
+    t.datetime "updated_by"
     t.integer  "version"
     t.datetime "deleted_at"
   end
@@ -347,8 +362,8 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.integer  "issue_id",             :null => false
     t.integer  "num_copies_requested", :null => false
     t.integer  "num_copies"
-    t.datetime "updated_at",           :null => false
-    t.integer  "updated_by"
+    t.datetime "updated_at"
+    t.datetime "updated_by"
     t.integer  "version"
     t.datetime "deleted_at"
   end
@@ -395,8 +410,8 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.string   "received_by",        :default => "",    :null => false
     t.integer  "authorized_by"
     t.datetime "authorized_at"
-    t.datetime "updated_at",                            :null => false
-    t.integer  "updated_by"
+    t.datetime "updated_at"
+    t.datetime "updated_by"
     t.integer  "version"
     t.datetime "deleted_at"
     t.integer  "requested_by",       :default => 0,     :null => false
@@ -490,8 +505,8 @@ ActiveRecord::Schema.define(:version => 20100328143001) do
     t.integer  "publication_id",                 :null => false
     t.integer  "num_copies",                     :null => false
     t.string   "comments",       :default => "", :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "updated_by",                     :null => false
+    t.datetime "updated_at"
+    t.datetime "updated_by"
     t.integer  "version"
     t.datetime "deleted_at"
     t.date     "request_date",                   :null => false

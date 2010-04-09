@@ -6,6 +6,10 @@ class CustomerNotesController < ApplicationController
     actions :new, :create, :destroy
     belongs_to :customer
 
+    before(:create) do
+      current_object.created_by = current_user.id
+    end
+
     response_for(:create) do |format|
       format.html do
         set_default_flash(:notice, 'Note successfully created.')

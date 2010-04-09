@@ -38,7 +38,6 @@ class Issue < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :publication_id,
                           :case_sensitive => false
   validates_uniqueness_of :issue_number, :scope => :publication_id
-  validates_associated :issue_box_sizes
   validates_format_of :issue_number,
                       :with => /\A[-\.A-Za-z0-9]+\Z$/,
                       :message => 'must only contain numbers, letters, periods, and dashes'

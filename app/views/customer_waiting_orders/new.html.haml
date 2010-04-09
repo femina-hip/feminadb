@@ -12,7 +12,7 @@
 
 = error_messages_for :waiting_order
 
-- form_for :waiting_order, :url => customer_waiting_orders_path(@customer) do |f|
+= form_for :waiting_order, :url => customer_waiting_orders_path(@customer) do |f|
   = render :partial => 'form', :locals => { :f => f }
   %p= submit_tag 'Create New Waiting Order'
 

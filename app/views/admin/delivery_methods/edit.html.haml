@@ -2,7 +2,7 @@
 
 = error_messages_for :delivery_method
 
-- form_for :delivery_method, :url => admin_delivery_method_path(@delivery_method), :html => { :method => :put } do |f|
+= form_for :delivery_method, :url => admin_delivery_method_path(@delivery_method), :html => { :method => :put } do |f|
   = render :partial => 'form', :locals => { :f => f }
 
   %p= submit_tag 'Save Changes'

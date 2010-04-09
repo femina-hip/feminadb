@@ -18,4 +18,4 @@
       = waiting_order.request_date
     %p
       %b Comments:
-    .redcloth= raw textilize(waiting_order.comments)
+    .redcloth= textilize(waiting_order.comments).html_safe

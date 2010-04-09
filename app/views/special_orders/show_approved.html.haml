@@ -40,7 +40,7 @@
 = render :partial => 'lines', :locals => { :lines => @special_order.lines, :show_num_copies => true }
 
 - if current_user.has_role?('edit-special-orders')
-  - form_for(@special_order, :url => { :action => 'complete' }) do |f|
+  = form_for(@special_order, :url => { :action => 'complete' }) do |f|
     %p After the Copies have been given, click here:
     %p= submit_tag 'Mark Special Order as Complete'
 

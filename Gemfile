@@ -1,9 +1,10 @@
 source 'http://gemcutter.org'
 
 gem 'acts_as_reportable', '1.1.1'
+gem 'delayed_job', '2.0.2'
 gem 'exception_notifier', '1.0.0'
 gem 'gruff', '0.3.6'
-gem 'haml', '2.2.20'
+gem 'haml', '3.0.0.beta.1'
 gem 'html_namespacing', '0.3.0'
 gem 'mysql', '2.8.1'
 gem 'RedCloth', '4.1.9'
@@ -27,6 +28,7 @@ end
 
 group :development, :test do
   gem 'ruby-debug'
+  gem 'bleak_house'
 end
 
 gem 'rails', "3.0.0.beta2"

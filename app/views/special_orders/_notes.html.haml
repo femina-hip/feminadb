@@ -14,19 +14,19 @@
   %tbody
     - special_order.notes.each do |note|
       %tr{:class => cycle('odd', 'even')}
-        %td.user= render_user note.created_by_user
-        %td.date= h note.created_at.to_formatted_s(:short)
+        %td.user= render_user(note.created_by_user)
+        %td.date= note.created_at.to_formatted_s(:short)
         %td.note
-          .redcloth= textilize note.note
+          .redcloth= textilize(note.note).html_safe
         - if current_user.has_role?('edit-special-orders')
           %td.actions
             = button_to 'Delete', special_order_note_path(special_order, note), :confirm => 'Are you sure you want to delete this Note from this Issue?', :method => :delete
     %tr{:class => cycle('odd', 'even')}
       - if logged_in?
-        %td.user= render_user current_user
+        %td.user= render_user(current_user)
         %td.date (now)
         %td.note{:colspan => 2}
-          - form_for special_order.notes.build, :url => special_order_notes_path(special_order) do |f|
+          = form_for(special_order.notes.build, :url => special_order_notes_path(special_order)) do |f|
             %div
               = f.text_area :note, :style => 'width: 100%; height: 4em;'
             %p= f.submit 'Write New Note'

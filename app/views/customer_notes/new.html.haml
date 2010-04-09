@@ -5,7 +5,7 @@
 
 = error_messages_for :note
 
-- form_for @note, :url => customer_notes_path(@customer) do |f|
+= form_for @note, :url => customer_notes_path(@customer) do |f|
   %div
     = f.text_area :note
   %p= submit_tag 'Write New Note'

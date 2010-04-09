@@ -3,5 +3,4 @@
 - Fix search term recognition ("name", etc)
 - mailers
 - bg processes
-- fix special orders creation
 - Fix customer.special_order_lines ordering

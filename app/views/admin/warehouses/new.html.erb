@@ -2,7 +2,7 @@
 
 <%= error_messages_for :warehouse %>
 
-<% form_for(:warehouse, :url => admin_warehouses_path) do |f| %>
+<%= form_for(:warehouse, :url => admin_warehouses_path) do |f| %>
   <p>
     <b>Warehouse Name</b><br />
     <%= f.text_field :name %>

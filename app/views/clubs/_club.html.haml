@@ -35,15 +35,15 @@
     %tr{:class => c.call}
       %th Objective
       %td
-        .redcloth= textilize club.objective
+        .redcloth= textilize(club.objective).html_safe
     %tr{:class => c.call}
       %th Eligibility
       %td
-        .redcloth= textilize club.eligibility
+        .redcloth= textilize(club.eligibility).html_safe
     %tr{:class => c.call}
       %th Work Plan
       %td
-        .redcloth= textilize club.work_plan
+        .redcloth= textilize(club.work_plan).html_safe
     %tr{:class => c.call}
       %th Applicant's Position
       %td= h club.form_submitter_position
@@ -53,15 +53,15 @@
     %tr{:class => c.call}
       %th Intended Duty
       %td
-        .redcloth= textilize club.intended_duty
+        .redcloth= textilize(club.intended_duty).html_safe
     %tr{:class => c.call}
       %th Founding Motivation
       %td
-        .redcloth= textilize club.founding_motivation
+        .redcloth= textilize(club.founding_motivation).html_safe
     %tr{:class => c.call}
       %th Cooperation Ideas
       %td
-        .redcloth= textilize club.cooperation_ideas
+        .redcloth= textilize(club.cooperation_ideas).html_safe
     - if current_user.has_role?('edit-customers')
       %tr.footer
         %td.edit{:colspan => 2}= link_to 'Edit Club Information', edit_club_path(club)

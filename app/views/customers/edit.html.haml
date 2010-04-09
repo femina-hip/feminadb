@@ -4,7 +4,7 @@
 
 = error_messages_for :customer
 
-- form_for :customer, :url => customer_path(@customer), :html => { :method => :put } do |f|
+= form_for :customer, :url => customer_path(@customer), :html => { :method => :put } do |f|
   = render :partial => 'customer_form', :locals => { :f => f }
   %p
     = submit_tag

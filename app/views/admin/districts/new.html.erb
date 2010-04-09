@@ -2,7 +2,7 @@
 
 <%= error_messages_for :district %>
 
-<% form_for(:district, :url => admin_districts_path) do |f| %>
+<%= form_for(:district, :url => admin_districts_path) do |f| %>
   <p>
     <b>Region</b><br />
     <%= f.select :region_id, Region.where(:deleted_at => nil).order(:name).all.collect{|r| [ r.name, r.id ]} %>

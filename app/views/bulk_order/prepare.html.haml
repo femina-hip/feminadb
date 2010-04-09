@@ -28,7 +28,7 @@
     After filling in this information, you may browse to the list of new
     Orders, from which you can edit the quantities.
 
-- form_for(:bulk_order, :url => run_bulk_order_path) do |f|
+= form_for(:bulk_order, :url => run_bulk_order_path) do |f|
   %div
     = f.hidden_field(:q)
     - if @bulk_order.from_publication_id

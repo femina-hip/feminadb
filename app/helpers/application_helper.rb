@@ -21,9 +21,9 @@ module ApplicationHelper
   # Normally returns user's login. If passed nil, returns "(unknown)"
   def render_user(user)
     if user
-      h user.login
+      h(user.login)
     else
-      '(unknown)'
+      '(unknown)'.html_safe
     end
   end
 end

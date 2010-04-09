@@ -7,7 +7,7 @@
 
 = error_messages_for :order
 
-- form_for :order, :url => customer_order_path(@customer, @order), :html => { :method => :put } do |f|
+= form_for :order, :url => customer_order_path(@customer, @order), :html => { :method => :put } do |f|
   = render :partial => 'form', :locals => { :f => f }
   %p= submit_tag
 
