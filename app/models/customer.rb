@@ -70,7 +70,7 @@ class Customer < ActiveRecord::Base
            :through => :special_orders,
            :source => :lines,
            :include => { :issue => :publication },
-           #:order => 'publications.name, issues.issue_number, special_orders.requested_for_date DESC', #FIXME
+           :order => 'publications.name, issues.issue_number DESC, special_orders.requested_for_date DESC',
            :conditions => 'special_order_lines.deleted_at IS NULL'
   has_many :notes,
            :dependent => :destroy,
