@@ -1,5 +1,4 @@
 - Make VestalVersions include original version
-- Make destroying just set deleted_at
 - Test that editing club reindexes customer
 - Fix search term recognition ("name", etc)
 - mailers
