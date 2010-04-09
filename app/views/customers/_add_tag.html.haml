@@ -1,7 +1,7 @@
 -# Local variables: customer, a Customer
 .add-tag
   - if logged_in?
-    - form_tag "/customers/#{customer.id}/tag/create" do
+    = form_tag("/customers/#{customer.id}/tag/create") do
       %p
         Add new tag:
         = text_field_with_auto_complete(:tag, :name, {}, :url => { :controller => 'tag', :action => 'auto_complete_for_tag_name' }, :select => 'name')
