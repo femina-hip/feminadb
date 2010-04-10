@@ -28,6 +28,9 @@ end
 
 group :development, :test do
   gem 'ruby-debug'
+end
+
+group :benchmark do
   gem 'bleak_house'
 end
 
