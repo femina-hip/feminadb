@@ -27,7 +27,7 @@
 = will_paginate @standing_orders
 
 %p.actions
-  = link_to('Export Data to Excel', publication_standing_orders_path(@publication, :format => :csv, :q => params[:q])
+  = link_to('Export Data to Excel', publication_standing_orders_path(@publication, :format => :csv, :q => params[:q]))
   - if current_user.has_role?('edit-orders')
     |
     = link_to 'Create Orders for an Issue using this list', :controller => 'bulk_order', :action => 'prepare', :from_publication_id => @publication.id, :q => params[:q]
