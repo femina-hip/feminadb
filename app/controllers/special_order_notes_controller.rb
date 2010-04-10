@@ -30,7 +30,7 @@ class SpecialOrderNotesController < ApplicationController
   def destroy
     #load_object
     before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
+    if current_object.soft_delete
       after :destroy
       response_for :destroy
     else

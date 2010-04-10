@@ -30,7 +30,7 @@ class CustomerNotesController < ApplicationController
   def destroy
     #load_object
     before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
+    if current_object.soft_delete
       after :destroy
       response_for :destroy
     else
@@ -40,6 +40,11 @@ class CustomerNotesController < ApplicationController
   end
 
   protected
+
+  def parent_path
+    # Work around bug in make_resourceful
+    customer_path(parent_object)
+  end
 
   def instance_variable_name
     'notes'
