@@ -1,44 +1,44 @@
 = render_pretty_header 'Showing Customer' do
   %p= "This page has all our information on <b>#{h(@customer.name)}</b>:".html_safe
   %ul
-    %li= link_to 'General Information', :anchor => 'general_information'
-    %li= link_to 'Standing Orders', :anchor => 'standing_orders'
-    %li= link_to 'Waiting Orders', :anchor => 'waiting_orders'
-    %li= link_to 'Orders', :anchor => 'orders'
-    %li= link_to 'Special Orders', :anchor => 'special_orders'
-    %li= link_to 'Club Information', :anchor => 'club'
-    %li= link_to 'Notes', :anchor => 'notes'
+    %li= link_to('General Information', :anchor => 'general_information')
+    %li= link_to('Standing Orders', :anchor => 'standing_orders')
+    %li= link_to('Waiting Orders', :anchor => 'waiting_orders')
+    %li= link_to('Orders', :anchor => 'orders')
+    %li= link_to('Special Orders', :anchor => 'special_orders')
+    %li= link_to('Club Information', :anchor => 'club')
+    %li= link_to('Notes', :anchor => 'notes')
 
 %a#general_information
-= render :partial => 'customer', :locals => { :customer => @customer }
+= render(@customer)
 
 %a#standing_orders
-= render :partial => 'customer_standing_orders/standing_orders', :locals => { :standing_orders => @customer.standing_orders }
+= render(:partial => 'customer_standing_orders/standing_orders', :locals => { :standing_orders => @customer.standing_orders })
 
 %a#waiting_orders
-= render :partial => 'customer_waiting_orders/waiting_orders', :locals => { :waiting_orders => @customer.waiting_orders }
+= render(:partial => 'customer_waiting_orders/waiting_orders', :locals => { :waiting_orders => @customer.waiting_orders })
 
 %a#orders
-= render :partial => 'customer_orders/orders', :locals => { :orders => @customer.orders }
+= render(:partial => 'customer_orders/orders', :locals => { :orders => @customer.orders })
 
 %a#special_orders
 = render(:partial => 'special_order_lines')
 
 %a#club
 - if @customer.club
-  = render :partial => 'clubs/club', :locals => { :club => @customer.club }
+  = render(:partial => 'clubs/club', :locals => { :club => @customer.club })
 - else
   %p
     There is no Club attached to this Customer.
     - if logged_in?
-      = link_to 'Add Club information', new_club_path(:customer_id => @customer.id)
+      = link_to('Add Club information', new_club_path(:customer_id => @customer.id))
 
 %a#notes
-= render :partial => 'notes', :locals => { :customer => @customer }
+= render(:partial => 'notes', :locals => { :customer => @customer })
 
-= render :partial => 'add_tag', :locals => { :customer => @customer }
+= render(:partial => 'add_tag', :locals => { :customer => @customer })
 
 %p.actions
-  = link_to 'Enter a new Special Order for this Customer', new_special_order_path(:customer_id => @customer)
+  = link_to('Enter a new Special Order for this Customer', new_special_order_path(:customer_id => @customer))
   |
-  = link_to 'Back to Customers', customers_path
+  = link_to('Back to Customers', customers_path)
