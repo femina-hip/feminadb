@@ -17,7 +17,6 @@
       %th District
       %th Type
       %th Customer
-      %th
   %tbody
     - @customers.each do |customer|
       %tr{:class => cycle('odd', 'even')}
@@ -26,18 +25,16 @@
         %td.type
           %abbr{:title => customer.type.description}= customer.type.name
         %td.customer-name
-          .cut-off= customer.name
-        %td.actions
-          =link_to 'Show', customer
+          .cut-off= link_to(customer.name, customer)
     - if current_user.has_role? 'edit-customers'
       %tr
-        %td{:colspan => 5, :class => 'add'}
+        %td.add{:colspan => 4}
           = link_to 'Create New Customer', new_customer_path
 
-= will_paginate @customers
+= will_paginate(@customers)
 
 %p.actions
   = link_to 'Export Data to Excel', customers_url(params.slice(:q), :format => :csv)
   - if current_user.has_role?('edit-orders')
     |
-    = link_to 'Create Orders for everybody in this list', prepare_bulk_order_path(:q => params[:q])
+    = link_to('Create Orders for everybody in this list', prepare_bulk_order_path(:q => params[:q]))
