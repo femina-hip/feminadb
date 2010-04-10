@@ -14,7 +14,7 @@ Feminadb::Application.routes.draw do
     resources :standing_orders
     resources :waiting_orders
     resources :orders
-    resources :notes
+    resources :notes, :controller => 'CustomerNotes'
     resource :club
   end
   match 'customers/:customer_id/tag/create' => 'Tag#create'
