@@ -35,9 +35,10 @@ class Issue < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :issue_date
   validates_presence_of :issue_number
-  validates_uniqueness_of :name, :scope => :publication_id,
-                          :case_sensitive => false
-  validates_uniqueness_of :issue_number, :scope => :publication_id
+  validates_uniqueness_of :name, :scope => [ :publication_id, :deleted_at ],
+                          :case_sensitive => false, :unless => lambda { |issue| issue.deleted_at }
+  validates_uniqueness_of :issue_number, :scope => [ :publication_id, :deleted_at ],
+                          :case_sensitive => false, :unless => lambda { |issue| issue.deleted_at }
   validates_format_of :issue_number,
                       :with => /\A[-\.A-Za-z0-9]+\Z$/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
@@ -288,29 +289,26 @@ class Issue < ActiveRecord::Base
         attr :districts
 
         def initialize
-          @districts = []
-          @data = {}
+          @districts = {}
         end
 
         # Used during construction
         def feed(order)
           order.num_boxes # Throw an exception if applicable
-          if @districts.empty? or @districts.last != order.district
-            @districts << order.district
-          end
 
-          @data[order.district] ||= []
-          @data[order.district] << order
+          @districts[order.district || ''] ||= []
+          @districts[order.district || ''] << order
         end
 
         def each(&block)
-          @districts.collect{ |d| [ d, @data[d] ]}.each(&block)
+          keys = @districts.keys.sort
+          keys.collect{|d| [ d, @districts[d] ]}.each(&block)
         end
 
         # Calculates the total of :attr in the orders
         def total(attr)
           @total ||= {}
-          @total[attr] ||= @data.values.inject(0) do |sum, orders|
+          @total[attr] ||= @districts.values.inject(0) do |sum, orders|
             sum + orders.inject(0) do |sum2, order|
               sum2 + order.send(attr).to_i
             end
@@ -319,7 +317,7 @@ class Issue < ActiveRecord::Base
 
         # Calculates the total number of boxes of the given size
         def total_boxes(ibs)
-          @data.values.inject(0) do |sum, orders|
+          @districts.values.inject(0) do |sum, orders|
             sum + orders.inject(0) do |sum2, order|
               sum2 + order.num_boxes[ibs].to_i
             end
