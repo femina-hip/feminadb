@@ -83,8 +83,8 @@ class Customer < ActiveRecord::Base
   validates_presence_of :region_id
   validates_presence_of :customer_type_id
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [ :region_id, :district ],
-                          :case_sensitive => false
+  validates_uniqueness_of :name, :scope => [ :region_id, :district, :deleted_at ],
+                          :case_sensitive => false, :if => lambda { |c| c.deleted_at.nil? }
   validates_presence_of :delivery_method_id
 
   before_validation :clear_deliver_via_if_same_as_name

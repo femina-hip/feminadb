@@ -14,7 +14,7 @@ class WaitingOrder < ActiveRecord::Base
   validates_presence_of :customer_id
   validates_presence_of :publication_id
   validates_presence_of :request_date
-  validates_uniqueness_of :publication_id, :scope => :customer_id
+  validates_uniqueness_of :publication_id, :scope => [ :customer_id, :deleted_at ], :if => lambda { |wo| wo.deleted_at.nil? }
   validates_inclusion_of :num_copies, :in => 1..9999999, :message => 'must be greater than 0'
 
   date_field :request_date

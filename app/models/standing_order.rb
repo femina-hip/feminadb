@@ -11,7 +11,7 @@ class StandingOrder < ActiveRecord::Base
 
   validates_presence_of :customer_id
   validates_presence_of :publication_id
-  validates_uniqueness_of :publication_id, :scope => :customer_id
+  validates_uniqueness_of :publication_id, :scope => [ :customer_id, :deleted_at ], :if => lambda { |so| so.deleted_at.nil? }
   validates_inclusion_of :num_copies, :in => 1..9999999, :message => 'must be greater than 0'
   validate :publication_tracks_standing_orders
 

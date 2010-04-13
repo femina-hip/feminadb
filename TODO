@@ -2,4 +2,3 @@
 - Test that editing club reindexes customer
 - Fix search term recognition ("name", etc)
 - mailers
-- Make sure validates_uniqueness_of considers deleted_at

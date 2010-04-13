@@ -17,5 +17,5 @@ class Region < ActiveRecord::Base
            :conditions => 'districts.deleted_at IS NULL'
 
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :deleted_at, :if => lambda { |r| r.deleted_at.nil? }
 end
