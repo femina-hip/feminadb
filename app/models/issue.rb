@@ -228,18 +228,19 @@ class Issue < ActiveRecord::Base
         conditions.merge!(:delivery_method_id => delivery_method.id)
       end
 
-      orders = Order.where(conditions).includes(:customer, :region, :delivery_method).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name').all
+      orders = Order.where(conditions).includes(:customer, :region, :delivery_method, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
+      Order.send(:preload_associations, orders.collect(&:issue), :issue_box_sizes)
 
       orders.each do |order|
         @delivery_methods[order.delivery_method] ||= DistributionListSubData.new
-        @delivery_methods[order.delivery_method].feed order
+        @delivery_methods[order.delivery_method].feed(order)
       end
     end
 
-    def each
-      @delivery_methods.keys.sort(&:name).each do |dm|
-        yield [dm, @delivery_methods[dm]]
-      end
+    def each(&block)
+      keys = @delivery_methods.keys
+      keys.sort!{ |dm1, dm2| dm1.name <=> dm2.name }
+      keys.collect{|dm| [ dm, @delivery_methods[dm] ]}.each(&block)
     end
 
     # Created by Issue.distribution_list_data
@@ -257,13 +258,13 @@ class Issue < ActiveRecord::Base
       # Used during construction
       def feed(order)
         @regions[order.region] ||= DistributionListSubSubData.new
-        @regions[order.region].feed order
+        @regions[order.region].feed(order)
       end
 
-      def each
-        @regions.sort(&:name).each do |r|
-          yield [r, @regions[r]]
-        end
+      def each(&block)
+        keys = @regions.keys
+        keys.sort!{ |r1, r2| r1.name <=> r2.name }
+        keys.collect{ |r| [ r, @regions[r] ]}.each(&block)
       end
 
       # Calculates the total of :attr in the orders
@@ -302,10 +303,8 @@ class Issue < ActiveRecord::Base
           @data[order.district] << order
         end
 
-        def each
-          @districts.each do |district|
-            yield [ district, @data[district] ]
-          end
+        def each(&block)
+          @districts.collect{ |d| [ d, @data[d] ]}.each(&block)
         end
 
         # Calculates the total of :attr in the orders
