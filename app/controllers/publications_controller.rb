@@ -7,7 +7,7 @@ class PublicationsController < ApplicationController
     response_for(:create) do |format|
       format.html do
         set_default_flash :notice, 'Publication was successfully created.'
-        set_default_redirect objects_path
+        set_default_redirect(objects_path)
       end
       format.xml  { head :ok }
     end
@@ -15,7 +15,7 @@ class PublicationsController < ApplicationController
     response_for(:update) do |format|
       format.html do
         set_default_flash :notice, 'Publication was successfully updated.'
-        set_default_redirect objects_path
+        set_default_redirect(objects_path)
       end
       format.xml  { head :ok }
     end
