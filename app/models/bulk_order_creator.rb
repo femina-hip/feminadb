@@ -17,7 +17,7 @@ class BulkOrderCreator
 
     Order.transaction do
       find_standing_orders_from_publication_id(publication_id, q).each do |standing_order|
-        ret << create_order!(standing_order.customer, issue_id, num_copies, args)
+        ret << create_order!(standing_order.customer, issue_id, standing_order.num_copies, args.merge(:extra => { :standing_order_id => standing_order.id }))
       end
     end
 
@@ -82,7 +82,7 @@ class BulkOrderCreator
       CustomersSearcher.apply_query_string_to_search(self, q)
       paginate(:page => 1, :per_page => lots)
     end
-    StandingOrder.where(:publication_id => publication_id, :customer_id => ids).includes(:customer).all
+    StandingOrder.where(:publication_id => publication_id, :customer_id => ids, :deleted_at => nil).includes(:customer).all
   end
 
   def find_orders_from_issue_id(issue_id, q)
@@ -91,7 +91,7 @@ class BulkOrderCreator
       CustomersSearcher.apply_query_string_to_search(self, q)
       paginate(:page => 1, :per_page => lots)
     end
-    Order.where(:issue_id => issue_id, :customer_id => ids).includes(:customer).all
+    Order.where(:issue_id => issue_id, :customer_id => ids, :deleted_at => nil).includes(:customer).all
   end
 
   def find_customers(q)
@@ -105,8 +105,9 @@ class BulkOrderCreator
   def create_order!(customer, issue_id, num_copies, options = {})
     order_date = options[:order_date] || DateTime.now
     delivery_method_id = options[:delivery_method_id] || customer.delivery_method_id
+    extra = options[:extra] || {}
 
-    Order.create!(
+    Order.create!(extra.merge(
       :customer_id => customer.id,
       :region_id => customer.region_id,
       :district => customer.district,
@@ -119,6 +120,6 @@ class BulkOrderCreator
       :num_copies => num_copies,
       :comments => options[:comments],
       :order_date => order_date
-    )
+    ))
   end
 end
