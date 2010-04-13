@@ -3,4 +3,3 @@
 - Fix search term recognition ("name", etc)
 - mailers
 - Make sure validates_uniqueness_of considers deleted_at
-- Make Orders, Standing Orders and Waiting Orders hidden by default on Customer
