@@ -52,7 +52,7 @@ Feminadb::Application.routes.draw do
     resources :waiting_orders, :controller => 'publication_waiting_orders'
   end
 
-  resources :modifications
+  resources :modifications, :only => :index
   resources :reports, :only => [ :index, :show ]
   resources :report_graphs, :only => [ :show ]
 
