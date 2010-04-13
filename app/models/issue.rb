@@ -8,9 +8,6 @@ class Issue < ActiveRecord::Base
   acts_as_reportable
 
   belongs_to :publication
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   has_many :issue_box_sizes,
            :order => :num_copies,
            :dependent => :destroy,

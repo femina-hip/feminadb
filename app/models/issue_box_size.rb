@@ -3,9 +3,6 @@ class IssueBoxSize < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   belongs_to :issue
   has_many :warehouse_issue_box_sizes,
            :dependent => :destroy,

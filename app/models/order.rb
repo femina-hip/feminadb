@@ -8,9 +8,6 @@ class Order < ActiveRecord::Base
   belongs_to :delivery_method
   belongs_to :region
   belongs_to :standing_order
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
 
   validates_presence_of :customer_id
   validates_presence_of :issue_id

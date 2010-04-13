@@ -3,9 +3,6 @@ class CustomerType < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   has_many :customers,
            :dependent => :restrict,
            :conditions => 'customers.deleted_at IS NULL'

@@ -3,9 +3,6 @@ class District < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   belongs_to :region
 
   validates_uniqueness_of :name, :scope => [ :region_id, :deleted_at ], :if => lambda { |d| d.deleted_at.nil? }

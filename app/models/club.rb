@@ -13,9 +13,6 @@ class Club < ActiveRecord::Base
   date_field :date_founded
 
   belongs_to :customer
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
 
   def telephones_string
     [ telephone_1, telephone_2 ].collect{|ct| ct.to_s.strip}.select{|ct| not ct.empty?}.join(', ')

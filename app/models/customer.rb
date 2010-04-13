@@ -45,9 +45,6 @@ class Customer < ActiveRecord::Base
              :foreign_key => 'customer_type_id'
   belongs_to :delivery_method
   belongs_to :region
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   has_many :standing_orders,
            :dependent => :destroy,
            :include => [ :publication ],

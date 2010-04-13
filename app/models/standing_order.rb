@@ -5,9 +5,6 @@ class StandingOrder < ActiveRecord::Base
 
   belongs_to :customer
   belongs_to :publication
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
 
   validates_presence_of :customer_id
   validates_presence_of :publication_id
