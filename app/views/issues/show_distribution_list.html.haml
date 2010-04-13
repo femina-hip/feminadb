@@ -7,15 +7,15 @@
 
   %p
     If you want to print this list, there is a
-    = link_to('Print version', print_distribution_list_url, :onclick => render_loading)
+    = link_to('Print version', print_distribution_list_url)
     available.
 
-  %p= link_to 'View Issue Information', [@publication, @issue]
+  %p= link_to('View Issue Information', [@publication, @issue])
 
   %p
     - if @delivery_method
       Only showing Delivery Method:
-      = h @delivery_method.name
+      = @delivery_method.name
 
 - if @data.nil?
   .error
@@ -25,4 +25,4 @@
       problem.
 - else
   - @data.each do |delivery_method, regions|
-    = render :partial => 'distribution_list', :locals => { :delivery_method => delivery_method, :regions => regions }
+    = render('distribution_list', :delivery_method => delivery_method, :regions => regions)

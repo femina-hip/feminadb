@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_special_order_lines, :show_distribution_order, :orders_in_district ]
-  before_filter :get_publication, :only => [ :index, :new, :create, :edit, :update, :destroy ]
+  before_filter :get_publication
 
   make_resourceful do
     actions :index, :new, :create, :edit, :update, :destroy
@@ -107,13 +107,13 @@ class IssuesController < ApplicationController
   protected
 
   def current_objects
-    @current_objects ||= parent_object.issues.where(:deleted_at => nil).order('issue_number DESC').all
+    @current_objects ||= Issue.where(:publication_id => params[:publication_id], :deleted_at => nil).includes(:publication).order('issue_number DESC').all
   end
 
   private
 
   def get_publication
-    @publication = if plural?
+    @publication = if params[:action] == 'index'
       current_objects.first && current_objects.first.publication
     else
       current_object && current_object.publication

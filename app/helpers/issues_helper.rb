@@ -8,6 +8,6 @@ module IssuesHelper
   end
 
   def print_distribution_list_url
-    formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf, params.reject{|k,v| k.to_sym != :delivery_method_id})
+    show_distribution_list_publication_issue_url(@publication, @issue, params.slice(:delivery_method_id).merge(:format => :pdf))
   end
 end
