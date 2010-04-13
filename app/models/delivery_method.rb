@@ -3,10 +3,10 @@ class DeliveryMethod < ActiveRecord::Base
 
   belongs_to :warehouse
   has_many :orders,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'orders.deleted_at IS NULL'
   has_many :customers,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'customers.deleted_at IS NULL'
 
   validates_presence_of :abbreviation

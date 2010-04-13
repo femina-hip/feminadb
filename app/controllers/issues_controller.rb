@@ -1,15 +1,15 @@
 class IssuesController < ApplicationController
   require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_special_order_lines, :show_distribution_order, :orders_in_district ]
-  before_filter :get_publication
+  before_filter :get_publication, :only => [ :index, :new, :create, :edit, :update, :destroy ]
 
   make_resourceful do
-    actions :index, :show, :new, :create, :edit, :update, :destroy
+    actions :index, :new, :create, :edit, :update, :destroy
+  end
 
-    belongs_to :publication
-
-    before(:show) do
-      @warehouses = Warehouse.find_all_inventory(:order => :name)
-    end
+  def show
+    @issue = Issue.includes(:publication).find(params[:id])
+    @publication = @issue.publication
+    @warehouses = Warehouse.inventory.order(:name).all
   end
 
   # GET /publications/1/issues/1/show_packing_instructions
@@ -88,7 +88,8 @@ class IssuesController < ApplicationController
   end
 
   def authorized_for_generate_orders?
-    current_user.has_role?('admin')
+    true
+    #current_user.has_role?('admin')
   end
 
   def destroy
@@ -104,15 +105,18 @@ class IssuesController < ApplicationController
   end
 
   protected
-    def current_objects
-      @current_objects ||= Issue.find_all_by_publication_id(
-        params[:publication_id],
-        :order => 'issue_number DESC'
-      )
-    end
+
+  def current_objects
+    @current_objects ||= parent_object.issues.where(:deleted_at => nil).order('issue_number DESC').all
+  end
 
   private
-    def get_publication
-      @publication = Publication.find(params[:publication_id])
+
+  def get_publication
+    @publication = if plural?
+      current_objects.first && current_objects.first.publication
+    else
+      current_object && current_object.publication
     end
+  end
 end

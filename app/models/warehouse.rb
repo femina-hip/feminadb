@@ -9,7 +9,7 @@ class Warehouse < ActiveRecord::Base
            :through => :warehouse_issue_box_sizes,
            :conditions => 'issues.deleted_at IS NULL AND warehouse_issue_box_sizes.deleted_at IS NULL'
   has_many :delivery_methods,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'delivery_methods.deleted_at IS NULL'
 
   validates_presence_of :name

@@ -53,16 +53,16 @@
 
 %ul.actions
   - if @publication.tracks_standing_orders? and controller.authorized_for_generate_orders?
-    %li= button_to 'Generate Orders from Standing Orders', { :controller => 'standing_orders_to_orders', :action => 'start_task', :id => @issue }, :onclick => render_loading
+    %li= button_to 'Generate Orders from Standing Orders', generate_orders_from_standing_orders_path(@issue)
   %li= link_to 'Show Orders', publication_issue_orders_url(@publication, @issue)
   %li= link_to 'Show Special Orders', show_special_order_lines_publication_issue_url(@publication, @issue)
-  %li= link_to 'Show Packing Instructions', show_packing_instructions_publication_issue_url(@publication, @issue), :onclick => render_loading
-  %li= link_to 'Show Distribution Quote Request', show_distribution_quote_request_publication_issue_url(@publication, @issue), :onclick => render_loading
-  %li= link_to 'Show Distribution Order', show_distribution_order_publication_issue_url(@publication, @issue), :onclick => render_loading
+  %li= link_to 'Show Packing Instructions', show_packing_instructions_publication_issue_url(@publication, @issue)
+  %li= link_to 'Show Distribution Quote Request', show_distribution_quote_request_publication_issue_url(@publication, @issue)
+  %li= link_to 'Show Distribution Order', show_distribution_order_publication_issue_url(@publication, @issue)
   %li
     %span
-      = link_to 'Show Distribution List [Web]', show_distribution_list_publication_issue_url(@publication, @issue), :onclick => render_loading
-      = link_to '[Print]', formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf), :onclick => render_loading
+      = link_to 'Show Distribution List [Web]', show_distribution_list_publication_issue_url(@publication, @issue)
+      = link_to '[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :format => :pdf)
       (All Delivery Methods)
     %div
       Or show the Distribution List for only one Delivery Method:
@@ -70,8 +70,8 @@
         - DeliveryMethod.where(:deleted_at => nil).order(:name).all.each do |dm|
           - if Order.where(:deleted_at => nil).where(:issue_id => @issue.id).where(:delivery_method_id => dm.id).count != 0
             %li
-              = link_to "Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id), :onclick => render_loading
-              = link_to '[Print]', formatted_show_distribution_list_publication_issue_url(@publication, @issue, :pdf, :delivery_method_id => dm.id), :onclick => render_loading
+              = link_to "Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id)
+              = link_to '[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :pdf)
   %li= link_to 'Back to Issue List', publication_issues_url(@publication)
 
 = render :partial => 'notes', :locals => { :issue => @issue }

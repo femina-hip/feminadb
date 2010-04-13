@@ -2,8 +2,6 @@ class BulkOrderController < ApplicationController
   require_role 'edit-orders'
   verify :only => :run, :method => :post
   verify :only => :prepare, :method => :get
-  verify :only => :update_progress_bar, :method => :get,
-         :xhr => true, :session => :bulk_order_key
 
   def prepare
     @customers = customers(params)
@@ -30,7 +28,7 @@ class BulkOrderController < ApplicationController
     options[:comments] = bulk_order_in[:comments] unless bulk_order_in[:comments].to_s.strip.empty?
     options[:recipients] = [ current_user.email ]
 
-    Customer.logger.info("XXXX #{options.inspect} XXXX")
+    Rails.logger.info("Creating bulk orders with options: #{options.inspect}")
 
     validated = true
     if !options[:from_issue_id] && !options[:from_publication_id] && options[:num_copies].to_i <= 0
@@ -52,30 +50,18 @@ class BulkOrderController < ApplicationController
       return
     end
 
-    session[:bulk_order_key] =
-      ::MiddleMan.new_worker(:class => :bulk_order_worker, :args => options)
-    render :action => :progress, :layout => 'progress_bar_page'
-  end
-
-  def update_progress_bar
-    begin
-      worker = ::MiddleMan.worker(session[:bulk_order_key])
-    rescue NoMethodError
+    if args[:from_issue_id]
+      logger.info "Copying from past issue"
+      BulkOrderCreator.new.send_later(:do_copy_from_issue, args)
+    elsif args[:from_publication_id]
+      logger.info "Copying from past publication"
+      BulkOrderCreator.new.send_later(:do_copy_from_publication, args)
+    else
+      logger.info "Copying from customers query"
+      BulkOrderCreator.new.send_later(:do_copy_from_customers, args)
     end
 
-    if worker.nil?
-      flash[:notice] = 'Orders all created (unless you were emailed).'
-      render :update do |page|
-        page.redirect_to publications_url
-      end
-      return
-    end
-
-    r = worker.results.to_hash
-
-    @msg = 'Working... (Sorry there is no progress bar...)'
-
-    render :action => 'update_progress_bar'
+    redirect_to(publications_url)
   end
 
   private

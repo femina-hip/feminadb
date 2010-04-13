@@ -3,12 +3,9 @@ class Publication < ActiveRecord::Base
   versioned
   acts_as_reportable
 
-  belongs_to :updated_by_user,
-             :class_name => 'User',
-             :foreign_key => :updated_by
   has_many :issues,
            :order => :issue_number,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'issues.deleted_at IS NULL'
   has_many :standing_orders,
            :dependent => :destroy,

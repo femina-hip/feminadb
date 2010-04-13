@@ -18,7 +18,7 @@ module SoftDeletable
   private
 
   def soft_delete_would_delete_protected_dependent?(assoc)
-    if assoc.options[:dependent] == :protect && !send(assoc.name).empty?
+    if assoc.options[:dependent] == :restrict && !send(assoc.name).empty?
       return true
     end
 

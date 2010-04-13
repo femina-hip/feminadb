@@ -7,7 +7,7 @@ class CustomerType < ActiveRecord::Base
              :class_name => 'User',
              :foreign_key => :updated_by
   has_many :customers,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'customers.deleted_at IS NULL'
 
   validates_presence_of :name

@@ -7,10 +7,10 @@ class Region < ActiveRecord::Base
              :class_name => 'User',
              :foreign_key => :updated_by
   has_many :customers,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'customers.deleted_at IS NULL'
   has_many :orders,
-           :dependent => :protect,
+           :dependent => :restrict,
            :conditions => 'orders.deleted_at IS NULL'
   has_many :districts,
            :dependent => :destroy,

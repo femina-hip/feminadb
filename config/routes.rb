@@ -32,6 +32,11 @@ Feminadb::Application.routes.draw do
     resources :issues do
       member do
         get :orders_in_district
+        get :show_special_order_lines
+        get :show_packing_instructions
+        get :show_distribution_quote_request
+        get :show_distribution_order
+        get :show_distribution_list
       end
 
       resources :notes
@@ -64,6 +69,7 @@ Feminadb::Application.routes.draw do
   resource :inventory
   resource :help
 
+  match 'standing_orders_to_orders/:id' => 'standing_orders_to_orders#start_task', :as => 'generate_orders_from_standing_orders', :method => :post
   match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
 

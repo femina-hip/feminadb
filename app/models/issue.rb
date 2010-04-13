@@ -56,12 +56,12 @@ class Issue < ActiveRecord::Base
 
   # Returns a string list of issue box sizes
   def issue_box_sizes_string(force_reload = false)
-    issue_box_sizes(force_reload).map{|ibs| ibs.num_copies}.sort.join(', ')
+    issue_box_sizes(force_reload).collect(&:num_copies).sort.join(', ')
   end
 
   # Returns [1, 50, 75, 100]
   def issue_box_sizes_i
-    @issue_box_sizes_i ||= issue_box_sizes.collect{|ibs| ibs.num_copies}
+    @issue_box_sizes_i ||= issue_box_sizes.collect(&:num_copies)
   end
 
   # Sets the box sizes of the issue
