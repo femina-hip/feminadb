@@ -1,11 +1,11 @@
 -# Required variables: "customer" => a customer
 %table.customer
-  %thead
+  %thead.general-information
     %tr
       %th{:colspan => 2}
         General Information:
         %b= customer.name
-  %tbody
+  %tbody.general-information
     %tr.first
       %th Name
       %td= customer.name
@@ -22,10 +22,10 @@
       %th District
       %td= customer.district
 
-  %thead
+  %thead.delivery-details
     %tr
-      %th Delivery Details
-  %tbody
+      %th{:colspan => 2} Delivery Details
+  %tbody.delivery-details
     %tr.first
       %th Delivery Method
       %td
@@ -49,10 +49,10 @@
     %tr.last
       %th PO Box
       %td= customer.po_box
-  %thead
+  %thead.contact-details
     %tr
-      %th Contact Details
-  %tbody
+      %th{:colspan => 2} Contact Details
+  %tbody.contact-details
     %tr.first
       %th Name/Position
       %td= "#{customer.contact_name}#{customer.contact_position ? ', ' + customer.contact_position : ''}"

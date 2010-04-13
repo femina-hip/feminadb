@@ -3,7 +3,7 @@
 %table.customer-special-order-lines
   %thead.title
     %tr
-      %th{:colspan => 9} Special Orders
+      %th{:colspan => 9}= "Special Orders (#{@customer.special_order_lines.count})"
   %thead
     %tr
       %th Publication

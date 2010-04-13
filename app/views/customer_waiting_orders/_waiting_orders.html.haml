@@ -5,6 +5,7 @@
     %tr
       %th{:colspan => (current_user.has_role?('edit-orders') ? 5 : 4)}
         = glossary_term('Waiting Orders')
+        = "(#{waiting_orders.count})"
   %thead
     %tr
       %th Publication

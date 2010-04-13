@@ -3,7 +3,8 @@
 %table.customer-orders
   %thead.title
     %tr
-      %th{:colspan => (current_user.has_role?('edit-orders') ? 7 : 6)} Orders
+      %th{:colspan => (current_user.has_role?('edit-orders') ? 7 : 6)}
+        = "Orders (#{orders.length})"
   %thead
     %tr
       %th Publication
