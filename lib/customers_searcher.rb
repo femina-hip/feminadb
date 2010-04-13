@@ -1,5 +1,7 @@
 module CustomersSearcher
   def self.apply_query_string_to_search(search_object, query)
+    search_object.with(:deleted, false)
+
     leftover_terms = []
 
     (query || '').scan(/\w+:"[^"]*"|\w+:'[^']*'|\w+:\w+|\w+/) do |term|

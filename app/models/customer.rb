@@ -38,6 +38,7 @@ class Customer < ActiveRecord::Base
     Club.column_names.each do |c|
       text("club_#{c}") { club && club.send(c) }
     end
+    boolean(:deleted) { !deleted_at.nil? }
   end
 
   belongs_to :type, :class_name => 'CustomerType',
