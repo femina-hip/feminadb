@@ -3,13 +3,60 @@ class IssuesController < ApplicationController
   before_filter :get_publication
 
   make_resourceful do
-    actions :index, :new, :create, :edit, :update, :destroy
+    actions :index, :new, :edit, :destroy
+
+    #belongs_to(:publication) # FIXME make_resourceful crashes
+    # FIXME when belongs_to(:publication) is restored, these can go
+    IssuesController.send(:define_method, :instance_route) do |*args|
+      name = args[0]
+      object = args[1]
+      type = args[2]
+      action = args[3]
+      send("#{action ? action + '_' : ''}#{url_helper_prefix}#{collection_url_prefix}#{name}_#{type}", [object.publication, object])
+    end
+    IssuesController.send(:define_method, :collection_route) do |*args|
+      name = args[0]
+      type = args[1]
+      action = args[2]
+      send("#{action ? action + '_' : ''}#{url_helper_prefix}#{collection_url_prefix}#{name}_#{type}", @publication)
+    end
+    IssuesController.send(:define_method, :collection_url_prefix) do
+      'publication_'
+    end
   end
 
   def show
     @issue = Issue.includes(:publication).find(params[:id])
     @publication = @issue.publication
     @warehouses = Warehouse.inventory.order(:name).all
+  end
+
+  def create
+    @issue = @publication.issues.build(params[:issue].merge(:updated_by => current_user))
+
+    respond_to do |format|
+      if @issue.save
+        format.html { redirect_to([@issue.publication, @issue], :notice => 'Issue was successfully created.') }
+        format.xml  { render(:xml => @issue, :status => :created, :location => @issue) }
+      else
+        format.html { render(:action => "new") }
+        format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity) }
+      end
+    end
+  end
+
+  def update
+    @issue = Issue.includes(:publication).find(params[:id])
+
+    respond_to do |format|
+      if @issue.update_attributes(params[:issue].merge(:updated_by => current_user))
+        format.html { redirect_to([@issue.publication, @issue], :notice => 'Issue was successfully updated.') }
+        format.xml { head :ok }
+      else
+        format.html { render(:action => 'edit') }
+        format.xml { render(:xml => @issue.errors, :status => :unprocessable_entity) }
+      end
+    end
   end
 
   # GET /publications/1/issues/1/show_packing_instructions
@@ -115,8 +162,10 @@ class IssuesController < ApplicationController
   def get_publication
     @publication = if params[:action] == 'index'
       current_objects.first && current_objects.first.publication
+    elsif current_object
+      current_object.publication
     else
-      current_object && current_object.publication
+      Publication.find(params[:publication_id])
     end
   end
 end
