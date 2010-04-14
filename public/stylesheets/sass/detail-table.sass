@@ -68,3 +68,15 @@ table.customer
     tr.last
       td, th
         :padding-bottom 10px
+
+  div.similar
+    :border = 1px solid !border_color
+    :padding 0 1em
+    :font-size .75em
+
+    &.empty
+      :display none
+    &.querying
+      :background-color #f8e473
+    &.match
+      :background-color #f8c693

@@ -327,6 +327,14 @@ table.customer tbody tr.first td, table.customer tbody tr.first th {
   padding-top: 10px; }
 table.customer tbody tr.last td, table.customer tbody tr.last th {
   padding-bottom: 10px; }
+table.customer div.similar {
+  border: 1px solid #009ee0;
+  padding: 0 1em;
+  font-size: 0.75em; }
+  table.customer div.similar.querying {
+    background-color: #f8e473; }
+  table.customer div.similar.match {
+    background-color: #f8c693; }
 
 div.report-form {
   margin: 1em; }

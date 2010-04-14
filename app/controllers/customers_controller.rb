@@ -70,6 +70,20 @@ class CustomersController < ApplicationController
     end
   end
 
+  def similar
+    customer = params[:customer]
+    @raw_results = Customer.fuzzy_find(customer[:region_id].to_i, customer[:district], customer[:name])
+
+    render(:json => @raw_results.collect { |r|
+      {
+        :id => r.primary_key.to_i,
+        :region => r.stored(:region),
+        :district => r.stored(:district),
+        :name => r.stored(:name)
+      }
+    })
+  end
+
   def show
     @customer = find_customer
   end

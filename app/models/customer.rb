@@ -6,9 +6,10 @@ class Customer < ActiveRecord::Base
   acts_as_reportable
 
   searchable do
-    string(:region) { region.name }
-    string(:district) { (district.nil? || district.empty?) ? 'AAAAA' : district }
-    string(:name) { name }
+    integer(:region_id)
+    string(:region, :stored => true) { region.name }
+    string(:district, :stored => true)
+    string(:name, :stored => true)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
     string(:category) { type.category }
@@ -99,6 +100,25 @@ class Customer < ActiveRecord::Base
 
   def contact_details_string
     [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
+  end
+
+  def self.fuzzy_find(region_id, district, name)
+    fuzz = "~0.5"
+    search = Customer.search do
+      with(:deleted, false)
+      with(:region_id, region_id)
+
+      adjust_solr_params do |params|
+        params[:fq] ||= []
+        district.split.each do |word|
+          params[:fq] << "district_text:#{RSolr.escape(word.downcase)}#{fuzz}"
+        end
+        name.split.each do |word|
+          params[:fq] << "name_text:#{RSolr.escape(word.downcase)}#{fuzz}"
+        end
+      end
+    end
+    search.raw_results
   end
 
   private

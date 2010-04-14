@@ -11,6 +11,9 @@ Feminadb::Application.routes.draw do
   resources :clubs
 
   resources :customers do
+    collection do
+      get :similar
+    end
     resources :standing_orders
     resources :waiting_orders
     resources :orders
