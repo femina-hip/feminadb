@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
   validates_presence_of :region_id
   # Allow multiple orders per customer (e.g., different dates)
   #validates_uniqueness_of :issue_id, :scope => :customer_id
-  validates_uniqueness_of :issue_id, :scope => [ :standing_order_id, :deleted_at ]
+  validates_uniqueness_of :issue_id, :scope => [ :standing_order_id, :deleted_at ],
                           :if => lambda { |o| o.standing_order_id && o.deleted_at.nil? }
 
   # BUG: After "new" and before "validate", the record is invalid
