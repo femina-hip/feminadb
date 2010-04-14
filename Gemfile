@@ -13,7 +13,6 @@ gem 'ruport', '1.6.3'
 gem 'sunspot', '0.10.8'
 gem 'sunspot_rails', '0.11.5', :require => 'sunspot/rails'
 gem 'thin', '1.2.7'
-gem 'vestal_versions', '1.0.2'
 gem 'will_paginate', '2.3.12'
 gem 'xmpp4r', '0.5'
 
