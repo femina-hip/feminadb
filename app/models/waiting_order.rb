@@ -29,7 +29,7 @@ class WaitingOrder < ActiveRecord::Base
         :comments => "From Waiting Order #{request_date.to_formatted_s(:long)}: #{comments}"
       ))
       return nil unless standing_order.save
-      soft_delete
+      soft_delete(options.slice(:updated_by))
     end
     standing_order
   end
