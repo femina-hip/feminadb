@@ -7,10 +7,7 @@ class PublicationWaitingOrdersController < ApplicationController
   # GET /publications/1/waiting_orders.xml
   # GET /publications/1/waiting_orders.csv
   def index
-    @waiting_orders = WaitingOrder.paginate_by_publication_id(
-      @publication.id,
-      :order => 'customer_types.name, regions.name, customers.district, customers.name',
-      :include => { :customer => [ :region, :type ] },
+    @waiting_orders = WaitingOrder.where(:publication_id => @publication.id, :deleted_at => nil).includes(:customer => [ :region, :type ]).order('customer_types.name, regions.name, customers.district, customers.name').paginate(
       :page => requested_page,
       :per_page => requested_per_page
     )
