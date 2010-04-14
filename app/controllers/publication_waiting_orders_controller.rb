@@ -57,24 +57,34 @@ class PublicationWaitingOrdersController < ApplicationController
         )
         s = table.as(:csv)
         render :text => s
+      end
+    end
+  end
 
-
+  def convert_to_standing_order
+    waiting_order = WaitingOrder.find(params[:id])
+    respond_to do |format|
+      if waiting_order.convert_to_standing_order(:updated_by => current_user)
+        format.html { redirect_to(publication_waiting_orders_path(@publication), :notice => 'Now it\'s a Standing Order') }
+      else
+        format.html { render(:action => 'index', :notice => 'Could not convert to a Standing Order') }
       end
     end
   end
 
   private
-    def load_publication
-      @publication = Publication.find(params[:publication_id])
-    end
 
-    def requested_page
-      return params[:page].to_i if params[:page].to_i > 0
-      1
-    end
+  def load_publication
+    @publication = Publication.find(params[:publication_id])
+  end
 
-    def requested_per_page
-      return :all if request.format == Mime::CSV
-      WaitingOrder.per_page
-    end
+  def requested_page
+    return params[:page].to_i if params[:page].to_i > 0
+    1
+  end
+
+  def requested_per_page
+    return :all if request.format == Mime::CSV
+    WaitingOrder.per_page
+  end
 end

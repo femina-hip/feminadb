@@ -52,7 +52,11 @@ Feminadb::Application.routes.draw do
     end
 
     resources :standing_orders, :controller => 'publication_standing_orders'
-    resources :waiting_orders, :controller => 'publication_waiting_orders'
+    resources :waiting_orders, :controller => 'publication_waiting_orders' do
+      member do
+        post :convert_to_standing_order
+      end
+    end
   end
 
   resources :modifications, :only => :index

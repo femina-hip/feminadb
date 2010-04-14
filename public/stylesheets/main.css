@@ -153,7 +153,7 @@ table.publication-standing-orders, table.publication-waiting-orders {
     text-align: center; }
   table.publication-standing-orders tr.details p, table.publication-waiting-orders tr.details p {
     white-space: normal; }
-  table.publication-standing-orders tr.details td div, table.publication-waiting-orders tr.details td div {
+  table.publication-standing-orders tr.details td div.redcloth, table.publication-waiting-orders tr.details td div.redcloth {
     margin: 0 1em;
     padding: 1em;
     border: 1px dashed gray;

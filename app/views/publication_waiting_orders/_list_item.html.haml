@@ -19,3 +19,4 @@
     %p
       %b Comments:
     .redcloth= textilize(waiting_order.comments).html_safe
+    %p= button_to('Convert to Standing Order', convert_to_standing_order_publication_waiting_order_path(@publication, waiting_order))
