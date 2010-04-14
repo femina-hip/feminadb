@@ -331,6 +331,8 @@ table.customer div.similar {
   border: 1px solid #009ee0;
   padding: 0 1em;
   font-size: 0.75em; }
+  table.customer div.similar.empty {
+    display: none; }
   table.customer div.similar.querying {
     background-color: #f8e473; }
   table.customer div.similar.match {
