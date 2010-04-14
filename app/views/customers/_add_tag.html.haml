@@ -1,10 +1,10 @@
 -# Local variables: customer, a Customer
 .add-tag
   - if logged_in?
-    = form_tag("/customers/#{customer.id}/tag/create") do
+    = form_tag(tag_customer_path(customer)) do
       %p
         Add new tag:
-        = text_field_with_auto_complete(:tag, :name, {}, :url => { :controller => 'tag', :action => 'auto_complete_for_tag_name' }, :select => 'name')
+        = text_field(:tag, :name)
         = submit_tag 'Add Tag'
   - else
     %p You may add new Tags to this Customer after logging in.

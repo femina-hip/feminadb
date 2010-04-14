@@ -14,14 +14,17 @@ Feminadb::Application.routes.draw do
     collection do
       get :similar
     end
+    member do
+      post :tag, :controller => 'Tags', :action => 'create'
+    end
     resources :standing_orders
     resources :waiting_orders
     resources :orders
     resources :notes, :controller => 'CustomerNotes'
     resource :club
   end
-  match 'customers/:customer_id/tag/create' => 'Tag#create'
-  match 'tag/auto_complete' => 'tag#auto_complete_for_tag_name'
+
+  match 'tags/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
     collection do

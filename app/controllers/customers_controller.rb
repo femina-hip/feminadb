@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   include ActsAsReportableControllerHelper
+  require_role 'edit-customers', :except => [ :index, :show ]
 
   before_filter :remember_q_and_page, :only => :index
 
@@ -96,6 +97,26 @@ class CustomersController < ApplicationController
     else
       after :destroy_fails
       response_for :destroy_fails
+    end
+  end
+
+  def tag
+    customer = Customer.find(params[:id])
+
+    tag_name = Tags.normalize_name(params[:tag][:name])
+
+    note = customer.notes.build(:note => "TAG_#{tag_name}")
+
+    respond_to do |format|
+      if note.save
+        flash[:notice] = "Tag #{tag_name} was successfully added."
+        format.html { redirect_to customer_url(customer) }
+        format.xml  { head :created, :location => customer_url(customer) }
+      else
+        flash[:notice] = "Tag #{tag_name} could not be added."
+        format.html { redirect_to customer_url(customer) }
+        format.xml  { head :created, :location => customer_url(customer) }
+      end
     end
   end
 
