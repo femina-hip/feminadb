@@ -7,7 +7,7 @@
   %tbody
     %tr
       %th Publication
-      %td= f.select :publication_id, Publication.find_all_tracking_standing_orders(:order => :name).collect{|p| [ p.name, p.id ]}
+      %td= f.select :publication_id, Publication.tracking_standing_orders.order(:name).collect{|p| [ p.name, p.id ]}
     %tr
       %th # Copies
       %td= f.text_field :num_copies
