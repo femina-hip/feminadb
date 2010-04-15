@@ -18,9 +18,12 @@
     %tr
       %th Region
       %td= customer.region.name
-    %tr.last
+    %tr
       %th District
       %td= customer.district
+    %tr.last
+      %th Inserted
+      %td= customer.created_at && customer.created_at.to_formatted_s(:long) || '(date unknown)'
 
   %thead.delivery-details
     %tr
