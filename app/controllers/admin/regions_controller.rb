@@ -33,4 +33,8 @@ class Admin::RegionsController < ApplicationController
   def current_objects
     @current_objects ||= Region.where(:deleted_at => nil).order(:name).all
   end
+
+  def object_parameters
+    params[current_model_name.underscore].merge(:updated_by => current_user)
+  end
 end

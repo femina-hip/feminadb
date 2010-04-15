@@ -47,11 +47,16 @@ class CustomerOrdersController < ApplicationController
   end
 
   protected
-    def current_model_name
-      'Order'
-    end
 
-    def instance_variable_name
-      'orders'
-    end
+  def current_model_name
+    'Order'
+  end
+
+  def instance_variable_name
+    'orders'
+  end
+
+  def object_parameters
+    params[current_model_name.underscore].merge(:updated_by => current_user)
+  end
 end

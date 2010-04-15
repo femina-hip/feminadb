@@ -51,4 +51,8 @@ class CustomerStandingOrdersController < ApplicationController
   def instance_variable_name
     'standing_orders'
   end
+
+  def object_parameters
+    params[current_model_name.underscore].merge(:updated_by => current_user)
+  end
 end

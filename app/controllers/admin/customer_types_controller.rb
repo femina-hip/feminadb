@@ -32,4 +32,8 @@ class Admin::CustomerTypesController < ApplicationController
   def current_objects
     @current_objects ||= CustomerType.where(:deleted_at => nil).order([:category, :name]).all
   end
+
+  def object_parameters
+    params[current_model_name.underscore].merge(:updated_by => current_user)
+  end
 end

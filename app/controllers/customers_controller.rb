@@ -149,4 +149,8 @@ class CustomersController < ApplicationController
   def find_customer
     Customer.find(params[:id])
   end
+
+  def object_parameters
+    params[current_model_name.underscore].merge(:updated_by => current_user)
+  end
 end
