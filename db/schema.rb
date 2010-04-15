@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100415084256) do
+ActiveRecord::Schema.define(:version => 20100415090409) do
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
@@ -279,6 +279,9 @@ ActiveRecord::Schema.define(:version => 20100415084256) do
     t.datetime "deleted_at"
     t.date     "request_date",                   :null => false
   end
+
+  add_index "waiting_orders", ["customer_id"], :name => "index_waiting_orders_on_customer_id"
+  add_index "waiting_orders", ["publication_id"], :name => "index_waiting_orders_on_publication_id"
 
   create_table "warehouse_issue_box_sizes", :force => true do |t|
     t.integer  "warehouse_id"
