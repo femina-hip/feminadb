@@ -17,6 +17,9 @@
       %th District
       %th Type
       %th Customer
+      - @publications.each do |publication|
+        %th
+          %abbr{:title => "Standing Orders for #{publication.name}, or Waiting Orders if there is a \"W\""}= publication.name
   %tbody
     - @customers.each do |customer|
       %tr{:class => cycle('odd', 'even')}
@@ -26,9 +29,15 @@
           %abbr{:title => customer.type.description}= customer.type.name
         %td.customer-name
           .cut-off= link_to(customer.name, customer)
+        - @publications.each do |publication|
+          %td.standing-orders
+            - if so = customer.standing_orders.detect{|so| so.publication_id == publication.id}
+              = so.num_copies
+            - elsif wo = customer.waiting_orders.detect{|wo| wo.publication_id == publication.id}
+              = "#{wo.num_copies}W"
     - if current_user.has_role? 'edit-customers'
       %tr
-        %td.add{:colspan => 4}
+        %td.add{:colspan => 4 + @publications.length}
           = link_to 'Create New Customer', new_customer_path
 
 = will_paginate(@customers)
