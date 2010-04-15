@@ -1,4 +1,6 @@
 class Order < ActiveRecord::Base
+  extend DateField
+
   include SoftDeletable
   versioned
   acts_as_reportable
@@ -18,6 +20,8 @@ class Order < ActiveRecord::Base
   #validates_uniqueness_of :issue_id, :scope => :customer_id
   validates_uniqueness_of :issue_id, :scope => [ :standing_order_id, :deleted_at ],
                           :if => lambda { |o| o.standing_order_id && o.deleted_at.nil? }
+
+  date_field :order_date
 
   # BUG: After "new" and before "validate", the record is invalid
   before_validation :copy_data_from_customer_if_new_record
