@@ -35,6 +35,6 @@ class Admin::RegionsController < ApplicationController
   end
 
   def object_parameters
-    params[current_model_name.underscore].merge(:updated_by => current_user)
+    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
   end
 end

@@ -101,7 +101,7 @@ class ClubsController < ApplicationController
   # POST /clubs
   # POST /clubs.xml
   def create
-    @club = Club.new(params[:club])
+    @club = Club.new(params[:club].merge(:updated_by => current_user))
 
     respond_to do |format|
       if @club.save

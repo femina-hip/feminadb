@@ -12,7 +12,7 @@ class CustomerWaitingOrdersController < ApplicationController
     response_for(:create) do |format|
       format.html do
         set_default_flash(:notice, 'Waiting Order successfully created.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
@@ -20,7 +20,7 @@ class CustomerWaitingOrdersController < ApplicationController
     response_for(:update) do |format|
       format.html do
         set_default_flash(:notice, 'Waiting Order successfully updated.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
@@ -28,7 +28,7 @@ class CustomerWaitingOrdersController < ApplicationController
     response_for(:destroy) do |format|
       format.html do
         set_default_flash(:notice, 'Waiting Order successfully deleted.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
@@ -68,6 +68,6 @@ class CustomerWaitingOrdersController < ApplicationController
   end
 
   def object_parameters
-    params[current_model_name.underscore].merge(:updated_by => current_user)
+    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
   end
 end
