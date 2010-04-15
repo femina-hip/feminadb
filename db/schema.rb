@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100415090409) do
+ActiveRecord::Schema.define(:version => 20100415103006) do
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20100415090409) do
     t.string   "name"
     t.datetime "deleted_at"
     t.boolean  "tracks_standing_orders", :default => true, :null => false
+    t.boolean  "pr_material",            :default => true
   end
 
   create_table "regions", :force => true do |t|

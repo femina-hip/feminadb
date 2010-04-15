@@ -7,17 +7,18 @@
 - if @publications.empty?
   %p There are no publications in the database.
 - else
-  %ul{:class => 'publications'}
-    - @publications.each do |publication|
-      %li
-        %span= h publication.name
-        = link_to '[issues]', publication_issues_url(publication)
-        - if publication.tracks_standing_orders?
-          = link_to '[standing orders]', publication_standing_orders_url(publication)
-        = link_to '[waiting orders]', publication_waiting_orders_url(publication)
-        - if current_user.has_role?('edit-publications')
-          = link_to '[edit]', edit_publication_url(publication)
-          = link_to '[destroy]', publication_url(publication), :confirm => 'Are you sure?', :method => :delete
+  - periodicals = @publications.where(:tracks_standing_orders => true)
+  - if !periodicals.empty?
+    %h3 Periodicals
+    = render('publications', :publications => periodicals)
+  - non_periodicals = @publications.where(:tracks_standing_orders => false, :pr_material => false)
+  - if !non_periodicals.empty?
+    %h3 Standalone publications
+    = render('publications', :publications => non_periodicals)
+  - pr_publications = @publications.where(:pr_material => true)
+  - if !pr_publications.empty?
+    %h3 Advertising Materials
+    = render('publications', :publications => pr_publications)
 
 - if current_user.has_role?('edit-publications')
   %p.actions

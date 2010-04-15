@@ -58,14 +58,14 @@ class PublicationsController < ApplicationController
   end
 
   def district_breakdown
-    @publications = Publication.where(:deleted_at => nil).order(:name).all
+    @publications = Publication.where(:deleted_at => nil).order(:name)
     @data = PublicationDistrictBreakdown.new.data
   end
 
   protected
 
   def current_objects
-    @current_objects ||= Publication.where(:deleted_at => nil).order(:name).all
+    @current_objects ||= Publication.where(:deleted_at => nil).order(:name)
   end
 
   def object_parameters
