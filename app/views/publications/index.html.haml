@@ -13,7 +13,7 @@
     = render('publications', :publications => periodicals)
   - non_periodicals = @publications.where(:tracks_standing_orders => false, :pr_material => false)
   - if !non_periodicals.empty?
-    %h3 Standalone publications
+    %h3 One-off publications
     = render('publications', :publications => non_periodicals)
   - pr_publications = @publications.where(:pr_material => true)
   - if !pr_publications.empty?
