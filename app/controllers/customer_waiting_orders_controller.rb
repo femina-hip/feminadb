@@ -46,6 +46,17 @@ class CustomerWaitingOrdersController < ApplicationController
     end
   end
 
+  def convert_to_standing_order
+    waiting_order = WaitingOrder.find(params[:id])
+    respond_to do |format|
+      if waiting_order.convert_to_standing_order(:updated_by => current_user)
+        format.html { redirect_to(waiting_order.customer, :notice => 'Now it\'s a Standing Order') }
+      else
+        format.html { render(:action => 'index', :notice => 'Could not convert to a Standing Order') }
+      end
+    end
+  end
+
   protected
 
   def current_model_name

@@ -8,7 +8,7 @@ class CustomerStandingOrdersController < ApplicationController
     response_for(:create) do |format|
       format.html do
         set_default_flash(:notice, 'Standing Order successfully created.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
@@ -16,7 +16,7 @@ class CustomerStandingOrdersController < ApplicationController
     response_for(:update) do |format|
       format.html do
         set_default_flash(:notice, 'Standing Order successfully updated.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
@@ -24,7 +24,7 @@ class CustomerStandingOrdersController < ApplicationController
     response_for(:destroy) do |format|
       format.html do
         set_default_flash(:notice, 'Standing Order successfully deleted.')
-        set_default_redirect parent_path
+        set_default_redirect(customer_path(current_object.customer))
       end
       format.js
     end
