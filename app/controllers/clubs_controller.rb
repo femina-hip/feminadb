@@ -10,16 +10,17 @@ class ClubsController < ApplicationController
     conditions = {}
 
     if requested_q != ''
-      q = requested_1
+      q = requested_q
       lots = 999999
       all_ids = Customer.search_ids do
         CustomersSearcher.apply_query_string_to_search(self, q)
+        with(:club, true)
         paginate(:page => 1, :per_page => lots)
       end
-      conditions[:customer_id] = Customer.includes(:clubs).where(:id => all_ids).where('clubs.id IS NOT NULL').collect(&:id)
+      conditions[:customer_id] = all_ids
     end
 
-    @clubs = Club.includes(:customer => [ :region ]).where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
+    @clubs = Club.includes(:customer => [ :region ]).where(:deleted_at => nil).where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |format|
       format.html # index.html.haml
@@ -121,7 +122,7 @@ class ClubsController < ApplicationController
     @club = Club.find(params[:id])
 
     respond_to do |format|
-      if @club.update_attributes(params[:club], :updated_by => current_user)
+      if @club.update_attributes(params[:club].merge(:updated_by => current_user))
         flash[:notice] = 'Club was successfully updated.'
         format.html { redirect_to(@club.customer) }
         format.xml  { head :ok }
