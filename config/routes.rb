@@ -17,9 +17,13 @@ Feminadb::Application.routes.draw do
     member do
       post :tag, :controller => 'Tags', :action => 'create'
     end
-    resources :standing_orders
-    resources :waiting_orders
-    resources :orders
+    resources :standing_orders, :controller => 'customer_standing_orders'
+    resources :waiting_orders, :controller => 'customer_waiting_orders' do
+      member do
+        post :convert_to_standing_order
+      end
+    end
+    resources :orders, :controller => 'customer_orders'
     resources :notes, :controller => 'CustomerNotes'
     resource :club
   end
