@@ -9,15 +9,10 @@ module Resourceful
     # Called automatically on ActionController::Base.
     # Initializes various inheritable attributes.
     def self.extended(base)
-      base.class_attribute :resourceful_callbacks
-      base.class_attribute :resourceful_responses
-      base.class_attribute :parents
-      base.class_attribute :made_resourceful
-      
-      base.resourceful_callbacks = {}
-      base.resourceful_responses = {}
-      base.parents               = []
-      base.made_resourceful      = false
+      base.write_inheritable_attribute :resourceful_callbacks, {}
+      base.write_inheritable_attribute :resourceful_responses, {}
+      base.write_inheritable_attribute :parents,               []
+      base.write_inheritable_attribute :made_resourceful,      false
     end
 
     # :call-seq:
@@ -71,7 +66,7 @@ module Resourceful
     # Returns whether or not make_resourceful has been called
     # on this controller or any controllers it inherits from.
     def made_resourceful?
-      self.class.made_resourceful
+      read_inheritable_attribute(:made_resourceful)
     end
 
     private
