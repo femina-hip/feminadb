@@ -23,7 +23,7 @@ class MoveToVestalVersions < ActiveRecord::Migration
 
     execute("DELETE FROM #{quote_table_name(versions_table.to_s)} WHERE #{quote_column_name(id_column.to_s)} NOT IN (SELECT id FROM #{quote_table_name(table.to_s)})")
 
-    ids = select_values("SELECT #{quote_column_name(id_column.to_s)} FROM #{quote_table_name(versions_table.to_s)} WHERE version = 2") # If there are 2 or more versions, we need to migrate it
+    ids = select_values("SELECT DISTINCT #{quote_column_name(id_column.to_s)} FROM #{quote_table_name(versions_table.to_s)}")
 
     return if ids.empty?
 
