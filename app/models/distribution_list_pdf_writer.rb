@@ -1,5 +1,3 @@
-require 'pdf/writer'
-
 class DistributionListPdfWriter
   include ActionView::Helpers::NumberHelper
 
@@ -10,7 +8,7 @@ class DistributionListPdfWriter
       @paper = 'A4'
       @margin = 32
       @ibs_width = 32
-      @customer_width = 160
+      @customer_width = 180
       @delivery_instructions_width = 180
     end
   end
@@ -28,40 +26,39 @@ class DistributionListPdfWriter
   end
 
   private
-    attr_reader :m
 
-    def generate_pdf
-      p = PDF::Writer.new(:paper => m.paper)
+  attr_reader :m
 
-      # "="'s needed because PDF::Writer is a bit wonky
-      p.add_info(
-        'Creator=' => 'FeminaDB',
-        'Producer=' => 'FeminaDB',
-        'Title=' => 'Distribution List',
-        'Author=' => 'Femina HIP Ltd.'
-      )
-
-      p.margins_pt m.margin
-
-      h1 p, 'Distribution List'
-      h2 p, "for #{issue.full_name}"
-
-      p.start_page_numbering p.absolute_x_middle, 28, 8, :center, 'Page <PAGENUM>'
+  def generate_pdf
+    p = Prawn::Document.new(
+      :page_size => m.paper,
+      :margin => m.margin,
+      :compress => true,
+      :info =>  {
+        'Creator' => 'FeminaDB',
+        'Producer' => 'FeminaDB',
+        'Title' => 'Distribution List',
+        'Author' => 'Femina HIP Ltd.'
+      }
+    ) do |p|
+      h1(p, 'Distribution List')
+      h2(p, "for #{issue.full_name}")
       first = true
 
       issue.distribution_list_data.each do |dm, regions|
         next if delivery_method and dm != delivery_method
 
         p.start_new_page if not first
-        h2 p, "#{dm.name}: #{dm.description}"
+        h2(p, "#{dm.name}: #{dm.description}")
 
         regions.each do |region, districts|
-          h3 p, "#{region.name} (Total #{number_with_delimiter(districts.total(:num_copies))})"
+          h3(p, "#{region.name} (Total #{number_with_delimiter(districts.total(:num_copies))})")
           districts.each do |district, orders|
-            h4 p, district
-            show_headings p
+            h4(p, district)
+            show_headings(p)
+            p.font('Times-Roman', :size => 10)
             orders.each do |order|
-              show_order p, order
+              show_order(p, order)
             end
           end
         end
@@ -69,84 +66,74 @@ class DistributionListPdfWriter
         first = false
       end
 
-      p
-    end
-
-    def h1(p, s)
-      return if not s
-      p.save_state
-      p.select_font 'Helvetica-Bold'
-      p.text s, :font_size => 20, :justification => :center
-      p.restore_state
-    end
-
-    def h2(p, s)
-      return if not s
-      p.save_state
-      p.select_font 'Helvetica-Bold'
-      p.text s, :font_size => 17, :justification => :center
-      p.restore_state
-    end
-
-    def h3(p, s)
-      return if not s
-      p.save_state
-      p.move_pointer 10
-      p.select_font 'Helvetica-Bold'
-      p.text s, :font_size => 14
-      p.restore_state
-    end
-
-    def h4(p, s)
-      return if not s
-      p.save_state
-      p.move_pointer 5
-      p.select_font 'Helvetica-Bold'
-      p.text s, :font_size => 12, :left => 10
-      p.move_pointer 5
-      p.restore_state
-    end
-
-    def show_headings(p)
-      p.save_state
-
-      p.move_pointer 13
-
-      p.select_font 'Times-Bold'
-      p.add_text_wrap p.absolute_left_margin + 20, p.y, m.customer_width, 'Final Recipient', 10
-      p.add_text_wrap p.absolute_left_margin + 20 + m.customer_width, p.y, m.delivery_instructions_width, 'Delivery Instructions', 10
-
-      x = p.absolute_right_margin - m.ibs_width
-      issue.issue_box_sizes.reverse.each do |ibs|
-        p.add_text_wrap x, p.y, m.ibs_width, "x#{ibs.num_copies}", 10, :right
-        x -= m.ibs_width
+      p.save_graphics_state do
+        p.font('Helvetica', :size => 8)
+        p.number_pages('Page <page> of <total>', [p.bounds.width/2,0])
       end
-      p.add_text_wrap x, p.y, m.ibs_width, "Qty", 10, :right
+    end
+  end
 
-      p.restore_state
+  def h1(p, s)
+    return if not s
+    p.font('Helvetica-Bold', :size => 20)
+    p.text(s, :align => :center)
+  end
+
+  def h2(p, s)
+    return if not s
+    p.font('Helvetica-Bold', :size => 17)
+    p.text(s, :align => :center)
+  end
+
+  def h3(p, s)
+    return if not s
+    p.move_down(10)
+    p.font('Helvetica-Bold', :size => 14)
+    p.text(s, :align => :center)
+  end
+
+  def h4(p, s)
+    return if not s
+    p.move_down(5)
+    p.font('Helvetica-Bold', :size => 12)
+    p.text(s)
+    p.move_down(5)
+  end
+
+  def show_headings(p)
+    p.font('Times-Bold', :size => 10)
+    p.text('Final Recipient', :width => m.customer_width)
+    p.move_up(p.font_size + 1)
+    p.text_box('Delivery Instructions', :at => [m.customer_width,p.cursor], :width => m.delivery_instructions_width)
+
+    x = p.bounds.width - m.ibs_width
+    issue.issue_box_sizes.reverse.each do |ibs|
+      p.text_box("x#{ibs.num_copies}", :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
+      x -= m.ibs_width
+    end
+    p.text_box('Qty', :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
+    p.move_down(p.font_size + 3)
+  end
+
+  def show_order(p, order)
+    p.text(order.customer_name, :width => m.customer_width)
+    p.move_up(p.font_size + 1)
+    p.text_box(order.deliver_via, :at => [m.customer_width,p.cursor], :width => m.delivery_instructions_width)
+
+    x = p.bounds.width - m.ibs_width
+    issue.issue_box_sizes_i.reverse.each do |ibs|
+      p.text_box(order.num_boxes[ibs].to_s, :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
+      x -= m.ibs_width
+    end
+    p.text_box(number_with_delimiter(order.num_copies), :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
+    p.move_down(p.font_size)
+
+    p.stroke do
+      p.line_width(0.4)
+      p.stroke_color('888888')
+      p.horizontal_rule
     end
 
-    def show_order(p, order)
-      p.save_state
-
-      p.move_pointer 13
-
-      p.select_font 'Times-Roman'
-      p.add_text_wrap p.absolute_left_margin + 20, p.y, m.customer_width, order.customer_name, 10
-      p.add_text_wrap p.absolute_left_margin + 20 + m.customer_width, p.y, m.delivery_instructions_width, order.deliver_via, 10
-
-      x = p.absolute_right_margin - m.ibs_width
-      issue.issue_box_sizes_i.reverse.each do |ibs|
-        p.add_text_wrap x, p.y, m.ibs_width, order.num_boxes[ibs].to_s, 10, :right
-        x -= m.ibs_width
-      end
-      p.add_text_wrap x, p.y, m.ibs_width, number_with_delimiter(order.num_copies), 10, :right
-
-      p.stroke_style?.width = 0.4
-      p.stroke_color Color::RGB::Grey50
-      p.line(p.absolute_left_margin + 20, p.y - 2, p.absolute_right_margin, p.y - 2)
-      p.stroke
-
-      p.restore_state
-    end
+    p.move_down(3)
+  end
 end
