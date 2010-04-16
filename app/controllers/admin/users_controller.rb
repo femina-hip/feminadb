@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
-    @user = User.new(params[:user].merge(:updated_by => current_user))
+    @user = User.new(params[:user])
 
     respond_to do |format|
       if @user.save
@@ -56,7 +56,7 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
-      if @user.update_attributes(params[:user].merge(:updated_by => current_user))
+      if @user.update_attributes(params[:user])
         flash[:notice] = 'User was successfully updated.'
         format.html { redirect_to admin_user_url(@user) }
         format.xml  { head :ok }
@@ -71,7 +71,7 @@ class Admin::UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
-    @user.soft_delete!(:updated_by => current_user)
+    @user.soft_delete!
 
     respond_to do |format|
       format.html { redirect_to admin_users_url }
