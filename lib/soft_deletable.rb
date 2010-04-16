@@ -1,4 +1,8 @@
 module SoftDeletable
+  def self.included(base)
+    base.send(:scope, :active, :conditions => { :deleted_at => nil })
+  end
+
   def soft_delete(options = {})
     self.class.transaction do
       !soft_delete_would_delete_protected_dependents? && update_attributes(options.merge(:deleted_at => Time.now)) && soft_delete_dependents(options)
