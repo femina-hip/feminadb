@@ -125,19 +125,52 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns a hash of Warehouse => { IssueBoxSize => num_boxes }
-  def packing_instructions_data
-    warehouses = {}
+  class PackingInstructionsData < Struct.new(:warehouses, :districts_with_ones)
+  end
 
-    orders.each do |req|
-      wh = req.delivery_method.warehouse
-      warehouses[wh] ||= Hash.new(0)
-      issue_box_size_quantities(req.num_copies).each do |ibs, num|
-        warehouses[wh][ibs] += num
+  def packing_instructions_data
+    wh_region_district_ibs = {}
+
+    orders.includes(:delivery_method, :region).each do |order|
+      wh = order.delivery_method.warehouse
+      region = order.region
+      district = order.district
+
+      wh_region_district_ibs[wh] ||= {}
+      wh_region_district_ibs[wh][region] ||= {}
+      wh_region_district_ibs[wh][region][district] ||= Hash.new(0)
+      issue_box_size_quantities(order.num_copies).each do |ibs, num|
+        wh_region_district_ibs[wh][region][district][ibs] += num
       end
     end
 
-    warehouses
+    warehouses = {}
+    ones = issue_box_sizes.collect(&:num_copies).select{|n| n == 1}.first
+    districts_with_ones = {}
+
+    wh_region_district_ibs.each do |wh, regions|
+      regions.each do |region, districts|
+        districts.each do |district, ibss|
+          issue_box_size_quantities(ibss[ones]).each do |ibs, num|
+            if ibs == ones
+              districts_with_ones[wh] ||= []
+              districts_with_ones[wh] << [ region, district, num ]
+            else
+              ibss[ones] -= num * ibs
+              ibss[ibs] += num
+            end
+          end
+          ibss.each do |ibs, num|
+            warehouses[wh] ||= Hash.new(0)
+            warehouses[wh][ibs] += num
+          end
+        end
+      end
+    end
+
+    PackingInstructionsData.new(warehouses, districts_with_ones)
+  rescue DoesNotFitInBoxesException
+    return nil
   end
 
   # Returns an array of

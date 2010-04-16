@@ -12,7 +12,7 @@
     This Issue does not fit into boxes. You can work around this by adding
     a box size of 1 to the Issue.
 - else
-  - @packing_instructions_data.each do |wh, nums|
+  - @packing_instructions_data.warehouses.each do |wh, nums|
     - reset_cycle
     %table.packing-instructions
       %thead.title
@@ -35,3 +35,24 @@
           %th Total
           %td= number_with_delimiter(@issue.issue_box_sizes_i.inject(0){ |sum, ibs| sum + nums[ibs] })
           %td= number_with_delimiter(@issue.issue_box_sizes_i.inject(0){ |sum, ibs| sum + nums[ibs] * ibs })
+
+  - if !@packing_instructions_data.districts_with_ones.empty?
+    %p
+      Unfortunately, some districts are receiving partial boxes. Please add,
+      remove or modify orders in those districts to make the orders divide
+      evenly.
+
+    - @packing_instructions_data.districts_with_ones.each do |wh, list|
+      %h3= wh.name
+      %table.data
+        %thead
+          %tr
+            %th Region
+            %th District
+            %th Number of issues not in a full box
+        %tbody
+          - list.each do |region, district, num|
+            %tr
+              %td= region.name
+              %td= district
+              %td= num
