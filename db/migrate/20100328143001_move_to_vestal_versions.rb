@@ -79,6 +79,7 @@ class MoveToVestalVersions < ActiveRecord::Migration
     hash.merge!(
       :number => 1,
       :updated_at => created_at,
+      :changes => {}.to_yaml,
       :user_id => current.delete(:updated_by)
     )
     hash[:user_type] = hash[:user_id] && 'User'
