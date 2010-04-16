@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100415103006) do
+ActiveRecord::Schema.define(:version => 20100416074401) do
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
@@ -179,11 +179,6 @@ ActiveRecord::Schema.define(:version => 20100415103006) do
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
-  create_table "schema_info", :id => false, :force => true do |t|
-    t.integer  "version"
-    t.datetime "deleted_at"
-  end
-
   create_table "special_order_lines", :force => true do |t|
     t.integer  "special_order_id",     :null => false
     t.integer  "issue_id",             :null => false
@@ -229,6 +224,7 @@ ActiveRecord::Schema.define(:version => 20100415103006) do
     t.integer  "num_copies"
     t.string   "comments"
     t.datetime "deleted_at"
+    t.datetime "created_at"
   end
 
   add_index "standing_orders", ["customer_id", "publication_id"], :name => "index_standing_orders_on_customer_id_and_publication_id"

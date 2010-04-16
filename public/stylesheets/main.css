@@ -143,7 +143,7 @@ table.customers, table.clubs {
   table.customers td.type, table.clubs td.type {
     text-align: center; }
 
-table.customer-standing-orders td.publication, table.customer-standing-orders td.num_copies, table.customer-standing-orders td.request_date, table.customer-waiting-orders td.publication, table.customer-waiting-orders td.num_copies, table.customer-waiting-orders td.request_date {
+table.customer-standing-orders td.publication, table.customer-standing-orders td.num_copies, table.customer-standing-orders td.request_date, table.customer-standing-orders td.created_at, table.customer-waiting-orders td.publication, table.customer-waiting-orders td.num_copies, table.customer-waiting-orders td.request_date, table.customer-waiting-orders td.created_at {
   width: 1em; }
 table.customer-standing-orders td.num_copies, table.customer-waiting-orders td.num_copies {
   text-align: right; }
