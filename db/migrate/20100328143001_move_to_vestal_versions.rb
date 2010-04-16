@@ -45,17 +45,19 @@ class MoveToVestalVersions < ActiveRecord::Migration
   def self.move_versions_for_record(table, id, versions)
     created_at = versions.last['updated_at']
 
+    hash = {
+      :versioned_id => id,
+      :versioned_type => table.to_s.singularize.camelize,
+      :created_at => created_at
+    }
+
     current = versions.shift
 
     versions.each do |version|
-      hash = {}
-      hash[:versioned_id] = id
-      hash[:versioned_type] = table.to_s.singularize.camelize
       hash[:number] = current.delete('version').to_i
       hash[:updated_at] = current.delete('updated_at')
       hash[:user_id] = current.delete('updated_by')
       hash[:user_type] = hash[:user_id] && 'User'
-      hash[:created_at] = created_at
 
       changes = {}
       current.each do |key, val|
@@ -73,6 +75,16 @@ class MoveToVestalVersions < ActiveRecord::Migration
 
       current = version
     end
+
+    hash.merge!(
+      :number => 1,
+      :updated_at => created_at,
+      :user_id => current.delete(:updated_by)
+    )
+    hash[:user_type] = hash[:user_id] && 'User'
+
+    fixture = PseudoFixture.new(hash, self)
+    execute("INSERT INTO versions (#{fixture.key_list}) VALUES (#{fixture.value_list})")
   end
 
   class PseudoFixture
