@@ -1,0 +1,2 @@
+module Data::IssuesHelper
+end

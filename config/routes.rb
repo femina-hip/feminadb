@@ -87,6 +87,8 @@ Feminadb::Application.routes.draw do
   match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order'
   match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
 
+  match 'data/issues' => 'data/issues#index', :as => 'data_issues'
+
   match 'login(/:return_to)' => 'account#login', :as => 'login'
   match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
 

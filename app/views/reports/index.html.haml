@@ -3,14 +3,13 @@
     Reports are statistics and graphs. Below is a list of reports which
     can be displayed. Click next to each Report's name to see details.
 
-%h3 Simple Charts
+%h3 Tables
+
+%p= link_to('Breakdown by District of where our Copies are sent', district_breakdown_publications_path)
+%p= link_to('Issues by date', data_issues_path)
+
+%h3 Charts (with tables)
 
 .reports
   - Report::Base.all_reports.each do |klass|
     = render :partial => 'report_form', :locals => { :klass => klass }
-
-%h3 Other Ways of Seeing Data
-
-%p
-  Here is
-  = link_to('a breakdown by District of where our Copies are sent', district_breakdown_publications_path)
