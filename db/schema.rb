@@ -179,11 +179,6 @@ ActiveRecord::Schema.define(:version => 20100415103006) do
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
-  create_table "schema_info", :id => false, :force => true do |t|
-    t.integer  "version"
-    t.datetime "deleted_at"
-  end
-
   create_table "special_order_lines", :force => true do |t|
     t.integer  "special_order_id",     :null => false
     t.integer  "issue_id",             :null => false
