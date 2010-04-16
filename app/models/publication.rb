@@ -21,4 +21,8 @@ class Publication < ActiveRecord::Base
 
   scope :tracking_standing_orders,
         :conditions => { :tracks_standing_orders => true }
+
+  scope :current_periodicals,
+        :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
+        :order => :name
 end

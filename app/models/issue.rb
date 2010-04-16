@@ -43,6 +43,8 @@ class Issue < ActiveRecord::Base
 
   date_field :issue_date
 
+  scope :recent, :conditions => { :deleted_at => nil }, :order => 'issues.issue_date DESC', :limit => 3
+
   # Returns "Publication 2.3: name"
   def full_name
     "#{publication.name} #{issue_number}: #{name}"

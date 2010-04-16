@@ -1,70 +1,95 @@
 /*
-Sass::SyntaxError: Undefined constant: "!alt_background_color"
-on line 3 of /usr/src/mine/feminadb/public/stylesheets/sass/nav.sass
+Syntax error: Undefined variable: "$alt_background_color".
+        on line 3 of /home/adam/src/feminadb/public/stylesheets/sass/nav.sass
 
-1: div.nav
+1: div#nav
 2:   :border-bottom 4px solid black
 3:   :background = !alt_background_color
 4:   :color = !alt_color
 5:   :padding .7em
-6: 
-7:   a
-8:     :color inherit
-9: 
-
+6:   :line-height 1.3em
+7: 
+8:   a
 
 Backtrace:
-/usr/src/mine/feminadb/public/stylesheets/sass/nav.sass:3
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:240:in `get_constant'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:223:in `operationalize'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:213:in `operationalize'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:45:in `parse'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:266:in `parse_attribute'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:232:in `parse_line'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:172:in `build_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:198:in `build_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:105:in `render_to_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:82:in `render'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:53:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `each'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin/rails.rb:13:in `process'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:388:in `process'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:171:in `handle_request'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:115:in `dispatch'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:126:in `dispatch_cgi'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:9:in `dispatch'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:76:in `process'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `synchronize'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `process'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:155:in `process_client'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `each'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `process_client'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `initialize'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `new'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `initialize'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `new'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:282:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `each'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:128:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/command.rb:212:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:281
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/servers/mongrel.rb:64
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
-/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/server.rb:39
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
-script/server:3
+/home/adam/src/feminadb/public/stylesheets/sass/nav.sass:3
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/variable.rb:39:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/node.rb:61:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/prop_node.rb:137:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:285:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/rule_node.rb:209:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:285:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/root_node.rb:44:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/root_node.rb:27:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:119:in `render'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:331:in `update_stylesheet'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:226:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:219:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:219:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:217:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:217:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:191:in `check_for_updates'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin/rack.rb:43:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:31:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/connection_adapters/abstract/query_cache.rb:35:in `cache'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:11:in `cache'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:30:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/connection_adapters/abstract/connection_pool.rb:365:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/methodoverride.rb:24:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/params_parser.rb:19:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/flash.rb:167:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/session/cookie_store.rb:107:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/cookies.rb:202:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:410:in `_run_call_callbacks'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:88:in `send'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:88:in `run_callbacks'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/sendfile.rb:105:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/show_exceptions.rb:48:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/logger.rb:13:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/runtime.rb:17:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `synchronize'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:132:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `send'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `method_missing'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/log_tailer.rb:15:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/content_length.rb:13:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/chunked.rb:15:in `call'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:76:in `pre_process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:74:in `catch'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:74:in `pre_process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:57:in `process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:42:in `receive_data'
+/var/lib/gems/1.8/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run_machine'
+/var/lib/gems/1.8/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/backends/base.rb:57:in `start'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/server.rb:156:in `start'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/handler/thin.rb:14:in `run'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/server.rb:155:in `start'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/commands/server.rb:62:in `start'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/commands.rb:42
+script/rails:10:in `require'
+script/rails:10
 */
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$alt_background_color\".\A         on line 3 of /home/adam/src/feminadb/public/stylesheets/sass/nav.sass\A \A 1: div#nav\A 2:   :border-bottom 4px solid black\A 3:   :background = !alt_background_color\A 4:   :color = !alt_color\A 5:   :padding .7em\A 6:   :line-height 1.3em\A 7: \A 8:   a"; }

@@ -6,16 +6,24 @@
     %meta{'http-equiv' => 'content-type', :content => 'text/html;charset=UTF-8'}
     = javascript_include_tag('jquery', 'date')
     = javascript_include_tag('jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'channeler')
-    = javascript_include_tag('initializers/date_fields', 'initializers/issue_fields')
+    = javascript_include_tag('initializers/date_fields', 'initializers/issue_fields', 'initializers/nav')
     = stylesheet_link_tag('main')
     = stylesheet_link_tag('jquery.calendar_date_picker', 'jquery.autocomplete')
     = stylesheet_link_tag('print', :media => 'print')
   %body
-    .nav
-      %ul
+    #nav
+      %ul.main
         %li= link_to 'Customers', customers_path
         %li= link_to 'Clubs', clubs_path
-        %li= link_to 'Publications', publications_path
+        %li
+          = link_to 'Publications', publications_path
+          .quick-publications
+            %ul
+              - Publication.current_periodicals.each do |publication|
+                %li.publication
+                  = link_to("#{publication.name} (all Issues)", publication)
+                  - publication.issues.recent.each do |issue|
+                    %li.issue= link_to(issue.full_name, [publication, issue])
         %li= link_to 'Inventory', inventory_path
         %li= link_to 'Special Orders', special_orders_path
         %li= link_to 'Reports', reports_path
@@ -29,6 +37,7 @@
             %li= link_to('Warehouses', [:admin, :warehouses])
             %li= link_to('Customer Types', [:admin, :customer_types])
             %li= link_to('Delivery Methods', [:admin, :delivery_methods])
+      .spacer
 
     .login
       %p
