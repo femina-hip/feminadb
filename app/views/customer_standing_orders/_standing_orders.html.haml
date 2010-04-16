@@ -3,22 +3,24 @@
 %table.customer-standing-orders
   %thead.title
     %tr
-      %th{:colspan => (current_user.has_role?('edit-orders') ? 4 : 3)}
+      %th{:colspan => (current_user.has_role?('edit-orders') ? 5 : 4)}
         = glossary_term('Standing Orders')
         = "(#{standing_orders.count})"
   %thead
     %tr
       %th Publication
       %th # Copies
+      %th Entered
       %th Comments
       - if current_user.has_role? 'edit-orders'
         %th
   %tbody
     - standing_orders.each do |standing_order|
       %tr
-        %td{:class => 'publication'}= h standing_order.publication.name
-        %td{:class => 'num_copies'}= h standing_order.num_copies
-        %td{:class => 'comments'}= h standing_order.comments
+        %td{:class => 'publication'}= standing_order.publication.name
+        %td{:class => 'num_copies'}= standing_order.num_copies
+        %td{:class => 'created_at'}= standing_order.created_at.to_formatted_s(:long)
+        %td{:class => 'comments'}= standing_order.comments
         - if current_user.has_role? 'edit-orders'
           %td{:class => 'actions'}
             = link_to 'Edit', edit_customer_standing_order_path(@customer, standing_order)
