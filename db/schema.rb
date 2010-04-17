@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100416074401) do
+ActiveRecord::Schema.define(:version => 20100417194442) do
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
@@ -261,11 +261,7 @@ ActiveRecord::Schema.define(:version => 20100416074401) do
     t.datetime "updated_at"
   end
 
-  add_index "versions", ["created_at"], :name => "index_versions_on_created_at"
-  add_index "versions", ["number"], :name => "index_versions_on_number"
-  add_index "versions", ["tag"], :name => "index_versions_on_tag"
-  add_index "versions", ["user_id", "user_type"], :name => "index_versions_on_user_id_and_user_type"
-  add_index "versions", ["user_name"], :name => "index_versions_on_user_name"
+  add_index "versions", ["versioned_id", "versioned_type", "number"], :name => "index_versions_on_versioned_id_and_versioned_type_and_number"
   add_index "versions", ["versioned_id", "versioned_type"], :name => "index_versions_on_versioned_id_and_versioned_type"
 
   create_table "waiting_orders", :force => true do |t|
