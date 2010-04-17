@@ -1,13 +1,9 @@
 module HelpsHelper
   def render_help_steps(&block)
-    steps = capture &block
-
-    "<ol class=\"help\">#{steps}</ol>"
+    content_tag(:ol, :class => 'help', &block)
   end
 
   def render_help_step(title, &block)
-    description = capture &block
-
-    "<li><h3>#{h(title)}</h3>#{description}</li>"
+    content_tag(:li, (content_tag(:h3, title) + capture(&block)).html_safe)
   end
 end

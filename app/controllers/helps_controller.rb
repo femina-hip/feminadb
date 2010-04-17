@@ -1,5 +1,5 @@
 class HelpsController < ApplicationController
-  def index
-    render :action => (params[:doc].to_s || 'index')
+  def show
+    render(:action => (params[:doc] || 'index'))
   end
 end
