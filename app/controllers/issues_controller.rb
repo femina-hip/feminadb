@@ -79,7 +79,7 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_quote_request_data
 
     @delivery_methods =
-      DeliveryMethod.where(:include_in_distribution_quote_request => true).where(:deleted_at => nil).order(:name).all
+      DeliveryMethod.where(:include_in_distribution_quote_request => true).active.order(:name).all
   end
 
   # GET /publications/1/issues/1/show_distribution_order
@@ -90,7 +90,7 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_order_data
 
     @delivery_methods =
-      DeliveryMethod.where(:deleted_at => nil).order(:name).all.select{|dm| @data.include?(dm)}
+      DeliveryMethod.active.order(:name).all.select{|dm| @data.include?(dm)}
   end
 
   # GET /publications/1/issues/1/show_distribution_list
@@ -154,7 +154,7 @@ class IssuesController < ApplicationController
   protected
 
   def current_objects
-    @current_objects ||= Issue.where(:publication_id => params[:publication_id], :deleted_at => nil).includes(:publication).order('issue_number DESC').all
+    @current_objects ||= Issue.active.where(:publication_id => params[:publication_id]).includes(:publication).order('issue_number DESC').all
   end
 
   private

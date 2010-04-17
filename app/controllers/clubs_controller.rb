@@ -20,7 +20,7 @@ class ClubsController < ApplicationController
       conditions[:customer_id] = all_ids
     end
 
-    @clubs = Club.includes(:customer => [ :region ]).where(:deleted_at => nil).where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
+    @clubs = Club.includes(:customer => [ :region ]).active.where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |format|
       format.html # index.html.haml

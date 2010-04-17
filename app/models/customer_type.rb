@@ -11,6 +11,7 @@ class CustomerType < ActiveRecord::Base
   validates_uniqueness_of :name,
         :scope => :deleted_at, :if => lambda { |ct| ct.deleted_at.nil? }
   validates_presence_of :description
-  validates_uniqueness_of :description
+  validates_uniqueness_of :description,
+        :scope => :deleted_at, :if => lambda { |ct| ct.deleted_at.nil? }
   validates_presence_of :category
 end

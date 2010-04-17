@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.where(:deleted_at => nil).order(:login).all
+    @users = User.active.order(:login).all
 
     respond_to do |format|
       format.html # index.rhtml

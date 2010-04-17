@@ -82,7 +82,7 @@ class BulkOrderCreator
       CustomersSearcher.apply_query_string_to_search(self, q)
       paginate(:page => 1, :per_page => lots)
     end
-    StandingOrder.where(:publication_id => publication_id, :customer_id => ids, :deleted_at => nil).includes(:customer).all
+    StandingOrder.active.where(:publication_id => publication_id, :customer_id => ids).includes(:customer).all
   end
 
   def find_orders_from_issue_id(issue_id, q)
@@ -91,7 +91,7 @@ class BulkOrderCreator
       CustomersSearcher.apply_query_string_to_search(self, q)
       paginate(:page => 1, :per_page => lots)
     end
-    Order.where(:issue_id => issue_id, :customer_id => ids, :deleted_at => nil).includes(:customer).all
+    Order.active.where(:issue_id => issue_id, :customer_id => ids).includes(:customer).all
   end
 
   def find_customers(q)

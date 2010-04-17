@@ -31,7 +31,7 @@ class Admin::RegionsController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= Region.where(:deleted_at => nil).order(:name).all
+    @current_objects ||= Region.active.order(:name).all
   end
 
   def object_parameters

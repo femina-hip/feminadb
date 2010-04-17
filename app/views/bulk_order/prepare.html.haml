@@ -63,7 +63,7 @@
     %p
       %label
         Delivery Method for each Order:
-        = select_tag 'bulk_order[delivery_method_id]', '<option value="">Use Customer defaults</option>' + options_from_collection_for_select(DeliveryMethod.where(:deleted_at => nil).order(:abbreviation).all, :id, :full_name, @bulk_order.delivery_method_id.to_i)
+        = select_tag 'bulk_order[delivery_method_id]', '<option value="">Use Customer defaults</option>' + options_from_collection_for_select(DeliveryMethod.active.order(:abbreviation).all, :id, :full_name, @bulk_order.delivery_method_id.to_i)
 
     %p
       %label

@@ -31,6 +31,6 @@ class Admin::DeliveryMethodsController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= DeliveryMethod.where(:deleted_at => nil).order(:name).all
+    @current_objects ||= DeliveryMethod.active.order(:name).all
   end
 end

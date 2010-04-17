@@ -30,7 +30,7 @@ class Admin::CustomerTypesController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= CustomerType.where(:deleted_at => nil).order([:category, :name]).all
+    @current_objects ||= CustomerType.active.order([:category, :name]).all
   end
 
   def object_parameters

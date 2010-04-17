@@ -256,12 +256,12 @@ class Issue < ActiveRecord::Base
     def initialize(issue, delivery_method = nil)
       @delivery_methods = {}
 
-      conditions = { :deleted_at => nil, :issue_id => issue.id }
+      conditions = { :issue_id => issue.id }
       if delivery_method
         conditions.merge!(:delivery_method_id => delivery_method.id)
       end
 
-      orders = Order.where(conditions).includes(:customer, :region, :delivery_method, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
+      orders = Order.active.where(conditions).includes(:customer, :region, :delivery_method, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
       Order.send(:preload_associations, orders.collect(&:issue), :issue_box_sizes)
 
       orders.each do |order|
