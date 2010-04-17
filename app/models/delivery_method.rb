@@ -1,4 +1,5 @@
 class DeliveryMethod < ActiveRecord::Base
+  include SoftDeletable
   acts_as_reportable
 
   belongs_to :warehouse
