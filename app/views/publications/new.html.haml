@@ -1,0 +1,6 @@
+= render_pretty_header('New Publication') do
+  %p
+    After creating this Publication, you can create Issues for it.
+
+= form_for(@publication) do |f|
+  = render('form', :form => f)

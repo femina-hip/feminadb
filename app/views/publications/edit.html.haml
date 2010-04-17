@@ -1,0 +1,5 @@
+= render_pretty_header('Editing Publication') do
+  %p Edit the publication below.
+
+= form_for(@publication) do |f|
+  = render('form', :form => f)

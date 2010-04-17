@@ -1,0 +1,15 @@
+= form.error_messages
+
+%p
+  %b Publication Name:
+  = form.text_field(:name)
+%p
+  = form.check_box(:tracks_standing_orders)
+  = form.label(:tracks_standing_orders, 'Will be published regularly (and so needs Standing Orders)')
+%p
+  = form.check_box(:pr_material)
+  = form.label(:pr_material, 'Is advertising material (pens, bags, pamphlets, calendars, etc)')
+%p
+  For one-off publications, uncheck both the above checkboxes
+
+%p= form.submit('Save Publication')
