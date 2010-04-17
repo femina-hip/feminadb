@@ -12,7 +12,7 @@ class Admin::DeliveryMethodsController < ApplicationController
 
     respond_to do |format|
       if !@delivery_method.soft_delete_would_delete_protected_dependents?
-        @delivery_method.soft_delete!(:updated_by => current_user)
+        @delivery_method.soft_delete!
         flash[:notice] = 'DeliveryMethod was successfully deleted.'
         format.html { redirect_to admin_delivery_methods_url }
         format.xml  { head :ok }
