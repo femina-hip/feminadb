@@ -1,7 +1,5 @@
 class BulkOrderController < ApplicationController
   require_role 'edit-orders'
-  verify :only => :run, :method => :post
-  verify :only => :prepare, :method => :get
 
   def prepare
     @customers = customers(params)

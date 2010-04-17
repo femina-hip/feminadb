@@ -84,8 +84,8 @@ Feminadb::Application.routes.draw do
   resource :help
 
   match 'standing_orders_to_orders/:id' => 'standing_orders_to_orders#start_task', :as => 'generate_orders_from_standing_orders', :method => :post
-  match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order'
-  match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order'
+  match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order', :method => :post
+  match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order', :method => :get
 
   match 'data/issues' => 'data/issues#index', :as => 'data_issues'
 
