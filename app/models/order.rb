@@ -20,6 +20,7 @@ class Order < ActiveRecord::Base
   #validates_uniqueness_of :issue_id, :scope => :customer_id
   validates_uniqueness_of :issue_id, :scope => [ :standing_order_id, :deleted_at ],
                           :if => lambda { |o| o.standing_order_id && o.deleted_at.nil? }
+  validates_numericality_of :num_copies, :only_integer => true, :greater_than => 0
 
   date_field :order_date
 
@@ -37,23 +38,19 @@ class Order < ActiveRecord::Base
     @box_sizes_cache = issue.issue_box_size_quantities(num_copies)
   end
 
-  protected
-    def validate
-      errors.add(:num_copies, 'must be greater than 0') unless num_copies.to_i > 0
-    end
-
   private
-    def copy_data_from_customer_if_new_record
-      return if not new_record?
 
-      self.region_id = customer.region_id
-      self.district = customer.district
-      self.customer_name = customer.name
-      self.deliver_via = customer.delivery_instructions
-      self.delivery_method_id = customer.delivery_method_id
-      self.contact_name = customer.contact_name
-      self.contact_details = customer.contact_details_string
+  def copy_data_from_customer_if_new_record
+    return if not new_record?
 
-      true # Do not fail
-    end
+    self.region_id = customer.region_id
+    self.district = customer.district
+    self.customer_name = customer.name
+    self.deliver_via = customer.delivery_instructions
+    self.delivery_method_id = customer.delivery_method_id
+    self.contact_name = customer.contact_name
+    self.contact_details = customer.contact_details_string
+
+    true # Do not fail
+  end
 end
