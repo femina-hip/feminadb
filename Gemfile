@@ -24,6 +24,7 @@ group :test do
   gem 'rspec-expectations', '2.0.0.beta.6'
   gem 'rspec-mocks', '2.0.0.beta.6'
   gem 'rspec-rails', '2.0.0.beta.6'
+  gem 'ruby-prof'
 end
 
 group :development, :test do
