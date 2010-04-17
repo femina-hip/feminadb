@@ -1,9 +1,0 @@
-one:
-  id: 1
-  issue_id: 1
-  note: MyText
-
-two:
-  id: 2
-  issue_id: 2
-  note: MyText
