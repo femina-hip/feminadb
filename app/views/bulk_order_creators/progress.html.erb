@@ -1,6 +1,0 @@
-<div class="progress_bar">
-  <p id="bulkOrderMessage">
-    Starting up...
-  </p>
-  <%= periodically_call_remote :url => { :action => 'update_progress_bar' }, :frequency => 1, :method => :get %>
-</div>
