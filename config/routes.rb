@@ -76,7 +76,11 @@ Feminadb::Application.routes.draw do
     resources :notes, :controller => 'special_order_notes'
   end
 
-  resource :inventory
+  resource :inventory, :controller => 'inventory' do
+    post :set_issue_inventory_comment
+    post :set_issue_num_copies_in_house
+    post :set_warehouse_issue_box_size_num_boxes
+  end
 
   match 'data/issues' => 'data/issues#index', :as => 'data_issues'
 

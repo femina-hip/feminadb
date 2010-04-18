@@ -9,7 +9,7 @@
   %table.inventory
     %thead.title
       %tr
-        %th{:colspan => 0}= h publication.name
+        %th{:colspan => 0}= publication.name
     %thead
       %tr
         %th{:rowspan => 2} Issue
@@ -18,7 +18,7 @@
         %th{:rowspan => 2}
           %abbr{:title => 'In House'} IH
         - @warehouses.each do |warehouse|
-          %th{:colspan => 2}= h warehouse.name
+          %th{:colspan => 2}= warehouse.name
       %tr
         - @warehouses.each do
           %th
@@ -27,7 +27,7 @@
     %tbody
       - publication.issues.each do |issue|
         %tr.first
-          %td= link_to "#{issue.issue_number}: #{issue.name}", publication_issue_url(issue.publication_id, issue)
+          %td= link_to(issue.number_and_name, [issue.publication, issue])
           %td.total
             %span.num-copies= issue.num_copies_in_stock
           %td.total
@@ -43,14 +43,14 @@
             %td{:class => "total #{col_class}", :rowspan => 2, :id => "warehouse_issue_total_#{warehouse.id}_#{issue.id}"}
               = issue.num_copies_in_warehouse(warehouse)
             %td{:class => "breakdown #{col_class}", :rowspan => 2, :id => "warehouse_issue_box_sizes_#{warehouse.id}_#{issue.id}"}
-              = render_breakdowns warehouse, issue
-          - reset_cycle 'cols'
+              = render_breakdowns(warehouse, issue)
+          - reset_cycle('cols')
         %tr
           %td.comment{:colspan => 3}
             - if current_user.has_role?('edit-inventory')
               - t = @issue
               - @issue = issue
-              = in_place_editor_field :issue, 'inventory_comment', {}, :nil_content_replacement => '(no inventory comment)'
+              = in_place_editor_field(:issue, 'inventory_comment', {}, :nil_content_replacement => '(no inventory comment)')
               - @issue = t
             - else
-              %span.comment= h issue.inventory_comment
+              %span.comment= issue.inventory_comment
