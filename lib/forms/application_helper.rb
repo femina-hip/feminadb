@@ -1,10 +1,10 @@
 module Forms::ApplicationHelper
   def region_field(object_name, method, options = {})
-    select(object_name, method, Region.where(:deleted_at => nil).order(:name).all.collect{|r| [r.name, r.id]}, options)
+    select(object_name, method, Region.active.order(:name).all.collect{|r| [r.name, r.id]}, options)
   end
 
   def customer_type_field(object_name, method, options = {})
-    select(object_name, method, CustomerType.where(:deleted_at => nil).order(:name).all.collect{|ct| ["#{ct.name}: #{ct.description}", ct.id]}, options)
+    select(object_name, method, CustomerType.active.order(:name).all.collect{|ct| ["#{ct.name}: #{ct.description}", ct.id]}, options)
   end
 
   def date_field(object_name, method, options = {})
@@ -12,7 +12,11 @@ module Forms::ApplicationHelper
   end
 
   def warehouse_field(object_name, method, options = {})
-    select(object_name, method, Warehouse.order(:name).all.collect{|w| [w.name, w.id]})
+    select(object_name, method, Warehouse.order(:name).all.collect{|w| [w.name, w.id]}, options)
+  end
+
+  def delivery_method_field(object_name, method, options = {})
+    collection_select(object_name, method, DeliveryMethod.active.order(:abbreviation), :id, :full_name, options)
   end
 
   # issue field

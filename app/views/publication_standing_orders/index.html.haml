@@ -30,9 +30,9 @@
   = link_to('Export Data to Excel', publication_standing_orders_path(@publication, :format => :csv, :q => params[:q]))
   - if current_user.has_role?('edit-orders')
     |
-    = link_to 'Create Orders for an Issue using this list', :controller => 'bulk_order', :action => 'prepare', :from_publication_id => @publication.id, :q => params[:q]
+    = link_to('Create Orders for an Issue using this list', new_bulk_order_creator_path(:bulk_order_creator => { :from_publication_id => @publication.id, :q => params[:q] }))
 
 %p
   To add a new Standing Order, go to the
-  = link_to 'Customers', customers_url
+  = link_to('Customers', customers_path)
   page, find the Customer, and add a Standing Order in that Customer's page.

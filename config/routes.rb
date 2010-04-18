@@ -68,7 +68,8 @@ Feminadb::Application.routes.draw do
 
   resources :modifications, :only => :index
   resources :reports, :only => [ :index, :show ]
-  resources :report_graphs, :only => [ :show ]
+  resources :report_graphs, :only => :show
+  resources :bulk_order_creators, :only => [ :new, :create ]
 
   resources :special_orders do
     member do
@@ -81,10 +82,6 @@ Feminadb::Application.routes.draw do
   end
 
   resource :inventory
-
-  match 'standing_orders_to_orders/:id' => 'standing_orders_to_orders#start_task', :as => 'generate_orders_from_standing_orders', :method => :post
-  match 'bulk_order/run' => 'bulk_order#run', :as => 'run_bulk_order', :method => :post
-  match 'bulk_order/prepare' => 'bulk_order#prepare', :as => 'prepare_bulk_order', :method => :get
 
   match 'data/issues' => 'data/issues#index', :as => 'data_issues'
 

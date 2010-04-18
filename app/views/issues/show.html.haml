@@ -1,8 +1,8 @@
-= render_pretty_header h(@issue.full_name) do
+= render_pretty_header(@issue.full_name) do
   %p
     From this page, you can view all details concerning this Issue.
 
-  %p= link_to "View Other Issues of #{h(@publication.name)}", @publication
+  %p= link_to("View Other Issues of #{@publication.name}", @publication)
 
 %table.issue
   %tbody
@@ -14,7 +14,7 @@
       %td= @issue.issue_number
     %tr{:class => cycle('odd', 'even')}
       %th Name
-      %td= h @issue.name
+      %td= @issue.name
     %tr{:class => cycle('odd', 'even')}
       %th Date
       %td= @issue.issue_date
@@ -28,13 +28,13 @@
       %th Inventory
       %td
         Total:
-        = number_with_delimiter @issue.num_copies_in_stock
+        = number_with_delimiter(@issue.num_copies_in_stock)
         %br/
         In-House:
         = @issue.num_copies_in_house
         - @warehouses.each do |warehouse|
           %br/
-          = "#{h(warehouse.name)}: "
+          = "#{warehouse.name}: "
           = number_with_delimiter @issue.num_copies_in_warehouse(warehouse)
 
     %tr{:class => cycle('odd', 'even')}
@@ -45,24 +45,29 @@
           People may not file Special Orders for this Issue.
     - if current_user.has_role?('edit-issues')
       %tr
-        %td{:class => 'edit', :colspan => 2}
-          = link_to 'Edit Details', edit_publication_issue_url(@publication, @issue)
+        %td.edit{:colspan => 2}
+          = link_to('Edit Details', edit_publication_issue_url(@publication, @issue))
       %tr
         %td.delete{:colspan => 2}
-          = button_to 'Delete', publication_issue_path(@publication, @issue.id), :method => :delete, :confirm => 'WATCH OUT! All Orders will be deleted also. Are you sure you want to Delete this Issue?'
+          = button_to('Delete', publication_issue_path(@publication, @issue.id), :method => :delete, :confirm => 'WATCH OUT! All Orders will be deleted also. Are you sure you want to Delete this Issue?')
 
 %ul.actions
-  - if @publication.tracks_standing_orders? and controller.authorized_for_generate_orders?
-    %li= button_to 'Generate Orders from Standing Orders', generate_orders_from_standing_orders_path(@issue)
-  %li= link_to 'Show Orders', publication_issue_orders_url(@publication, @issue)
-  %li= link_to 'Show Special Orders', show_special_order_lines_publication_issue_url(@publication, @issue)
-  %li= link_to 'Show Packing Instructions', show_packing_instructions_publication_issue_url(@publication, @issue)
-  %li= link_to 'Show Distribution Quote Request', show_distribution_quote_request_publication_issue_url(@publication, @issue)
-  %li= link_to 'Show Distribution Order', show_distribution_order_publication_issue_url(@publication, @issue)
+  - if @publication.tracks_standing_orders? && controller.authorized_for_generate_orders?
+    %li
+      = form_for(BulkOrderCreator.new(:issue_id => @issue.id, :from_publication_id => @issue.publication_id)) do |f|
+        %div
+          = f.hidden_field(:issue_id)
+          = f.hidden_field(:from_publication_id)
+          = f.submit('Generate Orders from Standing Orders')
+  %li= link_to('Show Orders', publication_issue_orders_url(@publication, @issue))
+  %li= link_to('Show Special Orders', show_special_order_lines_publication_issue_url(@publication, @issue))
+  %li= link_to('Show Packing Instructions', show_packing_instructions_publication_issue_url(@publication, @issue))
+  %li= link_to('Show Distribution Quote Request', show_distribution_quote_request_publication_issue_url(@publication, @issue))
+  %li= link_to('Show Distribution Order', show_distribution_order_publication_issue_url(@publication, @issue))
   %li
     %span
-      = link_to 'Show Distribution List [Web]', show_distribution_list_publication_issue_url(@publication, @issue)
-      = link_to '[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :format => :pdf)
+      = link_to('Show Distribution List [Web]', show_distribution_list_publication_issue_url(@publication, @issue))
+      = link_to('[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :format => :pdf))
       (All Delivery Methods)
     %div
       Or show the Distribution List for only one Delivery Method:
@@ -70,8 +75,8 @@
         - DeliveryMethod.active.order(:name).all.each do |dm|
           - if Order.active.where(:issue_id => @issue.id).where(:delivery_method_id => dm.id).count != 0
             %li
-              = link_to "Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id)
-              = link_to '[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :pdf)
-  %li= link_to 'Back to Issue List', publication_issues_url(@publication)
+              = link_to("Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id))
+              = link_to('[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :pdf))
+  %li= link_to('Back to Issue List', publication_issues_url(@publication))
 
-= render :partial => 'notes', :locals => { :issue => @issue }
+= render('notes', :issue => @issue)

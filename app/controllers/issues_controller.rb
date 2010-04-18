@@ -3,32 +3,13 @@ class IssuesController < ApplicationController
   before_filter :get_publication
 
   make_resourceful do
-    actions :index, :new, :edit, :destroy
+    actions :index, :show, :new, :edit, :destroy
 
-    #belongs_to(:publication) # FIXME make_resourceful crashes
-    # FIXME when belongs_to(:publication) is restored, these can go
-    IssuesController.send(:define_method, :instance_route) do |*args|
-      name = args[0]
-      object = args[1]
-      type = args[2]
-      action = args[3]
-      send("#{action ? action + '_' : ''}#{url_helper_prefix}#{collection_url_prefix}#{name}_#{type}", [object.publication, object])
-    end
-    IssuesController.send(:define_method, :collection_route) do |*args|
-      name = args[0]
-      type = args[1]
-      action = args[2]
-      send("#{action ? action + '_' : ''}#{url_helper_prefix}#{collection_url_prefix}#{name}_#{type}", @publication)
-    end
-    IssuesController.send(:define_method, :collection_url_prefix) do
-      'publication_'
-    end
-  end
+    belongs_to(:publication) # FIXME make_resourceful crashes
 
-  def show
-    @issue = Issue.includes(:publication).find(params[:id])
-    @publication = @issue.publication
-    @warehouses = Warehouse.inventory.order(:name).all
+    before(:show) do
+      @warehouses = Warehouse.inventory.order(:name).all
+    end
   end
 
   def create

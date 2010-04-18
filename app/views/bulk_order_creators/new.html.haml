@@ -1,57 +1,49 @@
-= render_pretty_header 'Bulk Order Creation' do
+= render_pretty_header('Bulk Order Creation') do
   %p
     You are preparing to create many Orders at once.
     There will be a total of
-    %b= @customers.size
-    Customers getting new orders.
+    %b= pluralize(@bulk_order_creator.customers.length, 'Customer')
+    getting new orders.
 
-  - if @creation_type == :customers
-    %p
-      You found these Customers by searching for
-      %b= @bulk_order.q
-
-  - elsif @creation_type == :publication
-    %p
-      You found these Customers by searching for
-      %b= @bulk_order.q
+  %p
+    You found these Customers by searching for
+    %b= @bulk_order_creator.q
+    - if @bulk_order_creator.creation_type == :publication
       on the list of Standing Orders for
-      %b= @from_publication.name
-
-  - else
-    %p
-      You found these Customers by searching for
-      %b= @bulk_order.q
+      %b= Publication.find(@bulk_order_creator.from_publication_id).name
+    - elsif @bulk_order_creator.creation_type == :issue
       on the list of Orders for
-      %b= @from_issue.full_name
+      %b= Issue.find(@bulk_order_creator.from_issue_id).full_name
 
   %p
     After filling in this information, you may browse to the list of new
-    Orders, from which you can edit the quantities.
+    Orders, where you can edit the quantities.
 
-= form_for(:bulk_order, :url => run_bulk_order_path) do |f|
+= form_for(@bulk_order_creator) do |f|
+  = f.error_messages
   %div
     = f.hidden_field(:q)
-    - if @bulk_order.from_publication_id
-      = f.hidden_field('from_publication_id')
-    - elsif @bulk_order.from_issue_id
-      = f.hidden_field('from_issue_id')
-  %div
+    - if f.object.creation_type == :publication
+      = f.hidden_field(:from_publication_id)
+    - elsif f.object.creation_type == :issue
+      = f.hidden_field(:from_issue_id)
+
     %p
       Prepare Orders for this Issue:
       = f.issue_field(:issue_id)
 
     %p
       Number of Copies on each Order:
-      - if @creation_type == :customers
+      - if f.object.creation_type == :customers
         = f.text_field(:num_copies)
       - else
         %br/
         %label
-          = radio_button_tag 'bulk_order[enable_num_copies]', false, @bulk_order.num_copies.to_i <= 0
+          = f.radio_button(:enable_num_copies, 'false')
           Copy the quantities from the Orders we are using as templates
         %br/
         %label
-          = radio_button_tag 'bulk_order[enable_num_copies]', true, @bulk_order.num_copies.to_i > 0
+          = f.radio_button(:enable_num_copies, 'true')
           Make all new Orders have the same number of copies:
         = f.text_field(:num_copies)
 
@@ -63,7 +55,7 @@
     %p
       %label
         Delivery Method for each Order:
-        = select_tag 'bulk_order[delivery_method_id]', '<option value="">Use Customer defaults</option>' + options_from_collection_for_select(DeliveryMethod.active.order(:abbreviation).all, :id, :full_name, @bulk_order.delivery_method_id.to_i)
+        = f.delivery_method_field(:delivery_method_id, :prompt => 'Use Customer defaults')
 
     %p
       %label

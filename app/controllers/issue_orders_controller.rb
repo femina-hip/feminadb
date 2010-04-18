@@ -90,11 +90,11 @@ class IssueOrdersController < ApplicationController
   private
 
   def get_publication
-    @publication = Publication.find(params[:publication_id])
+    @publication = get_issue.publication
   end
 
   def get_issue
-    @issue = Issue.find(params[:issue_id])
+    @issue = Issue.includes(:publication).find(params[:issue_id])
   end
 
   def requested_q
