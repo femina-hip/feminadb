@@ -38,7 +38,7 @@
   %tbody
     - @orders.each do |o|
       %tr{:class => cycle('odd', 'even')}
-        %td.delivery_method= delivery_method_abbr(o.delivery_method)
+        %td.delivery-method= delivery_method_abbr(o.delivery_method)
         %td.region= o.region.name
         %td.district= o.district
         %td.customer
@@ -49,11 +49,9 @@
               = o.customer_name
         %td.qty
           - if current_user.has_role?('edit-orders')
-            -# HACK for in_place_editor_field
-            - old_order = @order
-            - @order = o
-            = in_place_editor_field(:order, 'num_copies', {}, :url => set_order_num_copies_publication_issue_order_url(@publication, @issue, @order), :method => :post)
-            - @order = old_order
+            = form_for([@issue.publication, @issue, o]) do |f|
+              %div
+                = f.text_field(:num_copies)
           - else
             = o.num_copies
         - if current_user.has_role?('edit-orders')

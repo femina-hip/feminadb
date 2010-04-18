@@ -5,8 +5,6 @@ class IssueOrdersController < ApplicationController
   before_filter :get_publication
   before_filter :get_issue
 
-  in_place_edit_for :order, :num_copies
-
   # GET /publications/1/issues/1/orders
   # GET /publications/1/issues/1/orders.xml
   def index

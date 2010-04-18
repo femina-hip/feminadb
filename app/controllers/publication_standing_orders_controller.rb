@@ -5,8 +5,6 @@ class PublicationStandingOrdersController < ApplicationController
 
   before_filter :load_publication
 
-  in_place_edit_for :standing_order, :num_copies
-
   # GET /publications/1/standing_orders
   # GET /publications/1/standing_orders.csv
   def index

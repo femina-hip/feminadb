@@ -50,12 +50,7 @@ Feminadb::Application.routes.draw do
       end
 
       resources :notes
-
-      resources :orders, :controller => 'issue_orders' do
-        member do
-          post :set_order_num_copies
-        end
-      end
+      resources :orders, :controller => 'issue_orders'
     end
 
     resources :standing_orders, :controller => 'publication_standing_orders'
