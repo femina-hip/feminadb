@@ -27,6 +27,9 @@ class Issue < ActiveRecord::Base
            :include => :special_order,
            :order => 'special_orders.completed_at IS NULL DESC, special_orders.completed_at DESC, special_orders.requested_at DESC',
            :conditions => 'special_orders.deleted_at IS NULL'
+  has_many :bulk_order_creators,
+           :dependent => :destroy,
+           :conditions => 'bulk_order_creators.deleted_at IS NULL'
 
   validates_presence_of :publication_id
   validates_presence_of :name

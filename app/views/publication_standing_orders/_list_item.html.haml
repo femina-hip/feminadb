@@ -2,22 +2,20 @@
 - row_class = cycle 'even', 'odd'
 - row_id = "standing_order_#{standing_order.id}_details"
 %tr{:class => row_class}
-  %td{:class => 'delivery-method'}
-    %abbr{:title => standing_order.customer.delivery_method.description}= h standing_order.customer.delivery_method.abbreviation
-  %td{:class => 'region'}= h standing_order.customer.region.name
-  %td{:class => 'district'}= h standing_order.customer.district
-  %td{:class => 'name'}
-    %div{:style => 'overflow: hidden'}= h standing_order.customer.name
-  %td{:class => 'num-copies'}
-    - if current_user.has_role? 'edit-orders'
-      -# HACK for in_place_editor_field
-      - old_standing_order = @standing_order
-      - @standing_order = standing_order
-      = in_place_editor_field :standing_order, :num_copies, {}, :url => { :controller => 'publication_standing_orders', :publication_id => standing_order.publication_id, :id => standing_order.id, :action => 'set_standing_order_num_copies' }
-      - @standing_order = old_standing_order
+  %td.delivery-method
+    %abbr{:title => standing_order.customer.delivery_method.description}= standing_order.customer.delivery_method.abbreviation
+  %td.region= standing_order.customer.region.name
+  %td.district= standing_order.customer.district
+  %td.name
+    %div{:style => 'overflow: hidden'}= standing_order.customer.name
+  %td.num-copies
+    - if current_user.has_role?('edit-orders')
+      = form_for([standing_order.publication, standing_order]) do |f|
+        %div
+          = f.text_field(:num_copies)
     - else
       = standing_order.num_copies
-  %td{:class => 'actions'}
+  %td.actions
     = link_to_function('details') { |p| p.toggle(row_id) }
 %tr{:id => row_id, :class => row_class, :style => 'display: none;'}
   %td{:colspan => 6}

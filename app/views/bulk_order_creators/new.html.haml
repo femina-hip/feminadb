@@ -7,7 +7,7 @@
 
   %p
     You found these Customers by searching for
-    %b= @bulk_order_creator.q
+    %b= @bulk_order_creator.search_string
     - if @bulk_order_creator.creation_type == :publication
       on the list of Standing Orders for
       %b= Publication.find(@bulk_order_creator.from_publication_id).name
@@ -22,7 +22,7 @@
 = form_for(@bulk_order_creator) do |f|
   = f.error_messages
   %div
-    = f.hidden_field(:q)
+    = f.hidden_field(:search_string)
     - if f.object.creation_type == :publication
       = f.hidden_field(:from_publication_id)
     - elsif f.object.creation_type == :issue
@@ -39,11 +39,11 @@
       - else
         %br/
         %label
-          = f.radio_button(:enable_num_copies, 'false')
+          = f.radio_button(:constant_num_copies, false, :checked => !f.object.constant_num_copies)
           Copy the quantities from the Orders we are using as templates
         %br/
         %label
-          = f.radio_button(:enable_num_copies, 'true')
+          = f.radio_button(:constant_num_copies, true, :checked => f.object.constant_num_copies)
           Make all new Orders have the same number of copies:
         = f.text_field(:num_copies)
 
@@ -60,7 +60,7 @@
     %p
       %label
         Comment to write on each Order:
-        = f.text_field(:comments)
+        = f.text_field(:comment)
 
     %p
       = f.submit('Create Orders (may take time)')

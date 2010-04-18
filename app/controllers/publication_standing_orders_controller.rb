@@ -18,10 +18,10 @@ class PublicationStandingOrdersController < ApplicationController
         CustomersSearcher.apply_query_string_to_search(self, q)
         paginate(:page => 1, :per_page => lots)
       end
-      conditions[:customer_id] = Customer.includes(:standing_orders).where('standing_orders.publication_id' => @publication.id).where(:id => all_ids).collect(&:id)
+      conditions[:customer_id] = all_ids
     end
 
-    @standing_orders = StandingOrder.where(:publication_id => @publication_id).includes(:customer => [ :region, :delivery_method, :type ]).order('delivery_methods.abbreviation, regions.name, customers.district, customers.name').where(conditions).paginate(:page => requested_page, :per_page => requested_per_page)
+    @standing_orders = @publication.standing_orders.includes(:customer => [:region, :delivery_method, :type]).order('delivery_methods.abbreviation, regions.name, customers.district, customers.name').where(conditions).paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |type|
       type.html do
