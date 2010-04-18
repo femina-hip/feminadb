@@ -9,7 +9,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100417234352) do
+ActiveRecord::Schema.define(:version => 20100418180815) do
+
+  create_table "bulk_order_creators", :force => true do |t|
+    t.integer  "issue_id"
+    t.integer  "from_publication_id"
+    t.integer  "from_issue_id"
+    t.string   "search_string"
+    t.boolean  "constant_num_copies"
+    t.integer  "num_copies"
+    t.string   "comment"
+    t.integer  "delivery_method_id"
+    t.date     "order_date"
+    t.integer  "created_by"
+    t.datetime "created_at"
+    t.datetime "deleted_at"
+    t.string   "status"
+    t.datetime "updated_at"
+  end
+
+  add_index "bulk_order_creators", ["issue_id"], :name => "index_bulk_order_creators_on_issue_id"
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
