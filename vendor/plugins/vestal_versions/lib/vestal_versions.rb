@@ -92,7 +92,7 @@ module VestalVersions
       include Reload
 
       prepare_versioned_options(options)
-      has_many :versions, options, &block
+      has_many :versions, options.merge(:autosave => false), &block
     end
   end
 
