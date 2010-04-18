@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100417194442) do
+ActiveRecord::Schema.define(:version => 20100417234352) do
 
   create_table "clubs", :force => true do |t|
     t.integer  "customer_id",                             :null => false
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20100417194442) do
 
   add_index "orders", ["customer_id"], :name => "index_orders_on_customer_id"
   add_index "orders", ["issue_id"], :name => "index_orders_on_issue_id"
+  add_index "orders", ["standing_order_id", "issue_id", "deleted_at"], :name => "index_orders_on_standing_order_id_and_issue_id_and_deleted_at"
 
   create_table "publications", :force => true do |t|
     t.string   "name"
