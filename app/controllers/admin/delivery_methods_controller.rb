@@ -3,6 +3,13 @@ class Admin::DeliveryMethodsController < ApplicationController
 
   make_resourceful do
     actions :index, :show, :new, :create, :edit, :update
+
+    response_for(:update) do |format|
+      format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" updated") }
+    end
+    response_for(:create) do |format|
+      format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" created") }
+    end
   end
 
   # DELETE /delivery_methods/1

@@ -1,7 +1,7 @@
 Feminadb::Application.routes.draw do
   namespace :admin do
     resources :customer_types
-    resources :delivery_methods
+    resources :delivery_methods, :except => :show
     resources :districts
     resources :regions
     resources :users
