@@ -13,21 +13,21 @@
   %body
     #nav
       %ul.main
-        %li= link_to 'Customers', customers_path
-        %li= link_to 'Clubs', clubs_path
+        %li= link_to('Customers', customers_path)
+        %li= link_to('Clubs', clubs_path)
         %li
-          = link_to 'Publications', publications_path
+          = link_to('Publications', publications_path)
           .quick-publications
             %ul
-              - Publication.current_periodicals.each do |publication|
+              - Publication.includes(:issues => :publication).current_periodicals.each do |publication|
                 %li.publication
                   = link_to("#{publication.name} (all Issues)", publication)
-                  - publication.issues.recent.each do |issue|
+                  - publication.issues.first(3).each do |issue|
                     %li.issue= link_to(issue.full_name, [publication, issue])
-        %li= link_to 'Inventory', inventory_path
-        %li= link_to 'Special Orders', special_orders_path
-        %li= link_to 'Reports', reports_path
-        %li= link_to 'Help', help_path
+        %li= link_to('Inventory', inventory_path)
+        %li= link_to('Special Orders', special_orders_path)
+        %li= link_to('Reports', reports_path)
+        %li= link_to('Help', help_path)
       - if current_user.has_role?('admin')
         .admin
           %p Admin:

@@ -4,7 +4,7 @@ class Publication < ActiveRecord::Base
   acts_as_reportable
 
   has_many :issues,
-           :order => :issue_number,
+           :order => 'issues.issue_date DESC',
            :dependent => :restrict,
            :conditions => 'issues.deleted_at IS NULL'
   has_many :standing_orders,
