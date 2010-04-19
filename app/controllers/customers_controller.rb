@@ -26,7 +26,7 @@ class CustomersController < ApplicationController
 
     @customers = search.results
     Customer.send(:preload_associations, @customers, [:region, :type, :standing_orders, :waiting_orders])
-    @publications = Publication.tracking_standing_orders.active.order(:name).all
+    @publications = Publication.active.tracking_standing_orders.order(:name).all
 
     respond_to do |type|
       type.html do
