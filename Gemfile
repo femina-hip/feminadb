@@ -1,4 +1,5 @@
 source 'http://gemcutter.org'
+source 'http://gems.github.com'
 
 gem 'acts_as_reportable', '1.1.1'
 gem 'delayed_job', '2.0.2'
