@@ -372,29 +372,6 @@ class Issue < ActiveRecord::Base
     raise DoesNotFitInBoxesException.new('Cannot fit issues into any boxes')
   end
 
-  # Returns the number of Copies in a particular Warehouse
-  def num_copies_in_warehouse(warehouse)
-    @num_copies_in_warehouse ||= {}
-    @num_copies_in_warehouse[warehouse.id] ||= issue_box_sizes.inject(0) do |s, ibs|
-      wibs = ibs.warehouse_issue_box_sizes.select{|wibs| wibs.warehouse_id = warehouse.id}.first
-      s += wibs && wibs.num_copies || 0
-    end
-  end
-
-  # Returns the number of Copies in all Warehouses
-  def num_copies_in_all_warehouses
-    @num_copies_in_all_warehouses ||= issue_box_sizes.inject(0) do |s1, ibs|
-      s1 += ibs.warehouse_issue_box_sizes.inject(0) do |s2, wibs|
-        s2 += wibs.warehouse.tracks_inventory ? wibs.num_copies : 0
-      end
-    end
-  end
-
-  # Returns the number of Copies in-house and in all Warehouses
-  def num_copies_in_stock
-    num_copies_in_house + num_copies_in_all_warehouses
-  end
-
   private
 
   def validate_issue_box_sizes_string

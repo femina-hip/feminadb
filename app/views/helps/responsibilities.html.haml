@@ -11,7 +11,6 @@
 
 - names = {}
 - names[:distribution_officer] = 'amandus'
-- names[:inventory_manager] = 'amandus'
 - names[:production_manager] = 'lynn'
 - names[:administrator] = 'seba'
 - names[:m_e_manager] = 'aran'
@@ -31,12 +30,6 @@
       %td
         %p Ensures every Copy reaches its destination, using FeminaDB
       %td= names[:distribution_officer]
-    %tr{:class => cycle('odd', 'even')}
-      %td.title
-        = link_to 'Inventory Manager', '#inventory_manager'
-      %td
-        %p Ensures FeminaDB has accurate inventory
-      %td= names[:inventory_manager]
     %tr{:class => cycle('odd', 'even')}
       %td.title
         = link_to 'Production Manager', '#production_manager'
@@ -101,14 +94,6 @@
   %li Prepare Distribution Lists
   %li Add Notes to Issues
   %li Add Notes to Customers
-
-%h3#inventory_manager
-  Inventory Manager
-  = "(#{names[:inventory_manager]})"
-
-%ul
-  %li Alter Inventory
-  %li Add Notes to Issues
 
 %h3#production_manager
   Production Manager

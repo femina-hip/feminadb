@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419090959) do
+ActiveRecord::Schema.define(:version => 20100419094613) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -144,10 +144,8 @@ ActiveRecord::Schema.define(:version => 20100419090959) do
     t.integer  "publication_id"
     t.date     "issue_date"
     t.datetime "deleted_at"
-    t.string   "issue_number",        :default => "", :null => false
-    t.integer  "quantity",            :default => 0,  :null => false
-    t.integer  "num_copies_in_house", :default => 0,  :null => false
-    t.string   "inventory_comment",   :default => "", :null => false
+    t.string   "issue_number",   :default => "", :null => false
+    t.integer  "quantity",       :default => 0,  :null => false
   end
 
   create_table "orders", :force => true do |t|
@@ -256,17 +254,9 @@ ActiveRecord::Schema.define(:version => 20100419090959) do
   add_index "waiting_orders", ["customer_id"], :name => "index_waiting_orders_on_customer_id"
   add_index "waiting_orders", ["publication_id"], :name => "index_waiting_orders_on_publication_id"
 
-  create_table "warehouse_issue_box_sizes", :force => true do |t|
-    t.integer  "warehouse_id"
-    t.integer  "issue_box_size_id"
-    t.integer  "num_boxes",         :default => 0, :null => false
-    t.datetime "deleted_at"
-  end
-
   create_table "warehouses", :force => true do |t|
-    t.string  "name"
-    t.string  "comment"
-    t.boolean "tracks_inventory", :default => true, :null => false
+    t.string "name"
+    t.string "comment"
   end
 
 end

@@ -65,12 +65,6 @@ Feminadb::Application.routes.draw do
   resources :report_graphs, :only => :show
   resources :bulk_order_creators, :only => [ :new, :create ]
 
-  resource :inventory, :controller => 'inventory' do
-    post :set_issue_inventory_comment
-    post :set_issue_num_copies_in_house
-    post :set_warehouse_issue_box_size_num_boxes
-  end
-
   match 'data/issues' => 'data/issues#index', :as => 'data_issues'
 
   match 'help(/:doc)' => 'helps#show', :as => 'help'

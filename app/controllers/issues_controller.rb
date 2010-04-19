@@ -6,10 +6,6 @@ class IssuesController < ApplicationController
     actions :index, :show, :new, :edit, :destroy
 
     belongs_to(:publication)
-
-    before(:show) do
-      @warehouses = Warehouse.inventory.order(:name).all
-    end
   end
 
   def create

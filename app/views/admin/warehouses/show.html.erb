@@ -10,11 +10,6 @@
   <%=h @warehouse.comment %>
 </p>
 
-<p>
-  <b>Tracks Inventory:</b>
-  <%=h @warehouse.tracks_inventory %>
-</p>
-
 <%= link_to 'Edit', edit_admin_warehouse_path(@warehouse) %> |
 <%= link_to 'Destroy', admin_warehouse_path(@warehouse), :confirm => 'Are you sure you want to delete this Warehouse?', :method => :delete %> |
 <%= link_to 'Back', admin_warehouses_path %>

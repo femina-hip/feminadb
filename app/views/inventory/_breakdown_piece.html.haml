@@ -1,9 +1,0 @@
-- if current_user.has_role?('edit-inventory')
-  - t = @warehouse_issue_box_size
-  - @warehouse_issue_box_size = wibs
-  = in_place_editor_field(:warehouse_issue_box_size, 'num_boxes', {}, :cols => 3)
-  - @warehouse_issue_box_size = t
-- else
-  %span.num-copies= "#{wibs.num_boxes}"
-
-%span.box-size= "×#{wibs.issue_box_size.num_copies}"
