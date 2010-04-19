@@ -2,7 +2,7 @@ class Admin::DeliveryMethodsController < ApplicationController
   require_role 'admin'
 
   make_resourceful do
-    actions :index, :show, :new, :create, :edit, :update
+    actions :index, :new, :create, :edit, :update
 
     response_for(:update) do |format|
       format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" updated") }

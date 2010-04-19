@@ -1,0 +1,7 @@
+= render_pretty_header('New Customer Type') do
+  %p Enter details for this Customer Type here.
+
+= form_for([:admin, @customer_type]) do |f|
+  = render('form', :f => f)
+
+= link_to('Customer Types list', admin_customer_types_path)
