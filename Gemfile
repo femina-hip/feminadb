@@ -15,7 +15,6 @@ gem 'sunspot', '1.1.0'
 gem 'sunspot_rails', '1.1.0', :require => 'sunspot/rails'
 gem 'thin', '1.2.7'
 gem 'will_paginate', '2.3.12'
-gem 'xmpp4r', '0.5'
 
 group :test do
   gem 'webrat', '0.7.0'

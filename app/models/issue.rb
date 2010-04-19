@@ -22,11 +22,6 @@ class Issue < ActiveRecord::Base
            :dependent => :destroy,
            :order => 'created_at',
            :conditions => 'issue_notes.deleted_at IS NULL'
-  has_many :special_order_lines,
-           :dependent => :destroy,
-           :include => :special_order,
-           :order => 'special_orders.completed_at IS NULL DESC, special_orders.completed_at DESC, special_orders.requested_at DESC',
-           :conditions => 'special_orders.deleted_at IS NULL'
   has_many :bulk_order_creators,
            :dependent => :destroy,
            :conditions => 'bulk_order_creators.deleted_at IS NULL'

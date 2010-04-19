@@ -7,7 +7,7 @@ Bundler.require :default, Rails.env
 
 module Feminadb
   class Application < Rails::Application
-    config.active_record.observers = :special_order_observer, :customer_note_observer, :club_observer
+    config.active_record.observers = :customer_note_observer, :club_observer
 
     config.time_zone = 'Nairobi'
 

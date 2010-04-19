@@ -42,7 +42,6 @@ Feminadb::Application.routes.draw do
     resources :issues do
       member do
         get :orders_in_district
-        get :show_special_order_lines
         get :show_packing_instructions
         get :show_distribution_quote_request
         get :show_distribution_order
@@ -65,16 +64,6 @@ Feminadb::Application.routes.draw do
   resources :reports, :only => [ :index, :show ]
   resources :report_graphs, :only => :show
   resources :bulk_order_creators, :only => [ :new, :create ]
-
-  resources :special_orders do
-    member do
-      put :approve
-      put :deny
-      put :complete
-    end
-
-    resources :notes, :controller => 'special_order_notes'
-  end
 
   resource :inventory, :controller => 'inventory' do
     post :set_issue_inventory_comment

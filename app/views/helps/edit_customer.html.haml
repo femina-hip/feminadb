@@ -13,8 +13,8 @@
     %p
       Log in. Different FeminaDB users are authorized to edit different
       parts of the Customer information. Some Users can edit General
-      Information; others can edit Orders. All Users can make new Special
-      Orders and Notes for a Customer.
+      Information; others can edit Orders. All Users can add Notes to a
+      Customer.
   = render_help_step 'Edit General Information' do
     %p
       To edit General Information, scroll to the bottom of the
@@ -43,13 +43,6 @@
       To change details on an Order, scroll to the desired Order in the
       Orders table and click on "Edit". Edit the details and click on
       "Save Changes".
-  = render_help_step 'Make Special Order' do
-    %p
-      To request a new Special Order for the Customer, click on
-      "Request New Special Order for this Customer". Follow the instructions
-      in
-      = link_to 'the Making a Special Order Help', :doc => 'make_special_order'
-      for more details.
   = render_help_step 'Write Note' do
     %p
       To write a Note on this Customer, simply type in the Note and click

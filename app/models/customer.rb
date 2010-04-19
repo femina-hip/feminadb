@@ -62,16 +62,6 @@ class Customer < ActiveRecord::Base
            :include => { :issue => :publication },
            :order => 'publications.name, issues.issue_number DESC',
            :conditions => 'orders.deleted_at IS NULL'
-  has_many :special_orders,
-           :dependent => :nullify,
-           :order => 'special_orders.requested_for_date DESC',
-           :conditions => 'special_orders.deleted_at IS NULL'
-  has_many :special_order_lines,
-           :through => :special_orders,
-           :source => :lines,
-           :include => { :issue => :publication },
-           :order => 'publications.name, issues.issue_number DESC, special_orders.requested_for_date DESC',
-           :conditions => 'special_order_lines.deleted_at IS NULL'
   has_many :notes,
            :dependent => :destroy,
            :class_name => 'CustomerNote',

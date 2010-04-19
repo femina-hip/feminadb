@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_special_order_lines, :show_distribution_order, :orders_in_district ]
+  require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_distribution_order, :orders_in_district ]
   before_filter :get_publication
 
   make_resourceful do
@@ -94,17 +94,6 @@ class IssuesController < ApplicationController
         send_data writer.pdf.render, :filename => 'distribution_list.pdf', :type => 'application/pdf', :disposition => 'inline'
       end
     end
-  end
-
-  # GET /publications/1/issues/1/show_special_order_lines
-  def show_special_order_lines
-    @issue = Issue.find(params[:id])
-
-    @special_order_lines = SpecialOrderLine.find_all_by_issue_id(
-      @issue.id,
-      :include => { :special_order => :requested_by_user },
-      :order => 'special_orders.requested_at DESC'
-    )
   end
 
   def orders_in_district

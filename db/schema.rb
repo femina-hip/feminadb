@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100418180815) do
+ActiveRecord::Schema.define(:version => 20100419090959) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -144,11 +144,10 @@ ActiveRecord::Schema.define(:version => 20100418180815) do
     t.integer  "publication_id"
     t.date     "issue_date"
     t.datetime "deleted_at"
-    t.string   "issue_number",              :default => "",   :null => false
-    t.integer  "quantity",                  :default => 0,    :null => false
-    t.integer  "num_copies_in_house",       :default => 0,    :null => false
-    t.boolean  "allows_new_special_orders", :default => true, :null => false
-    t.string   "inventory_comment",         :default => "",   :null => false
+    t.string   "issue_number",        :default => "", :null => false
+    t.integer  "quantity",            :default => 0,  :null => false
+    t.integer  "num_copies_in_house", :default => 0,  :null => false
+    t.string   "inventory_comment",   :default => "", :null => false
   end
 
   create_table "orders", :force => true do |t|
@@ -198,45 +197,6 @@ ActiveRecord::Schema.define(:version => 20100418180815) do
 
   add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
-
-  create_table "special_order_lines", :force => true do |t|
-    t.integer  "special_order_id",     :null => false
-    t.integer  "issue_id",             :null => false
-    t.integer  "num_copies_requested", :null => false
-    t.integer  "num_copies"
-    t.datetime "deleted_at"
-  end
-
-  add_index "special_order_lines", ["issue_id"], :name => "index_special_order_lines_on_issue_id"
-
-  create_table "special_order_notes", :force => true do |t|
-    t.integer  "special_order_id", :null => false
-    t.text     "note",             :null => false
-    t.datetime "created_at",       :null => false
-    t.integer  "created_by"
-    t.datetime "deleted_at"
-  end
-
-  add_index "special_order_notes", ["special_order_id"], :name => "index_special_order_notes_on_special_order_id"
-
-  create_table "special_orders", :force => true do |t|
-    t.integer  "customer_id"
-    t.string   "customer_name",      :default => "",    :null => false
-    t.string   "reason",             :default => "",    :null => false
-    t.datetime "requested_at",                          :null => false
-    t.date     "requested_for_date",                    :null => false
-    t.string   "received_by",        :default => "",    :null => false
-    t.integer  "authorized_by"
-    t.datetime "authorized_at"
-    t.datetime "deleted_at"
-    t.integer  "requested_by",       :default => 0,     :null => false
-    t.string   "authorize_comments", :default => "",    :null => false
-    t.boolean  "approved",           :default => false, :null => false
-    t.integer  "completed_by"
-    t.datetime "completed_at"
-  end
-
-  add_index "special_orders", ["customer_id"], :name => "index_special_orders_on_customer_id"
 
   create_table "standing_orders", :force => true do |t|
     t.integer  "customer_id"

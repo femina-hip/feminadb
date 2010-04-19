@@ -11,8 +11,6 @@
 
 = render(:partial => 'customer_orders/orders', :locals => { :orders => @customer.orders })
 
-= render(:partial => 'special_order_lines')
-
 - if @customer.club
   = render(:partial => 'clubs/club', :locals => { :club => @customer.club })
 - else
@@ -26,6 +24,4 @@
 = render(:partial => 'add_tag', :locals => { :customer => @customer })
 
 %p.actions
-  = link_to('Enter a new Special Order for this Customer', new_special_order_path(:customer_id => @customer))
-  |
   = link_to('Back to Customers', customers_path)

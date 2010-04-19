@@ -25,7 +25,6 @@
                   - publication.issues.first(3).each do |issue|
                     %li.issue= link_to(issue.full_name, [publication, issue])
         %li= link_to('Inventory', inventory_path)
-        %li= link_to('Special Orders', special_orders_path)
         %li= link_to('Reports', reports_path)
         %li= link_to('Help', help_path)
       - if current_user.has_role?('admin')

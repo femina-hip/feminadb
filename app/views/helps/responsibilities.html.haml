@@ -13,11 +13,10 @@
 - names[:distribution_officer] = 'amandus'
 - names[:inventory_manager] = 'amandus'
 - names[:production_manager] = 'lynn'
-- names[:administrator] = 'zakaria'
+- names[:administrator] = 'seba'
 - names[:m_e_manager] = 'aran'
 - names[:community_outreach_officer] = 'constancia/gloria'
 - names[:community_outreach_manager] = 'hamisi'
-- names[:receptionist] = 'epheta/gloria'
 
 %table.role-descriptions
   %thead
@@ -78,18 +77,11 @@
       %td= names[:community_outreach_manager]
     %tr{:class => cycle('odd', 'even')}
       %td.title
-        = link_to 'Receptionist', '#receptionist'
-      %td
-        %p Prepares Special Orders after they have been approved
-      %td= names[:receptionist]
-    %tr{:class => cycle('odd', 'even')}
-      %td.title
         = link_to 'Employee', '#everybody'
       %td
         %p
-          Requests Copies via Special Orders. Enters new information about
-          Customers. Adds Notes in FeminaDB when things are amiss. Views
-          Reports.
+          Enters new information about Customers. Adds Notes in FeminaDB when
+          things are amiss. Views Reports.
       %td everybody
 
 %h2 Role Breakdowns
@@ -107,10 +99,8 @@
   %li Prepare Delivery Quote Requests
   %li Prepare Delivery Orders
   %li Prepare Distribution Lists
-  %li Approve Special Orders
   %li Add Notes to Issues
   %li Add Notes to Customers
-  %li Add Notes to Special Orders
 
 %h3#inventory_manager
   Inventory Manager
@@ -174,23 +164,11 @@
     Notify Distribution Officer when Standing Orders or Orders should be
     entered; follow up to ensure the Distribution Manager does so
 
-%h3#receptionist
-  Receptionist
-  = "(#{names[:receptionist]})"
-
-%ul
-  %li Enter Customers
-  %li Help other Employees enter Special Orders
-  %li Approve Special Orders when the Distribution Officer is unavailable
-  %li Prepare Special Orders and mark them as Complete
-
 %h3#everybody
   Everybody
 
 %ul
   %li Enter Customer information
-  %li Enter Special Orders
   %li Add Notes to Customers
-  %li Add Notes for Special Orders
   %li View Reports
   %li Report incorrect data to the responsible people

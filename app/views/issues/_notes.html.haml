@@ -14,10 +14,10 @@
     - issue.notes.each do |note|
       %tr{:class => cycle('odd', 'even')}
         %td.user= render_user note.created_by_user
-        %td.date= h note.created_at.to_formatted_s(:short)
+        %td.date= note.created_at.to_formatted_s(:short)
         %td.note
           .redcloth= textilize(note.note).html_safe
-        - if current_user.has_role?('edit-special-orders')
+        - if current_user.has_role?('edit-issues')
           %td.actions
             = button_to 'Delete', publication_issue_note_path(issue.publication, issue, note), :confirm => 'Are you sure you want to delete this Note from this Issue?', :method => :delete
     %tr{:class => cycle('odd', 'even')}
