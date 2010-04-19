@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419094613) do
+ActiveRecord::Schema.define(:version => 20100419120753) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -31,23 +31,22 @@ ActiveRecord::Schema.define(:version => 20100419094613) do
   add_index "bulk_order_creators", ["issue_id"], :name => "index_bulk_order_creators_on_issue_id"
 
   create_table "clubs", :force => true do |t|
-    t.integer  "customer_id",                             :null => false
-    t.string   "name",                                    :null => false
-    t.string   "address",                 :default => "", :null => false
-    t.string   "telephone_1",             :default => "", :null => false
-    t.string   "telephone_2",             :default => "", :null => false
-    t.string   "email",                   :default => "", :null => false
-    t.integer  "num_members",             :default => 0,  :null => false
+    t.integer  "customer_id",                         :null => false
+    t.string   "name",                                :null => false
+    t.string   "address",             :default => "", :null => false
+    t.string   "telephone_1",         :default => "", :null => false
+    t.string   "telephone_2",         :default => "", :null => false
+    t.string   "email",               :default => "", :null => false
+    t.integer  "num_members",         :default => 0,  :null => false
     t.date     "date_founded"
-    t.string   "motto",                   :default => "", :null => false
-    t.string   "objective",               :default => "", :null => false
-    t.string   "eligibility",             :default => "", :null => false
-    t.string   "work_plan",               :default => "", :null => false
-    t.string   "form_submitter_position", :default => "", :null => false
-    t.string   "patron",                  :default => "", :null => false
-    t.text     "intended_duty",                           :null => false
-    t.string   "founding_motivation",     :default => "", :null => false
-    t.text     "cooperation_ideas",                       :null => false
+    t.string   "motto",               :default => "", :null => false
+    t.string   "objective",           :default => "", :null => false
+    t.string   "eligibility",         :default => "", :null => false
+    t.string   "work_plan",           :default => "", :null => false
+    t.string   "patron",              :default => "", :null => false
+    t.text     "intended_duty",                       :null => false
+    t.string   "founding_motivation", :default => "", :null => false
+    t.text     "cooperation_ideas",                   :null => false
     t.datetime "deleted_at"
   end
 
