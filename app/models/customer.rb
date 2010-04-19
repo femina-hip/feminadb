@@ -1,4 +1,5 @@
 class Customer < ActiveRecord::Base
+  NEEDS_STRIPPING = /(^\s)|(\s$)/
   extend Forwardable
 
   include SoftDeletable
@@ -86,6 +87,7 @@ class Customer < ActiveRecord::Base
                           :case_sensitive => false, :if => lambda { |c| c.deleted_at.nil? }
   validates_presence_of :delivery_method_id
 
+  before_validation :strip_string_fields
   before_validation :clear_deliver_via_if_same_as_name
 
   def self.can_visit_url?; true; end
@@ -125,8 +127,20 @@ class Customer < ActiveRecord::Base
 
   def clear_deliver_via_if_same_as_name
     if deliver_via == name
-      write_attribute :deliver_via, nil
+      write_attribute(:deliver_via, nil)
     end
     true # Returning false will cancel save
+  end
+
+  def strip_string_fields
+    if name =~ NEEDS_STRIPPING
+      write_attribute(:name, name.strip)
+    end
+    if district =~ NEEDS_STRIPPING
+      write_attribute(:district, district.strip)
+    end
+    if deliver_via =~ NEEDS_STRIPPING
+      write_attribute(:deliver_via, deliver_via.strip)
+    end
   end
 end
