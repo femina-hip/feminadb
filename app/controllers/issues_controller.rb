@@ -5,7 +5,7 @@ class IssuesController < ApplicationController
   make_resourceful do
     actions :index, :show, :new, :edit, :destroy
 
-    belongs_to(:publication) # FIXME make_resourceful crashes
+    belongs_to(:publication)
 
     before(:show) do
       @warehouses = Warehouse.inventory.order(:name).all
@@ -116,8 +116,7 @@ class IssuesController < ApplicationController
   end
 
   def authorized_for_generate_orders?
-    true
-    #current_user.has_role?('admin')
+    current_user.has_role?('edit-orders')
   end
 
   def destroy
@@ -135,19 +134,13 @@ class IssuesController < ApplicationController
   protected
 
   def current_objects
-    @current_objects ||= Issue.active.where(:publication_id => params[:publication_id]).includes(:publication).order('issue_number DESC').all
+    @current_objects ||= get_publication.issues
   end
 
   private
 
   def get_publication
-    @publication = if params[:action] == 'index'
-      current_objects.first && current_objects.first.publication
-    elsif current_object
-      current_object.publication
-    else
-      Publication.find(params[:publication_id])
-    end
+    @publication ||= Publication.includes(:issues => :publication).find(params[:publication_id])
   end
 
   def object_parameters
