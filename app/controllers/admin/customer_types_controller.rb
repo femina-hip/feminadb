@@ -2,7 +2,14 @@ class Admin::CustomerTypesController < ApplicationController
   require_role 'admin'
 
   make_resourceful do
-    actions :index, :show, :new, :create, :edit, :update
+    actions :index, :new, :create, :edit, :update
+
+    response_for(:update) do |format|
+      format.html { redirect_to(admin_customer_types_url, :notice => "Customer Type \"#{current_object.name}\" updated") }
+    end
+    response_for(:create) do |format|
+      format.html { redirect_to(admin_customer_types_url, :notice => "Customer Type \"#{current_object.name}\" created") }
+    end
   end
 
   # DELETE /customer_types/1

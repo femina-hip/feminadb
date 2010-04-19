@@ -3,7 +3,7 @@
 
   %p
     The list of Customer Types is also visible in the
-    = link_to 'Help', help_path
+    = link_to('Help', help_path)
     pages.
 
 %table.customer-types
@@ -17,10 +17,10 @@
   %tbody
     - @customer_types.each do |customer_type|
       %tr{:class => cycle('odd', 'even')}
-        %td= h customer_type.category
-        %td= h customer_type.name
-        %td= h customer_type.description
-        %td= link_to 'Show', admin_customer_type_path(customer_type)
+        %td= customer_type.category
+        %td= customer_type.name
+        %td= customer_type.description
+        %td= link_to('Edit', edit_admin_customer_type_path(customer_type))
     %tr
       %td.add{:colspan => 4}
-        = link_to 'Create New Customer Type', new_admin_customer_type_path
+        = link_to('Create New Customer Type', new_admin_customer_type_path)

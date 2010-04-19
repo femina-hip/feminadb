@@ -8,21 +8,24 @@
       %th Name
       %th Description
       %th
+        %abbr{:title => 'Where the Packing Instructions say to send the Issues'} Warehouse
+      %th
         %abbr{:title => 'If Yes, Orders with this Delivery Method will be included in Distribution Quote Requests'} Quote?
       %th
   %tbody
     - @delivery_methods.each do |delivery_method|
       %tr{:class => cycle('odd', 'even')}
-        %td{:class => 'abbreviation'}= h delivery_method.abbreviation
-        %td{:class => 'name'}= h delivery_method.name
-        %td{:class => 'description'}= h delivery_method.description
-        %td{:class => 'quote'}
+        %td.abbreviation= delivery_method.abbreviation
+        %td.name= delivery_method.name
+        %td.description= delivery_method.description
+        %td.warehouse= delivery_method.warehouse.name
+        %td.quote
           - if delivery_method.include_in_distribution_quote_request?
             Yes
           - else
             No
-        %td{:class => 'actions'}
-          = link_to 'Show', admin_delivery_method_path(delivery_method)
-    %tr{:class => 'add'}
-      %td{:colspan => 5}
-        = link_to 'Create new Delivery Method', new_admin_delivery_method_path
+        %td.actions
+          = link_to('Edit', edit_admin_delivery_method_path(delivery_method))
+    %tr.add
+      %td{:colspan => 6}
+        = link_to('Create new Delivery Method', new_admin_delivery_method_path)
