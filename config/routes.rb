@@ -69,8 +69,8 @@ Feminadb::Application.routes.draw do
 
   match 'help(/:doc)' => 'helps#show', :as => 'help'
 
-  match 'login(/:return_to)' => 'account#login', :as => 'login'
-  match 'logout(/:return_to)' => 'account#logout', :as => 'logout'
+  match 'login' => 'account#login', :as => 'login'
+  match 'logout' => 'account#logout', :as => 'logout'
 
   root :to => 'customers#index'
   match ':controller/service.wsdl' => '#wsdl'
