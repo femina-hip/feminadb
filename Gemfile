@@ -25,10 +25,12 @@ group :test do
   gem 'rspec-mocks', '2.0.0.beta.6'
   gem 'rspec-rails', '2.0.0.beta.6'
   gem 'ruby-prof'
+  gem 'ruby-debug'
 end
 
-group :development, :test do
-  gem 'ruby-debug'
+group :development do
+  gem 'vlad', '2.0.0'
+  gem 'vlad-git', '2.1.0'
 end
 
 group :benchmark do
