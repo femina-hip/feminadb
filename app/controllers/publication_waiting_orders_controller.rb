@@ -1,5 +1,6 @@
 class PublicationWaitingOrdersController < ApplicationController
   include ActsAsReportableControllerHelper
+  include CustomerFilterControllerMethods
 
   before_filter :load_publication
 
@@ -7,7 +8,9 @@ class PublicationWaitingOrdersController < ApplicationController
   # GET /publications/1/waiting_orders.xml
   # GET /publications/1/waiting_orders.csv
   def index
-    @waiting_orders = WaitingOrder.active.where(:publication_id => @publication.id).includes(:customer => [ :region, :type ]).order('customer_types.name, regions.name, customers.district, customers.name').paginate(
+    @waiting_orders = @publication.waiting_orders.includes(
+      :customer => [ :region, :type ]
+    ).order('customer_types.name, regions.name, customers.district, customers.name').where(conditions).paginate(
       :page => requested_page,
       :per_page => requested_per_page
     )
@@ -78,13 +81,7 @@ class PublicationWaitingOrdersController < ApplicationController
     @publication = Publication.find(params[:publication_id])
   end
 
-  def requested_page
-    return params[:page].to_i if params[:page].to_i > 0
-    1
-  end
-
-  def requested_per_page
-    return :all if request.format == Mime::CSV
-    WaitingOrder.per_page
+  def self.model_class
+    WaitingOrder
   end
 end

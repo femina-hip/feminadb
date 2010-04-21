@@ -10,6 +10,9 @@ class Publication < ActiveRecord::Base
   has_many :standing_orders,
            :dependent => :destroy,
            :conditions => 'standing_orders.deleted_at IS NULL'
+  has_many :waiting_orders,
+           :dependent => :destroy,
+           :conditions => 'waiting_orders.deleted_at IS NULL'
   has_many :customers,
            :through => :standing_orders,
            :include => :region,

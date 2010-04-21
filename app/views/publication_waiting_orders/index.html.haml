@@ -1,10 +1,16 @@
-= render_pretty_header "Waiting Orders for #{h(@publication.name)}" do
+= render_pretty_header "Waiting Orders for #{@publication.name}" do
   %p
     These
     = glossary_term('Waiting Orders')
     will never become Orders. They only show that the Customers
     %em want
     to have Standing Orders.
+
+  %p
+    If you are logged in and authorized, you may click on the listed
+    quantities to edit them.
+
+= render('application/customer_search', :path => publication_waiting_orders_url(@publication), :num_results => @waiting_orders.total_entries)
 
 %table.publication-waiting-orders
   %thead
