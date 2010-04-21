@@ -1,6 +1,4 @@
 class ClubsController < ApplicationController
-  include ActsAsReportableControllerHelper
-
   require_role 'edit-customers', :except => [ :index, :show ]
 
   # GET /clubs

@@ -1,5 +1,4 @@
 class CustomersController < ApplicationController
-  include ActsAsReportableControllerHelper
   require_role 'edit-customers', :except => [ :index, :show ]
 
   before_filter :remember_q_and_page, :only => :index

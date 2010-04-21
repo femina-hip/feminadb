@@ -1,5 +1,4 @@
 class PublicationWaitingOrdersController < ApplicationController
-  include ActsAsReportableControllerHelper
   include CustomerFilterControllerMethods
 
   before_filter :load_publication

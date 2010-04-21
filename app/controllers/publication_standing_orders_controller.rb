@@ -1,5 +1,4 @@
 class PublicationStandingOrdersController < ApplicationController
-  include ActsAsReportableControllerHelper
   include CustomerFilterControllerMethods
 
   require_role 'edit-orders', :except => :index
