@@ -1,4 +1,4 @@
-table.customers, table.clubs, table.approved-special-orders, table.pending-special-orders, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-special-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-orders, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions, table.data
+table.customers, table.clubs, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions, table.data
   :border = 2px solid !border_color
   :margin 1em auto
 
@@ -43,7 +43,7 @@ table.customers, table.clubs, table.approved-special-orders, table.pending-speci
       :font-weight bold
 
 // Tables which have no "thead.title"
-table.customers, table.clubs, table.approved-special-orders, table.pending-special-orders, table.publication-standing-orders, table.publication-waiting-orders, table.issue-orders, table.special-orders, table.report, table.issue-special-order-lines, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods
+table.customers, table.clubs, table.publication-standing-orders, table.publication-waiting-orders, table.issue-orders, table.report, table.issue-special-order-lines, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods
   thead
     :border = 2px solid !heading_border_color
 
@@ -59,7 +59,7 @@ table.customers, table.clubs, table.approved-special-orders, table.pending-speci
         :text-decoration underline
 
 // Tables which have a "thead.title"
-table.packing-instructions, table.customer-orders, table.customer-special-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-notes, table.special-order-notes, table.distribution-quote-request, table.inventory
+table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-notes, table.special-order-notes, table.distribution-quote-request, table.inventory
   thead.title
     :border = 2px solid !heading_border_color
 
@@ -81,9 +81,6 @@ table.packing-instructions, table.customer-orders, table.customer-special-orders
 
     th
       :font-weight normal
-
-table.approved-special-orders, table.pending-special-orders, table.special-orders
-  :width 100%
 
 table.customers, table.clubs
   :width 100%
@@ -125,11 +122,6 @@ table.publication-standing-orders, table.publication-waiting-orders
         :border 1px dashed gray
         :border-top none
 
-  form.inplaceeditor-form
-    input
-      :display block
-      :width 100%
-
 table.customer-orders
   td.publication, td.issue_number, td.num_copies, td.order_date, td.status, td.delivery_method
     :width 1em
@@ -161,10 +153,41 @@ table.issue-orders
   td.customer
     :width auto
 
-  form.inplaceeditor-form
-    input
-      :display block
-      :width 100%
+  form
+    :position relative
+
+    input.num_copies
+      :width 4em
+      :text-align right
+
+    div.details
+      :display none
+      :position absolute
+      :right 0
+      :z-index 1
+      :padding 3px
+      :border = 2px solid !border_color
+      :border-top none
+
+    img
+      :position absolute
+      :right 1em
+
+  form.editing
+    input[type=text]
+      :background = !input_highlight_background_color
+
+  form.submitting
+    input[type=text]
+      :background = !input_highlight_background_color
+
+  form.error *
+    :background = !error_background_color
+
+  tr.even form div.details
+    :background = !even_background_color
+  tr.odd form div.details
+    :background = !odd_background_color
 
 table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.customer-special-order-lines, table.special-order-notes, table.issue-notes
   :width 100%

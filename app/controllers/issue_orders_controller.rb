@@ -34,6 +34,20 @@ class IssueOrdersController < ApplicationController
     end
   end
 
+  def update
+    @order = Order.find(params[:id])
+
+    respond_to do |format|
+      if @order.update_attributes((params[:order] || {}).merge(:updated_by => current_user))
+        format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order updated") }
+        format.js { render(:json => {}) }
+      else
+        format.html { render(:action => :edit) }
+        format.js { render(:json => @order.errors, :status => 422) }
+      end
+    end
+  end
+
   private
 
   def get_publication

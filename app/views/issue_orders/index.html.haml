@@ -50,8 +50,17 @@
         %td.qty
           - if current_user.has_role?('edit-orders')
             = form_for([@issue.publication, @issue, o]) do |f|
-              %div
-                = f.text_field(:num_copies)
+              .basic= f.text_field(:num_copies, :id => '', :class => 'num_copies')
+              .details
+                %label
+                  Comment
+                  = f.text_field(:comments, :id => '')
+                %label
+                  Date
+                  = f.date_field(:order_date, :id => '')
+                = f.submit('Save')
+                %input{:type => 'Reset', :value => 'Cancel Changes'}
+
           - else
             = o.num_copies
         - if current_user.has_role?('edit-orders')
