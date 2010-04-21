@@ -297,6 +297,10 @@ module ActionView
       include DynamicForm::FormBuilderMethods
     end
   end
+
+  class Base
+    include DynamicForm
+  end
 end
 
 I18n.load_path << File.expand_path("../../locale/en.yml", __FILE__)
