@@ -53,7 +53,8 @@ class IssueOrdersController < ApplicationController
 
     respond_to do |format|
       flash[:notice] = 'Order was successfully deleted.'
-      format.html { redirect_to publication_issue_orders_path(@publication, @issue) }
+      format.html { redirect_to(params[:return_to] || publication_issue_orders_path(@publication, @issue)) }
+      format.json { render(:json => {}) }
       format.xml  { head :ok }
     end
   end

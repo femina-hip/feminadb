@@ -49,7 +49,7 @@ Feminadb::Application.routes.draw do
       end
 
       resources :notes
-      resources :orders, :controller => 'issue_orders'
+      resources :orders, :controller => 'issue_orders', :except => [ :show, :new, :edit ]
     end
 
     resources :standing_orders, :controller => 'publication_standing_orders'

@@ -79,7 +79,7 @@
         - if current_user.has_role?('edit-orders')
           %td.actions
             - unless o.new_record?
-              = link_to('delete', publication_issue_order_url(@publication, @issue, o), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
+              = button_to('delete', publication_issue_order_url(@publication, @issue, o, :return_to => request.fullpath), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
 = will_paginate(@orders)
 
 %p.actions
