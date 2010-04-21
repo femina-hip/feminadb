@@ -1,5 +1,4 @@
 class IssueOrdersController < ApplicationController
-  include ActsAsReportableControllerHelper
   include CustomerFilterControllerMethods
 
   require_role 'edit-orders', :except => [ :index ]
@@ -9,7 +8,32 @@ class IssueOrdersController < ApplicationController
   # GET /publications/1/issues/1/orders
   # GET /publications/1/issues/1/orders.xml
   def index
-    @orders = @issue.orders.includes(:region, :delivery_method).where(conditions).order('delivery_methods.name, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
+    if params[:all]
+      q = params[:q]
+      page = requested_page
+      per_page = requested_per_page
+      customers = Customer.search do
+        CustomersSearcher.apply_query_string_to_search(self, q)
+        order_by :delivery_method
+        order_by :region
+        order_by :district
+        order_by :name
+        paginate :page => page, :per_page => per_page
+      end.results
+
+      Customer.send(:preload_associations, customers, [:region, :type, :delivery_method])
+
+      orders_by_customer_id = {}
+      @issue.orders.where(:customer_id => customers.collect(&:id)).each do |o|
+        orders_by_customer_id[o.customer_id] = o
+      end
+
+      @orders = WillPaginate::Collection.create(page, per_page, customers.total_entries) do |pager|
+        pager.replace(customers.collect { |c| orders_by_customer_id[c.id] || build_order_for_customer(c) })
+        end
+    else
+      @orders = @issue.orders.includes(:region, :delivery_method).where(conditions).order('delivery_methods.abbreviation, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
+    end
 
     respond_to do |format|
       format.html # index.haml
@@ -31,6 +55,20 @@ class IssueOrdersController < ApplicationController
       flash[:notice] = 'Order was successfully deleted.'
       format.html { redirect_to publication_issue_orders_path(@publication, @issue) }
       format.xml  { head :ok }
+    end
+  end
+
+  def create
+    @order = @issue.orders.build((params[:order] || {}).merge(:updated_by => current_user))
+
+    respond_to do |format|
+      if @order.save
+        format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order created") }
+        format.js { render(:json => {}) }
+      else
+        format.html { render(:action => :new) }
+        format.js { render(:json => @order.errors, :status => 422) }
+      end
     end
   end
 
@@ -62,8 +100,14 @@ class IssueOrdersController < ApplicationController
     Order
   end
 
-  def requested_include
-    return [ :region, :delivery_method, { :customer => :type } ] if request.format == Mime::CSV
-    [ :region, :delivery_method ]
+  def build_order_for_customer(customer)
+    order = Order.new(
+      :customer_id => customer.id,
+      :customer => customer, # speed things up
+      :region => customer.region,
+      :delivery_method => customer.delivery_method
+    )
+    order.send(:copy_data_from_customer_if_new_record)
+    order
   end
 end

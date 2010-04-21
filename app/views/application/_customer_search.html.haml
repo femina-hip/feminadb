@@ -3,12 +3,15 @@
 -# - num_results, the number of results
 -# "params":
 -# - q, the search query
+-# - all (optional) will get passed through
 = form_tag path, :method => :get, :class => 'search' do
-  %table
+  %table.search
     %tr
       %td
         %label{:for => 'customer_search_q'} Search:
       %td.stretch
+        - if params[:all]
+          = hidden_field_tag(:all, params[:all])
         = text_field_tag(:q, params[:q], :id => 'customer_search_q')
       %td
         = submit_tag 'Search'

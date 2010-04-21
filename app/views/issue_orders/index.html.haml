@@ -11,7 +11,17 @@
     = link_to('the Customers list', customers_path)
     and edit from there.
 
-= render :partial => 'application/customer_search', :locals => { :path => publication_issue_orders_url(@publication, @issue), :num_results => @orders.total_entries }
+= render :partial => 'application/customer_search', :locals => { :path => publication_issue_orders_path(@publication, @issue), :num_results => @orders.total_entries }
+
+%p
+  - if params[:all]
+    Even Customers without Orders are in this list.
+    Create Orders by changing the quantities from 0 to something else.
+    You can also
+    = link_to('hide Customers who have no Orders.', publication_issue_orders_path(@publication, @issue, params.slice(:q)))
+  - else
+    The only Customers shown are the ones with Orders. You can also
+    = link_to('include Customers without any Orders yet, to add some.', publication_issue_orders_path(@publication, @issue, params.slice(:q).merge(:all => true)))
 
 %table.issue-orders
   %thead
@@ -50,7 +60,10 @@
         %td.qty
           - if current_user.has_role?('edit-orders')
             = form_for([@issue.publication, @issue, o]) do |f|
-              .basic= f.text_field(:num_copies, :id => '', :class => 'num_copies')
+              .basic
+                = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+                - if o.new_record?
+                  = f.hidden_field(:customer_id)
               .details
                 %label
                   Comment
@@ -65,7 +78,8 @@
             = o.num_copies
         - if current_user.has_role?('edit-orders')
           %td.actions
-            = link_to('delete', publication_issue_order_url(@publication, @issue, o), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
+            - unless o.new_record?
+              = link_to('delete', publication_issue_order_url(@publication, @issue, o), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
 = will_paginate(@orders)
 
 %p.actions
