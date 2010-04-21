@@ -405,69 +405,32 @@ table.role-descriptions {
   table.role-descriptions tbody tr.odd th, table.role-descriptions tbody tr.odd td {
     background: #f8e4b3; }
 
-div#loading {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  cursor: wait; }
-  div#loading div.frame {
-    position: fixed;
-    width: 30%;
-    height: 20%;
-    top: 40%;
-    bottom: 40%;
-    left: 35%;
-    right: 35%;
-    text-align: center;
-    border: 2px dotted black;
-    background: white; }
-    div#loading div.frame div.outer {
-      position: relative;
-      width: 100%;
-      height: 100%; }
-      div#loading div.frame div.outer div {
-        position: absolute;
-        height: 1em;
-        margin-top: -0.5em;
-        text-align: center;
-        width: 100%; }
-        div#loading div.frame div.outer div.inner1 {
-          top: 25%; }
-        div#loading div.frame div.outer div.inner2 {
-          top: 60%; }
-    div#loading div.frame span.fine-print {
-      font-size: 0.5em; }
-
-form.search table, form.refine-search table {
+form.search table {
   width: 100%;
   border: none; }
-  form.search table td, form.refine-search table td {
+  form.search table td {
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 0 6px;
     white-space: nowrap;
     width: 1em; }
-    form.search table td input, form.search table td select, form.refine-search table td input, form.refine-search table td select {
+    form.search table td input, form.search table td select {
       font-size: inherit; }
-    form.search table td input[type="text"], form.refine-search table td input[type="text"] {
+    form.search table td input[type="text"] {
       width: 100%; }
-  form.search table td.stretch, form.refine-search table td.stretch {
+  form.search table td.stretch {
     padding: 1px 3px;
     width: auto; }
-
-form.search {
+form.search table.search {
   clear: both;
-  margin: 1em 5% 2em;
+  margin: 1em 5% 0.5em;
   width: 90%;
   font-size: 1.1em; }
-
-form.refine-search {
+form.search table.refine-search {
   font-size: 0.9em;
   margin: 1em 10%;
   width: 80%; }
-  form.refine-search td {
+  form.search table.refine-search td {
     font-family: inherit; }
 
 div#nav {

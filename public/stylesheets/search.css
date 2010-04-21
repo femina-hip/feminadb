@@ -1,29 +1,27 @@
-form.search table, form.refine-search table {
+form.search table {
   width: 100%;
   border: none; }
-  form.search table td, form.refine-search table td {
+  form.search table td {
     border: none;
     margin: 0;
-    padding: 0;
+    padding: 0 6px;
     white-space: nowrap;
     width: 1em; }
-    form.search table td input, form.search table td select, form.refine-search table td input, form.refine-search table td select {
+    form.search table td input, form.search table td select {
       font-size: inherit; }
-    form.search table td input[type="text"], form.refine-search table td input[type="text"] {
+    form.search table td input[type="text"] {
       width: 100%; }
-  form.search table td.stretch, form.refine-search table td.stretch {
+  form.search table td.stretch {
     padding: 1px 3px;
     width: auto; }
-
-form.search {
+form.search table.search {
   clear: both;
-  margin: 1em 5% 2em;
+  margin: 1em 5% 0.5em;
   width: 90%;
   font-size: 1.1em; }
-
-form.refine-search {
-  font-size: .9em;
+form.search table.refine-search {
+  font-size: 0.9em;
   margin: 1em 10%;
   width: 80%; }
-  form.refine-search td {
+  form.search table.refine-search td {
     font-family: inherit; }
