@@ -1,9 +1,8 @@
 class Club < ActiveRecord::Base
   extend DateField
 
-  versioned
   include SoftDeletable
-  acts_as_reportable
+  versioned
 
   validates_presence_of :customer_id
   validates_uniqueness_of :customer_id,

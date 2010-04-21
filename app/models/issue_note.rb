@@ -1,6 +1,5 @@
 class IssueNote < ActiveRecord::Base
   include SoftDeletable
-  acts_as_reportable
 
   belongs_to :issue
   belongs_to :created_by_user,

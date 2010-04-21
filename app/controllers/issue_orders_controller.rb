@@ -9,55 +9,14 @@ class IssueOrdersController < ApplicationController
   # GET /publications/1/issues/1/orders
   # GET /publications/1/issues/1/orders.xml
   def index
-    @orders = @issue.orders.includes(requested_include).where(conditions).order('delivery_methods.name, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
+    @orders = @issue.orders.includes(:region, :delivery_method).where(conditions).order('delivery_methods.name, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
 
     respond_to do |format|
       format.html # index.haml
       format.xml  { render :xml => @orders.to_xml }
       format.csv do
-        table = report_table_from_objects(
-          @orders,
-          :only => [ :num_copies, :order_date, :comments ],
-          :include => {
-            :region => { :only => :name },
-            :delivery_method => { :only => [ :abbreviation, :name ] },
-            :customer => {
-              :only => [ :id, :name, :district, :deliver_via, :address, :po_box, :contact_name, :contact_position, :telephone_1, :telephone_2, :telephone_3, :fax, :email_1, :email_2, :website ],
-              :include => {
-                :type => { :only => [ :name, :description ] }
-              }
-            }
-          },
-          :order => [
-            'delivery_method.abbreviation',
-            'region.name',
-            'district',
-            'customer_name',
-            'num_copies',
-            'order_date',
-            'comments',
-            'customer.id',
-            'customer.district',
-            'customer.name',
-            'type.name',
-            'type.description',
-            'delivery_method.name',
-            'customer.deliver_via',
-            'customer.address',
-            'customer.po_box',
-            'customer.contact_name',
-            'customer.contact_position',
-            'customer.telephone_1',
-            'customer.telephone_2',
-            'customer.telephone_3',
-            'customer.fax',
-            'customer.email_1',
-            'customer.email_2',
-            'customer.website'
-          ]
-        )
-        s = table.as(:csv)
-        render :text => s
+        Order.send(:preload_associations, @orders, :customer => :type)
+        render(:csv => @orders)
       end
     end
   end

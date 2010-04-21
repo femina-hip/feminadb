@@ -1,7 +1,6 @@
 class District < ActiveRecord::Base
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   belongs_to :region
 

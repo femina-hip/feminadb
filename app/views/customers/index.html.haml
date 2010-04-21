@@ -43,7 +43,7 @@
 = will_paginate(@customers)
 
 %p.actions
-  = link_to 'Export Data to Excel', customers_url(params.slice(:q), :format => :csv)
+  = link_to 'Export Data to Excel', customers_path(params.slice(:q).merge(:format => :csv))
   - if current_user.has_role?('edit-orders')
     |
     = link_to('Create Orders for everybody in this list', new_bulk_order_creator_path(:bulk_order_creator => {:search_string => params[:q]}))

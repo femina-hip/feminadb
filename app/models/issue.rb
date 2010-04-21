@@ -5,7 +5,6 @@ class Issue < ActiveRecord::Base
 
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   belongs_to :publication
   has_many :issue_box_sizes,

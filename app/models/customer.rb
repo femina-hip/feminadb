@@ -4,7 +4,6 @@ class Customer < ActiveRecord::Base
 
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   searchable do
     integer(:region_id)
@@ -111,6 +110,27 @@ class Customer < ActiveRecord::Base
       end
     end
     search.raw_results
+  end
+
+  comma do
+    id('ID')
+    region(:name => 'Region')
+    district('District')
+    type(:name => 'Type', :description => 'Type (long)')
+    name('Name')
+    delivery_method(:abbreviation => 'Deliv. Meth.', :name => 'Delivery Method (long)')
+    deliver_via('Deliver Via')
+    address('Address')
+    po_box('P.O. Box')
+    contact_name('Contact Name')
+    contact_position('Contact Position')
+    telephone_1('Tel.')
+    telephone_2('Tel. (2)')
+    telephone_3('Tel. (3)')
+    fax('Fax')
+    email_1('Email')
+    email_2('Email (2)')
+    website('Website')
   end
 
   private

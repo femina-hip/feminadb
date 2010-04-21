@@ -1,6 +1,5 @@
 class CustomerNote < ActiveRecord::Base
   include SoftDeletable
-  acts_as_reportable
 
   belongs_to :customer
   belongs_to :created_by_user, :class_name => 'User', :foreign_key => :created_by

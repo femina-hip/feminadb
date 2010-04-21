@@ -25,50 +25,20 @@ class CustomersController < ApplicationController
     end
 
     @customers = search.results
-    Customer.send(:preload_associations, @customers, [:region, :type, :standing_orders, :waiting_orders])
+    Customer.send(:preload_associations, @customers, [:region, :type])
     @publications = Publication.active.tracking_standing_orders.order(:name).all
 
     respond_to do |type|
       type.html do
+        Customer.send(:preload_associations, @customers, [:standing_orders, :waiting_orders])
         params[:q] = requested_q
         # render index.haml
       end
       type.csv do
-        table = report_table_from_objects(
-          @customers,
-          :only => [ :id, :name, :district, :deliver_via, :address, :po_box, :contact_name, :contact_position, :telephone_1, :telephone_2, :telephone_3, :fax, :email_1, :email_2, :website ],
-          :include => {
-            :region => { :only => :name },
-            :delivery_method => { :only => [ :abbreviation, :name ] },
-            :type => { :only => [ :name, :description ] }
-          },
-          :order => [
-            'id',
-            'region.name',
-            'district',
-            'type.name',
-            'type.description',
-            'name',
-            'delivery_method.abbreviation',
-            'delivery_method.name',
-            'deliver_via',
-            'address',
-            'po_box',
-            'contact_name',
-            'contact_position',
-            'telephone_1',
-            'telephone_2',
-            'telephone_3',
-            'fax',
-            'email_1',
-            'email_2',
-            'website'
-          ]
-        )
-        s = table.as(:csv)
-        render :text => s
+        Customer.send(:preload_associations, @customers, [:delivery_method])
+        render(:csv => @customers)
       end
-      type.xml  { render :xml => @customers.to_xml }
+      type.xml  { render(:xml => @customers.to_xml) }
     end
   end
 

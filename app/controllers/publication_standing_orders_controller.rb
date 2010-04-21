@@ -16,45 +16,7 @@ class PublicationStandingOrdersController < ApplicationController
         # index.haml
       end
       type.csv do
-        table = report_table_from_objects(
-          @standing_orders,
-          :only => [ :num_copies ],
-          :include => {
-            :customer => {
-              :only => [ :id, :name, :district, :deliver_via, :address, :po_box, :contact_name, :contact_position, :telephone_1, :telephone_2, :telephone_3, :fax, :email_1, :email_2, :website ],
-              :include => {
-                :region => { :only => :name },
-                :delivery_method => { :only => [ :abbreviation, :name ] },
-                :type => { :only => [ :name, :description ] }
-              }
-            }
-          },
-          :order => [
-            'delivery_method.abbreviation',
-            'region.name',
-            'customer.district',
-            'customer.name',
-            'num_copies',
-            'customer.id',
-            'type.name',
-            'type.description',
-            'delivery_method.name',
-            'customer.deliver_via',
-            'customer.address',
-            'customer.po_box',
-            'customer.contact_name',
-            'customer.contact_position',
-            'customer.telephone_1',
-            'customer.telephone_2',
-            'customer.telephone_3',
-            'customer.fax',
-            'customer.email_1',
-            'customer.email_2',
-            'customer.website'
-          ]
-        )
-        s = table.as(:csv)
-        render :text => s
+        render(:csv => @standing_orders)
       end
     end
   end

@@ -1,7 +1,6 @@
 class CustomerType < ActiveRecord::Base
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   has_many :customers,
            :dependent => :restrict,

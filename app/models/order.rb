@@ -3,7 +3,6 @@ class Order < ActiveRecord::Base
 
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   belongs_to :customer
   belongs_to :issue
@@ -27,6 +26,10 @@ class Order < ActiveRecord::Base
   # BUG: After "new" and before "validate", the record is invalid
   before_validation :copy_data_from_customer_if_new_record
 
+  def customer_type
+    customer.try(:type)
+  end
+
   # Returns a dictionary of { IssueBoxSize => (int) num_boxes }
   # BROKEN if the underlying Issue changes
   def num_boxes
@@ -36,6 +39,35 @@ class Order < ActiveRecord::Base
 
     @box_sizes_cache_num_copies = num_copies
     @box_sizes_cache = issue.issue_box_size_quantities(num_copies)
+  end
+
+  comma do
+    delivery_method(:abbreviation => 'Deliv. Meth.')
+    region(:name => 'Region')
+    district('District')
+    customer_name('Customer')
+    num_copies('Copies')
+    order_date('Date')
+    comments('Comment')
+    customer(:id => 'Customer ID')
+    customer(:district => 'Current Customer district')
+    customer(:name => 'Current Customer name')
+    customer_type(:name => 'Cust. Type')
+    customer_type(:description => 'Customer Type (long)')
+    delivery_method(:name => 'Delivery Method (long)')
+    deliver_via('Deliver Via')
+    customer(:address => 'Customer address')
+    contact_name('Contact Name')
+    contact_details('Contact Details')
+    customer(:contact_name => 'Current Contact Name')
+    customer(:contact_position => 'Current Contact Position')
+    customer(:telephone_1 => 'Tel.')
+    customer(:telephone_2 => 'Tel. (2)')
+    customer(:telephone_3 => 'Tel. (3)')
+    customer(:fax => 'Fax')
+    customer(:email_1 => 'Email')
+    customer(:email_2 => 'Email (2)')
+    customer(:website => 'Website')
   end
 
   private

@@ -19,47 +19,7 @@ class PublicationWaitingOrdersController < ApplicationController
       format.html # index.haml
       format.xml  { render :xml => @waiting_orders.to_xml }
       format.csv do
-        table = report_table_from_objects(
-          @waiting_orders,
-          :only => [ :num_copies, :request_date, :comments ],
-          :include => {
-            :customer => {
-              :only => [ :id, :name, :district, :deliver_via, :address, :po_box, :contact_name, :contact_position, :telephone_1, :telephone_2, :telephone_3, :fax, :email_1, :email_2, :website ],
-              :include => {
-                :region => { :only => :name },
-                :type => { :only => [ :name, :description ] }
-              }
-            }
-          },
-          :order => [
-            'type.name',
-            'region.name',
-            'customer.district',
-            'customer.name',
-            'num_copies',
-            'request_date',
-            'comments',
-            'comments',
-            'customer.id',
-            'customer.district',
-            'customer.name',
-            'type.description',
-            'customer.deliver_via',
-            'customer.address',
-            'customer.po_box',
-            'customer.contact_name',
-            'customer.contact_position',
-            'customer.telephone_1',
-            'customer.telephone_2',
-            'customer.telephone_3',
-            'customer.fax',
-            'customer.email_1',
-            'customer.email_2',
-            'customer.website'
-          ]
-        )
-        s = table.as(:csv)
-        render :text => s
+        render(:csv => @waiting_orders)
       end
     end
   end

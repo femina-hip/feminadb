@@ -1,7 +1,6 @@
 class Publication < ActiveRecord::Base
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   has_many :issues,
            :order => 'issues.issue_date DESC',
