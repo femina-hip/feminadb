@@ -3,7 +3,6 @@ class WaitingOrder < ActiveRecord::Base
 
   include SoftDeletable
   versioned
-  acts_as_reportable
 
   belongs_to :customer
   belongs_to :publication
@@ -12,7 +11,7 @@ class WaitingOrder < ActiveRecord::Base
   validates_presence_of :publication_id
   validates_presence_of :request_date
   validates_uniqueness_of :publication_id, :scope => [ :customer_id, :deleted_at ], :if => lambda { |wo| wo.deleted_at.nil? }
-  validates_inclusion_of :num_copies, :in => 1..9999999, :message => 'must be greater than 0'
+  validates_numericality_of :num_copies, :only_integer => true, :greater_than => 0
 
   date_field :request_date
 
