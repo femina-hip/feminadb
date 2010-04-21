@@ -36,10 +36,6 @@ dependencies:
     group: 
     - :default
     version: = 3.0.0.beta.3
-  exception_notifier: 
-    group: 
-    - :default
-    version: = 1.0.0
   prawn: 
     group: 
     - :default
@@ -195,8 +191,6 @@ specs:
     version: 0.0.4
 - eventmachine: 
     version: 0.12.10
-- exception_notifier: 
-    version: 1.0.0
 - gruff: 
     version: 0.3.6
 - haml: 
@@ -259,7 +253,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 2.3.12
-hash: 4cfd9360359cc4b9c49128079591fd398742d5f7
+hash: c1a3aae55752596d596178ee8390b44bc6d88fcc
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

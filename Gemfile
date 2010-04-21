@@ -3,7 +3,6 @@ source 'http://gems.github.com'
 
 gem 'acts_as_reportable', '1.1.1'
 gem 'delayed_job', '2.0.2'
-gem 'exception_notifier', '1.0.0'
 gem 'gruff', '0.3.6'
 gem 'haml', '3.0.0.beta.3'
 gem 'html_namespacing', '0.3.0'
