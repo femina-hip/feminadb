@@ -1,42 +1,68 @@
 class IssueDistrictBreakdown
-  def initialize(publication)
+  extend DateField
+
+  attr_accessor(:start_date)
+  attr_reader(:publication)
+
+  date_field(:start_date)
+
+  def initialize(publication, options = {})
     @publication = publication
+
+    options.each do |k,v|
+      self.send("#{k}=", v)
+    end
+  end
+
+  def issues
+    @issues ||= begin
+      issues = publication.issues.active.includes(:publication)
+      if start_date
+        issues = issues.where('issues.issue_date >= ?', start_date)
+      end
+    end
   end
 
   def data
-    issues_by_id = {}
-    @publication.issues.each do |issue|
-      issues_by_id[issue.id] = issue
-    end
+    @data ||= begin
+      issues_by_id = {}
+      issues.each { |i| issues_by_id[i.id] = i }
 
-    rows = Order.connection.select_rows(
-      "SELECT regions.name,
-              orders.district,
-              issues.id,
-              SUM(orders.num_copies)
-       FROM orders
-       INNER JOIN issues ON orders.issue_id = issues.id
-       INNER JOIN regions ON orders.region_id = regions.id
-       WHERE orders.deleted_at IS NULL
-         AND regions.deleted_at IS NULL
-         AND issues.deleted_at IS NULL
-         AND issues.publication_id = #{@publication.id}
-       GROUP BY regions.name, orders.district, issues.id
-       ORDER BY regions.name, orders.district
-      "
-    )
+      regions_by_id = {}
+      Region.all.each { |r| regions_by_id[r.id] = r }
 
-    ret = []
+      rows = Order.connection.select_rows(
+        "SELECT regions.id,
+                orders.district,
+                issues.id,
+                SUM(orders.num_copies)
+         FROM orders
+         INNER JOIN issues ON orders.issue_id = issues.id
+         INNER JOIN regions ON orders.region_id = regions.id
+         WHERE orders.deleted_at IS NULL
+           AND regions.deleted_at IS NULL
+           AND issues.deleted_at IS NULL
+           AND issues.id IN (#{issues.collect(&:id).join(',')})
+         GROUP BY regions.name, orders.district, issues.id
+         ORDER BY regions.name, orders.district
+        "
+      )
 
-    rows.each do |region_name, district, issue_id, num_copies|
-      key = [ region_name, district ].collect{|s| s.to_s.upcase.strip}
-      if not ret.last or ret.last[0..1].collect{|s| s.to_s.upcase.strip} != key
-        ret << [ region_name, district, {} ]
+      ret = []
+
+      rows.each do |region_id, district, issue_id, num_copies|
+        region = regions_by_id[region_id.to_i]
+        issue = issues_by_id[issue_id.to_i]
+
+        key = [ region, district ]
+        if not ret.last or ret.last[0..1] != key
+          ret << [ region, district, {} ]
+        end
+
+        ret.last.last[issue] = num_copies.to_i
       end
-      issue = issues_by_id[issue_id.to_i]
-      ret.last[2][issue] = num_copies.to_i
-    end
 
-    ret
+      ret
+    end
   end
 end

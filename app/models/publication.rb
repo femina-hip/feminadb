@@ -27,4 +27,8 @@ class Publication < ActiveRecord::Base
   scope :current_periodicals,
         :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
         :order => :name
+
+  scope :not_pr_material,
+        :conditions => { :pr_material => false, :deleted_at => nil },
+        :order => [ 'publications.tracks_standing_orders DESC, publications.name' ]
 end

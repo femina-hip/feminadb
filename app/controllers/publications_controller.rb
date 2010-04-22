@@ -53,13 +53,18 @@ class PublicationsController < ApplicationController
   end
 
   def issue_district_breakdown
-    @publication = Publication.find(params[:id])
-    @data = IssueDistrictBreakdown.new(@publication).data
+    publication = Publication.find(params[:id])
+    @issue_district_breakdown = IssueDistrictBreakdown.new(publication, params.slice(:start_date_string))
+    if !@issue_district_breakdown.start_date
+      @issue_district_breakdown.start_date = 1.year.ago.to_date
+    end
   end
 
   def district_breakdown
-    @publications = Publication.active.order(:name)
-    @data = PublicationDistrictBreakdown.new.data
+    @district_breakdown = PublicationDistrictBreakdown.new(params.slice(:start_date_string))
+    if !@district_breakdown.start_date
+      @district_breakdown.start_date = 1.year.ago.to_date
+    end
   end
 
   protected
