@@ -1,3 +1,2 @@
 - Fix search term recognition ("name", etc)
 - mailers
-- in-place edit in IssueOrders#index, PublicationStandingOrders#index
