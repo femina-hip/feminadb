@@ -21,19 +21,13 @@ class ReportsController < ApplicationController
       end
     end
 
-    @report = report_class.new *args
-    render :action => 'show_report'
-  end
+    @report = report_class.new(*args)
 
-#  def issues_per_region
-#    @issue = Issue.find(params[:issue_id])
-#    @report = Report::IssuesPerRegion.new(@issue)
-#    render :action => 'show_report'
-#  end
-#
-#  def issues_per_person_per_region
-#    @issue = Issue.find(params[:issue_id])
-#    @report = Report::IssuesPerPersonPerRegion.new(@issue)
-#    render :action => 'show_report'
-#  end
+    respond_to do |format|
+      format.html {
+        self.content_type = 'application/xhtml+xml'
+        render(:action => 'show_report')
+      }
+    end
+  end
 end

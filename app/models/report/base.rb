@@ -34,6 +34,10 @@ class Report::Base
     raise NotImplementedError
   end
 
+  def show_map?
+    false
+  end
+
   class << self
     # Returns a String for <h1>, etc.
     def title

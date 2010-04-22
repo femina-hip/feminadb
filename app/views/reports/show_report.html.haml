@@ -1,21 +1,25 @@
 = render_pretty_header @report.class.title do
   - unless @report.subtitle.to_s.empty?
-    %h2= h @report.subtitle
+    %h2= @report.subtitle
 
   - @report.class.description.each do |line|
-    %p= h line
+    %p= line
 
-%table.report
+- if @report.show_map?
+  = render('map')
+
+%table.report#report
   %thead
     %tr
       - @report.columns.each do |column|
-        %th= h column[:title]
+        %th= column[:title]
   %tbody
     - @report.data.each do |row|
       %tr{:class => cycle('odd', 'even')}
         - row.each_with_index do |v, i|
           %td{:class => @report.columns[i][:key].to_s}
-            = h format v
+            = format(v)
 
-%p.report
-  %img{:class => 'report', :alt => 'image', :src => report_graph_path(@report.to_param, :format => :png, :report => params[:report])}
+- if !@report.show_map?
+  %p.report
+    %img{:class => 'report', :alt => 'image', :src => report_graph_path(@report.to_param, :format => :png, :report => params[:report])}
