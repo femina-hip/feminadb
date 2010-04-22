@@ -6,7 +6,7 @@
     %p= line
 
 - if @report.show_map?
-  = render('map')
+  = render('map', :report => @report)
 
 %table.report#report
   %thead

@@ -53,26 +53,56 @@ function n_to_color(n, min_n, max_n) {
     x = (n - min_n) / (max_n - min_n);
   }
 
+  if (x > 1) x = 1;
+
   var letters = Math.floor(255 - (255 * x)).toString(16);
+  if (letters.length == 1) letters = '0' + letters;
 
   return "ff" + letters + letters; // shades of red
 }
 
-function get_min_and_max_n(data) {
-  min = Number.MAX_VALUE;
-  max = Number.MIN_VALUE;
+function get_min_and_max_n(data, hints) {
+  var min = Number.MAX_VALUE;
+  var max = Number.MIN_VALUE;
+  var i;
+
+  if (hints.cull_max) {
+    max = [];
+    for (i = 0; i <= hints.cull_max; i++) {
+      max.push(Number.MIN_VALUE);
+    }
+  }
 
   for (var key in data) {
     var n = data[key];
     if (n < min) {
       min = n;
     }
-    if (n > max) {
-      max = n;
+    if (hints.cull_max) {
+      for (i = 0; i <= hints.cull_max; i++) {
+        if (n > max[i]) {
+          max.pop();
+          max.splice(i, 0, n);
+          break;
+        }
+      }
+    } else {
+      if (n > max) {
+        max = n;
+      }
     }
   }
 
-  return [min, max];
+  if (hints.cull_max) {
+    for (i = max.length - 1; i >= 0; i--) {
+      if (max[i] > Number.MIN_VALUE) {
+        return [min, max[i]];
+      }
+    }
+    return [min, max[0]];
+  } else {
+    return [min, max];
+  }
 }
 
 function get_key_from_svg_path(svg_path, failed_paths) {
@@ -92,38 +122,43 @@ function get_key_from_svg_path(svg_path, failed_paths) {
   return make_key(region, district);
 }
 
-function apply_data_to_svg(data, svg) {
+function apply_data_to_svg(data, svg, hints) {
   var min = 0;
-  var max = get_min_and_max_n(data)[1];
+  var max = get_min_and_max_n(data, hints)[1];
 
   var failed_paths = [];
+  var succeeded_paths = {};
 
   $(svg).find('path').each(function() {
     var svg_path = this;
     var key = get_key_from_svg_path(svg_path, failed_paths);
     var num = data[key] || 0;
-    delete data[key];
+    succeeded_paths[key] = null;
     var color = n_to_color(num, min, max);
 
     failed_paths.push(key);
-    console.log([key, num, color]);
+    //console.log([key, num, color]);
 
     svg_path.setAttribute('style', 'fill:#' + color + ';stroke-width:.015;stroke:black;');
   });
 
   var failed_data = [];
   for (var failed_key in data) {
-    failed_data.push(failed_key);
+    if (!succeeded_paths[failed_key]) {
+      failed_data.push(failed_key);
+    }
   }
 
   if (failed_paths.length || failed_data.length) {
-    console.log('Failed paths:\n\n' + failed_paths.join('\n\n') + '\n\nFailed data:\n\n' + failed_data.join(';'));
+    //console.log('Failed paths:\n\n' + failed_paths.join('\n\n') + '\n\nFailed data:\n\n' + failed_data.join(';'));
   }
 }
 
 $NS().find('iframe').load(function() {
+  var $hints = $NS().find('.hints');
+  var hints = $hints.length ? eval('(' + $hints.text() + ')') : {};
   var data = get_table_data();
   var svg = $(this).contents()[0];
   if (!data || !svg) return;
-  apply_data_to_svg(data, svg);
+  apply_data_to_svg(data, svg, hints);
 });
