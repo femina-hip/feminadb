@@ -24,10 +24,8 @@ module Forms::ApplicationHelper
   # Options:
   #  :conditions: extra conditions for search
   def issue_field(object_name, method, options = {})
-    issues = Issue.active.includes(:publication).order(['issues.issue_number DESC', 'publications.name'])
-    if conditions = options.delete(:conditions)
-      issues = issues.where(conditions)
-    end
+    conditions = options.delete(:conditions) || {}
+    issues = Issue.active.includes(:publication).where(conditions).order(['publications.name, issues.issue_date DESC'])
 
     select_options = issues.all.collect{|i| ["[#{i.publication.name}] #{i.number_and_name}", i.id]}
 
