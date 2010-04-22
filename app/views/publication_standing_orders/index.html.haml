@@ -11,6 +11,16 @@
 
 = render :partial => 'application/customer_search', :locals => { :path => publication_standing_orders_url(@publication), :num_results => @standing_orders.total_entries }
 
+%p
+  - if params[:all]
+    Even Customers without Standing Orders are in this list.
+    Create Standing Orders by changing the quantities from 0 to something else.
+    You can also
+    = link_to('hide Customers who have no Orders.', publication_standing_orders_path(@publication, params.slice(:q)))
+  - else
+    The only Customers shown are the ones with Standing Orders. You can also
+    = link_to('include Customers without any Standing Orders yet, to add some.', publication_standing_orders_path(@publication, params.slice(:q).merge(:all => true)))
+
 %table{:class => 'publication-standing-orders'}
   %thead
     %tr
@@ -23,7 +33,7 @@
       %th
   %tbody
     - @standing_orders.each do |standing_order|
-      = render :partial => 'list_item', :locals => { :standing_order => standing_order }
+      = render(:partial => 'list_item', :locals => { :standing_order => standing_order })
 = will_paginate @standing_orders
 
 %p.actions

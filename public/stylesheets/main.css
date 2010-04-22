@@ -175,18 +175,18 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
 table.customer-notes td.user, table.customer-notes td.date, table.customer-notes td.actions, table.special-order-notes td.user, table.special-order-notes td.date, table.special-order-notes td.actions, table.issue-notes td.user, table.issue-notes td.date, table.issue-notes td.actions {
   width: 1em; }
 
-table.issue-orders {
+table.issue-orders, table.publication-standing-orders {
   width: 100%; }
-  table.issue-orders td.delivery-method, table.issue-orders td.region, table.issue-orders td.district, table.issue-orders td.qty, table.issue-orders td.actions {
+  table.issue-orders td.delivery-method, table.issue-orders td.region, table.issue-orders td.district, table.issue-orders td.qty, table.issue-orders td.actions, table.publication-standing-orders td.delivery-method, table.publication-standing-orders td.region, table.publication-standing-orders td.district, table.publication-standing-orders td.qty, table.publication-standing-orders td.actions {
     width: 1em; }
-  table.issue-orders td.customer {
+  table.issue-orders td.customer, table.publication-standing-orders td.customer {
     width: auto; }
-  table.issue-orders form {
+  table.issue-orders form, table.publication-standing-orders form {
     position: relative; }
-    table.issue-orders form input.num_copies {
+    table.issue-orders form input.num_copies, table.publication-standing-orders form input.num_copies {
       width: 4em;
       text-align: right; }
-    table.issue-orders form div.details {
+    table.issue-orders form div.details, table.publication-standing-orders form div.details {
       display: none;
       position: absolute;
       right: 0;
@@ -194,18 +194,18 @@ table.issue-orders {
       padding: 3px;
       border: 2px solid #009ee0;
       border-top: none; }
-    table.issue-orders form img {
+    table.issue-orders form img, table.publication-standing-orders form img {
       position: absolute;
       right: 1em; }
-  table.issue-orders form.editing input[type=text] {
+  table.issue-orders form.editing input[type=text], table.publication-standing-orders form.editing input[type=text] {
     background: #ececac; }
-  table.issue-orders form.submitting input[type=text] {
+  table.issue-orders form.submitting input[type=text], table.publication-standing-orders form.submitting input[type=text] {
     background: #ececac; }
-  table.issue-orders form.error * {
+  table.issue-orders form.error *, table.publication-standing-orders form.error * {
     background: #ffaaaa; }
-  table.issue-orders tr.even form div.details {
+  table.issue-orders tr.even form div.details, table.publication-standing-orders tr.even form div.details {
     background: #faedcc; }
-  table.issue-orders tr.odd form div.details {
+  table.issue-orders tr.odd form div.details, table.publication-standing-orders tr.odd form div.details {
     background: #f8e4b3; }
 
 table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.customer-special-order-lines, table.special-order-notes, table.issue-notes {

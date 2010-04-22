@@ -8,11 +8,19 @@
   %td.district= standing_order.customer.district
   %td.name
     %div{:style => 'overflow: hidden'}= standing_order.customer.name
-  %td.num-copies
+  %td.qty
     - if current_user.has_role?('edit-orders')
       = form_for([standing_order.publication, standing_order]) do |f|
-        %div
-          = f.text_field(:num_copies)
+        .basic
+          = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+          - if standing_order.new_record?
+            = f.hidden_field(:customer_id, :id => '')
+        .details
+          %label
+            Comment
+            = f.text_field(:comments, :id => '')
+          = f.submit('Save')
+          %input{:type => 'Reset', :value => 'Cancel Changes'}
     - else
       = standing_order.num_copies
   %td.actions

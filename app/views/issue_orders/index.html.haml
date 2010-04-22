@@ -63,7 +63,7 @@
               .basic
                 = f.text_field(:num_copies, :id => '', :class => 'num_copies')
                 - if o.new_record?
-                  = f.hidden_field(:customer_id)
+                  = f.hidden_field(:customer_id, :id => '')
               .details
                 %label
                   Comment

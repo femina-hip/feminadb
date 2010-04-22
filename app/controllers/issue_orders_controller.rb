@@ -93,6 +93,7 @@ class IssueOrdersController < ApplicationController
 
   def build_order_for_customer(customer)
     order = Order.new(
+      :issue_id => @issue.id,
       :customer_id => customer.id,
       :customer => customer, # speed things up
       :region => customer.region,
