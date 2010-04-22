@@ -23,47 +23,8 @@ class ClubsController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.csv do
-        table = report_table_from_objects(
-          @clubs,
-          :only => [ :name, :address, :telephone_1, :telephone_2, :email, :num_members, :date_founded, :motto, :objective, :eligibility,:work_plan, :form_submitter_position, :patron, :intended_duty, :founding_motivation, :cooperation_ideas ],
-          :include => {
-            :customer => {
-              :only => [ :id, :name, :district ],
-              :include => {
-                :region => { :only => :name },
-                :delivery_method => { :only => [ :abbreviation, :name ] },
-                :type => { :only => [ :name, :description ] }
-              }
-            }
-          },
-          :order => [
-            'region.name',
-            'customer.district',
-            'name',
-            'email',
-            'address',
-            'telephone_1',
-            'telephone_2',
-            'num_members',
-            'date_founded',
-            'motto',
-            'objective',
-            'eligibility',
-            'work_plan',
-            'form_submitter_position',
-            'patron',
-            'intended_duty',
-            'founding_motivation',
-            'cooperation_ideas',
-            'customer.name',
-            'type.name',
-            'type.description',
-            'delivery_method.abbreviation',
-            'delivery_method.name'
-          ]
-        )
-        s = table.as(:csv)
-        render :text => s
+        Club.send(:preload_associations, @clubs, :customer => [ :type, :delivery_method ])
+        render(:csv => @clubs)
       end
       format.xml  { render :xml => @clubs }
     end
