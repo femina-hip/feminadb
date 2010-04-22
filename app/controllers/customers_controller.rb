@@ -1,7 +1,7 @@
 class CustomersController < ApplicationController
-  require_role 'edit-customers', :except => [ :index, :show ]
+  include CustomerFilterControllerMethods
 
-  before_filter :remember_q_and_page, :only => :index
+  require_role 'edit-customers', :except => [ :index, :show ]
 
   make_resourceful do
     actions :new, :edit, :create, :update, :destroy
@@ -11,26 +11,13 @@ class CustomersController < ApplicationController
   # GET /customers.csv
   # GET /customers.xml
   def index
-    q = requested_q
-    page = requested_page
-    per_page = requested_per_page
+    @customers = search_for_customers(:order => [:region, :district, :name], :includes => [:region, :type])
 
-    search = Customer.search do
-      CustomersSearcher.apply_query_string_to_search(self, q)
-      order_by :region
-      order_by :district
-      order_by :name
-      paginate :page => page, :per_page => per_page
-    end
-
-    @customers = search.results
-    Customer.send(:preload_associations, @customers, [:region, :type])
     @publications = Publication.active.tracking_standing_orders.order(:name).all
 
     respond_to do |type|
       type.html do
         Customer.send(:preload_associations, @customers, [:standing_orders, :waiting_orders])
-        params[:q] = requested_q
         # render index.haml
       end
       type.csv do
@@ -105,15 +92,6 @@ class CustomersController < ApplicationController
   def requested_per_page
     return :all if request.format == Mime::CSV
     Customer.per_page
-  end
-
-  def requested_q
-    params[:q] || session[:customers_q] || ''
-  end
-
-  def remember_q_and_page
-    session[:customers_q] = params[:q] if params[:q]
-    session[:customers_page] = requested_page
   end
 
   def find_customer

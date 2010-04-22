@@ -9,28 +9,18 @@ class IssueOrdersController < ApplicationController
   # GET /publications/1/issues/1/orders.xml
   def index
     if params[:all]
-      q = params[:q]
-      page = requested_page
-      per_page = requested_per_page
-      customers = Customer.search do
-        CustomersSearcher.apply_query_string_to_search(self, q)
-        order_by :delivery_method
-        order_by :region
-        order_by :district
-        order_by :name
-        paginate :page => page, :per_page => per_page
-      end.results
-
-      Customer.send(:preload_associations, customers, [:region, :type, :delivery_method])
+      customers = search_for_customers(
+        :order => [:delivery_method, :region, :district, :name],
+        :includes => [:region, :type, :delivery_method]
+      )
 
       orders_by_customer_id = {}
       @issue.orders.where(:customer_id => customers.collect(&:id)).each do |o|
         orders_by_customer_id[o.customer_id] = o
       end
 
-      @orders = WillPaginate::Collection.create(page, per_page, customers.total_entries) do |pager|
-        pager.replace(customers.collect { |c| orders_by_customer_id[c.id] || build_order_for_customer(c) })
-        end
+      @orders = customers.dup # WillPaginate magic
+      @orders.replace(customers.collect { |c| orders_by_customer_id[c.id] || build_order_for_customer(c) })
     else
       @orders = @issue.orders.includes(:region, :delivery_method).where(conditions).order('delivery_methods.abbreviation, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
     end
