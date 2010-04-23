@@ -38,6 +38,20 @@ class Report::Base
     false
   end
 
+  # If show_map? returns true, this returns options for the map JavaScript
+  #
+  # Valid options:
+  #  - num_partitions (integer): if greater than 0, this many colours will be
+  #    shown, representing ranges. For instance, if the data values range from
+  #    0 to 100 and num_partitions is 5, there will be distinct colours for
+  #    0-19, 20-39, 40-59, 60-79, and 80-100.
+  #  - zero_partition (boolean): if true, 0 will have its own partition. So,
+  #    for num_partitions of 5 and data from 0-100, there will be 0, 1-24,
+  #    25-49, 50-74, 75-100
+  def map_hints
+    {}
+  end
+
   class << self
     # Returns a String for <h1>, etc.
     def title

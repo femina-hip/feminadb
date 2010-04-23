@@ -51,7 +51,10 @@ class Report::IssuesPerDistrict < Report::Base
   end
 
   def map_hints
-    { :cull_max => 3 } # Dar es Salaam gets SO many issues
+    {
+      :num_partitions => 5,
+      :zero_partition => true
+    }
   end
 
   private
