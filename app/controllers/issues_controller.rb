@@ -6,6 +6,10 @@ class IssuesController < ApplicationController
     actions :index, :show, :new, :edit, :destroy
 
     belongs_to(:publication)
+
+    before(:new) do
+      current_object.packing_hints = current_object.publication.packing_hints
+    end
   end
 
   def create

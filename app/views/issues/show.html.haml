@@ -24,6 +24,10 @@
     %tr{:class => cycle('odd', 'even')}
       %th Box Sizes
       %td= @issue.issue_box_sizes_string
+    - if current_user.has_role?('admin')
+      %tr{:class => cycle('odd', 'even')}
+        %th Packing hints
+        %td= @issue.packing_hints
     %tr{:class => cycle('odd', 'even')}
       %th Total cost
       %td

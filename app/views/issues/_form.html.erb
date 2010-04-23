@@ -6,3 +6,8 @@
   <p><b>Quantity Printed</b>: <%= f.text_field :quantity %></p>
   <p><b>Box Sizes</b>: <%= f.text_field :issue_box_sizes_string %></p>
   <p><b>Total cost in /-</b>: <%= f.text_field :price %></p>
+  <% if current_user.has_role?('admin') %>
+    <p><b>Packing hints</b>: <%= f.text_field :packing_hints %></p>
+  <% else %>
+    <div style="display:none"><%= f.hidden_field :packing_hints %></div>
+  <% end %>

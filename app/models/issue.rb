@@ -37,6 +37,7 @@ class Issue < ActiveRecord::Base
                       :with => /\A[-\.A-Za-z0-9]+\Z$/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
   validate :validate_issue_box_sizes_string
+  validate :validate_packing_hints
 
   date_field :issue_date
 
@@ -125,6 +126,12 @@ class Issue < ActiveRecord::Base
   class PackingInstructionsData < Struct.new(:warehouses, :districts_with_ones)
   end
 
+  def packing_hints_hash
+    @packing_hints_hash ||= if !packing_hints.empty?
+      ActiveSupport::JSON.decode(packing_hints)
+    end
+  end
+
   def packing_instructions_data
     wh_region_district_ibs = {}
 
@@ -136,7 +143,7 @@ class Issue < ActiveRecord::Base
       wh_region_district_ibs[wh] ||= {}
       wh_region_district_ibs[wh][region] ||= {}
       wh_region_district_ibs[wh][region][district] ||= Hash.new(0)
-      issue_box_size_quantities(order.num_copies).each do |ibs, num|
+      issue_box_size_quantities(order.num_copies, wh).each do |ibs, num|
         wh_region_district_ibs[wh][region][district][ibs] += num
       end
     end
@@ -148,7 +155,7 @@ class Issue < ActiveRecord::Base
     wh_region_district_ibs.each do |wh, regions|
       regions.each do |region, districts|
         districts.each do |district, ibss|
-          issue_box_size_quantities(ibss[ones]).each do |ibs, num|
+          issue_box_size_quantities(ibss[ones], wh).each do |ibs, num|
             if ibs == ones
               districts_with_ones[wh] ||= []
               districts_with_ones[wh] << [ region, district, num ]
@@ -363,8 +370,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns a dictionary of { IssueBoxSize => (int) num_boxes }
-  def issue_box_size_quantities(num_copies)
-    ret = find_box_sizes(num_copies) || only_box_size_1_hash(num_copies)
+  def issue_box_size_quantities(num_copies, warehouse=nil)
+    ret = find_box_sizes(num_copies, warehouse) || only_box_size_1_hash(num_copies)
     return ret if ret
 
     # We failed to find a combination of boxes
@@ -384,32 +391,54 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def issue_box_sizes_reversed
-    @issue_box_sizes_reversed ||= issue_box_sizes.reverse
+  def validate_packing_hints
+    return if packing_hints.empty?
+    data = ActiveSupport::JSON.decode(packing_hints)
+    errors.add(:packing_hints, 'must be a JSON Hash') unless Hash === data
+    data.each do |key, val|
+      unless String === key
+        errors.add(:packing_hints, 'must be keyed by String')
+        return
+      end
+      unless Array === val
+        errors.add(:packing_hints, 'must have values which are Lists of Integers')
+        return
+      end
+      val.each do |v|
+        unless Fixnum === v
+          errors.add(:packing_hints, 'must have values which are Lists of Integers')
+          return
+        end
+      end
+    end
+  rescue
+    errors.add(:packing_hints, 'must be valid JSON')
   end
 
-  def issue_box_sizes_reversed_i
-    @issue_box_sizes_reversed_i ||= issue_box_sizes_reversed.collect{|ibs| ibs.num_copies}
-  end
-
-  def issue_box_sizes_reversed_i_without_1
-    issue_box_sizes_reversed_i.last == 1 ? issue_box_sizes_reversed_i[0..-2] : issue_box_sizes_reversed_i
+  def issue_box_size_integers_ordered_for_packing(warehouse)
+    @issue_box_size_integers_ordered_for_packing ||= {}
+    @issue_box_size_integers_ordered_for_packing[warehouse] ||= begin
+      warehouse && packing_hints_hash[warehouse.name] || issue_box_sizes.reverse.collect{|ibs| ibs.num_copies}
+    end
   end
 
   # Returns a hash of { # copies => # boxes }
-  def find_box_sizes(num_copies)
+  def find_box_sizes(num_copies, warehouse=nil)
     @find_box_sizes_cache ||= {}
-    return @find_box_sizes_cache[num_copies] if @find_box_sizes_cache.include? num_copies
+    cache_key = [num_copies, warehouse]
+    return @find_box_sizes_cache[cache_key] if @find_box_sizes_cache.include?(cache_key) # might be nil
+
+    size_integers = issue_box_size_integers_ordered_for_packing(warehouse)
 
     # Try to shortcut: if it divides evenly, use it
-    issue_box_sizes_reversed_i.each do |ibs_num_copies|
+    size_integers.each do |ibs_num_copies|
       next if ibs_num_copies == 1
       i, r = num_copies.divmod(ibs_num_copies)
       return @find_box_sizes_cache[num_copies] = Hash.new(0).merge(ibs_num_copies => i) if r == 0
     end
 
-    ans = find_box_sizes_helper(num_copies)
-    @find_box_sizes_cache[num_copies] = if ans.nil?
+    ans = find_box_sizes_helper(num_copies, size_integers.reject{|i| i == 1})
+    @find_box_sizes_cache[cache_key] = if ans.nil?
       nil
     else
       ans.last.default = 0
@@ -418,7 +447,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns nil or a pair of (# copies remaining, { # copies => # boxes })
-  def find_box_sizes_helper(num_copies, remaining_sizes = issue_box_sizes_reversed_i_without_1)
+  def find_box_sizes_helper(num_copies, remaining_sizes)
     return [ num_copies, {} ] if num_copies == 0
     return nil if remaining_sizes.empty?
 

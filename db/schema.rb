@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100423081527) do
+ActiveRecord::Schema.define(:version => 20100423083411) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20100423081527) do
     t.string   "issue_number",                                  :default => "", :null => false
     t.integer  "quantity",                                      :default => 0,  :null => false
     t.decimal  "price",          :precision => 12, :scale => 0
+    t.string   "packing_hints"
   end
 
   create_table "orders", :force => true do |t|
@@ -174,6 +175,7 @@ ActiveRecord::Schema.define(:version => 20100423081527) do
     t.datetime "deleted_at"
     t.boolean  "tracks_standing_orders", :default => true, :null => false
     t.boolean  "pr_material",            :default => true
+    t.string   "packing_hints"
   end
 
   create_table "regions", :force => true do |t|
