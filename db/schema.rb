@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100419120753) do
+ActiveRecord::Schema.define(:version => 20100423081527) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -143,8 +143,9 @@ ActiveRecord::Schema.define(:version => 20100419120753) do
     t.integer  "publication_id"
     t.date     "issue_date"
     t.datetime "deleted_at"
-    t.string   "issue_number",   :default => "", :null => false
-    t.integer  "quantity",       :default => 0,  :null => false
+    t.string   "issue_number",                                  :default => "", :null => false
+    t.integer  "quantity",                                      :default => 0,  :null => false
+    t.decimal  "price",          :precision => 12, :scale => 0
   end
 
   create_table "orders", :force => true do |t|

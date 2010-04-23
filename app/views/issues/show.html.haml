@@ -20,10 +20,21 @@
       %td= @issue.issue_date
     %tr{:class => cycle('odd', 'even')}
       %th Quantity Printed
-      %td= number_with_delimiter @issue.quantity
+      %td= number_with_delimiter(@issue.quantity)
     %tr{:class => cycle('odd', 'even')}
       %th Box Sizes
       %td= @issue.issue_box_sizes_string
+    %tr{:class => cycle('odd', 'even')}
+      %th Total cost
+      %td
+        = number_with_delimiter(@issue.price) || '?,???'
+        = '/-'
+    - if @issue.price && @issue.price > 0 && @issue.quantity && @issue.quantity > 0
+      %tr{:class => cycle('odd', 'even')}
+        %th Cost per Copy
+        %td
+          = number_with_delimiter(@issue.price / @issue.quantity)
+          = '/-'
 
     - if current_user.has_role?('edit-issues')
       %tr
