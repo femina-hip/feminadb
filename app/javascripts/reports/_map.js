@@ -172,6 +172,9 @@ $.extend(DataAnalysis.prototype, {
           break;
         }
       }
+      if (partition > this.partitions.length) {
+        partition = this.partitions.length;
+      }
 
       return this._get_color_for_fraction(partition / this.partitions.length);
     } else {
