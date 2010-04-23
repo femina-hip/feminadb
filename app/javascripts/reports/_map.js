@@ -173,10 +173,10 @@ $.extend(DataAnalysis.prototype, {
         }
       }
       if (partition > this.partitions.length) {
-        partition = this.partitions.length;
+        partition = this.partitions.length - 1;
       }
 
-      return this._get_color_for_fraction(partition / this.partitions.length);
+      return this._get_color_for_fraction(partition / (this.partitions.length - 1));
     } else {
       if (this.max > 0) {
         return this._get_color_for_fraction(num / this.max);
