@@ -27,7 +27,7 @@
             - new_district = false
             %td= order.customer_name
             %td= order.deliver_via
-            %td.num-copies= number_with_delimiter order.num_copies.to_i
+            %td.num-copies= number_with_delimiter(order.num_copies.to_i)
             - @issue.issue_box_sizes_i.each do |ibs|
               %td.num-copies
                 = number_with_delimiter(order.num_boxes[ibs] > 0 ? order.num_boxes[ibs] : '')

@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
     end
 
     @box_sizes_cache_num_copies = num_copies
-    @box_sizes_cache = issue.issue_box_size_quantities(num_copies)
+    @box_sizes_cache = issue.issue_box_size_quantities(num_copies, delivery_method.warehouse)
   end
 
   comma do
