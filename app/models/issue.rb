@@ -45,11 +45,15 @@ class Issue < ActiveRecord::Base
 
   # Returns "Publication 2.3: name"
   def full_name
-    "#{publication.name} #{issue_number}: #{name}"
+    "#{publication.name} #{number_and_name}"
   end
 
   def number_and_name
     "#{issue_number}: #{name}"
+  end
+
+  def full_name_for_issue_select
+    "[#{publication.name}] #{number_and_name}"
   end
 
   # Returns a string list of issue box sizes

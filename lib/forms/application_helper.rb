@@ -25,11 +25,10 @@ module Forms::ApplicationHelper
   #  :conditions: extra conditions for search
   def issue_field(object_name, method, options = {})
     conditions = options.delete(:conditions) || {}
-    issues = Issue.active.includes(:publication).where(conditions).order(['publications.name, issues.issue_date DESC'])
 
-    select_options = issues.all.collect{|i| ["[#{i.publication.name}] #{i.number_and_name}", i.id]}
+    opt_groups = IssueFieldOptGroups.new(:conditions => conditions)
 
-    select(object_name, method, select_options, {}, forms_application_helper_add_class_to_options(options, 'issue_field'))
+    grouped_collection_select(object_name, method, opt_groups.groups, :issues, :label, :id, :full_name_for_issue_select, options, :class => 'issue_field')
   end
 
   private
@@ -41,6 +40,34 @@ module Forms::ApplicationHelper
       options.merge('class' => "#{options['class']} #{klass}")
     else
       options.merge(:class => klass)
+    end
+  end
+
+  class IssueFieldOptGroups
+    class IssueFieldOptGroup < Struct.new(:label, :issues)
+    end
+
+    def initialize(options)
+      @options = options
+    end
+
+    def groups
+      returning([]) do |ret|
+        periodicals = issues.select{ |i| i.publication.tracks_standing_orders? }
+        ret << IssueFieldOptGroup.new('Periodicals', periodicals) unless periodicals.empty?
+
+        one_off = issues.select{ |i| p = i.publication; !p.tracks_standing_orders? && !p.pr_material? }
+        ret << IssueFieldOptGroup.new('One-off publications', one_off) unless one_off.empty?
+
+        advertising = issues.select{ |i| i.publication.pr_material? }
+        ret << IssueFieldOptGroup.new('Advertising materials', advertising) unless advertising.empty?
+      end
+    end
+
+    private
+
+    def issues
+      @issues ||= Issue.active.includes(:publication).where(@options[:conditions]).order('publications.tracks_standing_orders DESC, publications.pr_material, publications.name, issues.issue_date DESC').all
     end
   end
 end

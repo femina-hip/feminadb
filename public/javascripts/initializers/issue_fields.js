@@ -13,6 +13,10 @@ $.fn.issue_field = function() {
       }
     });
     $select.val(value);
+
+    if (!$select.children(':selected').length) {
+      $select.val($select.children(':eq(0)').val());
+    }
   }
 
   function switch_options_text($options) {
@@ -37,32 +41,44 @@ $.fn.issue_field = function() {
     return ret;
   }
 
-  function reset_options_text($options) {
-    $options.each(function() {
-      var $option = $(this);
-      publication = this._issue_field_publication;
-      $option.removeData('_issue_field_publication');
-      $option.text('[' + publication + '] ' + $option.text());
+  function build_publication_select($select) {
+    var $ret = $('<select class="publication_field"></select>');
+    $select.children().each(function() {
+      var $select_optgroup = $(this);
+
+      var $optgroup = $('<optgroup></optgroup>').attr('label', $select_optgroup.attr('label'));
+
+      var last_publication = undefined;
+
+      $select_optgroup.children().each(function() {
+        var $select_option = $(this);
+
+        publication = this._issue_field_publication;
+        if (last_publication != publication) {
+          $optgroup.append($('<option></option>').text(publication));
+          last_publication = publication;
+        }
+      });
+
+      $ret.append($optgroup);
     });
+
+    return $ret;
   }
 
   return $(this).each(function() {
     var $select = $(this);
-    var $all_options = $select.children();
 
+    var $all_options = $select.find('option');
     switch_options_text($all_options);
-    var publications = find_publications($all_options);
 
-    var $publication_select = $('<select class="publication_field"></select>');
-    $.each(publications, function(i, publication) {
-      var $option = $('<option></option>').text(publication);
-      $publication_select.append($option);
-    });
-    var $selected_option = $select.children(':selected');
+    var $publication_select = build_publication_select($select);
+
+    var $selected_option = $select.find('option:selected');
     if ($selected_option.length) {
-      console.log($selected_option[0]._issue_field_publication);
       $publication_select.val($selected_option[0]._issue_field_publication);
     }
+
     $select.before($publication_select);
 
     $publication_select.change(function() {
@@ -70,16 +86,6 @@ $.fn.issue_field = function() {
     });
 
     filter_issue_field($select, $publication_select, $all_options);
-
-    $select.data('un_issue_field', function() {
-      var value = $select.val();
-      $publication_select.remove();
-      $select.empty();
-      reset_options_text($all_options);
-      $select.append($all_options);
-      $select.removeData('un_issue_field');
-      $select.val(value);
-    });
   });
 };
 
