@@ -131,8 +131,10 @@ class Issue < ActiveRecord::Base
   end
 
   def packing_hints_hash
-    @packing_hints_hash ||= if !packing_hints.empty?
+    @packing_hints_hash ||= if packing_hints && !packing_hints.empty?
       ActiveSupport::JSON.decode(packing_hints)
+    else
+      {}
     end
   end
 
