@@ -49,6 +49,10 @@ function on_form_submit(e) {
     $td.append(data.td_html);
     $td.children().hide();
     $td.children().fadeIn();
+
+    if ($td.find('div.errorExplanation').length) {
+      $td.find('form').parent().show();
+    }
   });
 
   channeler.channel('save', {

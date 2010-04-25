@@ -73,7 +73,7 @@ class IssueOrdersController < ApplicationController
         format.js { render_json_response }
       else
         format.html { render(:action => :edit) }
-        format.js { render(:json => @order.errors, :status => 422) }
+        format.js { render_json_response }
       end
     end
   end
