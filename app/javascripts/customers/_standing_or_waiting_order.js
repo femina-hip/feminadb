@@ -79,6 +79,16 @@ function on_form_submit(e) {
     $td.append(data.td_html);
     $td.children().hide();
     $td.children().fadeIn();
+
+    var elems = fetch_elems($td);
+
+    if (elems.$forms_div.find('div.errorExplanation').length > 0) {
+      if (elems.$both_divs.length == 2) {
+        elems.$both_forms.hide();
+        elems.$forms_div.find('div.errorExplanation').closest('form').show();
+      }
+      elems.$forms_div.show();
+    }
   });
 
   channeler.channel('save', {
