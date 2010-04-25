@@ -130,6 +130,9 @@ table.packing-instructions thead, table.customer-orders thead, table.customer-st
   table.packing-instructions thead th, table.customer-orders thead th, table.customer-standing-orders thead th, table.customer-waiting-orders thead th, table.customer-notes thead th, table.issue-notes thead th, table.distribution-quote-request thead th, table.inventory thead th {
     font-weight: normal; }
 
+table.packing-instructions {
+  margin-bottom: 1em; }
+
 table.customers, table.clubs {
   width: 100%; }
   table.customers td.region, table.customers td.district, table.customers td.type, table.customers td.actions, table.customers td.standing-orders, table.clubs td.region, table.clubs td.district, table.clubs td.type, table.clubs td.actions, table.clubs td.standing-orders {
@@ -567,20 +570,6 @@ div.footer {
       display: inline;
       padding: 0 1em; }
 
-.progress_bar .progress_bar_outside {
-  margin: 2em;
-  padding: 2px;
-  border: 2px solid gray;
-  height: 1.5em;
-  background-color: #fffbd9; }
-  .progress_bar .progress_bar_outside .progress_bar_inside {
-    margin: 0 100% 0 0;
-    height: 100%;
-    background: blue; }
-.progress_bar p {
-  margin: 2em;
-  text-align: center; }
-
 textarea.note-input {
   width: 100%; }
 
@@ -595,39 +584,8 @@ ul.publications, ul.issues {
       display: block;
       margin-left: -2.5em; }
 
-table.packing-instructions {
-  margin-bottom: 1em; }
-
 .pagination {
   margin-top: 6px;
-  text-align: center; }
-
-table.attributes {
-  width: 100%; }
-  table.attributes th {
-    background: #cc061e;
-    border-bottom: 1px dotted black; }
-  table.attributes td {
-    border-bottom: 1px dotted black; }
-    table.attributes td div {
-      overflow: hidden; }
-  table.attributes tbody th {
-    text-align: right; }
-  table.attributes tr.modified td {
-    background: black; }
-
-.progress_bar .progress_bar_outside {
-  margin: 2em;
-  padding: 2px;
-  border: 2px solid gray;
-  height: 1.5em;
-  background-color: white; }
-.progress_bar .progress_bar_inside {
-  margin: 0 100% 0 0;
-  height: 100%;
-  background-color: blue; }
-.progress_bar p {
-  margin: 2em;
   text-align: center; }
 
 div.errorExplanation {
@@ -652,61 +610,3 @@ div.errorExplanation {
     background: inherit;
     color: inherit;
     padding: 2px; }
-
-table.special-order-lines {
-  border: none;
-  margin: 1em auto; }
-  table.special-order-lines thead.title th {
-    background: #f2d280; }
-  table.special-order-lines tr.denied td {
-    text-decoration: line-through; }
-  table.special-order-lines td, table.special-order-lines th {
-    border: none;
-    background: #fff8b2; }
-  table.special-order-lines input {
-    background: #e4d3ac;
-    border: 1px solid #cc061e;
-    color: black; }
-    table.special-order-lines input:focus {
-      background: #e4db9c;
-      border-color: #ff3951; }
-  table.special-order-lines td.num-copies-requested, table.special-order-lines td.num-copies-granted, table.special-order-lines td.num-copies-in-stock, table.special-order-lines td.num-copies-on-hold {
-    text-align: right; }
-    table.special-order-lines td.num-copies-requested input, table.special-order-lines td.num-copies-granted input, table.special-order-lines td.num-copies-in-stock input, table.special-order-lines td.num-copies-on-hold input {
-      width: 3em; }
-  table.special-order-lines td.num-copies-granted {
-    font-weight: bold; }
-
-.record-select {
-  width: auto;
-  border: 1px solid #009ee0;
-  font: inherit;
-  font-size: 0.8em; }
-  .record-select form .text-input {
-    display: none; }
-  .record-select a {
-    color: #cc0000; }
-  .record-select ol a {
-    background-color: #f5db99; }
-  .record-select ol .even a {
-    background-color: #f8e4b3; }
-  .record-select ol a:hover, .record-select ol .even a:hover {
-    background-color: white; }
-  .record-select ol .pagination {
-    border-top: 1px solid #009ee0; }
-  .record-select ol .pagination a {
-    background-color: #f2d280; }
-  .record-select ol .previous a {
-    border: none; }
-  .record-select ol .next a {
-    border: none; }
-  .record-select ol .found {
-    background-color: #f2d280;
-    color: black;
-    border-bottom: 1px solid #009ee0; }
-  .record-select div.issue-select-entry label {
-    font-weight: bold;
-    font-size: 1.1em; }
-  .record-select div.issue-select-entry span.inventory {
-    display: block;
-    margin-left: 1em; }
