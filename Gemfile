@@ -30,6 +30,7 @@ group :test do
 end
 
 group :development do
+  gem 'ruby-debug'
   gem 'vlad', '2.0.0'
   gem 'vlad-git', '2.1.0'
 end
