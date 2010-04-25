@@ -1,11 +1,11 @@
 %ul.publications
   - publications.each do |publication|
     %li
-      %span= h publication.name
-      = link_to '[issues]', publication_issues_url(publication)
+      %span= publication.name
+      = link_to('[issues]', publication_issues_path(publication))
       - if publication.tracks_standing_orders?
-        = link_to '[standing orders]', publication_standing_orders_url(publication)
-      = link_to '[waiting orders]', publication_waiting_orders_url(publication)
+        = link_to('[standing orders]', customers_path(:q => "standing_#{publication.to_index_key}:>1"))
+        = link_to('[waiting orders]', customers_path(:q => "waiting_#{publication.to_index_key}:>1"))
       - if current_user.has_role?('edit-publications')
-        = link_to '[edit]', edit_publication_url(publication)
-        = link_to '[destroy]', publication_url(publication), :confirm => 'Are you sure?', :method => :delete
+        = link_to('[edit]', edit_publication_path(publication))
+        = button_to('[destroy]', publication_path(publication), :confirm => 'Are you sure?', :method => :delete)

@@ -1,3 +1,4 @@
 <%= render :super %>
 
-<p><%= link_to 'Display Customers with Standing Orders', publication_standing_orders_url(params[:publication_id]) %></p>
+<p><%= link_to('Display Customers with Standing Orders', customer_path(:q => "standing_#{publication.to_index_key}:>1")) %>
+<p><%= link_to('Display Customers with Waiting Orders', customer_path(:q => "standing_#{publication.to_index_key}:>1")) %>

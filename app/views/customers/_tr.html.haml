@@ -1,0 +1,10 @@
+%tr{:class => cycle('odd', 'even')}
+  %td.region= customer.region.name
+  %td.district= customer.district
+  %td.type
+    %abbr{:title => customer.type.description}= customer.type.name
+  %td.customer-name
+    .cut-off= link_to(customer.name, customer)
+  - publications.each do |publication|
+    %td.standing-orders
+      = render('standing_or_waiting_order', :customer => customer, :publication => publication)

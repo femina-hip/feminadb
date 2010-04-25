@@ -3,6 +3,7 @@ class StandingOrder < ActiveRecord::Base
   versioned
 
   belongs_to :customer
+  after_save { |so| so.customer.try(:index) }
   belongs_to :publication
 
   validates_presence_of :customer_id

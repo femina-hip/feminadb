@@ -5,6 +5,7 @@ class WaitingOrder < ActiveRecord::Base
   versioned
 
   belongs_to :customer
+  after_save { |wo| wo.customer.try(:index) }
   belongs_to :publication
 
   validates_presence_of :customer_id
@@ -25,6 +26,16 @@ class WaitingOrder < ActiveRecord::Base
 
   def customer_type
     customer.type
+  end
+
+  def comments_with_request_date
+    if request_date
+      "(requested #{request_date.to_formatted_s(:long)}) #{comments}"
+    elsif comments
+      comments
+    else
+      nil
+    end
   end
 
   # Returns a standing order and soft-deletes this waiting order

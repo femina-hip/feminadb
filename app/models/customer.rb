@@ -5,7 +5,24 @@ class Customer < ActiveRecord::Base
   include SoftDeletable
   versioned
 
-  searchable do
+  # Indexing happens automatically:
+  #
+  # - When creating/updating a Customer, because Sunspot does that automatically
+  # - When creating/updating standing/waiting orders, school infos, clubs and
+  #   notes, because we before_save() in those classes
+  # - When deleting any of the above, because they're soft-deleted, so a delete
+  #   really only counts as an update
+  searchable(
+      :include => [
+        { :standing_orders => :publication },
+        { :waiting_orders => :publication },
+        :region,
+        :delivery_method,
+        :type,
+        :club,
+        :notes
+      ]
+    ) do
     integer(:region_id)
     string(:region, :stored => true) { region.name }
     string(:district, :stored => true)
@@ -30,12 +47,26 @@ class Customer < ActiveRecord::Base
     text(:po_box)
     text(:delivery_method) { delivery_method.abbreviation }
     text(:delivery_method_name) { delivery_method.name }
-    text(:customer_note_text) { notes.collect(&:note).join('\n') }
+    text(:customer_note_text) { notes.collect(&:note).join("\n") }
     text(:region) { region.name }
     text(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
     boolean(:club) { !club.nil? }
+    dynamic_integer(:standing) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.to_index_key
+        value = standing_order_for(publication).try(:num_copies) || 0
+        hash.merge!(key => value)
+      end
+    end
+    dynamic_integer(:waiting) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.name.parameterize.gsub(/-/, '_')
+        value = waiting_order_for(publication).try(:num_copies) || 0
+        hash.merge!(key => value)
+      end
+    end
     Club.column_names.each do |c|
       text("club_#{c}") { club && club.send(c) }
     end
@@ -58,7 +89,7 @@ class Customer < ActiveRecord::Base
            :conditions => 'waiting_orders.deleted_at IS NULL'
   has_many :orders,
            :dependent => :nullify,
-           :include => { :issue => :publication },
+           :include => [ :delivery_method, { :issue => :publication } ],
            :order => 'publications.name, issues.issue_number DESC',
            :conditions => 'orders.deleted_at IS NULL'
   has_many :notes,
@@ -91,6 +122,14 @@ class Customer < ActiveRecord::Base
 
   def contact_details_string
     [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
+  end
+
+  def standing_order_for(publication)
+    standing_orders.select{ |so| so.publication_id == publication.id }.first
+  end
+
+  def waiting_order_for(publication)
+    waiting_orders.select{ |so| so.publication_id == publication.id }.first
   end
 
   def self.fuzzy_find(region_id, district, name)
@@ -152,5 +191,9 @@ class Customer < ActiveRecord::Base
     if deliver_via =~ NEEDS_STRIPPING
       write_attribute(:deliver_via, deliver_via.strip)
     end
+  end
+
+  def self.publications_tracking_standing_orders_for_indexing
+    @@publications_tracking_standing_orders_for_indexing ||= Publication.tracking_standing_orders.all
   end
 end

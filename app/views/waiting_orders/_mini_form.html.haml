@@ -1,0 +1,29 @@
+.waiting-order-form
+  %h3
+    - if waiting_order.new_record?
+      New Waiting Order
+    - else
+      Edit Waiting Order
+  = form_for(waiting_order) do |f|
+    %div
+      = f.error_messages
+      = f.hidden_field(:customer_id, :id => '')
+      = f.hidden_field(:publication_id, :id => '')
+      %p
+        %label
+          Qty
+          = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+
+        %label
+          Requested Date
+          = f.date_field(:request_date, :id => '', :class => 'request_date')
+
+        %label
+          Comment
+          = f.text_field(:comments, :id => '', :class => 'comment')
+      %p
+        = f.submit(f.object.new_record? ? 'Create' : 'Update')
+        %input{:type => 'reset', :value => 'Cancel'}
+  - unless waiting_order.new_record?
+    = button_to('Delete', waiting_order, :method => :delete)
+    = button_to('Convert to Standing Order', convert_to_standing_order_waiting_order_path(waiting_order), :method => :post)

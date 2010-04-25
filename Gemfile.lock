@@ -40,6 +40,12 @@ dependencies:
     group: 
     - :default
     version: = 2.8.1
+  prawn-core: 
+    group: 
+    - :default
+    version: = 0.8.4
+    require: 
+    - prawn/core
   ruby-prof: 
     group: 
     - :test
@@ -66,6 +72,12 @@ dependencies:
     version: = 1.1.0
     require: 
     - sunspot/rails
+  prawn-layout: 
+    group: 
+    - :default
+    version: = 0.8.4
+    require: 
+    - prawn/layout
   sunspot: 
     group: 
     - :default
@@ -239,7 +251,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 2.3.12
-hash: 272e4d1b970664c42def0445592bd554f15445b1
+hash: 507f9f26b880b522d73f1e5c5560b729f0cea1d7
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

@@ -73,6 +73,7 @@
             %li
               = link_to("Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id))
               = link_to('[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :pdf))
+              = link_to('[Spreadsheet]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :csv))
   %li= link_to('Back to Issue List', publication_issues_url(@publication))
 
 = render('notes', :issue => @issue)

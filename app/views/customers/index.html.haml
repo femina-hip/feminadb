@@ -22,19 +22,7 @@
           %abbr{:title => "Standing Orders for #{publication.name}, or Waiting Orders if there is a \"W\""}= publication.name
   %tbody
     - @customers.each do |customer|
-      %tr{:class => cycle('odd', 'even')}
-        %td.region= customer.region.name
-        %td.district= customer.district
-        %td.type
-          %abbr{:title => customer.type.description}= customer.type.name
-        %td.customer-name
-          .cut-off= link_to(customer.name, customer)
-        - @publications.each do |publication|
-          %td.standing-orders
-            - if so = customer.standing_orders.detect{|so| so.publication_id == publication.id}
-              = so.num_copies
-            - elsif wo = customer.waiting_orders.detect{|wo| wo.publication_id == publication.id}
-              = "#{wo.num_copies}W"
+      = render('tr', :customer => customer, :publications => @publications)
     - if current_user.has_role? 'edit-customers'
       %tr
         %td.add{:colspan => 4 + @publications.length}

@@ -1,0 +1,18 @@
+- standing_order ||= customer.standing_order_for(publication) || StandingOrder.new(:customer => customer, :publication => publication)
+- waiting_order ||= customer.waiting_order_for(publication) || WaitingOrder.new(:customer => customer, :publication => publication)
+
+.frame
+  %a{:title => standing_order.comments || waiting_order.comments_with_request_date || ''}
+    - if !standing_order.num_copies.blank?
+      = standing_order.num_copies
+    - elsif !waiting_order.num_copies.blank?
+      = "#{waiting_order.num_copies}W"
+    - else
+      &nbsp;
+
+  - if current_user.has_role?('edit-orders')
+    .forms
+      - if waiting_order.new_record?
+        = render('standing_orders/mini_form', :standing_order => standing_order)
+      - if standing_order.new_record?
+        = render('waiting_orders/mini_form', :waiting_order => waiting_order)

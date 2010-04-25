@@ -1,0 +1,24 @@
+.standing-order-form
+  %h3
+    - if standing_order.new_record?
+      New Standing Order
+    - else
+      Edit Standing Order
+  = form_for(standing_order) do |f|
+    %div
+      = f.error_messages
+      = f.hidden_field(:customer_id, :id => '')
+      = f.hidden_field(:publication_id, :id => '')
+      %p
+        %label
+          Qty
+          = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+
+        %label
+          Comment
+          = f.text_field(:comments, :id => '', :class => 'comment')
+      %p
+        = f.submit(f.object.new_record? ? 'Create' : 'Update')
+        %input{:type => 'reset', :value => 'Cancel'}
+  - unless standing_order.new_record?
+    = button_to('Delete', standing_order, :method => :delete)

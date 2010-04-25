@@ -378,6 +378,20 @@ class Issue < ActiveRecord::Base
     raise DoesNotFitInBoxesException.new('Cannot fit issues into any boxes')
   end
 
+  def distribution_list_csv(delivery_method)
+    FasterCSV.generate do |csv|
+      box_sizes = issue_box_sizes_i.reject{ |n| n == 1 }
+
+      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + box_sizes.collect{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
+
+      orders.includes(:issue).where(:delivery_method_id => delivery_method.id).each do |order|
+        sizes = order.num_boxes
+
+        csv << ([ order.id, order.region.name, order.district, order.customer_name, order.deliver_via, order.num_copies ] + box_sizes.collect{ |ibs| n = sizes[ibs] || 0; n > 0 && n.to_s || '' })
+      end
+    end
+  end
+
   private
 
   def validate_issue_box_sizes_string

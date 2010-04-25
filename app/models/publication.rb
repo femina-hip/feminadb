@@ -31,4 +31,8 @@ class Publication < ActiveRecord::Base
   scope :not_pr_material,
         :conditions => { :pr_material => false, :deleted_at => nil },
         :order => [ 'publications.tracks_standing_orders DESC, publications.name' ]
+
+  def to_index_key
+    name.parameterize.gsub(/-/, '_')
+  end
 end

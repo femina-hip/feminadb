@@ -1,11 +1,9 @@
 class CustomerNoteObserver < ActiveRecord::Observer
   def after_create(note)
-    note.customer.index
     maybe_add_tag note
   end
 
   def after_destroy(note)
-    note.customer.index
     maybe_remove_tag note
   end
 

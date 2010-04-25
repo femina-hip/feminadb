@@ -1,4 +1,4 @@
-table.customers, table.clubs, table.packing-instructions, table.publication-standing-orders, table.publication-waiting-orders, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-orders, table.issue-notes, table.special-order-notes, table.report, table.issue-special-order-lines, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions, table.data
+table.customers, table.clubs, table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions, table.data
   :border = 2px solid !border_color
   :margin 1em auto
 
@@ -43,7 +43,7 @@ table.customers, table.clubs, table.packing-instructions, table.publication-stan
       :font-weight bold
 
 // Tables which have no "thead.title"
-table.customers, table.clubs, table.publication-standing-orders, table.publication-waiting-orders, table.issue-orders, table.report, table.issue-special-order-lines, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods
+table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods
   thead
     :border = 2px solid !heading_border_color
 
@@ -59,7 +59,7 @@ table.customers, table.clubs, table.publication-standing-orders, table.publicati
         :text-decoration underline
 
 // Tables which have a "thead.title"
-table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-special-order-lines, table.customer-notes, table.issue-notes, table.special-order-notes, table.distribution-quote-request, table.inventory
+table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory
   thead.title
     :border = 2px solid !heading_border_color
 
@@ -95,32 +95,70 @@ table.customers, table.clubs
   td.type
     :text-align center
 
+table.customers
+  td.standing-orders
+    :font-family inherit
+
+    div.frame
+      :position relative
+      :width 100%
+      :height 100%
+      :background-color inherit
+
+    a
+      :display block
+      :font-family monospace
+      :width 100%
+      :height 100%
+
+    div.forms
+      :display none
+      :position absolute
+      :background-color inherit
+      :top 1em
+      :right -10px
+      :padding 9px
+      :border = 1px solid !border_color
+      :border-top none
+      :z-index 1
+
+      div.submitting
+        :position absolute
+        :top 0
+        :left 0
+        :bottom 0
+        :right 0
+        :background url(/images/fade-white.png) repeat
+
+        p
+          :text-align center
+          :font-weight bold
+          :margin-top 5em
+
+          img
+            :padding-right 6px
+
+    h3
+      :margin 0
+
+    p
+      :white-space nowrap
+
+    label
+      :white-space nowrap
+
+    input[type=text]
+      :width 10em
+
+    input.num_copies
+      :width 4em
+
 table.customer-standing-orders, table.customer-waiting-orders
   td.publication, td.num_copies, td.request_date, td.created_at
     :width 1em
 
   td.num_copies
     :text-align right
-
-table.publication-standing-orders, table.publication-waiting-orders
-  :width 100%
-
-  td.type, td.region, td.delivery-method, td.district, td.num-copies, td.actions
-    :width 1em
-
-  td.delivery-method
-    :text-align center
-
-  tr.details
-    p
-      :white-space normal
-
-    td
-      div.redcloth
-        :margin 0 1em
-        :padding 1em
-        :border 1px dashed gray
-        :border-top none
 
 table.customer-orders
   td.publication, td.issue_number, td.num_copies, td.order_date, td.status, td.delivery_method
@@ -132,7 +170,7 @@ table.customer-orders
   td.order_date, td.delivery_method
     :text-align center
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.special-order-notes, table.issue-notes
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes
   :margin-bottom 1em
 
   tbody
@@ -140,11 +178,11 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
       :vertical-align top
       :border-bottom = 1px solid !border_color
 
-table.customer-notes, table.special-order-notes, table.issue-notes
+table.customer-notes, table.issue-notes
   td.user, td.date, td.actions
     :width 1em
 
-table.issue-orders, table.publication-standing-orders
+table.issue-orders
   :width 100%
 
   td.delivery-method, td.region, td.district, td.qty, td.actions
@@ -189,7 +227,7 @@ table.issue-orders, table.publication-standing-orders
   tr.odd form div.details
     :background = !odd_background_color
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.customer-special-order-lines, table.special-order-notes, table.issue-notes
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes
   :width 100%
   :margin-bottom 1em
 
@@ -253,7 +291,7 @@ table.inventory
     &+tr th
       :padding-top 0
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-special-order-lines
+table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders
   :width 95%
   :margin .5em auto
 

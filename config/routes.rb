@@ -51,12 +51,12 @@ Feminadb::Application.routes.draw do
       resources :notes
       resources :orders, :controller => 'issue_orders', :except => [ :show, :new, :edit ]
     end
+  end
 
-    resources :standing_orders, :controller => 'publication_standing_orders'
-    resources :waiting_orders, :controller => 'publication_waiting_orders' do
-      member do
-        post :convert_to_standing_order
-      end
+  resources :standing_orders
+  resources :waiting_orders do
+    member do
+      post :convert_to_standing_order
     end
   end
 

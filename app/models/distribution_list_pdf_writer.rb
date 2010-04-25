@@ -8,8 +8,8 @@ class DistributionListPdfWriter
       @paper = 'A4'
       @margin = 32
       @ibs_width = 32
-      @customer_width = 180
-      @delivery_instructions_width = 180
+      @customer_width = 196
+      @delivery_instructions_width = 196
     end
   end
 
@@ -55,11 +55,9 @@ class DistributionListPdfWriter
           h3(p, "#{region.name} (Total #{number_with_delimiter(districts.total(:num_copies))})")
           districts.each do |district, orders|
             h4(p, district)
-            show_headings(p)
-            p.font('Times-Roman', :size => 10)
-            orders.each do |order|
-              show_order(p, order)
-            end
+
+            p.font('Times-Roman')
+            show_orders(p, orders)
           end
         end
 
@@ -100,40 +98,55 @@ class DistributionListPdfWriter
     p.move_down(5)
   end
 
-  def show_headings(p)
-    p.font('Times-Bold', :size => 10)
-    p.text('Final Recipient', :width => m.customer_width)
-    p.move_up(p.font_size + 1)
-    p.text_box('Delivery Instructions', :at => [m.customer_width,p.cursor], :width => m.delivery_instructions_width)
-
-    x = p.bounds.width - m.ibs_width
-    issue.issue_box_sizes.reverse.each do |ibs|
-      p.text_box("x#{ibs.num_copies}", :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
-      x -= m.ibs_width
+  def show_orders(p, orders)
+    headers = ['Customer', 'Delivery Instructions', 'Qty']
+    num_sizes = 0
+    orders.first.issue.issue_box_sizes_i.each do |n|
+      next if n == 1
+      headers << "x#{n}"
+      num_sizes += 1
     end
-    p.text_box('Qty', :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
-    p.move_down(p.font_size + 3)
+
+    column_widths = [ m.customer_width, m.delivery_instructions_width, m.ibs_width] + ([m.ibs_width] * num_sizes)
+
+    orders_lists = orders.collect{ |o| make_order_into_list(o) }
+
+    aligns = [ :left, :left, :center ] + ([:center] * num_sizes)
+
+    p.table(orders_lists,
+      :position => :center,
+      :headers => headers,
+      :align_headers => list_to_hash(aligns),
+      :font_size => 10,
+      :border_style => :underline_header,
+      :column_widths => list_to_hash(column_widths)
+    )
   end
 
-  def show_order(p, order)
-    p.text(order.customer_name, :width => m.customer_width)
-    p.move_up(p.font_size + 1)
-    p.text_box(order.deliver_via, :at => [m.customer_width,p.cursor], :width => m.delivery_instructions_width)
-
-    x = p.bounds.width - m.ibs_width
-    issue.issue_box_sizes_i.reverse.each do |ibs|
-      p.text_box(order.num_boxes[ibs].to_s, :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
-      x -= m.ibs_width
+  def list_to_hash(list)
+    returning({}) do |hash|
+      list.each_with_index { |value, i| hash[i] = value }
     end
-    p.text_box(number_with_delimiter(order.num_copies), :at => [x,p.cursor], :width => m.ibs_width, :align => :right)
-    p.move_down(p.font_size)
+  end
 
-    p.stroke do
-      p.line_width(0.4)
-      p.stroke_color('888888')
-      p.horizontal_rule
+  def make_order_into_list(order)
+    returning([]) do |ret|
+      ret << order.customer_name
+      ret << order.deliver_via
+
+      ret << order.num_copies.to_s
+
+      order.issue.issue_box_sizes_i.each do |ibs|
+        next if ibs == 1
+
+        n = order.num_boxes[ibs]
+
+        if n == 0
+          ret << ""
+        else
+          ret << n.to_s
+        end
+      end
     end
-
-    p.move_down(3)
   end
 end
