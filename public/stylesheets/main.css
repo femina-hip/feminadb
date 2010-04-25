@@ -143,19 +143,19 @@ table.customers, table.clubs {
   table.customers td.type, table.clubs td.type {
     text-align: center; }
 
-table.customers td.standing-orders {
+table.customers td.standing-orders, table.issue-orders td.qty {
   font-family: inherit; }
-  table.customers td.standing-orders div.frame {
+  table.customers td.standing-orders div.frame, table.issue-orders td.qty div.frame {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: inherit; }
-  table.customers td.standing-orders a {
+  table.customers td.standing-orders a, table.issue-orders td.qty a {
     display: block;
     font-family: monospace;
     width: 100%;
     height: 100%; }
-  table.customers td.standing-orders div.forms {
+  table.customers td.standing-orders div.forms, table.issue-orders td.qty div.forms {
     display: none;
     position: absolute;
     background-color: inherit;
@@ -165,28 +165,28 @@ table.customers td.standing-orders {
     border: 1px solid #009ee0;
     border-top: none;
     z-index: 1; }
-    table.customers td.standing-orders div.forms div.submitting {
+    table.customers td.standing-orders div.forms div.submitting, table.issue-orders td.qty div.forms div.submitting {
       position: absolute;
       top: 0;
       left: 0;
       bottom: 0;
       right: 0;
       background: url(/images/fade-white.png) repeat; }
-      table.customers td.standing-orders div.forms div.submitting p {
+      table.customers td.standing-orders div.forms div.submitting p, table.issue-orders td.qty div.forms div.submitting p {
         text-align: center;
         font-weight: bold;
         margin-top: 5em; }
-        table.customers td.standing-orders div.forms div.submitting p img {
+        table.customers td.standing-orders div.forms div.submitting p img, table.issue-orders td.qty div.forms div.submitting p img {
           padding-right: 6px; }
-  table.customers td.standing-orders h3 {
+  table.customers td.standing-orders h3, table.issue-orders td.qty h3 {
     margin: 0; }
-  table.customers td.standing-orders p {
+  table.customers td.standing-orders p, table.issue-orders td.qty p {
     white-space: nowrap; }
-  table.customers td.standing-orders label {
+  table.customers td.standing-orders label, table.issue-orders td.qty label {
     white-space: nowrap; }
-  table.customers td.standing-orders input[type=text] {
+  table.customers td.standing-orders input[type=text], table.issue-orders td.qty input[type=text] {
     width: 10em; }
-  table.customers td.standing-orders input.num_copies {
+  table.customers td.standing-orders input.num_copies, table.issue-orders td.qty input.num_copies {
     width: 4em; }
 
 table.customer-standing-orders td.publication, table.customer-standing-orders td.num_copies, table.customer-standing-orders td.request_date, table.customer-standing-orders td.created_at, table.customer-waiting-orders td.publication, table.customer-waiting-orders td.num_copies, table.customer-waiting-orders td.request_date, table.customer-waiting-orders td.created_at {
@@ -214,34 +214,10 @@ table.issue-orders {
   width: 100%; }
   table.issue-orders td.delivery-method, table.issue-orders td.region, table.issue-orders td.district, table.issue-orders td.qty, table.issue-orders td.actions {
     width: 1em; }
+  table.issue-orders td.qty {
+    text-align: right; }
   table.issue-orders td.customer {
     width: auto; }
-  table.issue-orders form {
-    position: relative; }
-    table.issue-orders form input.num_copies {
-      width: 4em;
-      text-align: right; }
-    table.issue-orders form div.details {
-      display: none;
-      position: absolute;
-      right: 0;
-      z-index: 1;
-      padding: 3px;
-      border: 2px solid #009ee0;
-      border-top: none; }
-    table.issue-orders form img {
-      position: absolute;
-      right: 1em; }
-  table.issue-orders form.editing input[type=text] {
-    background: #ececac; }
-  table.issue-orders form.submitting input[type=text] {
-    background: #ececac; }
-  table.issue-orders form.error * {
-    background: #ffaaaa; }
-  table.issue-orders tr.even form div.details {
-    background: #faedcc; }
-  table.issue-orders tr.odd form div.details {
-    background: #f8e4b3; }
 
 table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes {
   width: 100%;

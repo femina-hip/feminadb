@@ -98,63 +98,62 @@ table.customers, table.clubs
   td.type
     :text-align center
 
-table.customers
-  td.standing-orders
-    :font-family inherit
+table.customers td.standing-orders, table.issue-orders td.qty
+  :font-family inherit
 
-    div.frame
-      :position relative
-      :width 100%
-      :height 100%
-      :background-color inherit
+  div.frame
+    :position relative
+    :width 100%
+    :height 100%
+    :background-color inherit
 
-    a
-      :display block
-      :font-family monospace
-      :width 100%
-      :height 100%
+  a
+    :display block
+    :font-family monospace
+    :width 100%
+    :height 100%
 
-    div.forms
-      :display none
+  div.forms
+    :display none
+    :position absolute
+    :background-color inherit
+    :top 1em
+    :right -10px
+    :padding 9px
+    :border = 1px solid !border_color
+    :border-top none
+    :z-index 1
+
+    div.submitting
       :position absolute
-      :background-color inherit
-      :top 1em
-      :right -10px
-      :padding 9px
-      :border = 1px solid !border_color
-      :border-top none
-      :z-index 1
+      :top 0
+      :left 0
+      :bottom 0
+      :right 0
+      :background url(/images/fade-white.png) repeat
 
-      div.submitting
-        :position absolute
-        :top 0
-        :left 0
-        :bottom 0
-        :right 0
-        :background url(/images/fade-white.png) repeat
+      p
+        :text-align center
+        :font-weight bold
+        :margin-top 5em
 
-        p
-          :text-align center
-          :font-weight bold
-          :margin-top 5em
+        img
+          :padding-right 6px
 
-          img
-            :padding-right 6px
+  h3
+    :margin 0
 
-    h3
-      :margin 0
+  p
+    :white-space nowrap
 
-    p
-      :white-space nowrap
+  label
+    :white-space nowrap
 
-    label
-      :white-space nowrap
+  input[type=text]
+    :width 10em
 
-    input[type=text]
-      :width 10em
-
-    input.num_copies
-      :width 4em
+  input.num_copies
+    :width 4em
 
 table.customer-standing-orders, table.customer-waiting-orders
   td.publication, td.num_copies, td.request_date, td.created_at
@@ -191,44 +190,11 @@ table.issue-orders
   td.delivery-method, td.region, td.district, td.qty, td.actions
     :width 1em
 
+  td.qty
+    :text-align right
+
   td.customer
     :width auto
-
-  form
-    :position relative
-
-    input.num_copies
-      :width 4em
-      :text-align right
-
-    div.details
-      :display none
-      :position absolute
-      :right 0
-      :z-index 1
-      :padding 3px
-      :border = 2px solid !border_color
-      :border-top none
-
-    img
-      :position absolute
-      :right 1em
-
-  form.editing
-    input[type=text]
-      :background = !input_highlight_background_color
-
-  form.submitting
-    input[type=text]
-      :background = !input_highlight_background_color
-
-  form.error *
-    :background = !error_background_color
-
-  tr.even form div.details
-    :background = !even_background_color
-  tr.odd form div.details
-    :background = !odd_background_color
 
 table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes
   :width 100%

@@ -32,12 +32,10 @@
       %th District
       %th Customer
       %th Qty
-      - if current_user.has_role?('edit-orders')
-        %th
   - if !@issue.bulk_order_creators.empty?
     %thead.status
       %tr
-        %td{:colspan => current_user.has_role?('edit-orders') ? 6 : 5}
+        %td{:colspan => 5}
           %p
             FeminaDB is building more Orders for this Issue. Refresh the page
             to see more of them. When complete, this message will disappear.
@@ -58,28 +56,7 @@
             - else
               = o.customer_name
         %td.qty
-          - if current_user.has_role?('edit-orders')
-            = form_for([@issue.publication, @issue, o]) do |f|
-              .basic
-                = f.text_field(:num_copies, :id => '', :class => 'num_copies')
-                - if o.new_record?
-                  = f.hidden_field(:customer_id, :id => '')
-              .details
-                %label
-                  Comment
-                  = f.text_field(:comments, :id => '')
-                %label
-                  Date
-                  = f.date_field(:order_date, :id => '')
-                = f.submit('Save')
-                %input{:type => 'Reset', :value => 'Cancel Changes'}
-
-          - else
-            = o.num_copies
-        - if current_user.has_role?('edit-orders')
-          %td.actions
-            - unless o.new_record?
-              = button_to('delete', publication_issue_order_url(@publication, @issue, o, :return_to => request.fullpath), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
+          = render('qty', :order => o)
 = will_paginate(@orders)
 
 %p.actions

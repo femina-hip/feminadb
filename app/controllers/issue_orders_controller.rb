@@ -2,6 +2,7 @@ class IssueOrdersController < ApplicationController
   include CustomerFilterControllerMethods
 
   require_role 'edit-orders', :except => [ :index ]
+
   before_filter :get_publication
   before_filter :get_issue
 
@@ -22,7 +23,7 @@ class IssueOrdersController < ApplicationController
       @orders = customers.dup # WillPaginate magic
       @orders.replace(customers.collect { |c| orders_by_customer_id[c.id] || build_order_for_customer(c) })
     else
-      @orders = @issue.orders.includes(:region, :delivery_method).where(conditions).order('delivery_methods.abbreviation, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
+      @orders = @issue.orders.includes(:region, :delivery_method, :issue => :publication).where(conditions).order('delivery_methods.abbreviation, regions.name, orders.district, orders.customer_name').paginate(:page => requested_page, :per_page => requested_per_page)
     end
 
     respond_to do |format|
@@ -44,7 +45,7 @@ class IssueOrdersController < ApplicationController
     respond_to do |format|
       flash[:notice] = 'Order was successfully deleted.'
       format.html { redirect_to(params[:return_to] || publication_issue_orders_path(@publication, @issue)) }
-      format.json { render(:json => {}) }
+      format.json { render_json_response }
       format.xml  { head :ok }
     end
   end
@@ -55,7 +56,7 @@ class IssueOrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order created") }
-        format.js { render(:json => {}) }
+        format.js { render_json_response }
       else
         format.html { render(:action => :new) }
         format.js { render(:json => @order.errors, :status => 422) }
@@ -69,7 +70,7 @@ class IssueOrdersController < ApplicationController
     respond_to do |format|
       if @order.update_attributes((params[:order] || {}).merge(:updated_by => current_user))
         format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order updated") }
-        format.js { render(:json => {}) }
+        format.js { render_json_response }
       else
         format.html { render(:action => :edit) }
         format.js { render(:json => @order.errors, :status => 422) }
@@ -78,6 +79,14 @@ class IssueOrdersController < ApplicationController
   end
 
   private
+
+  def render_json_response
+    render(:json => {
+      'td_html' => render_to_string(:partial => 'qty.html', :locals => {
+        :order => @order.deleted_at.nil? ? @order : build_order_for_customer(@order.customer)
+      })
+    })
+  end
 
   def get_publication
     @publication = get_issue.publication

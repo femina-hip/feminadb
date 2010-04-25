@@ -1,0 +1,34 @@
+.frame
+  %a{:title => order.comments}
+    - if order.num_copies && order.num_copies > 0
+      = order.num_copies
+    - else
+      &nbsp;
+
+  - if current_user.has_role?('edit-orders')
+    .forms
+      %h3
+        - if order.new_record?
+          New Order
+        - else
+          Edit Order
+      = form_for([order.issue.publication, order.issue, order]) do |f|
+        %div
+          = f.error_messages
+          - if order.new_record?
+            = f.hidden_field(:customer_id, :id => '')
+        %p
+          %label
+            Qty
+            = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+          %label
+            Date
+            = f.date_field(:order_date, :id => '')
+          %label
+            Comment
+            = f.text_field(:comments, :id => '')
+        %p
+          = f.submit(order.new_record? ? 'Create' : 'Update')
+          %input{:type => 'Reset', :value => 'Cancel Changes'}
+      - unless order.new_record?
+        = button_to('Delete', publication_issue_order_url(order.issue.publication, order.issue, order, :return_to => request.fullpath), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
