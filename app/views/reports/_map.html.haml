@@ -1,5 +1,7 @@
 #map
   - if report.respond_to?(:map_hints)
     .hints{:style => 'display:none;'}= report.map_hints.to_json
-  %iframe{:src => image_path('tanzania-districts.svg'), :style => 'width: 600px; height: 581px; border: 2px solid black; padding: 1em;'}
+  %iframe.svg-map{:src => image_path('tanzania-districts.svg')}
     Sorry: the map isn't loaded.
+
+%div{:style => 'margin:0;padding:0;'}
