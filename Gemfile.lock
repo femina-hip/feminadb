@@ -20,36 +20,40 @@ dependencies:
     group: 
     - :development
     version: = 2.1.0
-  comma: 
-    group: 
-    - :default
-    version: = 0.3.2
   gruff: 
     group: 
     - :default
     version: = 0.3.6
+  comma: 
+    group: 
+    - :default
+    version: = 0.3.2
+  prawn: 
+    group: 
+    - :default
+    version: = 0.8.4
+  haml: 
+    group: 
+    - :default
+    version: = 3.0.0.beta.3
+  mysql: 
+    group: 
+    - :default
+    version: = 2.8.1
   prawn-core: 
     group: 
     - :default
     version: = 0.8.4
     require: 
     - prawn/core
-  mysql: 
-    group: 
-    - :default
-    version: = 2.8.1
-  haml: 
-    group: 
-    - :default
-    version: = 3.0.0.beta.3
-  prawn: 
-    group: 
-    - :default
-    version: = 0.8.4
   ruby-prof: 
     group: 
     - :test
     version: ">= 0"
+  treetop: 
+    group: 
+    - :default
+    version: = 1.4.5
   delayed_job: 
     group: 
     - :default
@@ -62,22 +66,22 @@ dependencies:
     group: 
     - :default
     version: = 1.2.7
-  sunspot: 
-    group: 
-    - :default
-    version: = 1.1.0
-  prawn-layout: 
-    group: 
-    - :default
-    version: = 0.8.4
-    require: 
-    - prawn/layout
   sunspot_rails: 
     group: 
     - :default
     version: = 1.1.0
     require: 
     - sunspot/rails
+  prawn-layout: 
+    group: 
+    - :default
+    version: = 0.8.4
+    require: 
+    - prawn/layout
+  sunspot: 
+    group: 
+    - :default
+    version: = 1.1.0
   rspec-expectations: 
     group: 
     - :test
@@ -251,7 +255,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 2.3.12
-hash: 13c4b23fd1f4890c1f5af21c2697cf1f7b86e043
+hash: dee498d94c45921fda79c9f48969db876f934ce6
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

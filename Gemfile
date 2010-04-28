@@ -15,6 +15,7 @@ gem 'RedCloth', '4.1.9'
 gem 'rmagick', '2.12.2', :require => 'RMagick'
 gem 'sunspot', '1.1.0'
 gem 'sunspot_rails', '1.1.0', :require => 'sunspot/rails'
+gem 'treetop', '1.4.5'
 gem 'thin', '1.2.7'
 gem 'will_paginate', '2.3.12'
 
