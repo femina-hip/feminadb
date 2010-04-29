@@ -105,7 +105,7 @@ class Customer < ActiveRecord::Base
   has_many :orders,
            :dependent => :nullify,
            :include => [ :delivery_method, { :issue => :publication } ],
-           :order => 'publications.name, issues.issue_number DESC',
+           :order => 'publications.name, issues.issue_date DESC',
            :conditions => 'orders.deleted_at IS NULL'
   has_many :notes,
            :dependent => :destroy,
