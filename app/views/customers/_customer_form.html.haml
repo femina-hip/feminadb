@@ -25,7 +25,7 @@
   %tbody
     %tr.first
       %th Delivery Method
-      %td= f.select :delivery_method_id, DeliveryMethod.active.order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+      %td= f.delivery_method_field(:delivery_method_id)
     %tr
       %th
         %abbr{:title => 'Company to which Femina will send Issues'} Deliver Via

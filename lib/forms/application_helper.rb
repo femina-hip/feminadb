@@ -1,10 +1,10 @@
 module Forms::ApplicationHelper
   def region_field(object_name, method, options = {})
-    select(object_name, method, Region.active.order(:name).all.collect{|r| [r.name, r.id]}, options)
+    collection_select(object_name, method, Region.active.order(:name), :id, :name, {:prompt => true}.merge(options))
   end
 
   def customer_type_field(object_name, method, options = {})
-    select(object_name, method, CustomerType.active.order(:name).all.collect{|ct| ["#{ct.name}: #{ct.description}", ct.id]}, options)
+    collection_select(object_name, method, CustomerType.active.order(:name), :id, :full_name, {:prompt => true}.merge(options))
   end
 
   def date_field(object_name, method, options = {})
@@ -16,7 +16,7 @@ module Forms::ApplicationHelper
   end
 
   def delivery_method_field(object_name, method, options = {})
-    collection_select(object_name, method, DeliveryMethod.active.order(:abbreviation), :id, :full_name, options)
+    collection_select(object_name, method, DeliveryMethod.active.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
   end
 
   # issue field

@@ -13,4 +13,8 @@ class CustomerType < ActiveRecord::Base
   validates_uniqueness_of :description,
         :scope => :deleted_at, :if => lambda { |ct| ct.deleted_at.nil? }
   validates_presence_of :category
+
+  def full_name
+    "#{name}: #{description}"
+  end
 end
