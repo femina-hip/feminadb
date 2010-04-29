@@ -17,7 +17,7 @@ gem 'sunspot', '1.1.0'
 gem 'sunspot_rails', '1.1.0', :require => 'sunspot/rails'
 gem 'treetop', '1.4.5'
 gem 'thin', '1.2.7'
-gem 'will_paginate', '2.3.12'
+gem 'will_paginate', '3.0.pre'
 
 group :test do
   gem 'webrat', '0.7.0'

@@ -105,7 +105,7 @@ dependencies:
   will_paginate: 
     group: 
     - :default
-    version: = 2.3.12
+    version: = 3.0.pre
   rmagick: 
     group: 
     - :default
@@ -254,8 +254,8 @@ specs:
 - vlad-git: 
     version: 2.1.0
 - will_paginate: 
-    version: 2.3.12
-hash: dee498d94c45921fda79c9f48969db876f934ce6
+    version: 3.0.pre
+hash: ac4dbb3abd03f01a1e9d90d5f84c08111313fa7e
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

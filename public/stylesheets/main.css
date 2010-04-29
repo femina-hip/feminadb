@@ -421,16 +421,6 @@ form.svg-map-legend {
     height: 1em;
     margin-right: 0.25em; }
 
-.pagination form {
-  display: inline;
-  margin: 0;
-  padding: 0; }
-  .pagination form div {
-    display: inline; }
-    .pagination form div input {
-      font: inherit;
-      width: 3em; }
-
 table.role-descriptions {
   border: 2px solid #009ee0; }
   table.role-descriptions thead {
