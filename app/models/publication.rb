@@ -22,7 +22,8 @@ class Publication < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :deleted_at, :if => lambda { |p| p.deleted_at.nil? }
 
   scope :tracking_standing_orders,
-        :conditions => { :tracks_standing_orders => true }
+        :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
+        :order => :name
 
   scope :current_periodicals,
         :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
