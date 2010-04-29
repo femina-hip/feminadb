@@ -12,14 +12,19 @@ class Report::IssuesPerDistrict < Report::Base
       lines = []
 
       Order.find_by_sql("
-        SELECT region_id, district, SUM(num_copies) AS num_copies
+        SELECT orders.region_id,
+               orders.district,
+               SUM(orders.num_copies) AS num_copies,
+               SUM(orders.num_copies * issues.price / issues.quantity) AS cost
         FROM orders
-        WHERE issue_id IN (#{issues.collect(&:id).join(',')})
-          AND deleted_at IS NULL
-        GROUP BY region_id, district
-        ORDER BY num_copies DESC
+        LEFT JOIN regions ON orders.region_id = regions.id
+        INNER JOIN issues ON orders.issue_id = issues.id
+        WHERE orders.issue_id IN (#{issues.collect(&:id).join(',')})
+          AND orders.deleted_at IS NULL
+        GROUP BY orders.region_id, orders.district
+        ORDER BY regions.name, orders.district DESC
       ").each do |row|
-        lines << [ regions_by_id[row.region_id.to_i], row.district, row.num_copies.to_i ]
+        lines << [ regions_by_id[row.region_id.to_i], row.district, row.num_copies.to_i, row.cost.to_i ]
       end
 
       lines
@@ -42,7 +47,8 @@ class Report::IssuesPerDistrict < Report::Base
     [
       { :key => :region, :title => 'Region', :class => Region },
       { :key => :district, :title => 'District', :class => String },
-      { :key => :num_copies, :title => 'Qty', :class => Integer }
+      { :key => :num_copies, :title => 'Qty', :class => Integer },
+      { :key => :cost, :title => 'Cost (/-)', :class => Integer }
     ]
   end
 
