@@ -22,7 +22,7 @@ class Report::IssuesPerDistrict < Report::Base
         WHERE orders.issue_id IN (#{issues.collect(&:id).join(',')})
           AND orders.deleted_at IS NULL
         GROUP BY orders.region_id, orders.district
-        ORDER BY regions.name, orders.district DESC
+        ORDER BY regions.name, orders.district
       ").each do |row|
         lines << [ regions_by_id[row.region_id.to_i], row.district, row.num_copies.to_i, row.cost.to_i ]
       end
