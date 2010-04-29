@@ -47,7 +47,7 @@ module CustomerFilterControllerMethods
   end
 
   def requested_q
-    if !(params[:add_value] || '').strip.empty?
+    if !((params[:add_term] || '') + (params[:add_value] || '')).strip.empty?
       # FIXME ugly, untested, unnecessarily complex
       if !params[:q].empty?
         params[:q] << ' '
@@ -64,6 +64,8 @@ module CustomerFilterControllerMethods
         else
           add_value = "\"#{add_value}\""
         end
+      elsif add_value.strip == ''
+        add_value = '""'
       end
       params[:q] << add_value
     end

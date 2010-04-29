@@ -488,7 +488,7 @@ form.search {
   form.search li.facet, form.search li.non-facet {
     list-style: none;
     display: inline-block;
-    margin: 0 1em 0 0;
+    margin: 0 0.5em;
     padding: 0;
     background: #fffbd9; }
     form.search li.facet:hover ul, form.search li.non-facet:hover ul {

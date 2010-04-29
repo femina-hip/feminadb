@@ -9,6 +9,7 @@ module Sunspot
         @search = search
         @connective_stack = [search.send(:dsl).instance_variable_get(:@scope)]
         @search_setup = search.instance_variable_get(:@setup)
+        @text_setup = Sunspot::TextFieldSetup.new(@search_setup)
         @tree = tree
       end
 
@@ -73,7 +74,7 @@ module Sunspot
       end
 
       def process_value(node)
-        self.value = node.text_value
+        self.value = node.value
       end
 
       def reset_filter
@@ -84,10 +85,17 @@ module Sunspot
       end
 
       def field_instance
-        if self.dynamic_field
-          @search_setup.dynamic_field_factory(self.dynamic_field).field(self.field)
+        if dynamic_field
+          @search_setup.dynamic_field_factory(dynamic_field).field(field)
+        elsif restriction_type != Sunspot::Query::Restriction::EqualTo || value == ''
+          @search_setup.field(field)
         else
-          @search_setup.field(self.field)
+          ret = begin
+            @search_setup.text_fields(field).first
+          rescue UnrecognizedFieldError
+            nil
+          end
+          ret ||= @search_setup.field(field)
         end
       end
 

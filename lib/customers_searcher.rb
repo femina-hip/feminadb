@@ -9,12 +9,4 @@ module CustomersSearcher
     search_builder.facet(:delivery_method)
     search_builder.facet(:club)
   end
-
-  def self.s_to_comparator_sym(s)
-    case s
-    when '>' then :greater_than
-    when '<' then :less_than
-    else :equal_to
-    end
-  end
 end

@@ -108,8 +108,15 @@ module Sunspot
       end
     
       rule value
-        ('"' (!["] .)* '"') / ("'" (!['] .)* "'") / (![ ()] .)+ {
+        (('"' (!["] .)* '"') / ("'" (!['] .)* "'") / (![ '"()] .)+) {
           def type; :value; end
+          def value
+            if text_value[0] == ?' || text_value[0] == ?"
+              text_value[1..-2]
+            else
+              text_value
+            end
+          end
         }
       end
     

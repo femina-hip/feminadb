@@ -818,6 +818,13 @@ module Sunspot
 
       module Value5
         def type; :value; end
+        def value
+          if text_value[0] == ?' || text_value[0] == ?"
+            text_value[1..-2]
+          else
+            text_value
+          end
+        end
       end
 
       def _nt_value
@@ -904,6 +911,7 @@ module Sunspot
         end
         if r1
           r0 = r1
+          r0.extend(Value5)
         else
           i9, s9 = index, []
           if has_terminal?("'", false, index)
@@ -977,12 +985,13 @@ module Sunspot
           end
           if r9
             r0 = r9
+            r0.extend(Value5)
           else
             s17, i17 = [], index
             loop do
               i18, s18 = index, []
               i19 = index
-              if has_terminal?('\G[ ()]', true, index)
+              if has_terminal?('\G[ \'"()]', true, index)
                 r20 = true
                 @index += 1
               else
@@ -1023,10 +1032,10 @@ module Sunspot
               r17 = nil
             else
               r17 = instantiate_node(SyntaxNode,input, i17...index, s17)
-              r17.extend(Value5)
             end
             if r17
               r0 = r17
+              r0.extend(Value5)
             else
               @index = i0
               r0 = nil

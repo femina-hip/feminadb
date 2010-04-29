@@ -5,7 +5,7 @@ Syntax error: Undefined variable: "$background_color".
 48:   li.facet, li.non-facet
 49:     :list-style none
 50:     :display inline-block
-51:     :margin 0 1em 0 0
+51:     :margin 0 .5em
 52:     :padding 0
 53:     :background = !background_color
 54: 
@@ -102,4 +102,4 @@ script/rails:10
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 48:   li.facet, li.non-facet\A 49:     :list-style none\A 50:     :display inline-block\A 51:     :margin 0 1em 0 0\A 52:     :padding 0\A 53:     :background = !background_color\A 54: \A 55:     &:hover ul\A 56:       :display block\A 57: \A 58:   h3"; }
+  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 48:   li.facet, li.non-facet\A 49:     :list-style none\A 50:     :display inline-block\A 51:     :margin 0 .5em\A 52:     :padding 0\A 53:     :background = !background_color\A 54: \A 55:     &:hover ul\A 56:       :display block\A 57: \A 58:   h3"; }
