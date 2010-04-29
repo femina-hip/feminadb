@@ -5,6 +5,8 @@
 -# "params":
 -# - q, the search query
 -# - all (optional) will get passed through
+- num_results ||= nil
+
 = form_tag(path, :method => :get, :class => 'search') do
   %table.search
     %tr
