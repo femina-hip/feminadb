@@ -7,8 +7,8 @@
 - if @publication.tracks_standing_orders?
   %p Hey, Standing Orders are allowed for this publication. Maybe you want to:
   %ul
-    %li= link_to("Show or edit Standing Orders of #{@publication.name}", customers_path(:q => "standing_#{publication.to_index_key}:>1"))
-    %li= link_to("Show or edit Waiting Orders of #{@publication.name}", customers_path(:q => "waiting_#{publication.to_index_key}:>1"))
+    %li= link_to("Show or edit Standing Orders of #{@publication.name}", customers_path(:q => "standing:#{publication.to_index_key}:true"))
+    %li= link_to("Show or edit Waiting Orders of #{@publication.name}", customers_path(:q => "waiting:#{publication.to_index_key}:true"))
 
   %p Otherwise... let's show the list of Issues.
 

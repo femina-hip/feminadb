@@ -44,6 +44,6 @@ class StandingOrdersController < ApplicationController
   end
 
   def redirect_location
-    customers_path(:q => "standing_#{@standing_order.publication.to_index_key}:>1")
+    customers_path(:q => "standing:#{@standing_order.publication.to_index_key}:true")
   end
 end

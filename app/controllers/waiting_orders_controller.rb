@@ -54,6 +54,6 @@ class WaitingOrdersController < ApplicationController
   end
 
   def redirect_location
-    customers_path(:q => "waiting_#{@waiting_order.publication.to_index_key}:>1")
+    customers_path(:q => "waiting:#{@waiting_order.publication.to_index_key}:true")
   end
 end

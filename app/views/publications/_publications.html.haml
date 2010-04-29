@@ -4,8 +4,8 @@
       %span= publication.name
       = link_to('[issues]', publication_issues_path(publication))
       - if publication.tracks_standing_orders?
-        = link_to('[standing orders]', customers_path(:q => "standing_#{publication.to_index_key}:>1"))
-        = link_to('[waiting orders]', customers_path(:q => "waiting_#{publication.to_index_key}:>1"))
+        = link_to('[standing orders]', customers_path(:q => "standing:#{publication.to_index_key}:true"))
+        = link_to('[waiting orders]', customers_path(:q => "waiting:#{publication.to_index_key}:true"))
       - if current_user.has_role?('edit-publications')
         = link_to('[edit]', edit_publication_path(publication))
         = button_to('[destroy]', publication_path(publication), :confirm => 'Are you sure?', :method => :delete)
