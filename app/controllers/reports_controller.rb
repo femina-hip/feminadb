@@ -26,7 +26,6 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html {
         self.content_type = 'application/xhtml+xml'
-        render(:action => 'show_report')
       }
     end
   end
