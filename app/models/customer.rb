@@ -53,17 +53,31 @@ class Customer < ActiveRecord::Base
     text(:type_description) { type.description }
     text(:category) { type.category }
     boolean(:club) { !club.nil? }
-    dynamic_integer(:standing) do
+    dynamic_integer(:standing_num_copies) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
         key = publication.to_index_key
         value = standing_order_for(publication).try(:num_copies) || 0
         hash.merge!(key => value)
       end
     end
-    dynamic_integer(:waiting) do
+    dynamic_integer(:waiting_num_copies) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
-        key = publication.name.parameterize.gsub(/-/, '_')
+        key = publication.to_index_key
         value = waiting_order_for(publication).try(:num_copies) || 0
+        hash.merge!(key => value)
+      end
+    end
+    dynamic_boolean(:standing) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.to_index_key
+        value = standing_order_for(publication) && true || false
+        hash.merge!(key => value)
+      end
+    end
+    dynamic_boolean(:waiting) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.to_index_key
+        value = waiting_order_for(publication) && true || false
         hash.merge!(key => value)
       end
     end
