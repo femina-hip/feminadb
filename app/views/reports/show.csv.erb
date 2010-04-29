@@ -1,0 +1,10 @@
+<%=
+
+FasterCSV.generate do |csv|
+	csv << @report.columns.collect{ |column| column[:title] }
+  @report.data.each do |row|
+    csv << row.collect{ |v| format(v) }
+  end
+end.html_safe
+
+%>

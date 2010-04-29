@@ -23,3 +23,6 @@
 - if !@report.show_map?
   %p.report
     %img{:class => 'report', :alt => 'image', :src => report_graph_path(@report.to_param, :format => :png, :report => params[:report])}
+
+%p.report
+  = link_to('Get this data in a Spreadsheet', report_path(@report, :format => :csv, :report => params[:report]))

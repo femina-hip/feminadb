@@ -24,9 +24,11 @@ class ReportsController < ApplicationController
     @report = report_class.new(*args)
 
     respond_to do |format|
-      format.html {
+      format.html do
         self.content_type = 'application/xhtml+xml'
-      }
+      end
+      format.csv do
+      end
     end
   end
 end
