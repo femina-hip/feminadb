@@ -49,7 +49,7 @@ module CustomerFilterControllerMethods
   def requested_q
     if !((params[:add_term] || '') + (params[:add_value] || '')).strip.empty?
       # FIXME ugly, untested, unnecessarily complex
-      if !params[:q].empty?
+      if params[:q]
         params[:q] << ' '
       else
         params[:q] = ''
