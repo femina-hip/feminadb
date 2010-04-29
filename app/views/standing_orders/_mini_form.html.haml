@@ -18,7 +18,7 @@
           Comment
           = f.text_field(:comments, :id => '', :class => 'comment')
       %p
-        = f.submit(f.object.new_record? ? 'Create' : 'Update')
-        %input{:type => 'reset', :value => 'Cancel'}
+        = f.submit(f.object.new_record? ? 'Create Standing Order' : 'Update Standing Order')
+        %input{:type => 'reset', :value => 'Cancel Editing'}
   - unless standing_order.new_record?
-    = button_to('Delete', standing_order, :method => :delete, :class => 'delete')
+    = button_to('Delete Standing Order', standing_order, :method => :delete, :class => 'delete')

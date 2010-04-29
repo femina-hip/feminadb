@@ -79,6 +79,10 @@ function on_h3_click(e) {
   e.preventDefault();
   var $h3 = $(e.target);
 
+  $h3.parent().removeClass('deselected');
+  $h3.parent().siblings().addClass('deselected');
+  $h3.parent().insertBefore($h3.parent().siblings()[0]);
+
   if (!$h3.siblings().is(':visible')) {
     var $td = $h3.closest('td');
 
