@@ -31,4 +31,4 @@
           = f.submit(order.new_record? ? 'Create' : 'Update')
           %input{:type => 'Reset', :value => 'Cancel Changes'}
       - unless order.new_record?
-        = button_to('Delete', publication_issue_order_url(order.issue.publication, order.issue, order, :return_to => request.fullpath), :method => :delete, :confirm => 'Are you sure you want to remove this Order?')
+        = button_to('Delete', publication_issue_order_url(order.issue.publication, order.issue, order, :return_to => request.fullpath), :method => :delete, :class => 'delete')

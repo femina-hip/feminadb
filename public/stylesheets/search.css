@@ -1,21 +1,21 @@
 /*
 Syntax error: Undefined variable: "$background_color".
-        on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass
+        on line 54 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass
 
-48:   li.facet, li.non-facet
-49:     :list-style none
-50:     :display inline-block
-51:     :margin 0 .5em
-52:     :padding 0
-53:     :background = !background_color
-54: 
-55:     &:hover ul
-56:       :display block
-57: 
-58:   h3
+49:   li.facet, li.non-facet
+50:     :list-style none
+51:     :display inline-block
+52:     :margin 0 .5em
+53:     :padding 0
+54:     :background = !background_color
+55: 
+56:     &:hover ul
+57:       :display block
+58: 
+59:   h3
 
 Backtrace:
-/home/adam/src/feminadb/public/stylesheets/sass/search.sass:53
+/home/adam/src/feminadb/public/stylesheets/sass/search.sass:54
 /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/variable.rb:39:in `_perform'
 /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/node.rb:61:in `perform'
 /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/prop_node.rb:137:in `perform!'
@@ -102,4 +102,4 @@ script/rails:10
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 48:   li.facet, li.non-facet\A 49:     :list-style none\A 50:     :display inline-block\A 51:     :margin 0 .5em\A 52:     :padding 0\A 53:     :background = !background_color\A 54: \A 55:     &:hover ul\A 56:       :display block\A 57: \A 58:   h3"; }
+  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 54 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 49:   li.facet, li.non-facet\A 50:     :list-style none\A 51:     :display inline-block\A 52:     :margin 0 .5em\A 53:     :padding 0\A 54:     :background = !background_color\A 55: \A 56:     &:hover ul\A 57:       :display block\A 58: \A 59:   h3"; }

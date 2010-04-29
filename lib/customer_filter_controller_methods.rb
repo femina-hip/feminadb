@@ -6,9 +6,9 @@ module CustomerFilterControllerMethods
   private
 
   def customer_search(options = {})
-    page = requested_page
-    per_page = requested_per_page
-    q = requested_q
+    page = options.delete(:page) || requested_page
+    per_page = options.delete(:per_page) || requested_per_page
+    q = options.delete(:q) || requested_q
 
     customers = Customer.search do
       CustomersSearcher.apply_query_string_to_search(self, q)
@@ -33,16 +33,11 @@ module CustomerFilterControllerMethods
   end
 
   def conditions
-    @conditions ||= if params[:q]
-      q = params[:q]
+    @conditions ||= begin
       lots = 999999
-      all_ids = Customer.search_ids do
-        CustomersSearcher.apply_query_string_to_search(self, q)
-        paginate(:page => 1, :per_page => lots)
-      end
+      @search = customer_search(:q => (params[:q] || ''), :page => 1, :per_page => lots)
+      all_ids = @search.raw_results.collect{|r| r.primary_key.to_i}
       {:customer_id => all_ids}
-    else
-      {}
     end
   end
 

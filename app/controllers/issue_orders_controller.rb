@@ -3,6 +3,8 @@ class IssueOrdersController < ApplicationController
 
   require_role 'edit-orders', :except => [ :index ]
 
+  respond_to(:html, :js)
+
   before_filter :get_publication
   before_filter :get_issue
 
@@ -40,41 +42,25 @@ class IssueOrdersController < ApplicationController
   # DELETE /publications/1/issues/1/orders/1.xml
   def destroy
     @order = Order.find(params[:id])
-    @order.soft_delete!(:updated_by => current_user)
-
-    respond_to do |format|
-      flash[:notice] = 'Order was successfully deleted.'
-      format.html { redirect_to(params[:return_to] || publication_issue_orders_path(@publication, @issue)) }
-      format.json { render_json_response }
-      format.xml  { head :ok }
+    flash[:notice] = 'Order destroyed' if @order.soft_delete(:updated_by => current_user)
+    respond_with(@order, :location => redirect_location) do |format|
+      format.js { render_json_response }
     end
   end
 
   def create
-    @order = @issue.orders.build((params[:order] || {}).merge(:updated_by => current_user))
-
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order created") }
-        format.js { render_json_response }
-      else
-        format.html { render(:action => :new) }
-        format.js { render(:json => @order.errors, :status => 422) }
-      end
+    @order = @issue.orders.build(order_param)
+    flash[:notice] = 'Order created' if @order.save
+    respond_with(@order, :location => redirect_location) do |format|
+      format.js { render_json_response }
     end
   end
 
   def update
     @order = Order.find(params[:id])
-
-    respond_to do |format|
-      if @order.update_attributes((params[:order] || {}).merge(:updated_by => current_user))
-        format.html { redirect_to(publication_issue_orders_path(@publication, @issue), :notice => "Order updated") }
-        format.js { render_json_response }
-      else
-        format.html { render(:action => :edit) }
-        format.js { render_json_response }
-      end
+    flash[:notice] = 'Order updated' if @order.update_attributes(order_param)
+    respond_with(@order, :location => redirect_location) do |format|
+      format.js { render_json_response }
     end
   end
 
@@ -100,9 +86,14 @@ class IssueOrdersController < ApplicationController
     Order
   end
 
+  def order_param
+    (params[:order] || {}).merge(:updated_by => current_user)
+  end
+
   def build_order_for_customer(customer)
     order = Order.new(
       :issue_id => @issue.id,
+      :issue => @issue, # speed things up
       :customer_id => customer.id,
       :customer => customer, # speed things up
       :region => customer.region,
@@ -110,5 +101,9 @@ class IssueOrdersController < ApplicationController
     )
     order.send(:copy_data_from_customer_if_new_record)
     order
+  end
+
+  def redirect_location
+    params[:return_to] || [@publication, @issue, :orders]
   end
 end

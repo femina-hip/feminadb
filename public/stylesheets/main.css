@@ -152,7 +152,9 @@ table.customers td.standing-orders, table.issue-orders td.qty {
     background-color: inherit; }
   table.customers td.standing-orders a, table.issue-orders td.qty a {
     display: block;
+    position: relative;
     font-family: monospace;
+    background-color: inherit;
     width: 100%;
     height: 100%; }
   table.customers td.standing-orders div.forms, table.issue-orders td.qty div.forms {
@@ -473,7 +475,7 @@ form.search {
     font-size: 1.1em; }
   form.search div.facets {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     font-size: 0.9em;
     line-height: 1.4;
     vertical-align: middle; }
@@ -482,9 +484,10 @@ form.search {
     margin: 0 1em 0 0;
     padding: 0; }
   form.search ul.facets {
-    display: inline-block;
+    display: inline;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    text-align: left; }
   form.search li.facet, form.search li.non-facet {
     list-style: none;
     display: inline-block;
@@ -508,7 +511,8 @@ form.search {
     position: absolute;
     background: #fffbd9;
     border: 2px solid #009ee0;
-    border-top: none; }
+    border-top: none;
+    z-index: 2; }
     form.search ul.rows li {
       list-style: none;
       margin: 0;

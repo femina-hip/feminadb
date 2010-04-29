@@ -25,5 +25,5 @@
         = f.submit(f.object.new_record? ? 'Create' : 'Update')
         %input{:type => 'reset', :value => 'Cancel'}
   - unless waiting_order.new_record?
-    = button_to('Delete', waiting_order, :method => :delete)
-    = button_to('Convert to Standing Order', convert_to_standing_order_waiting_order_path(waiting_order), :method => :post)
+    = button_to('Delete', waiting_order, :method => :delete, :class => 'delete')
+    = button_to('Convert to Standing Order', convert_to_standing_order_waiting_order_path(waiting_order), :method => :post, :class => 'convert')

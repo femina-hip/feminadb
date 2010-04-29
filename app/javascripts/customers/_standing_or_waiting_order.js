@@ -1,3 +1,38 @@
+var $pane;
+var $a;
+var $forms_div;
+
+function show_pane() {
+  if (!$pane) {
+    $pane = $('<div></div>');
+    $('body').append($pane);
+    $('body').css('position', 'relative');
+    $pane.css({
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      'background-image': 'url(/images/fade.png)',
+      'z-index': 0
+    });
+
+    $pane.click(hide_pane);
+  }
+
+  $pane.show();
+  $a.css('z-index', 1);
+}
+
+function hide_pane() {
+  $pane.hide();
+  $a.css('z-index', 0);
+  $forms_div.hide();
+
+  $a = undefined;
+  $forms_div = undefined;
+}
+
 function fetch_elems($td) {
   var ret = {};
 
@@ -19,21 +54,24 @@ function fetch_elems($td) {
 
 function on_a_click(e) {
   e.preventDefault();
-  var $a = $(e.target);
+  $a = $(e.target);
 
   var $td = $a.closest('td');
 
   var elems = fetch_elems($td);
 
-  if (!elems.$forms_div.is(':visible')) {
+  $forms_div = elems.$forms_div;
+
+  if (!$forms_div.is(':visible')) {
     if (elems.$both_divs.length == 2) {
       // Creating new ones: if they're both hidden, show just the h3's
       elems.$both_forms.hide();
     }
 
-    elems.$forms_div.show();
+    $forms_div.show();
+    show_pane();
   } else {
-    elems.$forms_div.hide();
+    hide_pane();
   }
 }
 
@@ -54,17 +92,25 @@ function on_h3_click(e) {
 function on_form_reset(e) {
   var $form = $(e.target);
 
-  var $td = $form.closest('td');
-
-  var elems = fetch_elems($td);
-
-  elems.$forms_div.hide();
+  hide_pane();
 }
 
 function on_form_submit(e) {
   e.preventDefault();
 
   var $form = $(e.target);
+
+  var $submit = $form.find('input[type=submit]');
+  if ($submit.hasClass('delete')) {
+    if (!confirm('Are you sure you want to delete?')) {
+      return;
+    }
+  }
+  if ($submit.hasClass('convert')) {
+    if (!confirm('Are you sure you want this to become a Standing Order?')) {
+      return;
+    }
+  }
 
   var $td = $form.closest('td');
 
@@ -87,7 +133,10 @@ function on_form_submit(e) {
         elems.$both_forms.hide();
         elems.$forms_div.find('div.errorExplanation').closest('form').show();
       }
-      elems.$forms_div.show();
+      $forms_div = elems.$forms_div;
+      $forms_div.show();
+    } else {
+      hide_pane();
     }
   });
 

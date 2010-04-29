@@ -1,6 +1,7 @@
 -# Required variables:
 -# - path, the destination URL
 -# - search, the search
+-# - num_results, the number of total results (if unset, will use search.total)
 -# "params":
 -# - q, the search query
 -# - all (optional) will get passed through
@@ -18,8 +19,11 @@
         %input{:type => 'reset', :value => 'Clear Search'}
   .facets
     %p
+      - if num_results
+        %b= num_results
+        Orders, out of
       %b= search.total
-      results.
+      Customers.
 
     %p Filter:
     %ul.facets

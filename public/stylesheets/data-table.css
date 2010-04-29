@@ -71,7 +71,6 @@ Backtrace:
 /var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:132:in `call'
 /var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `send'
 /var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `method_missing'
-/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/debugger.rb:21:in `call'
 /var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/log_tailer.rb:15:in `call'
 /var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/content_length.rb:13:in `call'
 /var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/chunked.rb:15:in `call'

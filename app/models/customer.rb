@@ -23,6 +23,7 @@ class Customer < ActiveRecord::Base
         :notes
       ]
     ) do
+    integer(:id)
     integer(:region_id)
     string(:region, :stored => true) { region.name }
     string(:district, :stored => true)

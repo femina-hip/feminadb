@@ -1,3 +1,38 @@
+var $pane;
+var $a;
+var $form_div;
+
+function show_pane() {
+  if (!$pane) {
+    $pane = $('<div></div>');
+    $('body').append($pane);
+    $('body').css('position', 'relative');
+    $pane.css({
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      'background-image': 'url(/images/fade.png)',
+      'z-index': 0
+    });
+
+    $pane.click(hide_pane);
+  }
+
+  $pane.show();
+  $a.css('z-index', 1);
+}
+
+function hide_pane() {
+  $pane.hide();
+  $a.css('z-index', 0);
+  $form_div.hide();
+
+  $a = undefined;
+  $form_div = undefined;
+}
+
 function fetch_elems($td) {
   var ret = {};
 
@@ -8,33 +43,37 @@ function fetch_elems($td) {
 
 function on_a_click(e) {
   e.preventDefault();
-  var $a = $(e.target);
+  $a = $(e.target);
 
   var $td = $a.closest('td');
 
   var elems = fetch_elems($td);
 
-  if (!elems.$form_div.is(':visible')) {
-    elems.$form_div.show();
+  $form_div = elems.$form_div;
+
+  if (!$form_div.is(':visible')) {
+    $form_div.show();
+    show_pane();
   } else {
-    elems.$form_div.hide();
+    hide_pane();
   }
 }
 
 function on_form_reset(e) {
-  var $form = $(e.target);
-
-  var $td = $form.closest('td');
-
-  var elems = fetch_elems($td);
-
-  elems.$form_div.hide();
+  hide_pane();
 }
 
 function on_form_submit(e) {
   e.preventDefault();
 
   var $form = $(e.target);
+
+  var $submit = $form.find('input[type=submit]');
+  if ($submit.hasClass('delete')) {
+    if (!confirm('Are you sure you want to delete?')) {
+      return;
+    }
+  }
 
   var $td = $form.closest('td');
 
@@ -51,7 +90,12 @@ function on_form_submit(e) {
     $td.children().fadeIn();
 
     if ($td.find('div.errorExplanation').length) {
-      $td.find('form').parent().show();
+      elems = fetch_elems($td);
+      $form_div = elems.$form_div;
+
+      $form_div.show();
+    } else {
+      hide_pane();
     }
   });
 
