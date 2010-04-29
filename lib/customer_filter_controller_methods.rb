@@ -5,7 +5,7 @@ module CustomerFilterControllerMethods
 
   private
 
-  def search_for_customers(options = {})
+  def customer_search(options = {})
     page = requested_page
     per_page = requested_per_page
     q = requested_q
@@ -16,7 +16,14 @@ module CustomerFilterControllerMethods
         order_by(field)
       end
       paginate(:page => page, :per_page => per_page)
-    end.results
+    end
+  end
+
+  def search_for_customers(options = {})
+    # HACK: sets @search
+    order = options.delete(:order) || []
+    @search = customer_search(:order => order)
+    customers = @search.results
 
     if options[:includes]
       Customer.send(:preload_associations, customers, options[:includes])
@@ -40,6 +47,26 @@ module CustomerFilterControllerMethods
   end
 
   def requested_q
+    if !(params[:add_value] || '').strip.empty?
+      # FIXME ugly, untested, unnecessarily complex
+      if !params[:q].empty?
+        params[:q] << ' '
+      else
+        params[:q] = ''
+      end
+      if params[:add_term]
+        params[:q] << params[:add_term] << ':'
+      end
+      add_value = params[:add_value].strip
+      if add_value =~ / /
+        if add_value =~ /"/
+          add_value = "'#{add_value}'"
+        else
+          add_value = "\"#{add_value}\""
+        end
+      end
+      params[:q] << add_value
+    end
     params[:q] ||= session[:customers_q]
     params[:q] || ''
   end
@@ -51,6 +78,7 @@ module CustomerFilterControllerMethods
 
   def requested_page
     return params[:page].to_i if params[:page].to_i > 0
+    return session[:customers_page] if not params[:q]
     1
   end
 

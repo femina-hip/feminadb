@@ -1,41 +1,48 @@
 -# Required variables:
 -# - path, the destination URL
--# - num_results, the number of results
+-# - search, the search
 -# "params":
 -# - q, the search query
 -# - all (optional) will get passed through
-= form_tag path, :method => :get, :class => 'search' do
+= form_tag(path, :method => :get, :class => 'search') do
   %table.search
     %tr
       %td
-        %label{:for => 'customer_search_q'} Search:
+        %label{:for => 'q'} Search:
       %td.stretch
         - if params[:all]
           = hidden_field_tag(:all, params[:all])
-        = text_field_tag(:q, params[:q], :id => 'customer_search_q')
+        = text_field_tag(:q, params[:q])
       %td
-        = submit_tag 'Search'
-        = submit_tag('Show All Customers', :id => 'customer_search_reset')
-  %table.refine-search
-    %tr
-      %td
-        %b= num_results
-        results.
-      %td
+        %input{:type => 'submit', :value => 'Search'}
+        %input{:type => 'reset', :value => 'Clear Search'}
+  .facets
+    %p
+      %b= search.total
+      results.
+
+    %p Filter:
+    %ul.facets
+      - [[:type, 'Type'], [:region, 'Region'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
+        - facet = @search.facet(facet_sym)
+        - if facet.rows.length > 1
+          %li.facet
+            %h3= title
+            %ul.rows
+              - facet.rows.each do |row|
+                %li.row
+                  = link_to(row.value.to_s, params.merge(:add_term => facet_sym.to_s, :add_value => row.value.to_s))
+                  %span.count== (#{row.count})
+      %li.non-facet
         %label
-          Search for
-          %select{:id => 'customer_search_refine_term', :name => 'refine_term'}
+          Custom field:
+          %select{:name => 'add_term'}
             %option{:value => ''} (Anything)
-            %option{:value => 'region'} Region
+            %option{:value => 'name'} Name
+            %option{:value => 'club_name'} Club Name
             %option{:value => 'district'} District
             %option{:value => 'category'} Category
-            %option{:value => 'type'} Type
-            %option{:value => 'delivery_method'} Delivery Method
-            %option{:value => 'club'} Has club? ('yes' or 'no')
             %option{:value => 'tag'} Tag
-        %label{:for => 'customer_search_refine_q'}
-          containing
-      %td.stretch
-        = text_field_tag('customer_search_refine_q')
-      %td
-        = submit_tag('Refine', :id => 'customer_search_refine_submit')
+        %input{:type => 'text', :name => 'add_value'}
+        %input{:type => 'submit', :value => 'Refine'}
+    %div{:style => 'clear:both;'}

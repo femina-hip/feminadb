@@ -108,11 +108,20 @@ module Sunspot
         Sunspot::Query::Restriction[sym]
       end
 
+      def create_fulltext_search_restriction
+        search.send(:dsl).fulltext(value) # FIXME Doesn't negate/OR/anything!
+      end
+
       def create_search_restriction
         if field
+          begin
+            fi = field_instance
+          rescue Sunspot::UnrecognizedFieldError
+            return create_fulltext_search_restriction
+          end
           connective_stack.last.add_restriction(field_instance, restriction_type, parsed_value)
         else
-          search.send(:dsl).fulltext(value) # FIXME Doesn't negate/OR/anything!
+          create_fulltext_search_restriction
         end
       end
     end

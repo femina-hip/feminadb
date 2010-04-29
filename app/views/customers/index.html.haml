@@ -8,7 +8,7 @@
     = glossary_term('Orders')
     for Publications' individual Issues.  Customers also have Notes.
 
-= render(:partial => 'application/customer_search', :locals => { :path => customers_path, :num_results => @customers.total_entries })
+= render(:partial => 'application/customer_search', :locals => { :path => customers_path, :search => @search })
 
 %table.customers
   %thead

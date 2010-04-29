@@ -1,27 +1,105 @@
-form.search table {
-  width: 100%;
-  border: none; }
-  form.search table td {
-    border: none;
-    margin: 0;
-    padding: 0 6px;
-    white-space: nowrap;
-    width: 1em; }
-    form.search table td input, form.search table td select {
-      font-size: inherit; }
-    form.search table td input[type="text"] {
-      width: 100%; }
-  form.search table td.stretch {
-    padding: 1px 3px;
-    width: auto; }
-form.search table.search {
-  clear: both;
-  margin: 1em 5% 0.5em;
-  width: 90%;
-  font-size: 1.1em; }
-form.search table.refine-search {
-  font-size: 0.9em;
-  margin: 1em 10%;
-  width: 80%; }
-  form.search table.refine-search td {
-    font-family: inherit; }
+/*
+Syntax error: Undefined variable: "$background_color".
+        on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass
+
+48:   li.facet, li.non-facet
+49:     :list-style none
+50:     :display inline-block
+51:     :margin 0 1em 0 0
+52:     :padding 0
+53:     :background = !background_color
+54: 
+55:     &:hover ul
+56:       :display block
+57: 
+58:   h3
+
+Backtrace:
+/home/adam/src/feminadb/public/stylesheets/sass/search.sass:53
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/variable.rb:39:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/node.rb:61:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/prop_node.rb:137:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:285:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/rule_node.rb:209:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:285:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/rule_node.rb:209:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:294:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:285:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/root_node.rb:44:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:273:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:185:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/root_node.rb:27:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/node.rb:119:in `render'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:331:in `update_stylesheet'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:226:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:219:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:219:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:217:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:217:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin.rb:191:in `check_for_updates'
+/var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/plugin/rack.rb:43:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:31:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/connection_adapters/abstract/query_cache.rb:35:in `cache'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:11:in `cache'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/query_cache.rb:30:in `call'
+/var/lib/gems/1.8/gems/activerecord-3.0.0.beta3/lib/active_record/connection_adapters/abstract/connection_pool.rb:365:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/methodoverride.rb:24:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/params_parser.rb:19:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/flash.rb:167:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/session/cookie_store.rb:107:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/cookies.rb:202:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:410:in `_run_call_callbacks'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:88:in `send'
+/var/lib/gems/1.8/gems/activesupport-3.0.0.beta3/lib/active_support/callbacks.rb:88:in `run_callbacks'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/sendfile.rb:105:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/show_exceptions.rb:48:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/logger.rb:13:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/runtime.rb:17:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `synchronize'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/lock.rb:11:in `call'
+/var/lib/gems/1.8/gems/actionpack-3.0.0.beta3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:132:in `call'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `send'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/application.rb:81:in `method_missing'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/rack/log_tailer.rb:15:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/content_length.rb:13:in `call'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/chunked.rb:15:in `call'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:76:in `pre_process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:74:in `catch'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:74:in `pre_process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:57:in `process'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/connection.rb:42:in `receive_data'
+/var/lib/gems/1.8/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run_machine'
+/var/lib/gems/1.8/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/backends/base.rb:57:in `start'
+/var/lib/gems/1.8/gems/thin-1.2.7/lib/thin/server.rb:156:in `start'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/handler/thin.rb:14:in `run'
+/var/lib/gems/1.8/gems/rack-1.1.0/lib/rack/server.rb:155:in `start'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/commands/server.rb:62:in `start'
+/var/lib/gems/1.8/gems/railties-3.0.0.beta3/lib/rails/commands.rb:42
+script/rails:10:in `require'
+script/rails:10
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 53 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 48:   li.facet, li.non-facet\A 49:     :list-style none\A 50:     :display inline-block\A 51:     :margin 0 1em 0 0\A 52:     :padding 0\A 53:     :background = !background_color\A 54: \A 55:     &:hover ul\A 56:       :display block\A 57: \A 58:   h3"; }

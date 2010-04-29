@@ -43,7 +43,7 @@ class CustomersController < ApplicationController
   end
 
   def show
-    @customer = find_customer
+    @customer = Customer.find(params[:id])
   end
 
   def destroy
@@ -79,23 +79,8 @@ class CustomersController < ApplicationController
 
   private
 
-  def default_includes
-    [ :region, :type, :delivery_method ]
-  end
-
-  def requested_page
-    return params[:page].to_i if params[:page].to_i > 0
-    return session[:customers_page] if not params[:q]
-    1
-  end
-
-  def requested_per_page
-    return :all if request.format == Mime::CSV
-    Customer.per_page
-  end
-
-  def find_customer
-    Customer.find(params[:id])
+  def self.model_class
+    Customer
   end
 
   def object_parameters

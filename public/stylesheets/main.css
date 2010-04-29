@@ -448,33 +448,74 @@ table.role-descriptions {
   table.role-descriptions tbody tr.odd th, table.role-descriptions tbody tr.odd td {
     background: #f8e4b3; }
 
-form.search table {
-  width: 100%;
-  border: none; }
-  form.search table td {
-    border: none;
+form.search {
+  text-align: center; }
+  form.search input, form.search select {
+    font-size: inherit; }
+  form.search table {
+    width: 100%;
+    border: none; }
+    form.search table td {
+      border: none;
+      margin: 0;
+      padding: 0 6px;
+      white-space: nowrap;
+      width: 1em; }
+      form.search table td input[type="text"] {
+        width: 100%; }
+    form.search table td.stretch {
+      padding: 1px 3px;
+      width: auto; }
+  form.search table.search {
+    clear: both;
+    margin: 1em 5% 0.5em;
+    width: 90%;
+    font-size: 1.1em; }
+  form.search div.facets {
+    display: inline-block;
+    text-align: left;
+    font-size: 0.9em;
+    line-height: 1.4;
+    vertical-align: middle; }
+  form.search p {
+    display: inline-block;
+    margin: 0 1em 0 0;
+    padding: 0; }
+  form.search ul.facets {
+    display: inline-block;
     margin: 0;
-    padding: 0 6px;
-    white-space: nowrap;
-    width: 1em; }
-    form.search table td input, form.search table td select {
-      font-size: inherit; }
-    form.search table td input[type="text"] {
-      width: 100%; }
-  form.search table td.stretch {
-    padding: 1px 3px;
-    width: auto; }
-form.search table.search {
-  clear: both;
-  margin: 1em 5% 0.5em;
-  width: 90%;
-  font-size: 1.1em; }
-form.search table.refine-search {
-  font-size: 0.9em;
-  margin: 1em 10%;
-  width: 80%; }
-  form.search table.refine-search td {
-    font-family: inherit; }
+    padding: 0; }
+  form.search li.facet, form.search li.non-facet {
+    list-style: none;
+    display: inline-block;
+    margin: 0 1em 0 0;
+    padding: 0;
+    background: #fffbd9; }
+    form.search li.facet:hover ul, form.search li.non-facet:hover ul {
+      display: block; }
+  form.search h3 {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer; }
+  form.search ul.rows {
+    margin: 0;
+    padding: 0.5em;
+    display: none;
+    position: absolute;
+    background: #fffbd9;
+    border: 2px solid #009ee0;
+    border-top: none; }
+    form.search ul.rows li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5; }
+      form.search ul.rows li a:hover {
+        text-decoration: underline; }
 
 div#nav {
   border-bottom: 4px solid black;

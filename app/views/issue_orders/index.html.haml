@@ -11,7 +11,7 @@
     = link_to('the Customers list', customers_path)
     and edit from there.
 
-= render :partial => 'application/customer_search', :locals => { :path => publication_issue_orders_path(@publication, @issue), :num_results => @orders.total_entries }
+= render(:partial => 'application/customer_search', :locals => { :path => publication_issue_orders_path(@publication, @issue), :search => @search })
 
 %p
   - if params[:all]
