@@ -78,16 +78,17 @@ module Sunspot
       end
 
       def reset_filter
-        self.dynamic_field = nil
-        self.field = nil
-        self.comparator = nil
-        self.value = nil
+        @dynamic_field = nil
+        @field = nil
+        @comparator = nil
+        @restriction_type = nil
+        @value = nil
       end
 
       def field_instance
         if dynamic_field
           @search_setup.dynamic_field_factory(dynamic_field).field(field)
-        elsif restriction_type != Sunspot::Query::Restriction::EqualTo || value == ''
+        elsif (restriction_type != Sunspot::Query::Restriction::EqualTo && restriction_type != Sunspot::Query::Restriction::StartingWith) || value == ''
           @search_setup.field(field)
         else
           ret = begin
@@ -104,16 +105,24 @@ module Sunspot
       end
 
       def restriction_type
-        # FIXME Sunspot doesn't handle all restrictions!
-        sym = case comparator
-        when ':' then :equal_to
-        when '=' then :equal_to
-        when '>' then :greater_than
-        when '<' then :less_than
-        when '>=' then :greater_than
-        when '<=' then :less_than
+        @restriction_type ||= begin
+          # FIXME Sunspot doesn't handle all restrictions!
+          sym = case comparator
+          when ':' then :equal_to
+          when '=' then :equal_to
+          when '>' then :greater_than
+          when '<' then :less_than
+          when '>=' then :greater_than
+          when '<=' then :less_than
+          end
+
+          if sym == :equal_to && value =~ /(.*)[\*~]$/
+            @value = $1
+            Sunspot::Query::Restriction[:starting_with]
+          else
+            Sunspot::Query::Restriction[sym]
+          end
         end
-        Sunspot::Query::Restriction[sym]
       end
 
       def create_fulltext_search_restriction
