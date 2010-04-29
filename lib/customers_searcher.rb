@@ -4,9 +4,16 @@ module CustomersSearcher
 
     Sunspot::QueryBuilder::apply_string_to_search(query, search_builder.instance_variable_get(:@search))
 
-    search_builder.facet(:region)
-    search_builder.facet(:type)
-    search_builder.facet(:delivery_method)
-    search_builder.facet(:club)
+    search_builder.facet(:region, :sort => :index)
+    search_builder.facet(:type, :sort => :index)
+    search_builder.facet(:delivery_method, :sort => :index)
+    search_builder.facet(:club, :sort => :index)
+
+    Customer.publications_tracking_standing_orders_for_indexing.each do |p|
+      sym = p.to_index_key.to_sym
+
+      search_builder.dynamic(:standing) { facet(sym, :sort => :index) }
+      search_builder.dynamic(:waiting) { facet(sym, :sort => :index) }
+    end
   end
 end
