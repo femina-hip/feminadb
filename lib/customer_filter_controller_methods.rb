@@ -41,7 +41,7 @@ module CustomerFilterControllerMethods
   def conditions
     @conditions ||= begin
       lots = 999999
-      @search = customer_search(:q => (params[:q] || ''), :page => 1, :per_page => lots)
+      @search = customer_search(:q => requested_q, :page => 1, :per_page => lots)
       all_ids = @search.raw_results.collect{|r| r.primary_key.to_i}
       {:customer_id => all_ids}
     end
