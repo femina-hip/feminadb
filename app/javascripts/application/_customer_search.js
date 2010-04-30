@@ -1,4 +1,4 @@
-$NS().find('input[type=reset]').click(function(e) {
+$('form.search').find('input[type=reset]').click(function(e) {
   e.preventDefault();
 
   var $form = $(this).closest('form');

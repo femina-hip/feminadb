@@ -135,7 +135,7 @@ function path_class_to_key(class_name) {
   return key;
 }
 
-$NS().find('iframe').load(function() {
+$('iframe.svg-map').load(function() {
   var $iframe = $(this);
   var svg = $iframe.contents()[0];
   var data = get_table_data();

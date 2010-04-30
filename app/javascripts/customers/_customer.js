@@ -1,4 +1,4 @@
-$NS().find('thead.delivery-details, thead.contact-details').each(function() {
+$('table.customer').find('thead.delivery-details, thead.contact-details').each(function() {
   var $thead = $(this);
   var $tbody = $(this).next();
 
