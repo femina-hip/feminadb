@@ -11,6 +11,9 @@
       %th Name
       %td= h club.name
     %tr{:class => c.call}
+      %th Inserted
+      %td= club.created_at && club.created_at.to_formatted_s(:long) || '(date unknown)'
+    %tr{:class => c.call}
       %th Customer
       %td
         = link_to club.customer.name, club.customer
