@@ -1,4 +1,6 @@
 class ClubsController < ApplicationController
+  include CustomerFilterControllerMethods
+
   require_role 'edit-customers', :except => [ :index, :show ]
 
   # GET /clubs
@@ -7,18 +9,15 @@ class ClubsController < ApplicationController
   def index
     conditions = {}
 
-    if requested_q != ''
-      q = requested_q
-      lots = 999999
-      all_ids = Customer.search_ids do
-        CustomersSearcher.apply_query_string_to_search(self, q)
-        with(:club, true)
-        paginate(:page => 1, :per_page => lots)
-      end
-      conditions[:customer_id] = all_ids
+    customers = search_for_customers(
+      :includes => [ :region, :club ],
+      :order => [ :region, :district, :name ]
+    ) do
+      with(:club, true)
     end
 
-    @clubs = Club.includes(:customer => [ :region ]).active.where(conditions).order('regions.name, customers.district, clubs.name').paginate(:page => requested_page, :per_page => requested_per_page)
+    @clubs = customers.dup # WillPaginate magic
+    @clubs.replace(customers.collect(&:club))
 
     respond_to do |format|
       format.html # index.html.haml

@@ -8,7 +8,7 @@
     = link_to 'Customers', customers_path
     page, except that only Customers with Clubs are searched.
 
-= render :partial => 'application/customer_search', :locals => { :path => clubs_path, :num_results => @clubs.total_entries }
+= render(:partial => 'application/customer_search', :locals => { :path => clubs_path, :search => @search })
 
 %table.clubs
   %thead

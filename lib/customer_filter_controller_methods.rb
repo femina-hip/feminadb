@@ -5,12 +5,18 @@ module CustomerFilterControllerMethods
 
   private
 
-  def customer_search(options = {})
+  def customer_search(options = {}, &block)
     page = options.delete(:page) || requested_page
     per_page = options.delete(:per_page) || requested_per_page
     q = options.delete(:q) || requested_q
 
     customers = Customer.search do
+      with(:deleted, false)
+
+      if block_given?
+        instance_eval(&block)
+      end
+
       CustomersSearcher.apply_query_string_to_search(self, q)
       (options[:order] || []).each do |field|
         order_by(field)
@@ -19,10 +25,10 @@ module CustomerFilterControllerMethods
     end
   end
 
-  def search_for_customers(options = {})
+  def search_for_customers(options = {}, &block)
     # HACK: sets @search
     order = options.delete(:order) || []
-    @search = customer_search(:order => order)
+    @search = customer_search(:order => order, &block)
     customers = @search.results
 
     if options[:includes]
