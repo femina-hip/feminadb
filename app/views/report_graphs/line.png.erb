@@ -1,0 +1,12 @@
+<%=
+
+g = Gruff::Line.new
+g.title = @report.class.title
+
+@report.columns[1..-1].each_with_index do |c, i|
+  g.data(c[:title], @report.data.collect{|r| r[i + 1]})
+end
+
+raw(g.to_blob)
+
+%>
