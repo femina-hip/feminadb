@@ -533,6 +533,8 @@ div#nav {
       div#nav ul.main li:hover {
         background-color: #fffbd9;
         color: #cc0000; }
+      div#nav ul.main li:hover div.quick-publications {
+        display: block; }
     div#nav ul.main div.quick-publications {
       display: none;
       position: absolute;

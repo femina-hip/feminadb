@@ -22,9 +22,11 @@ div#nav
         :background-color = !background_color
         :color = !link_color
 
+      &:hover div.quick-publications
+        :display block
+
     div.quick-publications
-      // display:none... JavaScript will show it
-      :display none
+      :display none /* unless we're hovering over its parent li */
       :position absolute
       :top 1.3em
       :left 0
