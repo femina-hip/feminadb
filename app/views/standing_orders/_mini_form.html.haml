@@ -9,6 +9,10 @@
       = f.error_messages
       = f.hidden_field(:customer_id, :id => '')
       = f.hidden_field(:publication_id, :id => '')
+      - if !f.object.new_record?
+        %p
+          Inserted
+          = f.object.created_at.to_formatted_s(:long)
       %p
         %label
           Qty
