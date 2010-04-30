@@ -25,6 +25,7 @@ class Customer < ActiveRecord::Base
     ) do
     integer(:id)
     integer(:region_id)
+    date(:created_at)
     string(:region, :stored => true) { region.name }
     string(:district, :stored => true)
     string(:name, :stored => true)
@@ -68,6 +69,20 @@ class Customer < ActiveRecord::Base
         hash.merge!(key => value)
       end
     end
+    dynamic_date(:created_standing) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.to_index_key
+        value = standing_order_for(publication).try(:created_at)
+        hash.merge!(key => value)
+      end
+    end
+    dynamic_date(:requested_waiting) do
+      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+        key = publication.to_index_key
+        value = waiting_order_for(publication).try(:request_date)
+        hash.merge!(key => value)
+      end
+    end
     dynamic_boolean(:standing) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
         key = publication.to_index_key
@@ -82,9 +97,12 @@ class Customer < ActiveRecord::Base
         hash.merge!(key => value)
       end
     end
-    Club.column_names.each do |c|
-      text("club_#{c}") { club && club.send(c) }
+    Club.columns.each do |c|
+      if c.text?
+        text("club_#{c.name}") { club.try(c.name) }
+      end
     end
+    date(:club_created_at) { club.try(:created_at) }
     boolean(:deleted) { !deleted_at.nil? }
   end
 

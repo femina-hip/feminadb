@@ -100,8 +100,18 @@ module Sunspot
         end
       end
 
+      def parsed_date_value
+        Date.parse(value)
+      rescue ArgumentError
+        Date.today
+      end
+
       def parsed_value
-        field_instance.cast(value)
+        if Sunspot::Type::DateType === field_instance.type
+          parsed_date_value
+        else
+          field_instance.cast(value)
+        end
       end
 
       def restriction_type
