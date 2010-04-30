@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100423083411) do
+ActiveRecord::Schema.define(:version => 20100430122423) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20100423083411) do
     t.string   "founding_motivation", :default => "", :null => false
     t.text     "cooperation_ideas",                   :null => false
     t.datetime "deleted_at"
+    t.datetime "created_at"
   end
 
   create_table "customer_notes", :force => true do |t|
