@@ -1,125 +1,125 @@
 --- 
 dependencies: 
-  rspec-core: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.6
-  fastercsv: 
-    group: 
-    - :default
-    version: = 1.5.3
   ruby-debug: 
     group: 
     - :development
     version: ">= 0"
+  fastercsv: 
+    group: 
+    - :default
+    version: = 1.5.3
+  rspec-core: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.6
   rails: 
     group: 
     - :default
     version: = 3.0.0.beta3
-  vlad-git: 
-    group: 
-    - :development
-    version: = 2.1.0
-  gruff: 
-    group: 
-    - :default
-    version: = 0.3.6
   comma: 
     group: 
     - :default
     version: = 0.3.2
-  prawn: 
+  gruff: 
     group: 
     - :default
-    version: = 0.8.4
-  haml: 
+    version: = 0.3.6
+  vlad-git: 
     group: 
-    - :default
-    version: = 3.0.0.beta.3
-  mysql: 
-    group: 
-    - :default
-    version: = 2.8.1
+    - :development
+    version: = 2.1.0
   prawn-core: 
     group: 
     - :default
     version: = 0.8.4
     require: 
     - prawn/core
-  ruby-prof: 
+  mysql: 
     group: 
-    - :test
-    version: ">= 0"
+    - :default
+    version: = 2.8.1
+  haml: 
+    group: 
+    - :default
+    version: = 3.0.0.beta.3
+  prawn: 
+    group: 
+    - :default
+    version: = 0.8.4
   treetop: 
     group: 
     - :default
     version: = 1.4.5
-  delayed_job: 
+  ruby-prof: 
     group: 
-    - :default
-    version: = 2.0.2
+    - :benchmark
+    version: ">= 0"
   rspec: 
     group: 
     - :test
     version: = 2.0.0.beta.6
-  thin: 
+  delayed_job: 
     group: 
     - :default
-    version: = 1.2.7
-  sunspot_rails: 
+    version: = 2.0.2
+  vlad: 
+    group: 
+    - :development
+    version: = 2.0.0
+  rspec-rails: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.6
+  rspec-expectations: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.6
+  sunspot: 
     group: 
     - :default
     version: = 1.1.0
-    require: 
-    - sunspot/rails
   prawn-layout: 
     group: 
     - :default
     version: = 0.8.4
     require: 
     - prawn/layout
-  sunspot: 
+  sunspot_rails: 
     group: 
     - :default
     version: = 1.1.0
-  rspec-expectations: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.6
-  rspec-rails: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.6
-  vlad: 
-    group: 
-    - :development
-    version: = 2.0.0
-  webrat: 
-    group: 
-    - :test
-    version: = 0.7.0
-  html_namespacing: 
+    require: 
+    - sunspot/rails
+  thin: 
     group: 
     - :default
-    version: = 0.3.0
+    version: = 1.2.7
   will_paginate: 
     group: 
     - :default
     version: = 3.0.pre
+  html_namespacing: 
+    group: 
+    - :default
+    version: = 0.3.0
+  webrat: 
+    group: 
+    - :test
+    version: = 0.7.0
   rmagick: 
     group: 
     - :default
     version: = 2.12.2
     require: 
     - RMagick
-  rspec-mocks: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.6
   RedCloth: 
     group: 
     - :default
     version: = 4.1.9
+  rspec-mocks: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.6
   bleak_house: 
     group: 
     - :benchmark
@@ -255,7 +255,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 3.0.pre
-hash: ac4dbb3abd03f01a1e9d90d5f84c08111313fa7e
+hash: 4f26a1a35a439f1f802ad27446787566556737db
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

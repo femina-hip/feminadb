@@ -38,6 +38,7 @@ end
 
 group :benchmark do
   gem 'bleak_house'
+  gem 'ruby-prof'
 end
 
 gem 'rails', '3.0.0.beta3'
