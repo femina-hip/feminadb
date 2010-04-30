@@ -38,6 +38,10 @@ end
 
 group :benchmark do
   gem 'bleak_house'
+end
+
+group :profile do
+  gem 'rack-contrib'
   gem 'ruby-prof'
 end
 
