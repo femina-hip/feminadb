@@ -105,19 +105,7 @@ class ClubsController < ApplicationController
     end
   end
 
-  private
-
-  def requested_q
-    params[:q] || ''
-  end
-
-  def requested_page
-    return params[:page].to_i if params[:page].to_i > 0
-    1
-  end
-
-  def requested_per_page
-    return 2**30 if request.format == Mime::CSV
-    Club.per_page
+  def self.model_class
+    Club
   end
 end
