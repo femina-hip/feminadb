@@ -1,4 +1,4 @@
-$('table.customer-standing-orders', 'table.customer-waiting-orders', 'customer.orders').find('thead.title').each(function() {
+$('table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders').find('thead.title').each(function() {
   var $thead = $(this);
   var $siblings = $thead.siblings();
 
