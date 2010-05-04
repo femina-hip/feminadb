@@ -13,9 +13,35 @@
     %p
       In the Search field, enter the Customer's name: for instance,
       "save the children" or "UNFPA"
+
     %p
-      You may also enter other parts of the Customer's details instead: you
-      can enter the Customer's Region, for instance, or Type.
+      You can filter by hovering over the underlined labels below the search
+      box. You can also enter some more complicated queries by hand.
+
+    %p
+      Here are some more complex queries, which you can use as examples:
+
+    %dl
+      %dt= search_link('region:Arusha')
+      %dd All Customers in Arusha
+      %dt= search_link('region:Arusha district:Arumeru')
+      %dd All Customers in the Arumeru district of Arusha
+      %dt= search_link('region:Arusha AND (district:Arumeru OR district:Monduli)')
+      %dd All Customers which are either in Arusha, either in the Arumeru or the Monduli districts
+      %dt= search_link('district:""')
+      %dd
+        All Customers without a district entered
+        %em This should be empty!
+      %dt= search_link('standing_num_copies:fema>101')
+      %dd All Customers with Standing Orders for Fema of over 100 Copies
+      %dt= search_link('type:ss standing:fema:false waiting:fema:false')
+      %dd All Secondary Schools with neither Standing or Waiting orders for Fema
+      %dt= search_link('created_standing:si_mchezo>2010-01-01')
+      %dd All Customers who have Standing Orders for Si Mchezo! which were created on or after 2010-01-01 (January 1st, 2010)
+      %dt= search_link('requested_waiting:fema<2010-03-01')
+      %dd All Customers who have had Waiting Orders for Fema dating earlier than 2010-03-01 (March 1st, 2010)
+      %dt= search_link('created_at>2010-01-05')
+      %dd All Customers created after 2010-01-05 (January 5th, 2010)
   = render_help_step 'Click the "Search" button' do
     %p The Search Results will appear
   = render_help_step 'If you found 0 results' do
@@ -31,7 +57,7 @@
       search field and write some text, then click "Refine".
     %p
       For example: if you searched for "NGO" and cannot find what you want,
-      Search for "Region" containing "Dodoma" and click "Refine".
+      search with the "Region" of "Dodoma" and click "Refine".
   = render_help_step 'If you found the Customer' do
     %p
       If the Customer you want to find appears in the search, you can click
@@ -39,8 +65,7 @@
       information.
   = render_help_step 'Customer Details' do
     %p
-      After clicking "Show", the Customer's details will appear. The
-      details are as follows:
+      Click a Customer to show its details.
     %dl
       %dt General Information
       %dd Contact details and address.
@@ -57,3 +82,8 @@
         50 Si Mchezo!"; "The Customer said he did not receive the latest
         issue of Fema"; "I tried the phone number and it did not work";
         "I don't like this guy"; anything!
+  = render_help_step 'Customer Standing Orders' do
+    %p
+      Standing or Waiting Orders can be edited straight from the Customers
+      page. Just log in and click on the numbers you want to edit. Create new
+      Standing or Waiting Orders by clicking where you want them to be.
