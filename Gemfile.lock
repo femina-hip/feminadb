@@ -140,7 +140,7 @@ specs:
 - i18n: 
     version: 0.3.7
 - memcache-client: 
-    version: 1.8.2
+    version: 1.8.3
 - tzinfo: 
     version: 0.3.20
 - activesupport: 
@@ -182,7 +182,7 @@ specs:
 - bleak_house: 
     version: "7.2"
 - bundler: 
-    version: 0.9.23
+    version: 0.9.25
 - columnize: 
     version: 0.3.1
 - comma: 
@@ -224,7 +224,7 @@ specs:
 - rack-contrib: 
     version: 0.9.2
 - thor: 
-    version: 0.13.4
+    version: 0.13.6
 - railties: 
     version: 3.0.0.beta3
 - rails: 
