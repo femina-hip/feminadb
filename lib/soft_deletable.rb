@@ -47,7 +47,12 @@ module SoftDeletable
     to_delete = send(assoc.name)
 
     if assoc.collection?
-      to_delete.each { |o| o.soft_delete(options) }
+      begin
+        to_delete.each { |o| o.soft_delete(options) }
+      rescue ActiveRecord::UnknownAttributeError
+        # In case options includes "updated_by" but the assoc isn't versioned, remove that option
+        to_delete.each(&:soft_delete)
+      end
     elsif !to_delete.nil?
       to_delete.soft_delete(options)
     end
