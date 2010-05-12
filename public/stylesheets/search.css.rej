@@ -1,0 +1,43 @@
+--- public/stylesheets/search.css
++++ public/stylesheets/search.css
+@@ -1,21 +1,21 @@
+ /*
+ Syntax error: Undefined variable: "$background_color".
+-        on line 54 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass
++        on line 63 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass
+ 
+-49:   li.facet, li.non-facet
+-50:     :list-style none
+-51:     :display inline-block
+-52:     :margin 0 .5em
+-53:     :padding 0
+-54:     :background = !background_color
+-55: 
+-56:     &:hover ul
+-57:       :display block
+-58: 
+-59:   h3
++58:   li.facet, li.non-facet
++59:     :list-style none
++60:     :display inline-block
++61:     :margin 0 .5em
++62:     :padding 0
++63:     :background = !background_color
++64: 
++65:     &:hover ul
++66:       :display block
++67: 
++68:   h3
+ 
+ Backtrace:
+-/home/adam/src/feminadb/public/stylesheets/sass/search.sass:54
++/home/adam/src/feminadb/public/stylesheets/sass/search.sass:63
+ /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/variable.rb:39:in `_perform'
+ /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/script/node.rb:61:in `perform'
+ /var/lib/gems/1.8/gems/haml-3.0.0.beta.3/lib/sass/tree/prop_node.rb:137:in `perform!'
+@@ -102,4 +102,4 @@
+ body:before {
+   white-space: pre;
+   font-family: monospace;
+-  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 54 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 49:   li.facet, li.non-facet\A 50:     :list-style none\A 51:     :display inline-block\A 52:     :margin 0 .5em\A 53:     :padding 0\A 54:     :background = !background_color\A 55: \A 56:     &:hover ul\A 57:       :display block\A 58: \A 59:   h3"; }
++  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 63 of /home/adam/src/feminadb/public/stylesheets/sass/search.sass\A \A 58:   li.facet, li.non-facet\A 59:     :list-style none\A 60:     :display inline-block\A 61:     :margin 0 .5em\A 62:     :padding 0\A 63:     :background = !background_color\A 64: \A 65:     &:hover ul\A 66:       :display block\A 67: \A 68:   h3"; }

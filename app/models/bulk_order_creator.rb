@@ -53,8 +53,11 @@ class BulkOrderCreator < ActiveRecord::Base
     query = search_string
     lots = 999999
 
-    Customer.search_ids do
-      CustomersSearcher.apply_query_string_to_search(self, query)
+    ret = Customer.search_ids do
+      with(:deleted, false)
+      if query
+        Sunspot::QueryBuilder::apply_string_to_search(query, self.instance_variable_get(:@search))
+      end
       paginate(:page => 1, :per_page => lots)
     end
   end
