@@ -20,7 +20,7 @@
   %b Roles:
 
 %ul.roles
-  - Role.active.order(:name).each do |role|
+  - Role.order(:name).each do |role|
     %li
       %label
         = check_box_tag "#{f.object_name}[role_ids][]", role.id, @user.role_ids.include?(role.id)
