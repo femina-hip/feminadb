@@ -5,7 +5,7 @@ gem 'comma', '0.3.2'
 gem 'delayed_job', '2.0.2'
 gem 'fastercsv', '1.5.3'
 gem 'gruff', '0.3.6'
-gem 'haml', '3.0.0.beta.3'
+gem 'haml', '3.0.0.rc.5'
 gem 'html_namespacing', '0.3.0'
 gem 'mysql', '2.8.1'
 gem 'prawn', '0.8.4'
@@ -21,11 +21,11 @@ gem 'will_paginate', '3.0.pre'
 
 group :test do
   gem 'webrat', '0.7.0'
-  gem 'rspec', '2.0.0.beta.6'
-  gem 'rspec-core', '2.0.0.beta.6'
-  gem 'rspec-expectations', '2.0.0.beta.6'
-  gem 'rspec-mocks', '2.0.0.beta.6'
-  gem 'rspec-rails', '2.0.0.beta.6'
+  gem 'rspec', '2.0.0.beta.13'
+  gem 'rspec-core', '2.0.0.beta.13'
+  gem 'rspec-expectations', '2.0.0.beta.13'
+  gem 'rspec-mocks', '2.0.0.beta.13'
+  gem 'rspec-rails', '2.0.0.beta.13'
   gem 'ruby-prof'
   gem 'ruby-debug'
 end
@@ -45,4 +45,4 @@ group :profile do
   gem 'ruby-prof'
 end
 
-gem 'rails', '3.0.0.beta3'
+gem 'rails', '3.0.0.beta4'
