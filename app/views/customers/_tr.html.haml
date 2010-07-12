@@ -1,4 +1,4 @@
-%tr{:class => cycle('odd', 'even')}
+%tr{:class => cycle('odd', 'even'), :id => "customer-#{customer.id}"}
   %td.region= customer.region.name
   %td.district= customer.district
   %td.type

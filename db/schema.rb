@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100430122423) do
+ActiveRecord::Schema.define(:version => 20100709093408) do
 
   create_table "bulk_order_creators", :force => true do |t|
     t.integer  "issue_id"
@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(:version => 20100430122423) do
     t.integer  "user_id"
     t.string   "user_type"
     t.string   "user_name"
-    t.text     "changes"
+    t.text     "modifications"
     t.integer  "number"
     t.string   "tag"
     t.datetime "created_at"
