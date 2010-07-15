@@ -1,17 +1,13 @@
 --- 
 dependencies: 
-  rspec-core: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.16
-  fastercsv: 
-    group: 
-    - :default
-    version: = 1.5.3
   vestal_versions: 
     group: 
     - :default
     version: ">= 0"
+  fastercsv: 
+    group: 
+    - :default
+    version: = 1.5.3
   ruby-debug: 
     group: 
     - :development
@@ -28,32 +24,32 @@ dependencies:
     group: 
     - :development
     version: = 2.1.0
-  gruff: 
-    group: 
-    - :default
-    version: = 0.3.6
   comma: 
     group: 
     - :default
     version: = 0.3.2
-  prawn: 
+  gruff: 
     group: 
     - :default
-    version: = 0.8.4
-  haml: 
-    group: 
-    - :default
-    version: = 3.0.0.rc.5
-  mysql: 
-    group: 
-    - :default
-    version: = 2.8.1
+    version: = 0.3.6
   prawn-core: 
     group: 
     - :default
     version: = 0.8.4
     require: 
     - prawn/core
+  mysql: 
+    group: 
+    - :default
+    version: = 2.8.1
+  haml: 
+    group: 
+    - :default
+    version: = 3.0.0.rc.5
+  prawn: 
+    group: 
+    - :default
+    version: = 0.8.4
   rack-contrib: 
     group: 
     - :profile
@@ -70,58 +66,54 @@ dependencies:
     group: 
     - :test
     version: = 1.0.6
+  rspec: 
+    group: 
+    - :test
+    version: = 2.0.0.beta.17
   delayed_job: 
     group: 
     - :default
     version: = 2.0.3
-  rspec: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.16
   database_cleaner: 
     group: 
     - :test
     version: = 0.5.2
-  thin: 
-    group: 
-    - :default
-    version: = 1.2.7
-  sunspot_rails: 
+  sunspot: 
     group: 
     - :default
     version: = 1.1.0
-    require: 
-    - sunspot/rails
   prawn-layout: 
     group: 
     - :default
     version: = 0.8.4
     require: 
     - prawn/layout
-  sunspot: 
+  sunspot_rails: 
     group: 
     - :default
     version: = 1.1.0
-  rspec-expectations: 
+    require: 
+    - sunspot/rails
+  thin: 
     group: 
-    - :test
-    version: = 2.0.0.beta.16
+    - :default
+    version: = 1.2.7
   rspec-rails: 
     group: 
     - :test
-    version: = 2.0.0.beta.16
+    version: = 2.0.0.beta.17
   vlad: 
     group: 
     - :development
     version: = 2.0.0
-  will_paginate: 
-    group: 
-    - :default
-    version: = 3.0.pre
   html_namespacing: 
     group: 
     - :default
     version: = 0.3.0
+  will_paginate: 
+    group: 
+    - :default
+    version: = 3.0.pre
   steak: 
     group: 
     - :test
@@ -140,10 +132,6 @@ dependencies:
     group: 
     - :test
     version: = 0.2.0
-  rspec-mocks: 
-    group: 
-    - :test
-    version: = 2.0.0.beta.16
   RedCloth: 
     group: 
     - :default
@@ -290,17 +278,17 @@ specs:
 - rsolr: 
     version: 0.12.1
 - rspec-core: 
-    version: 2.0.0.beta.16
+    version: 2.0.0.beta.17
 - rspec-expectations: 
-    version: 2.0.0.beta.16
+    version: 2.0.0.beta.17
 - rspec-mocks: 
-    version: 2.0.0.beta.16
+    version: 2.0.0.beta.17
 - rspec: 
-    version: 2.0.0.beta.16
+    version: 2.0.0.beta.17
 - webrat: 
     version: 0.7.0
 - rspec-rails: 
-    version: 2.0.0.beta.16
+    version: 2.0.0.beta.17
 - ruby-debug-base: 
     version: 0.10.3
 - ruby-debug: 
@@ -326,7 +314,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 3.0.pre
-hash: cd50c80fda75037635bc8e6664d858b1c6740b41
+hash: ae177ee2677dab557e5f7e2f190778acfb44f627
 sources: 
 - Git: 
     uri: git://github.com/adamh/vestal_versions
