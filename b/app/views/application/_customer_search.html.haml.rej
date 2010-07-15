@@ -1,0 +1,13 @@
+--- a/app/views/application/_customer_search.html.haml
++++ b/app/views/application/_customer_search.html.haml
+@@ -15,7 +15,9 @@
+       %td.stretch
+         - if params[:all]
+           = hidden_field_tag(:all, params[:all])
+-        = text_field_tag(:q, params[:q])
++        %p= text_field_tag(:q, params[:q])
++        %p.help
++          = link_to('Search tips and instructions', help_path(:find_customer))
+       %td
+         %input{:type => 'submit', :value => 'Search'}
+         %input{:type => 'reset', :value => 'Clear Search'}
