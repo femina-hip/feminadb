@@ -5,8 +5,8 @@ module NavigationHelpers
     "/"
   end
 
-  def customers_index
-    homepage
+  def customers_index(q = '')
+    "/customers?q=#{q}"
   end
 
   def login_path

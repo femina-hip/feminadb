@@ -17,6 +17,7 @@ feature "Edit standing/waiting orders from customer page", %q{
     c = Customer.make
     Publication.make
     visit(customers_index)
+
     page.should(have_css("#customer-#{c.id}"))
     within("#customer-#{c.id}") do
       page.should(have_css("form.new_standing_order"))
@@ -44,6 +45,28 @@ feature "Edit standing/waiting orders from customer page", %q{
     so.num_copies.should == 150
     so.comments.should == 'Some comment'
   end
+
+  scenario "Convert a waiting order to a standing order using the form" do
+    c = Customer.make
+    p = Publication.make
+    c.waiting_orders.create!(:publication => p, :num_copies => 10, :request_date => Date.parse('2010-07-14'), :comments => 'blah')
+    visit(customers_index)
+
+    #find("#customer-#{c.id} .standing-orders div.frame>a:first").click # show the form
+
+    css = "#customer-#{c.id} input.convert"
+    page.should(have_css(css))
+    find(css).click
+
+    StandingOrder.count.should == 1
+    so = StandingOrder.first
+    so.customer_id.should == c.id
+    so.publication_id.should == p.id
+    so.num_copies.should == 10
+    so.comments.should == 'From Waiting Order July 14, 2010: blah'
+
+    WaitingOrder.active.count.should == 0
+  end
 end
 
 feature "Use tags", %q{
@@ -64,7 +87,7 @@ feature "Use tags", %q{
     c1.notes.create(:note => 'TAG_FOOBAR')
     c2 = Customer.make(:name => 'Customer 2', :type => c1.type, :region => c1.region, :delivery_method => c1.delivery_method)
 
-    visit("#{customers_index}?q=tag:foobar")
+    visit(customers_index('tag:foobar'))
     page.should(have_css("#customer-#{c1.id}"))
     page.should(have_no_css("#customer-#{c2.id}"))
   end
