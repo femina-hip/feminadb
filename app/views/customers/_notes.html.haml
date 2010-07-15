@@ -15,7 +15,7 @@
     - customer.notes.each do |note|
       %tr
         %td{:class => 'user'}= render_user note.created_by_user
-        %td{:class => 'date'}= h note.created_at.to_formatted_s(:short)
+        %td{:class => 'date'}= note.created_at.to_date.to_formatted_s(:long)
         %td{:class => 'note'}
           .redcloth= textilize(note.note).html_safe
         - if current_user.has_role? 'edit-customers'
