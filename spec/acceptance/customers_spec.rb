@@ -45,3 +45,27 @@ feature "Edit standing/waiting orders from customer page", %q{
     so.comments.should == 'Some comment'
   end
 end
+
+feature "Use tags", %q{
+  In order to find customers by arbitrary characteristics
+  As a user with edit-customers privilege
+  I want to use tags
+} do
+
+  background do
+    r1 = Role.make(:name => 'edit-customers')
+    r2 = Role.make(:name => 'view')
+    User.make(:login => 'customer-editor', :password => 'password', :roles => [r1, r2])
+    login('customer-editor', 'password')
+  end
+
+  scenario "Add a tag and search for it using the form" do
+    c1 = Customer.make
+    c1.notes.create(:note => 'TAG_FOOBAR')
+    c2 = Customer.make(:name => 'Customer 2', :type => c1.type, :region => c1.region, :delivery_method => c1.delivery_method)
+
+    visit("#{customers_index}?q=tag:foobar")
+    page.should(have_css("#customer-#{c1.id}"))
+    page.should(have_no_css("#customer-#{c2.id}"))
+  end
+end
