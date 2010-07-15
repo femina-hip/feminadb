@@ -72,9 +72,10 @@
       %th Website
       %td= website_string(customer)
     - if current_user.has_role? 'edit-customers'
-      %tr{:class => 'footer'}
-        %td{:colspan => 2, :class => 'add'}
-          = link_to 'Edit Customer', edit_customer_path(customer)
-      %tr{:class => 'footer'}
-        %td{:colspan => 2, :class => 'delete'}
-          = button_to 'Delete Customer', customer_path(customer), :confirm => 'Are you sure you want to delete this Customer?', :method => :delete
+      %tbody.actions
+        %tr{:class => 'footer'}
+          %td{:colspan => 2, :class => 'add'}
+            = link_to 'Edit Customer', edit_customer_path(customer)
+        %tr{:class => 'footer'}
+          %td{:colspan => 2, :class => 'delete'}
+            = button_to 'Delete Customer', customer_path(customer), :confirm => 'Are you sure you want to delete this Customer?', :method => :delete
