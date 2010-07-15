@@ -2,13 +2,8 @@
 - waiting_order ||= customer.waiting_order_for(publication) || WaitingOrder.new(:customer => customer, :publication => publication)
 
 .frame
-  %a{:title => standing_order.comments || waiting_order.comments_with_request_date || ''}
-    - if !standing_order.num_copies.blank?
-      = standing_order.num_copies
-    - elsif !waiting_order.num_copies.blank?
-      = "#{waiting_order.num_copies}W"
-    - else
-      &nbsp;
+  %a{:title => standing_or_waiting_order_comments(standing_order, waiting_order)}
+    = standing_or_waiting_order_string(standing_order, waiting_order)
 
   - if current_user.has_role?('edit-orders')
     .forms

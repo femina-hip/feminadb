@@ -13,4 +13,19 @@ module CustomersHelper
     url = "http://#{url}" unless url =~ /^https?:/
     link_to(url)
   end
+
+  def standing_or_waiting_order_comments(standing_order, waiting_order)
+    [ standing_order.comments, waiting_order.comments_with_request_date ].compact.join(' | ')
+  end
+
+  def standing_or_waiting_order_string(standing_order, waiting_order)
+    s = standing_order.num_copies.blank? ? nil : standing_order.num_copies
+    w = waiting_order.num_copies.blank? ? nil : waiting_order.num_copies
+
+    if !s && !w
+      "&nbsp;".html_safe
+    else
+      [ s, w && "#{w}W" ].compact.join(' + ')
+    end
+  end
 end
