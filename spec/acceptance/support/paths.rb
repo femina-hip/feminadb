@@ -9,6 +9,10 @@ module NavigationHelpers
     "/customers?q=#{q}"
   end
 
+  def customer_path(customer)
+    "/customers/#{customer.id}"
+  end
+
   def login_path
     "/login"
   end
