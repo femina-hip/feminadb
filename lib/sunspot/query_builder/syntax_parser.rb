@@ -287,6 +287,10 @@ module Sunspot
       end
 
       module Factor0
+        def not
+          elements[0]
+        end
+
         def test
           elements[1]
         end
@@ -294,14 +298,20 @@ module Sunspot
 
       module Factor1
         def type; :factor; end
-  
-        def not?
-          !elements[0].text_value.empty?
+        def not?; true; end
+        def subnodes; [test]; end
+      end
+
+      module Factor2
+        def test
+          elements[1]
         end
-  
-        def subnodes
-          [test]
-        end
+      end
+
+      module Factor3
+        def type; :factor; end
+        def not?; false; end
+        def subnodes; [test]; end
       end
 
       def _nt_factor
@@ -315,25 +325,52 @@ module Sunspot
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        i1, s1 = index, []
         r2 = _nt_not
+        s1 << r2
         if r2
-          r1 = r2
-        else
-          r1 = instantiate_node(SyntaxNode,input, index...index)
-        end
-        s0 << r1
-        if r1
           r3 = _nt_test
-          s0 << r3
+          s1 << r3
         end
-        if s0.last
-          r0 = instantiate_node(SyntaxNode,input, i0...index, s0)
-          r0.extend(Factor0)
-          r0.extend(Factor1)
+        if s1.last
+          r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
+          r1.extend(Factor0)
+          r1.extend(Factor1)
         else
-          @index = i0
-          r0 = nil
+          @index = i1
+          r1 = nil
+        end
+        if r1
+          r0 = r1
+        else
+          i4, s4 = index, []
+          if has_terminal?('', false, index)
+            r5 = instantiate_node(SyntaxNode,input, index...(index + 0))
+            @index += 0
+          else
+            terminal_parse_failure('')
+            r5 = nil
+          end
+          s4 << r5
+          if r5
+            r6 = _nt_test
+            s4 << r6
+          end
+          if s4.last
+            r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
+            r4.extend(Factor2)
+            r4.extend(Factor3)
+          else
+            @index = i4
+            r4 = nil
+          end
+          if r4
+            r0 = r4
+          else
+            @index = i0
+            r0 = nil
+          end
         end
 
         node_cache[:factor][start_index] = r0

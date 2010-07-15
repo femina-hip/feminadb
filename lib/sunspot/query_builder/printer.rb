@@ -94,10 +94,14 @@ module Sunspot
         end
       end
 
-      def self.print(st)
+      def self.generate_normalized_string(st)
         walker = Walker.new(st)
         walker.process
-        puts walker.output
+        walker.output
+      end
+
+      def self.print(st)
+        puts generate_normalized_string(st)
       end
     end
   end

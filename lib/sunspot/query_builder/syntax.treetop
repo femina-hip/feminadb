@@ -40,16 +40,27 @@ module Sunspot
       end
     
       rule factor
-        not? test {
+        #not? test {
+        #  def type; :factor; end
+    
+        #  def not?
+        #    !elements[0].text_value.empty?
+        #  end
+    
+        #  def subnodes
+        #    [test]
+        #  end
+        #}
+        not test {
           def type; :factor; end
-    
-          def not?
-            !elements[0].text_value.empty?
-          end
-    
-          def subnodes
-            [test]
-          end
+          def not?; true; end
+          def subnodes; [test]; end
+        }
+        /
+        '' test {
+          def type; :factor; end
+          def not?; false; end
+          def subnodes; [test]; end
         }
       end
     
