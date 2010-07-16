@@ -2,7 +2,7 @@ source 'http://gemcutter.org'
 source 'http://gems.github.com'
 
 gem 'comma', '0.3.2'
-gem 'delayed_job', '2.0.3'
+gem 'delayed_job', '2.0.2'
 gem 'fastercsv', '1.5.3'
 gem 'gruff', '0.3.6'
 gem 'haml', '3.0.0.rc.5'

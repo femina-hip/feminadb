@@ -73,7 +73,7 @@ dependencies:
   delayed_job: 
     group: 
     - :default
-    version: = 2.0.3
+    version: = 2.0.2
   database_cleaner: 
     group: 
     - :test
@@ -168,7 +168,7 @@ specs:
 - rack: 
     version: 1.1.0
 - rack-mount: 
-    version: 0.6.6
+    version: 0.6.9
 - rack-test: 
     version: 0.5.4
 - tzinfo: 
@@ -204,7 +204,7 @@ specs:
 - ffi: 
     version: 0.6.3
 - json_pure: 
-    version: 1.2.4
+    version: 1.4.3
 - selenium-webdriver: 
     version: 0.0.24
 - capybara: 
@@ -214,13 +214,13 @@ specs:
 - johnson: 
     version: 2.0.0.pre3
 - envjs: 
-    version: 0.3.6
+    version: 0.3.7
 - capybara-envjs: 
     version: 0.1.5
 - rubyforge: 
     version: 2.0.4
 - hoe: 
-    version: 2.6.0
+    version: 2.6.1
 - chronic: 
     version: 0.2.3
 - columnize: 
@@ -232,7 +232,7 @@ specs:
 - database_cleaner: 
     version: 0.5.2
 - delayed_job: 
-    version: 2.0.3
+    version: 2.0.2
 - delorean: 
     version: 0.2.0
 - diff-lcs: 
@@ -268,7 +268,7 @@ specs:
 - rack-contrib: 
     version: 1.0.1
 - thor: 
-    version: 0.13.6
+    version: 0.13.8
 - railties: 
     version: 3.0.0.beta4
 - rails: 
@@ -286,7 +286,7 @@ specs:
 - rspec: 
     version: 2.0.0.beta.17
 - webrat: 
-    version: 0.7.0
+    version: 0.7.1
 - rspec-rails: 
     version: 2.0.0.beta.17
 - ruby-debug-base: 
@@ -294,7 +294,7 @@ specs:
 - ruby-debug: 
     version: 0.10.3
 - ruby-prof: 
-    version: 0.8.1
+    version: 0.8.2
 - spork: 
     version: 0.8.4
 - steak: 
@@ -314,7 +314,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 3.0.pre
-hash: ae177ee2677dab557e5f7e2f190778acfb44f627
+hash: 1cc900f22fb1dd9318acf6adb5ea5c0590a0c7a2
 sources: 
 - Git: 
     uri: git://github.com/adamh/vestal_versions
