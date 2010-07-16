@@ -62,6 +62,14 @@ begin
       Rake::Task['vlad:restart_bg'].invoke
       Rake::Task['vlad:cleanup'].invoke
     end
+
+    desc "Updates the symlinks for shared paths".cleanup
+    remote_task :update_symlinks, :roles => :app do
+      run [
+        "ln -sfv #{shared_path}/.bundle #{latest_release}/"
+      ].join(" && ")
+    end
+
   end
 
   require 'vlad/git'
@@ -70,8 +78,9 @@ begin
       destination = File.join(destination, 'repo')
       revision = 'HEAD' if revision =~ /head/i
 
-      ret = [ "([ -d #{destination} ] && (cd #{destination} && #{git_cmd} checkout master && #{git_cmd} pull origin master) || #{git_cmd} clone #{repository} #{destination})",
-        "(cd #{destination} && ([ -f .git/refs/heads/deployed-#{revision} ] && #{git_cmd} branch -D deployed-#{revision} || true) && #{git_cmd} checkout -f -b deployed-#{revision} #{revision})",
+      ret = [
+        "([ -d #{destination} ] && (cd #{destination} && #{git_cmd} checkout master && #{git_cmd} pull origin master) || #{git_cmd} clone #{repository} #{destination})",
+        "(cd #{destination} && ([ -f .git/refs/heads/deployed-#{revision} ] && #{git_cmd} branch -D deployed-#{revision} || true) && #{git_cmd} checkout -f -b deployed-#{revision} #{revision})"
       ].join(" && ")
     end
   end
