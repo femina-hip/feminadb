@@ -3,8 +3,9 @@ class DeliveryMethod < ActiveRecord::Base
 
   belongs_to :warehouse
   has_many :orders,
+           :include => { :issue => :publication },
            :dependent => :restrict,
-           :conditions => 'orders.deleted_at IS NULL'
+           :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
   has_many :customers,
            :dependent => :restrict,
            :conditions => 'customers.deleted_at IS NULL'

@@ -114,17 +114,17 @@ class Customer < ActiveRecord::Base
            :dependent => :destroy,
            :include => [ :publication ],
            :order => 'publications.name',
-           :conditions => 'standing_orders.deleted_at IS NULL'
+           :conditions => 'standing_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
   has_many :waiting_orders,
            :dependent => :destroy,
            :include => [ :publication ],
            :order => 'publications.name',
-           :conditions => 'waiting_orders.deleted_at IS NULL'
+           :conditions => 'waiting_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
   has_many :orders,
            :dependent => :nullify,
            :include => [ :delivery_method, { :issue => :publication } ],
            :order => 'publications.name, issues.issue_date DESC',
-           :conditions => 'orders.deleted_at IS NULL'
+           :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
   has_many :notes,
            :dependent => :destroy,
            :class_name => 'CustomerNote',
