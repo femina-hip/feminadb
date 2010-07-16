@@ -50,6 +50,8 @@ class Customer < ActiveRecord::Base
     text(:delivery_method) { delivery_method.abbreviation }
     text(:delivery_method_name) { delivery_method.name }
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
+    text(:standing_order_comments) { standing_orders.collect(&:comments).join("\n") }
+    text(:waiting_order_comments) { waiting_orders.collect(&:comments).join("\n") }
     text(:region) { region.name }
     text(:type) { type.name }
     text(:type_description) { type.description }
