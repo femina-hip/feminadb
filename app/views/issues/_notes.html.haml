@@ -14,7 +14,7 @@
     - issue.notes.each do |note|
       %tr{:class => cycle('odd', 'even')}
         %td.user= render_user note.created_by_user
-        %td.date= note.created_at.to_formatted_s(:short)
+        %td.date= note.created_at.to_date.to_formatted_s(:long)
         %td.note
           .redcloth= textilize(note.note).html_safe
         - if current_user.has_role?('edit-issues')

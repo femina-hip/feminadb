@@ -24,7 +24,7 @@ Feminadb::Application.routes.draw do
       end
     end
     resources :orders, :controller => 'customer_orders'
-    resources :notes, :controller => 'CustomerNotes'
+    resources :notes, :controller => 'customer_notes'
     resource :club
   end
 
@@ -48,7 +48,7 @@ Feminadb::Application.routes.draw do
         get :show_distribution_list
       end
 
-      resources :notes
+      resources :notes, :controller => 'issue_notes'
       resources :orders, :controller => 'issue_orders', :except => [ :show, :new, :edit ]
     end
   end
