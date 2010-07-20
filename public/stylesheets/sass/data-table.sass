@@ -43,7 +43,7 @@ table.customers, table.clubs, table.packing-instructions, table.customer-orders,
       :font-weight bold
 
 // Tables which have no "thead.title"
-table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods
+table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions
   thead
     :border = 2px solid !heading_border_color
 
@@ -293,27 +293,19 @@ table.versions
   :width 95%
   :margin .5em auto
 
-  td.changes
+  td.change_before, td.change_after
     :padding 0
     :overflow hidden
 
     div
       :overflow hidden
 
-    table
-      :width 100%
-      :margin 0
-      :overflow hidden
+  td.change_before
+    :color red
 
-      th
-        :border-left none
-        :border-right none
-        :border-top none
+  td.change_after
+    :color blue
 
-      td
-        :border none
-        :white-space pre-wrap
-        :width 50%
-
-        &.old
-          :color red
+  a.history
+    :display block
+    :font-size .9em

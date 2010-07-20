@@ -9,32 +9,44 @@
   %table.versions
     %thead
       %tr
-        %th Record
-        %th Changed
-        %th By
-        %th Changes
+        %th{:rowspan => 2} Time
+        %th{:rowspan => 2} Record
+        %th{:rowspan => 2} User
+        %th{:colspan => 3} How the data changed
+      %tr
+        %th Field
+        %th Value before change
+        %th Value after change
     %tbody
       - @versions.each do |version|
-        %tr{:class => cycle('odd', 'even')}
-          %td.record
-            - record_str = "#{version.versioned.class.human_name} #{version.versioned.id}"
-            - if version.versioned.class.respond_to?(:can_visit_url?) && version.versioned.class.can_visit_url?
-              = link_to(record_str, version.versioned)
-            - else
-              = record_str
-          %td.updated_at= version.updated_at.to_s(:long)
-          %td.user= version.user && version.user.login || '?'
-          %td.changes
-            %div
-              %table
-                %thead
-                  %tr
-                    %th Old
-                    %th New
-                %tbody
-                  - version.changes.each do |column, values|
-                    %tr
-                      %th{:colspan => 2}= column
-                    %tr
-                      %td.old= values.first
-                      %td.new= values.last
+        - rowspan = version.changes.length < 1 ? 1 : version.changes.length
+        - rowclass = cycle('odd', 'even')
+        %tr{:class => rowclass}
+          %td.updated_at{:rowspan => rowspan}= version.updated_at.to_s(:long)
+          %td.record{:rowspan => rowspan}
+            = show_record_identifier(version.versioned)
+            - unless params[:versioned_id]
+              = link_to_record_history(version.versioned)
+          %td.user{:rowspan => rowspan}= version.user && version.user.login || '?'
+          - if version.changes.length < 1
+            %td.change_field
+            %td.change_before
+            %td.change_after
+          - else
+            - first_change = true
+            - version.changes.each do |column, values|
+              - if first_change
+                - first_change = false
+                %td.change_field= column
+                %td.change_before
+                  %div.overflow= values.first
+                %td.change_after
+                  %div.overflow= values.last
+              - else
+                %tr{:class => rowclass}
+                  %td.change_field= column
+                  %td.change_before
+                    %div.overflow= values.first
+                  %td.change_after
+                    %div.overflow= values.last
+  = will_paginate(@versions)

@@ -3,14 +3,27 @@ module ModificationsHelper
     dt.to_time.to_formatted_s(:short)
   end
 
-  def show_attribute(m, a)
-    case a
-      when 'customer_id' then format_customer_id(m)
-      when 'updated_by' then format_updated_by(m)
-      when 'customer_type_id' then format_customer_type_id(m)
-      when 'delivery_method_id' then format_delivery_method_id(m)
-      when 'region_id' then format_region_id(m)
-      else h m.send(a).to_s
+  def show_record_identifier(record)
+    s = "#{record.class.model_name.human} #{record.id}"
+    if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
+      link_to(s, record)
+    else
+      s
+    end
+  end
+
+  def link_to_record_history(record)
+    link_to('history', modifications_path(:versioned_type => record.class.model_name, :versioned_id => record.id), :class => 'history')
+  end
+
+  def show_attribute(record, column)
+    case column
+      when 'customer_id' then format_customer_id(record)
+      when 'updated_by' then format_updated_by(record)
+      when 'customer_type_id' then format_customer_type_id(record)
+      when 'delivery_method_id' then format_delivery_method_id(record)
+      when 'region_id' then format_region_id(record)
+      else h record.send(column).to_s
     end
   end
 

@@ -1,6 +1,10 @@
 class ModificationsController < ApplicationController
   def index
-    @versions = VestalVersions::Version.order('updated_at DESC').limit(per_page).offset((page - 1) * per_page)
+    records = VestalVersions::Version.order('updated_at DESC')
+    records = records.where(:versioned_type => params[:versioned_type]) if params[:versioned_type]
+    records = records.where(:versioned_id => params[:versioned_id]) if params[:versioned_id]
+    @versions = records.paginate(:page => page, :per_page => per_page)
+    VestalVersions::Version.send(:preload_associations, @versions, [:versioned, :user])
   end
 
   private
