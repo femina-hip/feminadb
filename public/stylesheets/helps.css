@@ -1,6 +1,6 @@
 /*
-Sass::SyntaxError: Undefined constant: "!border_color"
-on line 2 of /usr/src/mine/feminadb/public/stylesheets/sass/helps.sass
+Syntax error: Undefined variable: "$border_color".
+        on line 2 of ./helps.sass
 
 1: table.role-descriptions
 2:   :border = 2px solid !border_color
@@ -9,62 +9,47 @@ on line 2 of /usr/src/mine/feminadb/public/stylesheets/sass/helps.sass
 5:     :border = 2px solid !heading_border_color
 6: 
 7:     th
-8:       :font-weight normal
-
 
 Backtrace:
-/usr/src/mine/feminadb/public/stylesheets/sass/helps.sass:2
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:240:in `get_constant'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:223:in `operationalize'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:228:in `operationalize'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:233:in `operationalize'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/constant.rb:45:in `parse'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:266:in `parse_attribute'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:232:in `parse_line'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:172:in `build_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:198:in `build_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:105:in `render_to_tree'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/engine.rb:82:in `render'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:53:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `each'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin.rb:38:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-1.8.0/lib/sass/plugin/rails.rb:13:in `process'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:388:in `process'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:171:in `handle_request'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:115:in `dispatch'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:126:in `dispatch_cgi'
-/var/lib/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:9:in `dispatch'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:76:in `process'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `synchronize'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/../lib/mongrel/rails.rb:74:in `process'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:155:in `process_client'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `each'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:154:in `process_client'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `initialize'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `new'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `initialize'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `new'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel.rb:264:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:282:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `each'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/configurator.rb:281:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:128:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/lib/mongrel/command.rb:212:in `run'
-/var/lib/gems/1.8/gems/mongrel-1.1/bin/mongrel_rails:281
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
-/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/servers/mongrel.rb:64
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
-/var/lib/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
-/var/lib/gems/1.8/gems/rails-2.0.2/lib/commands/server.rb:39
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
-/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
-script/server:3
+./helps.sass:2
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/variable.rb:39:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/operation.rb:67:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:29:in `render'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:221:in `update_stylesheet'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:86:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `each'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `update_stylesheets'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:428:in `watch_or_update'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:350:in `process_result'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:42:in `parse'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:22:in `parse!'
+/var/lib/gems/1.8/gems/haml-3.0.13/bin/sass:8
+/var/lib/gems/1.8/bin/sass:19:in `load'
+/var/lib/gems/1.8/bin/sass:19
 */
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$border_color\".\A         on line 2 of ./helps.sass\A \A 1: table.role-descriptions\A 2:   :border = 2px solid !border_color\A 3: \A 4:   thead\A 5:     :border = 2px solid !heading_border_color\A 6: \A 7:     th"; }

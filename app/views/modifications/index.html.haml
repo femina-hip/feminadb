@@ -39,14 +39,14 @@
                 - first_change = false
                 %td.change_field= column
                 %td.change_before
-                  %div.overflow= values.first
+                  %div.overflow= format_column_value(column, values.first)
                 %td.change_after
-                  %div.overflow= values.last
+                  %div.overflow= format_column_value(column, values.last)
               - else
                 %tr{:class => rowclass}
                   %td.change_field= column
                   %td.change_before
-                    %div.overflow= values.first
+                    %div.overflow= format_column_value(column, values.first)
                   %td.change_after
-                    %div.overflow= values.last
+                    %div.overflow= format_column_value(column, values.last)
   = will_paginate(@versions)

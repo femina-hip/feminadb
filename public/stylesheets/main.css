@@ -100,14 +100,14 @@ table.customers, table.clubs, table.packing-instructions, table.customer-orders,
     border-bottom: 2px solid gray;
     font-weight: bold; }
 
-table.customers thead, table.clubs thead, table.issue-orders thead, table.report thead, table.distribution-list thead, table.publication-district-breakdown thead, table.issue-district-breakdown thead, table.issue-district-breakdown-orders thead, table.customer-types thead, table.users thead, table.regions thead, table.warehouses thead, table.delivery-methods thead {
+table.customers thead, table.clubs thead, table.issue-orders thead, table.report thead, table.distribution-list thead, table.publication-district-breakdown thead, table.issue-district-breakdown thead, table.issue-district-breakdown-orders thead, table.customer-types thead, table.users thead, table.regions thead, table.warehouses thead, table.delivery-methods thead, table.versions thead {
   border: 2px solid #cc061e; }
-  table.customers thead th, table.clubs thead th, table.issue-orders thead th, table.report thead th, table.distribution-list thead th, table.publication-district-breakdown thead th, table.issue-district-breakdown thead th, table.issue-district-breakdown-orders thead th, table.customer-types thead th, table.users thead th, table.regions thead th, table.warehouses thead th, table.delivery-methods thead th {
+  table.customers thead th, table.clubs thead th, table.issue-orders thead th, table.report thead th, table.distribution-list thead th, table.publication-district-breakdown thead th, table.issue-district-breakdown thead th, table.issue-district-breakdown-orders thead th, table.customer-types thead th, table.users thead th, table.regions thead th, table.warehouses thead th, table.delivery-methods thead th, table.versions thead th {
     font-weight: normal;
     background-color: #cc061e;
     color: white;
     padding: 8px 6px 2px; }
-    table.customers thead th a, table.clubs thead th a, table.issue-orders thead th a, table.report thead th a, table.distribution-list thead th a, table.publication-district-breakdown thead th a, table.issue-district-breakdown thead th a, table.issue-district-breakdown-orders thead th a, table.customer-types thead th a, table.users thead th a, table.regions thead th a, table.warehouses thead th a, table.delivery-methods thead th a {
+    table.customers thead th a, table.clubs thead th a, table.issue-orders thead th a, table.report thead th a, table.distribution-list thead th a, table.publication-district-breakdown thead th a, table.issue-district-breakdown thead th a, table.issue-district-breakdown-orders thead th a, table.customer-types thead th a, table.users thead th a, table.regions thead th a, table.warehouses thead th a, table.delivery-methods thead th a, table.versions thead th a {
       background-color: #cc061e;
       color: white;
       text-decoration: underline; }
@@ -268,7 +268,7 @@ table.inventory {
     text-align: left; }
   table.inventory thead tr:first-child th {
     padding-bottom: 0; }
-  table.inventory thead tr:first-child+tr th {
+  table.inventory thead tr:first-child + tr th {
     padding-top: 0; }
 
 table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders {
@@ -292,25 +292,14 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
 table.versions {
   width: 95%;
   margin: 0.5em auto; }
-  table.versions td.changes {
-    padding: 0;
+  table.versions td {
+    vertical-align: top; }
+  table.versions td.change_before div, table.versions td.change_after div {
     overflow: hidden; }
-    table.versions td.changes div {
-      overflow: hidden; }
-    table.versions td.changes table {
-      width: 100%;
-      margin: 0;
-      overflow: hidden; }
-      table.versions td.changes table th {
-        border-left: none;
-        border-right: none;
-        border-top: none; }
-      table.versions td.changes table td {
-        border: none;
-        white-space: pre-wrap;
-        width: 50%; }
-        table.versions td.changes table td.old {
-          color: red; }
+  table.versions a.history {
+    display: block;
+    font-size: 0.9em;
+    text-align: right; }
 
 table.customer, table.special-order, table.issue, table.club {
   width: 100%;
@@ -607,10 +596,10 @@ div.flash {
 
 div.main {
   margin: 1em; }
-  div.main >p, div.main >h1, div.main >h2, div.main >h3, div.main >ul {
+  div.main > p, div.main > h1, div.main > h2, div.main > h3, div.main > ul {
     margin-left: 168px;
     padding-left: 1em; }
-  div.main >p.actions {
+  div.main > p.actions {
     margin-left: 0; }
 
 div.footer {
