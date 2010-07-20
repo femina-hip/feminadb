@@ -45,7 +45,7 @@ dependencies:
   haml: 
     group: 
     - :default
-    version: = 3.0.0.rc.5
+    version: = 3.0.13
   prawn: 
     group: 
     - :default
@@ -246,7 +246,7 @@ specs:
 - gruff: 
     version: 0.3.6
 - haml: 
-    version: 3.0.0.rc.5
+    version: 3.0.13
 - html_namespacing: 
     version: 0.3.0
 - linecache: 
@@ -314,7 +314,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 3.0.pre
-hash: 1cc900f22fb1dd9318acf6adb5ea5c0590a0c7a2
+hash: d329bfe20e6269bff0b36b29bd15168e4e80bfad
 sources: 
 - Git: 
     uri: git://github.com/adamh/vestal_versions

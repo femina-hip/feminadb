@@ -1,54 +1,67 @@
-/*
-Syntax error: Undefined variable: "$alt_background_color".
-        on line 3 of ./nav.sass
-
-1: div#nav
-2:   :border-bottom 4px solid black
-3:   :background = !alt_background_color
-4:   :color = !alt_color
-5:   :padding .7em
-6:   :line-height 1.3em
-7: 
-8:   a
-
-Backtrace:
-./nav.sass:3
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/variable.rb:39:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:37:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:29:in `render'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:221:in `update_stylesheet'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:86:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:428:in `watch_or_update'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:350:in `process_result'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:42:in `parse'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:22:in `parse!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/sass:8
-/var/lib/gems/1.8/bin/sass:19:in `load'
-/var/lib/gems/1.8/bin/sass:19
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$alt_background_color\".\A         on line 3 of ./nav.sass\A \A 1: div#nav\A 2:   :border-bottom 4px solid black\A 3:   :background = !alt_background_color\A 4:   :color = !alt_color\A 5:   :padding .7em\A 6:   :line-height 1.3em\A 7: \A 8:   a"; }
+div#nav {
+  border-bottom: 4px solid black;
+  background: #cc061e;
+  color: white;
+  padding: 0.7em;
+  line-height: 1.3em; }
+  div#nav a {
+    color: inherit; }
+  div#nav ul.main {
+    padding: 0;
+    margin: 0;
+    list-style: none; }
+    div#nav ul.main li {
+      position: relative;
+      float: left;
+      padding: 0 0.7em; }
+      div#nav ul.main li:hover {
+        background-color: #fffbd9;
+        color: #cc0000; }
+      div#nav ul.main li:hover div.quick-publications {
+        display: block; }
+    div#nav ul.main div.quick-publications {
+      display: none;
+      position: absolute;
+      top: 1.3em;
+      left: 0; }
+      div#nav ul.main div.quick-publications ul {
+        float: left;
+        margin: 0;
+        padding: 0.7em;
+        list-style: none;
+        background: #cc061e;
+        color: white;
+        border: 2px solid #009ee0; }
+      div#nav ul.main div.quick-publications li {
+        display: block;
+        position: static;
+        float: none;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0; }
+        div#nav ul.main div.quick-publications li:hover {
+          background: #cc061e;
+          color: white; }
+      div#nav ul.main div.quick-publications a {
+        line-height: 1.4em; }
+        div#nav ul.main div.quick-publications a:hover {
+          text-decoration: underline; }
+  div#nav div.admin {
+    clear: left;
+    margin-left: 1em;
+    font-size: small; }
+    div#nav div.admin p {
+      margin: 0;
+      padding: 0;
+      display: inline; }
+    div#nav div.admin ul {
+      padding: 0;
+      margin: 0;
+      display: inline; }
+      div#nav div.admin ul li {
+        list-style: none;
+        display: inline;
+        margin: 0 0.7em; }
+  div#nav div.spacer {
+    height: 0;
+    clear: both; }

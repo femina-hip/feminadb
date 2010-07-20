@@ -1,55 +1,21 @@
-/*
-Syntax error: Undefined variable: "$border_color".
-        on line 2 of ./helps.sass
-
-1: table.role-descriptions
-2:   :border = 2px solid !border_color
-3: 
-4:   thead
-5:     :border = 2px solid !heading_border_color
-6: 
-7:     th
-
-Backtrace:
-./helps.sass:2
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/variable.rb:39:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/operation.rb:67:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:37:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:29:in `render'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:221:in `update_stylesheet'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:86:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:428:in `watch_or_update'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:350:in `process_result'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:42:in `parse'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:22:in `parse!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/sass:8
-/var/lib/gems/1.8/bin/sass:19:in `load'
-/var/lib/gems/1.8/bin/sass:19
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$border_color\".\A         on line 2 of ./helps.sass\A \A 1: table.role-descriptions\A 2:   :border = 2px solid !border_color\A 3: \A 4:   thead\A 5:     :border = 2px solid !heading_border_color\A 6: \A 7:     th"; }
+table.role-descriptions {
+  border: 2px solid #009ee0; }
+  table.role-descriptions thead {
+    border: 2px solid #cc061e; }
+    table.role-descriptions thead th {
+      font-weight: normal;
+      background-color: #cc061e;
+      color: white;
+      padding: 10px 2px; }
+  table.role-descriptions tbody td {
+    vertical-align: top;
+    font-family: Times, serif;
+    font-size: 0.9em; }
+    table.role-descriptions tbody td p {
+      margin: 0; }
+  table.role-descriptions tbody td.title {
+    font-weight: bold; }
+  table.role-descriptions tbody tr.even th, table.role-descriptions tbody tr.even td {
+    background: #faedcc; }
+  table.role-descriptions tbody tr.odd th, table.role-descriptions tbody tr.odd td {
+    background: #f8e4b3; }

@@ -1,64 +1,77 @@
-/*
-Syntax error: Undefined variable: "$background_color".
-        on line 63 of ./search.sass
-
-58:   li.facet, li.non-facet
-59:     :list-style none
-60:     :display inline-block
-61:     :margin 0 .5em
-62:     :padding 0
-63:     :background = !background_color
-64: 
-65:     &:hover ul
-66:       :display block
-67: 
-68:   h3
-
-Backtrace:
-./search.sass:63
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/variable.rb:39:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:37:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:29:in `render'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:221:in `update_stylesheet'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:86:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:428:in `watch_or_update'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:350:in `process_result'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:42:in `parse'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:22:in `parse!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/sass:8
-/var/lib/gems/1.8/bin/sass:19:in `load'
-/var/lib/gems/1.8/bin/sass:19
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 63 of ./search.sass\A \A 58:   li.facet, li.non-facet\A 59:     :list-style none\A 60:     :display inline-block\A 61:     :margin 0 .5em\A 62:     :padding 0\A 63:     :background = !background_color\A 64: \A 65:     &:hover ul\A 66:       :display block\A 67: \A 68:   h3"; }
+form.search {
+  text-align: center; }
+  form.search input, form.search select {
+    font-size: inherit; }
+  form.search table {
+    width: 100%;
+    border: none; }
+    form.search table td {
+      border: none;
+      margin: 0;
+      padding: 0 6px;
+      white-space: nowrap;
+      width: 1em;
+      vertical-align: top; }
+      form.search table td input[type="text"] {
+        width: 100%; }
+    form.search table td.stretch {
+      padding: 1px 3px;
+      width: auto; }
+    form.search table p {
+      display: block;
+      margin: 0;
+      padding: 0; }
+    form.search table p.help {
+      font-size: 0.75em; }
+  form.search table.search {
+    clear: both;
+    margin: 1em 5% 0.5em;
+    width: 90%;
+    font-size: 1.1em; }
+  form.search div.facets {
+    display: inline-block;
+    text-align: center;
+    font-size: 0.9em;
+    line-height: 1.4;
+    vertical-align: middle; }
+  form.search p {
+    display: inline-block;
+    margin: 0 1em 0 0;
+    padding: 0; }
+  form.search ul.facets {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    text-align: left; }
+  form.search li.facet, form.search li.non-facet {
+    list-style: none;
+    display: inline-block;
+    margin: 0 0.5em;
+    padding: 0;
+    background: #fffbd9; }
+    form.search li.facet:hover ul, form.search li.non-facet:hover ul {
+      display: block; }
+  form.search h3 {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer; }
+  form.search ul.rows {
+    margin: 0;
+    padding: 0.5em;
+    display: none;
+    position: absolute;
+    background: #fffbd9;
+    border: 2px solid #009ee0;
+    border-top: none;
+    z-index: 2; }
+    form.search ul.rows li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5; }
+      form.search ul.rows li a:hover {
+        text-decoration: underline; }

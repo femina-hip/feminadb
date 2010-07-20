@@ -1,53 +1,57 @@
-/*
-Syntax error: Undefined variable: "$background_color".
-        on line 2 of ./global.sass
+body {
+  background: #fffbd9;
+  color: black;
+  margin: 0;
+  font-family: Verdana, sans-serif; }
 
-1: body
-2:   :background = !background_color
-3:   :color = !color
-4:   :margin 0
-5:   :font-family Verdana, sans-serif
-6: 
-7: h2
+h2 {
+  font-size: 1.15em; }
 
-Backtrace:
-./global.sass:2
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/variable.rb:39:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/script/node.rb:61:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `map'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:322:in `perform_children'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:313:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:301:in `_perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/node.rb:209:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:37:in `perform'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/tree/root_node.rb:29:in `render'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:221:in `update_stylesheet'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:86:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:79:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `each'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/sass/plugin.rb:77:in `update_stylesheets'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:428:in `watch_or_update'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:350:in `process_result'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:42:in `parse'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/../lib/haml/exec.rb:22:in `parse!'
-/var/lib/gems/1.8/gems/haml-3.0.13/bin/sass:8
-/var/lib/gems/1.8/bin/sass:19:in `load'
-/var/lib/gems/1.8/bin/sass:19
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$background_color\".\A         on line 2 of ./global.sass\A \A 1: body\A 2:   :background = !background_color\A 3:   :color = !color\A 4:   :margin 0\A 5:   :font-family Verdana, sans-serif\A 6: \A 7: h2"; }
+h3 {
+  font-size: 1.05em; }
+
+p {
+  line-height: 1.5em; }
+
+a {
+  color: #cc0000;
+  text-decoration: none; }
+
+form.button-to {
+  display: inline;
+  padding: 0;
+  margin: 0; }
+  form.button-to div {
+    display: inline; }
+  form.button-to input {
+    background: inherit;
+    border: none;
+    color: #cc0000;
+    cursor: pointer; }
+
+p.image {
+  text-align: center; }
+  p.image span {
+    margin-top: 6px;
+    display: block; }
+  p.image img {
+    border: 2px dotted gray; }
+
+table {
+  clear: both;
+  border-collapse: collapse; }
+  table th, table td {
+    white-space: nowrap;
+    padding: 2px 6px; }
+    table th p, table th .redcloth, table th .overflow, table td p, table td .redcloth, table td .overflow {
+      white-space: normal; }
+    table th .redcloth, table td .redcloth {
+      margin: -1em 0; }
+    table th .cut-off, table td .cut-off {
+      overflow: hidden; }
+
+p.actions {
+  text-align: center; }
+
+abbr {
+  border-bottom: 1px dotted gray; }
