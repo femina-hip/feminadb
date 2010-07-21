@@ -1,5 +1,6 @@
 class PublicationsController < ApplicationController
   require_role 'edit-publications', :except => [ :index, :show, :district_breakdown, :issue_district_breakdown ]
+  cache_sweeper :nav_sweeper
 
   make_resourceful do
     actions :index, :new, :create, :edit, :update

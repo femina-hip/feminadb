@@ -4,38 +4,13 @@
   %head
     %title FeminaDB
     %meta{'http-equiv' => 'content-type', :content => 'application/xhtml+xml;charset=UTF-8'}
-    = javascript_include_tag('jquery', 'date')
-    = javascript_include_tag('jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'channeler', 'jquery.svg_map')
-    = javascript_include_tag('initializers/date_fields', 'initializers/issue_fields')
-    = stylesheet_link_tag('main')
-    = stylesheet_link_tag('jquery.calendar_date_picker', 'jquery.autocomplete')
+    = javascript_include_tag('jquery', 'date', 'jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'channeler', 'jquery.svg_map', 'initializers/date_fields', 'initializers/issue_fields', :cache => 'all')
+    = stylesheet_link_tag('main', 'jquery.calendar_date_picker', 'jquery.autocomplete', :cache => 'all')
     = stylesheet_link_tag('print', :media => 'print')
   %body
-    #nav
-      %ul.main
-        %li= link_to('Customers', customers_path)
-        %li= link_to('Clubs', clubs_path)
-        %li
-          = link_to('Publications', publications_path)
-          .quick-publications
-            %ul
-              - Publication.includes(:issues => :publication).current_periodicals.each do |publication|
-                %li.publication
-                  = link_to("#{publication.name} (all Issues)", publication)
-                  - publication.issues.first(3).each do |issue|
-                    %li.issue= link_to(issue.full_name, [publication, issue])
-        %li= link_to('Reports', reports_path)
-        %li= link_to('Help', help_path)
-      - if current_user.has_role?('admin')
-        .admin
-          %p Admin:
-          %ul
-            %li= link_to('Users', [:admin, :users])
-            %li= link_to('Regions', [:admin, :regions])
-            %li= link_to('Warehouses', [:admin, :warehouses])
-            %li= link_to('Customer Types', [:admin, :customer_types])
-            %li= link_to('Delivery Methods', [:admin, :delivery_methods])
-      .spacer
+    - is_admin = current_user.has_role?('admin')
+    - cache("nav_#{is_admin ? 'admin' : 'not_admin'}") do
+      = render('application/nav', :is_admin => is_admin)
 
     .login
       %p
@@ -56,7 +31,6 @@
     .footer
       %ul
         %li= link_to('Recent Data Changes', modifications_path)
-        %li= link_to('Problems', 'http://bugs/projects/list_issues/1')
 
     #loading{:style => "display: none; background: url(#{image_path('fade.png')}) repeat;"}
       .frame

@@ -1,6 +1,7 @@
 class IssuesController < ApplicationController
   require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_distribution_order, :orders_in_district ]
   before_filter :get_publication
+  cache_sweeper :nav_sweeper
 
   make_resourceful do
     actions :index, :show, :new, :edit, :destroy
