@@ -1,5 +1,5 @@
-- standing_order ||= customer.standing_order_for(publication) || StandingOrder.new(:customer => customer, :publication => publication)
-- waiting_order ||= customer.waiting_order_for(publication) || WaitingOrder.new(:customer => customer, :publication => publication)
+- standing_order ||= customer.standing_order_for(publication)
+- waiting_order ||= customer.waiting_order_for(publication)
 
 .frame
   %a{:title => standing_or_waiting_order_comments(standing_order, waiting_order)}
@@ -7,7 +7,7 @@
 
   - if current_user.has_role?('edit-orders')
     .forms
-      - if waiting_order.new_record?
-        = render('standing_orders/mini_form', :standing_order => standing_order)
-      - if standing_order.new_record?
-        = render('waiting_orders/mini_form', :waiting_order => waiting_order)
+      - if waiting_order.nil?
+        = render('standing_orders/mini_form', :standing_order => standing_order || StandingOrder.new(:customer => customer, :publication => publication))
+      - if standing_order.nil?
+        = render('waiting_orders/mini_form', :waiting_order => waiting_order || WaitingOrder.new(:customer => customer, :publication => publication))

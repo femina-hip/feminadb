@@ -159,12 +159,20 @@ class Customer < ActiveRecord::Base
     [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
   end
 
+  def standing_orders_hash
+    @standing_orders_hash ||= standing_orders.index_by(&:publication_id)
+  end
+
   def standing_order_for(publication)
-    standing_orders.select{ |so| so.publication_id == publication.id }.first
+    standing_orders_hash[publication.id]
+  end
+
+  def waiting_orders_hash
+    @waiting_orders_hash ||= waiting_orders.index_by(&:publication_id)
   end
 
   def waiting_order_for(publication)
-    waiting_orders.select{ |so| so.publication_id == publication.id }.first
+    waiting_orders_hash[publication.id]
   end
 
   def self.fuzzy_find(region_id, district, name)
