@@ -4,25 +4,28 @@
       New Standing Order
     - else
       Edit Standing Order
-  = form_for(standing_order) do |f|
+  %form{:action => polymorphic_path(standing_order), :method => :post}
     %div
-      = f.error_messages
-      = f.hidden_field(:customer_id, :id => '')
-      = f.hidden_field(:publication_id, :id => '')
-      - if !f.object.new_record?
+      = error_messages_for(standing_order)
+      - if standing_order.persisted?
+        %input{:type => 'hidden', :name => '_method', :value => 'put'}
+      = token_tag
+      %input{:type => 'hidden', :name => 'standing_order[customer_id]', :value => standing_order.customer_id}
+      %input{:type => 'hidden', :name => 'standing_order[publication_id]', :value => standing_order.publication_id}
+      - if standing_order.persisted?
         %p
           Inserted
-          = f.object.created_at.to_formatted_s(:long)
+          = standing_order.created_at.to_formatted_s(:long)
       %p
         %label
           Qty
-          = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+          %input.num_copies{:name => 'standing_order[num_copies]', :value => standing_order.num_copies}
 
         %label
           Comment
-          = f.text_field(:comments, :id => '', :class => 'comment')
+          %input.comment{:name => 'standing_order[comments]', :value => standing_order.comments}
       %p
-        = f.submit(f.object.new_record? ? 'Create Standing Order' : 'Update Standing Order')
+        %input{:type => 'submit', :value => "#{standing_order.persisted? ? 'Update' : 'Create'} Standing Order"}
         %input{:type => 'reset', :value => 'Cancel Editing'}
   - unless standing_order.new_record?
     = button_to('Delete Standing Order', standing_order, :method => :delete, :class => 'delete')

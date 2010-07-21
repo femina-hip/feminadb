@@ -4,25 +4,28 @@
       New Waiting Order
     - else
       Edit Waiting Order
-  = form_for(waiting_order) do |f|
+  %form{:action => polymorphic_path(waiting_order), :method => (waiting_order.persisted? ? :put : :post)}
     %div
-      = f.error_messages
-      = f.hidden_field(:customer_id, :id => '')
-      = f.hidden_field(:publication_id, :id => '')
+      = error_messages_for(waiting_order)
+      - if waiting_order.persisted?
+        %input{:type => 'hidden', :name => '_method', :value => 'put'}
+      = token_tag
+      %input{:type => 'hidden', :name => 'waiting_order[customer_id]', :value => waiting_order.customer_id}
+      %input{:type => 'hidden', :name => 'waiting_order[publication_id]', :value => waiting_order.publication_id}
       %p
         %label
           Qty
-          = f.text_field(:num_copies, :id => '', :class => 'num_copies')
+          %input.num_copies{:name => 'waiting_order[num_copies]', :value => waiting_order.num_copies}
 
         %label
           Requested Date
-          = f.date_field(:request_date, :id => '', :class => 'request_date')
+          %input.request_date.date_field{:name => 'waiting_order[request_date_string]', :value => waiting_order.request_date_string}
 
         %label
           Comment
-          = f.text_field(:comments, :id => '', :class => 'comment')
+          %input.comment{:name => 'waiting_order[comments]', :value => waiting_order.comments}
       %p
-        = f.submit(f.object.new_record? ? 'Create Waiting Order' : 'Update Waiting Order')
+        %input{:type => 'submit', :value => "#{waiting_order.persisted? ? 'Update' : 'Create'} Waiting Order"}
         %input{:type => 'reset', :value => 'Cancel Editing'}
   - unless waiting_order.new_record?
     = button_to('Delete Waiting Order', waiting_order, :method => :delete, :class => 'delete')
