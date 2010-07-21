@@ -33,7 +33,8 @@
             = button_to 'Delete', customer_order_path(@customer, order), :confirm => 'Are you sure you want to delete this Order from this Customer?', :method => :delete
       %tr
         %td{:colspan => 4}
-          .redcloth= textilize(order.comments).html_safe
+          .redcloth
+            %p= order.comments
     - if current_user.has_role? 'edit-orders'
       %tr
         %td.add{:colspan => 7}
