@@ -21,7 +21,8 @@
         %td.num_copies= waiting_order.num_copies
         %td.request_date= waiting_order.request_date
         %td.comments
-          .redcloth= textilize(waiting_order.comments).html_safe
+          .redcloth
+            %p= waiting_order.comments
         - if current_user.has_role? 'edit-orders'
           %td.actions
             = link_to 'Edit', edit_customer_waiting_order_path(@customer, waiting_order)
