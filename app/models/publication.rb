@@ -36,4 +36,6 @@ class Publication < ActiveRecord::Base
   def to_index_key
     name.parameterize.gsub(/-/, '_')
   end
+
+  def title; name; end
 end

@@ -49,6 +49,10 @@ class StandingOrder < ActiveRecord::Base
     customer(:website => 'Website')
   end
 
+  def title
+    "#{num_copies} #{publication.name} → #{customer.name}"
+  end
+
   private
 
   def publication_tracks_standing_orders

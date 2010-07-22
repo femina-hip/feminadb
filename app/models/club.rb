@@ -14,6 +14,8 @@ class Club < ActiveRecord::Base
   belongs_to :customer
   after_save { |club| club.customer.try(:index) }
 
+  def title; name; end
+
   def telephones_string
     [ telephone_1, telephone_2 ].collect{|ct| ct.to_s.strip}.select{|ct| not ct.empty?}.join(', ')
   end

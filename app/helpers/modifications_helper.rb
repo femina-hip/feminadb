@@ -17,11 +17,13 @@ module ModificationsHelper
   end
 
   def show_record_identifier(record)
-    s = "#{record.class.model_name.human} #{record.id}"
+    text = "#{record.class.model_name.human} #{record.id}"
+    options = record.respond_to?(:title) ? {:title => record.title} : {}
+
     if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
-      link_to(s, record)
+      link_to(text, record, options)
     else
-      s
+      content_tag(:span, text, options)
     end
   end
 
@@ -44,31 +46,37 @@ module ModificationsHelper
   private
 
   def format_customer_id(id)
+    return nil if id.nil?
     c = Customer.find_by_id(id)
     c && "#{id}: #{c.name}" || id
   end
 
   def format_customer_type_id(id)
+    return nil if id.nil?
     ct = CustomerType.find_by_id(id)
     ct && "#{id}: #{ct.name} - #{ct.description}" || id
   end
 
   def format_delivery_method_id(id)
+    return nil if id.nil?
     dm = DeliveryMethod.find_by_id(id)
     dm && "#{id}: #{dm.abbreviation} - #{dm.name}" || id
   end
 
   def format_publication_id(id)
+    return nil if id.nil?
     p = Publication.find_by_id(id)
     p && "#{id}: #{p.name}" || id
   end
 
   def format_issue_id(id)
+    return nil if id.nil?
     i = Issue.find_by_id(id)
     i && "#{id}: #{i.issue_number} - #{i.name}" || id
   end
 
   def format_region_id(id)
+    return nil if id.nil?
     r = Region.find_by_id(id)
     r && "#{id} (#{r.name})" || id
   end

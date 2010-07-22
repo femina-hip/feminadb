@@ -56,6 +56,10 @@ class WaitingOrder < ActiveRecord::Base
     standing_order
   end
 
+  def title
+    "#{num_copies} #{publication.name} → #{customer.name}"
+  end
+
   comma do
     customer_delivery_method(:abbreviation => 'Deliv. Meth.')
     customer_region(:name => 'Region')

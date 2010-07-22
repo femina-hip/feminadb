@@ -48,6 +48,8 @@ class Issue < ActiveRecord::Base
     "#{publication.name} #{number_and_name}"
   end
 
+  def title; full_name; end
+
   def number_and_name
     "#{issue_number}: #{name}"
   end

@@ -26,6 +26,10 @@ class Order < ActiveRecord::Base
   # BUG: After "new" and before "validate", the record is invalid
   before_validation :copy_data_from_customer_if_new_record
 
+  def title
+    "#{num_copies} #{issue.publication.name} #{issue.issue_number} → #{customer_name} on #{order_date.to_date.to_formatted_s(:long)}"
+  end
+
   def customer_type
     customer.try(:type)
   end
