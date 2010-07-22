@@ -26,7 +26,7 @@
       = render('tr', :customer => customer, :publications => @publications)
     - if current_user.has_role? 'edit-customers'
       %tr
-        %td.add{:colspan => 4 + @publications.length}
+        %td.add{:colspan => 5 + @publications.length}
           = link_to 'Create New Customer', new_customer_path
 
 = will_paginate(@customers)
