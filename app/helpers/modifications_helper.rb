@@ -29,22 +29,22 @@ module ModificationsHelper
   private
 
   def format_customer_id(id)
-    c = Customer.find(id)
+    c = Customer.find_by_id(id)
     c && "#{id} (#{c.name})" || id
   end
 
   def format_customer_type_id(id)
-    ct = CustomerType.find(id)
+    ct = CustomerType.find_by_id(id)
     ct && "#{id} (#{ct.name} - #{ct.description})" || id
   end
 
   def format_delivery_method_id(id)
-    dm = DeliveryMethod.find(id)
+    dm = DeliveryMethod.find_by_id(id)
     dm && "#{id} (#{dm.abbreviation} - #{dm.name})" || id
   end
 
   def format_region_id(id)
-    r = Region.find(id)
+    r = Region.find_by_id(id)
     r && "#{id} (#{r.name})" || id
   end
 end
