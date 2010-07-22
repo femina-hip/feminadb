@@ -35,6 +35,8 @@ module ModificationsHelper
       when 'customer_type_id' then format_customer_type_id(value)
       when 'delivery_method_id' then format_delivery_method_id(value)
       when 'region_id' then format_region_id(value)
+      when 'publication_id' then format_publication_id(value)
+      when 'issue_id' then format_issue_id(value)
       else value
     end
   end
@@ -43,17 +45,27 @@ module ModificationsHelper
 
   def format_customer_id(id)
     c = Customer.find_by_id(id)
-    c && "#{id} (#{c.name})" || id
+    c && "#{id}: #{c.name}" || id
   end
 
   def format_customer_type_id(id)
     ct = CustomerType.find_by_id(id)
-    ct && "#{id} (#{ct.name} - #{ct.description})" || id
+    ct && "#{id}: #{ct.name} - #{ct.description}" || id
   end
 
   def format_delivery_method_id(id)
     dm = DeliveryMethod.find_by_id(id)
-    dm && "#{id} (#{dm.abbreviation} - #{dm.name})" || id
+    dm && "#{id}: #{dm.abbreviation} - #{dm.name}" || id
+  end
+
+  def format_publication_id(id)
+    p = Publication.find_by_id(id)
+    p && "#{id}: #{p.name}" || id
+  end
+
+  def format_issue_id(id)
+    i = Issue.find_by_id(id)
+    i && "#{id}: #{i.issue_number} - #{i.name}" || id
   end
 
   def format_region_id(id)
