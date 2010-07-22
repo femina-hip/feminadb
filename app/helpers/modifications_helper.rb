@@ -1,6 +1,19 @@
 module ModificationsHelper
-  def format_datetime(dt)
-    dt.to_time.to_formatted_s(:short)
+  # Returns, from a Version, an Array of [column, [old, new]]
+  def display_ready_changes_for_version(version)
+    hash = if version.initial?
+      record = version.versioned
+      record.revert_to(version)
+      returning({}) do |h|
+        record.attributes.each do |k, v|
+          h[k] = [nil, v]
+        end
+      end
+    else
+      version.changes
+    end
+
+    hash.keys.sort.collect{|k| [k, hash[k]]}
   end
 
   def show_record_identifier(record)

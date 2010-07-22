@@ -19,7 +19,8 @@
         %th Value after change
     %tbody
       - @versions.each do |version|
-        - rowspan = version.changes.length < 1 ? 1 : version.changes.length
+        - changes = display_ready_changes_for_version(version)
+        - rowspan = changes.length < 1 ? 1 : changes.length
         - rowclass = cycle('odd', 'even')
         %tr{:class => rowclass}
           %td.updated_at{:rowspan => rowspan}= version.updated_at.to_s(:long)
@@ -28,13 +29,13 @@
             - unless params[:versioned_id]
               = link_to_record_history(version.versioned)
           %td.user{:rowspan => rowspan}= version.user && version.user.login || '?'
-          - if version.changes.length < 1
+          - if changes.length < 1
             %td.change_field
             %td.change_before
             %td.change_after
           - else
             - first_change = true
-            - version.changes.each do |column, values|
+            - changes.each do |column, values|
               - if first_change
                 - first_change = false
                 %td.change_field= column
