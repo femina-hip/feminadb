@@ -14,6 +14,10 @@ module CustomersHelper
     link_to(url)
   end
 
+  def link_to_customer_club(s, customer)
+    link_to(s, customer.club, :title => customer.club.name)
+  end
+
   def standing_or_waiting_order_comments(standing_order, waiting_order)
     [ standing_order.try(:comments), waiting_order.try(:comments_with_request_date) ].compact.join(' | ')
   end

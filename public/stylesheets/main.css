@@ -135,12 +135,12 @@ table.packing-instructions {
 
 table.customers, table.clubs {
   width: 100%; }
-  table.customers td.region, table.customers td.district, table.customers td.type, table.customers td.actions, table.customers td.standing-orders, table.clubs td.region, table.clubs td.district, table.clubs td.type, table.clubs td.actions, table.clubs td.standing-orders {
+  table.customers td.region, table.customers td.district, table.customers td.type, table.customers td.actions, table.customers td.standing-orders, table.customers td.club, table.clubs td.region, table.clubs td.district, table.clubs td.type, table.clubs td.actions, table.clubs td.standing-orders, table.clubs td.club {
     width: 1em; }
   table.customers td.standing-orders, table.clubs td.standing-orders {
     text-align: right;
     font-family: monospace; }
-  table.customers td.type, table.clubs td.type {
+  table.customers td.type, table.customers td.club, table.clubs td.type, table.clubs td.club {
     text-align: center; }
 
 table.customers td.standing-orders, table.issue-orders td.qty {

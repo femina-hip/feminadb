@@ -3,6 +3,7 @@
   %td.district= customer.district
   %td.type
     %abbr{:title => customer.type.description}= customer.type.name
+  %td.club= customer.club && link_to_customer_club('Yes', customer) || 'No'
   %td.customer-name
     .cut-off= link_to(customer.name, customer)
   - publications.each do |publication|

@@ -11,7 +11,7 @@ class CustomersController < ApplicationController
   # GET /customers.csv
   # GET /customers.xml
   def index
-    @customers = search_for_customers(:order => [:region, :district, :name], :includes => [:region, :type])
+    @customers = search_for_customers(:order => [:region, :district, :name], :includes => [:region, :type, :club])
 
     @publications = Publication.active.tracking_standing_orders.order(:name).all
 
