@@ -103,6 +103,6 @@ module ApplicationHelper
   end
 
   def explanation_ul_query(query)
-    "Any field including #{content_tag(:q, query)}".html_safe
+    "#{content_tag(:q, query)} anywhere".html_safe
   end
 end
