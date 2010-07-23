@@ -31,7 +31,11 @@ module ApplicationHelper
     parser = Sunspot::QueryBuilder::SyntaxParser.new
     tree = parser.parse(query)
     explanation = Sunspot::QueryBuilder::Explainer.build_explanation(tree)
-    "#{explanation_ul_step(explanation, :label => 'You searched for records which have')}".html_safe
+    if explanation == [:all]
+      "You asked for all records"
+    else
+      "#{explanation_ul_step(explanation, :label => 'You asked for all records which have')}".html_safe
+    end
   rescue
     content_tag(:p, 'Sorry, a bug in FeminaDB made this break', :class => 'error')
   end
