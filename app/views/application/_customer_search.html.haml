@@ -16,11 +16,15 @@
         - if params[:all]
           = hidden_field_tag(:all, params[:all])
         %p= text_field_tag(:q, params[:q])
+        .explanation
+          %a{:href => '#'} What am I searching for?
+          .content{:style => 'display:none'}=explanation_ul_for_customer_query(params[:q] || '')
         %p.help
           = link_to('Search tips and instructions', help_path(:find_customer))
       %td
         %input{:type => 'submit', :value => 'Search'}
         %input{:type => 'reset', :value => 'Clear Search'}
+
   .facets
     %p
       - if num_results

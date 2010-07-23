@@ -69,7 +69,7 @@ dependencies:
   rspec: 
     group: 
     - :test
-    version: = 2.0.0.beta.17
+    version: = 2.0.0.beta.18
   delayed_job: 
     group: 
     - :default
@@ -101,7 +101,7 @@ dependencies:
   rspec-rails: 
     group: 
     - :test
-    version: = 2.0.0.beta.17
+    version: = 2.0.0.beta.18
   vlad: 
     group: 
     - :development
@@ -205,8 +205,10 @@ specs:
     version: 0.6.3
 - json_pure: 
     version: 1.4.3
+- rubyzip: 
+    version: 0.9.4
 - selenium-webdriver: 
-    version: 0.0.24
+    version: 0.0.27
 - capybara: 
     version: 0.3.9
 - stackdeck: 
@@ -278,17 +280,17 @@ specs:
 - rsolr: 
     version: 0.12.1
 - rspec-core: 
-    version: 2.0.0.beta.17
+    version: 2.0.0.beta.18
 - rspec-expectations: 
-    version: 2.0.0.beta.17
+    version: 2.0.0.beta.18
 - rspec-mocks: 
-    version: 2.0.0.beta.17
+    version: 2.0.0.beta.18
 - rspec: 
-    version: 2.0.0.beta.17
+    version: 2.0.0.beta.18
 - webrat: 
     version: 0.7.1
 - rspec-rails: 
-    version: 2.0.0.beta.17
+    version: 2.0.0.beta.18
 - ruby-debug-base: 
     version: 0.10.3
 - ruby-debug: 
@@ -314,7 +316,7 @@ specs:
     version: 2.1.0
 - will_paginate: 
     version: 3.0.pre
-hash: d329bfe20e6269bff0b36b29bd15168e4e80bfad
+hash: d4bce82ed5d353830951d3b21c64fe205ede370b
 sources: 
 - Git: 
     uri: git://github.com/adamh/vestal_versions

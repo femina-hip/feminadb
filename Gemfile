@@ -21,8 +21,8 @@ gem 'vestal_versions', :git => 'git://github.com/adamh/vestal_versions', :branch
 gem 'will_paginate', '3.0.pre'
 
 group :test do
-  gem 'rspec', '2.0.0.beta.17'
-  gem 'rspec-rails', '2.0.0.beta.17'
+  gem 'rspec', '2.0.0.beta.18'
+  gem 'rspec-rails', '2.0.0.beta.18'
   gem 'ruby-prof'
   gem 'ruby-debug'
   gem 'steak', '0.4.0.beta.1'

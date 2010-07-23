@@ -28,6 +28,26 @@ form.search {
     margin: 1em 5% 0.5em;
     width: 90%;
     font-size: 1.1em; }
+  form.search div.explanation div.content {
+    text-align: left;
+    border: 2px solid #009ee0;
+    background: #faedcc;
+    padding: 6px;
+    margin: 6px; }
+  form.search div.explanation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+  form.search div.explanation li {
+    margin-left: 2em;
+    padding: 0;
+    line-height: 1.5; }
+  form.search div.explanation q {
+    font-weight: bold; }
+  form.search div.explanation q:before {
+    content: ""; }
+  form.search div.explanation q:after {
+    content: ""; }
   form.search div.facets {
     display: inline-block;
     text-align: center;

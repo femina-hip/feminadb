@@ -39,6 +39,30 @@ form.search
     :width 90%
     :font-size 1.1em
 
+  div.explanation
+    div.content
+      :text-align left
+      :border 2px solid $border_color
+      :background $even_background_color
+      :padding 6px
+      :margin 6px
+
+    ul
+      :list-style none
+      :padding 0
+      :margin 0
+    li
+      :margin-left 2em
+      :padding 0
+      :line-height 1.5
+
+    q
+      :font-weight bold
+    q:before
+      :content ""
+    q:after
+      :content ""
+
   div.facets
     :display inline-block
     :text-align center
