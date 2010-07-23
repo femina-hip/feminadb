@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
   private
 
   def render_rsolr_error(exception)
-    render(:text => "Sorry, your search didn't work, but it's not your fault nor that of your coworkers! The \"Solr\" people are likely responsible. Please try searching for something else and tell Adam Hooper, <a href=\"mailto:adam@adamhooper.com\">adam@adamhooper.com</a>, what you were searching for when you got this error message. (Just copy-paste the contents of the address bar; that will be enough.)".html_safe)
+    render(:text => "Sorry, your search didn't work, but it's not your fault nor that of your coworkers! The \"Solr\" people are likely responsible. Please try searching for something else (return to <a href=\"/customers?q=\">the main page</a> to try) and if you have the time, please tell Adam Hooper, <a href=\"mailto:adam@adamhooper.com\">adam@adamhooper.com</a>, what you were searching for when you got this error message and he may be able to fix it. (Just copy-paste the contents of the address bar; that will be enough.)".html_safe)
   end
 end
