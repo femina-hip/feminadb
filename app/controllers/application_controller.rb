@@ -17,9 +17,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def require_role(*roles)
-    if !current_user
-      redirect_to_login_form
-    end
     allow = false
     for role in roles
       if current_user.has_role?(role)

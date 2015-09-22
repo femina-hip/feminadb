@@ -2,16 +2,11 @@ class Customer < ActiveRecord::Base
   NEEDS_STRIPPING = /(^\s)|(\s$)/
   extend Forwardable
 
-  include SoftDeletable
-  #versioned
-
   # Indexing happens automatically:
   #
   # - When creating/updating a Customer, because Sunspot does that automatically
   # - When creating/updating standing/waiting orders, school infos, clubs and
   #   notes, because we before_save() in those classes
-  # - When deleting any of the above, because they're soft-deleted, so a delete
-  #   really only counts as an update
   searchable(
       :include => [
         { :standing_orders => :publication },
@@ -105,14 +100,13 @@ class Customer < ActiveRecord::Base
       end
     end
     date(:club_created_at) { club.try(:created_at) }
-    boolean(:deleted) { !deleted_at.nil? }
   end
 
   belongs_to(:type, class_name: 'CustomerType', foreign_key: 'customer_type_id')
   belongs_to(:delivery_method)
   belongs_to(:region)
-  has_many(:notes, class_name: 'CustomerNote')
   has_one(:club)
+  has_many(:notes, class_name: 'CustomerNote')
   has_many(:standing_orders)
   has_many(:waiting_orders)
   has_many(:orders)
@@ -136,8 +130,7 @@ class Customer < ActiveRecord::Base
   validates_presence_of :region_id
   validates_presence_of :customer_type_id
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [ :region_id, :district, :deleted_at ],
-                          :case_sensitive => false, :if => lambda { |c| c.deleted_at.nil? }
+  validates_uniqueness_of :name, :scope => [ :region_id, :district ], :case_sensitive => false
   validates_presence_of :delivery_method_id
 
   before_validation :strip_string_fields
@@ -177,7 +170,6 @@ class Customer < ActiveRecord::Base
   def self.fuzzy_find(region_id, district, name)
     fuzz = "~0.5"
     search = Customer.search do
-      with(:deleted, false)
       with(:region_id, region_id)
 
       adjust_solr_params do |params|

@@ -1,7 +1,4 @@
 class Region < ActiveRecord::Base
-  include SoftDeletable
-  #versioned
-
   has_many(:customers)
   has_many(:orders)
   has_many(:districts)
@@ -18,5 +15,5 @@ class Region < ActiveRecord::Base
   #         :conditions => 'districts.deleted_at IS NULL'
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :deleted_at, :if => lambda { |r| r.deleted_at.nil? }
+  validates_uniqueness_of :name
 end

@@ -6,8 +6,6 @@ class IssueOrdersController < ApplicationController
   before_filter :get_publication
   before_filter :get_issue
 
-  # GET /publications/1/issues/1/orders
-  # GET /publications/1/issues/1/orders.xml
   def index
     if params[:all]
       customers = search_for_customers(
@@ -28,7 +26,6 @@ class IssueOrdersController < ApplicationController
 
     respond_to do |format|
       format.html # index.haml
-      format.xml  { render :xml => @orders.to_xml }
       format.csv do
         Order.send(:preload_associations, @orders, :customer => :type)
         render(:csv => @orders)
@@ -36,32 +33,37 @@ class IssueOrdersController < ApplicationController
     end
   end
 
-  # DELETE /publications/1/issues/1/orders/1
-  # DELETE /publications/1/issues/1/orders/1.xml
   def destroy
     require_role 'edit-orders'
-    @order = Order.find(params[:id])
-    flash[:notice] = 'Order destroyed' if @order.soft_delete(:updated_by => current_user)
-    respond_with(@order, :location => redirect_location) do |format|
+    destroy_with_audit(order)
+    respond_to do |format|
+      format.html { redirect_to([ issue, :orders ]) }
       format.js { render_json_response }
     end
   end
 
   def create
     require_role 'edit-orders'
-    @order = @issue.orders.build(order_param)
-    flash[:notice] = 'Order created' if @order.save
-    respond_with(@order, :location => redirect_location) do |format|
-      format.js { render_json_response }
+    order = create_with_audit(@issue.orders, order_create_params)
+    if order.valid?
+      respond_to do |format|
+        format.html { redirect_to([ issue, :orders ]) }
+        format.js { render_json_response }
+      end
+    else
+      raise Exception, 'invalid create parameters'
     end
   end
 
   def update
     require_role 'edit-orders'
-    @order = Order.find(params[:id])
-    flash[:notice] = 'Order updated' if @order.update_attributes(order_param)
-    respond_with(@order, :location => redirect_location) do |format|
-      format.js { render_json_response }
+    if update_with_audit(order, order_update_params)
+      respond_to do |format|
+        format.html { redirect_to([ issue, :orders ]) }
+        format.js { render_json_response }
+      end
+    else
+      raise Exception, 'invalid update parameters'
     end
   end
 
@@ -75,20 +77,40 @@ class IssueOrdersController < ApplicationController
     })
   end
 
-  def get_publication
-    @publication = get_issue.publication
+  def issue
+    @issue ||= Issue.includes(:publication).find(params[:issue_Id])
   end
 
-  def get_issue
-    @issue = Issue.includes(:publication).find(params[:issue_id])
+  def order_create_params
+    params.require(:order).permit(
+      :issue_id,
+      :customer_id,
+      :num_copies,
+      :comments,
+      :order_date,
+      :region_id,
+      :district,
+      :customer_name,
+      :deliver_via,
+      :delivery_method_id,
+      :contact_name,
+      :contact_details
+    )
   end
 
-  def self.model_class
-    Order
-  end
-
-  def order_param
-    (params[:order] || {}).merge(:updated_by => current_user)
+  def order_update_params
+    params.require(:order).permit(
+      :num_copies,
+      :comments,
+      :order_date,
+      :region_id,
+      :district,
+      :customer_name,
+      :deliver_via,
+      :delivery_method_id,
+      :contact_name,
+      :contact_details
+    )
   end
 
   def build_order_for_customer(customer)
@@ -102,9 +124,5 @@ class IssueOrdersController < ApplicationController
     )
     order.send(:copy_data_from_customer_if_new_record)
     order
-  end
-
-  def redirect_location
-    params[:return_to] || [@publication, @issue, :orders]
   end
 end

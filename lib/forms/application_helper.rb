@@ -1,10 +1,10 @@
 module Forms::ApplicationHelper
   def region_field(object_name, method, options = {})
-    collection_select(object_name, method, Region.active.order(:name), :id, :name, {:prompt => true}.merge(options))
+    collection_select(object_name, method, Region.order(:name), :id, :name, {:prompt => true}.merge(options))
   end
 
   def customer_type_field(object_name, method, options = {})
-    collection_select(object_name, method, CustomerType.active.order(:name), :id, :full_name, {:prompt => true}.merge(options))
+    collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {:prompt => true}.merge(options))
   end
 
   def date_field(object_name, method, options = {})
@@ -16,7 +16,7 @@ module Forms::ApplicationHelper
   end
 
   def delivery_method_field(object_name, method, options = {})
-    collection_select(object_name, method, DeliveryMethod.active.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
+    collection_select(object_name, method, DeliveryMethod.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
   end
 
   # issue field
@@ -67,7 +67,7 @@ module Forms::ApplicationHelper
     private
 
     def issues
-      @issues ||= Issue.active.includes(:publication).where(@options[:conditions]).order('publications.tracks_standing_orders DESC, publications.pr_material, publications.name, issues.issue_date DESC').all
+      @issues ||= Issue.includes(:publication).where(@options[:conditions]).order('publications.tracks_standing_orders DESC, publications.pr_material, publications.name, issues.issue_date DESC').all
     end
   end
 end

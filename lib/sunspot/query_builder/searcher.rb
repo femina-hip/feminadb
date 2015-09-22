@@ -146,7 +146,7 @@ module Sunspot
           rescue Sunspot::UnrecognizedFieldError
             return create_fulltext_search_restriction
           end
-          connective_stack.last.add_restriction(field_instance, restriction_type, parsed_value)
+          connective_stack.last.add_restriction(false, field_instance, restriction_type, parsed_value)
         else
           create_fulltext_search_restriction
         end

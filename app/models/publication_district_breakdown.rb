@@ -13,7 +13,7 @@ class PublicationDistrictBreakdown
 
   def publications
     @publications ||= begin
-      ret = Publication.active.not_pr_material
+      ret = Publication.not_pr_material
       if start_date
         ret = ret.includes(:issues).where('issues.issue_date >= ?', start_date)
       end
@@ -22,7 +22,7 @@ class PublicationDistrictBreakdown
 
   def data
     @data ||= begin
-      more_sql = @start_date && "AND issue_date >= '#{@start_date.to_formatted_s(:db)}'" || ''
+      where_sql = @start_date && "WHERE issue_date >= '#{@start_date.to_formatted_s(:db)}'" || ''
 
       rows = Order.connection.select_rows(
         "SELECT regions.name,
@@ -33,11 +33,7 @@ class PublicationDistrictBreakdown
          INNER JOIN issues ON orders.issue_id = issues.id
          INNER JOIN publications on issues.publication_id = publications.id
          INNER JOIN regions ON orders.region_id = regions.id
-         WHERE orders.deleted_at IS NULL
-           AND regions.deleted_at IS NULL
-           AND issues.deleted_at IS NULL
-           AND publications.deleted_at IS NULL
-           #{more_sql}
+         #{where_sql}
          GROUP BY regions.name, orders.district, publications.name
          ORDER BY regions.name, orders.district
         "

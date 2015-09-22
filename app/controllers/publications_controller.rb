@@ -1,62 +1,50 @@
 class PublicationsController < ApplicationController
-  make_resourceful do
-    actions :index, :new, :create, :edit, :update
+  def index
+    @publications = Publication.order(:name).all
+  end
 
-    before(:new, :create, :edit, :update) do
-      require_role 'edit-publications'
+  def new
+    require_role 'edit-publications'
+    @publication = Publication.new
+  end
+
+  def edit
+    require_role 'edit-publications'
+    @publication = publication
+  end
+
+  def create
+    require_role 'edit-publications'
+    @publication = create_with_audit(Publication, publication_params)
+    if @publication.valid?
+      redirect_to(@publication)
+    else
+      render(action: 'new')
     end
+  end
 
-    response_for(:create) do |format|
-      format.html do
-        set_default_flash :notice, 'Publication was successfully created.'
-        set_default_redirect(objects_path)
-      end
-      format.xml  { head :ok }
+  def update
+    require_role 'edit-publications'
+    if update_with_audit(publication, publication_params)
+      redirect_to(publication)
+    else
+      render(action: 'edit')
     end
-
-    response_for(:update) do |format|
-      format.html do
-        set_default_flash :notice, 'Publication was successfully updated.'
-        set_default_redirect(objects_path)
-      end
-      format.xml  { head :ok }
-    end
-
   end
 
   def show
-    respond_to do |format|
-      format.html { redirect_to publication_issues_path(params[:id]) }
-      format.xml do
-        @publication = Publication.find(params[:id])
-        render :xml => @publication.to_xml
-      end
-    end
+    redirect_to(issues_path(publication_id: params[:publication_id]))
   end
 
-  # DELETE /delivery_methods/1
-  # DELETE /delivery_methods/1.xml
   def destroy
     require_role 'edit-publications'
-    @publication = Publication.find(params[:id])
-
-    success = @publication.soft_delete(:updated_by => current_user)
-
-    respond_to do |format|
-      if success
-        flash[:notice] = 'Publication was successfully deleted.'
-        format.html { redirect_to publications_url }
-        format.xml  { head :ok }
-      else
-        flash[:notice] = 'Publication could not be deleted: delete each of its Issues first.'
-        format.html { redirect_to publications_url }
-        format.xml  { render :xml => @delivery_method.errors.to_xml }
-      end
+    if !destroy_with_audit(publication)
+      flash[:notice] = 'Publication could not be deleted: delete each of its Issues first.'
     end
+    redirect_to(:publications)
   end
 
   def issue_district_breakdown
-    publication = Publication.find(params[:id])
     @issue_district_breakdown = IssueDistrictBreakdown.new(publication, params.slice(:start_date_string))
     if !@issue_district_breakdown.start_date
       @issue_district_breakdown.start_date = 1.year.ago.to_date
@@ -72,11 +60,16 @@ class PublicationsController < ApplicationController
 
   protected
 
-  def current_objects
-    @current_objects ||= Publication.active.order(:name)
+  def publication
+    @publication ||= Publication.find(params[:id])
   end
 
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def publication_params
+    params.require(:publication).permit(
+      :name,
+      :tracks_standing_orders,
+      :pr_material,
+      :packing_hints
+    )
   end
 end

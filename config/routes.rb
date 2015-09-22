@@ -24,7 +24,7 @@ Feminadb::Application.routes.draw do
       end
     end
     resources :orders, :controller => 'customer_orders'
-    resources :notes, :controller => 'customer_notes', :only => [ :create, :destroy ]
+    resources :notes, :controller => 'customer_notes'
     resource :club
   end
 
@@ -38,19 +38,19 @@ Feminadb::Application.routes.draw do
     member do
       get :issue_district_breakdown
     end
+  end
 
-    resources :issues do
-      member do
-        get :orders_in_district
-        get :show_packing_instructions
-        get :show_distribution_quote_request
-        get :show_distribution_order
-        get :show_distribution_list
-      end
-
-      resources :notes, :controller => 'issue_notes'
-      resources :orders, :controller => 'issue_orders', :except => [ :show, :new, :edit ]
+  resources :issues do
+    member do
+      get :orders_in_district
+      get :show_packing_instructions
+      get :show_distribution_quote_request
+      get :show_distribution_order
+      get :show_distribution_list
     end
+
+    resources :notes, :controller => 'issue_notes'
+    resources :orders, :controller => 'issue_orders'
   end
 
   resources :standing_orders

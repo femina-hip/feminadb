@@ -3,7 +3,7 @@ class Admin::UsersController < ApplicationController
   # GET /users.xml
   def index
     require_role 'admin'
-    @users = User.active.order(:login).all
+    @users = User.order(:login).all
 
     respond_to do |format|
       format.html # index.rhtml

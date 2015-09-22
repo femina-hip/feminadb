@@ -1,55 +1,49 @@
 class IssueNotesController < ApplicationController
-  # make_resourceful does not work nicely with deeply-nested resources.
-  # This code is not all that beautiful and should not be used as an
-  # example.
-  make_resourceful do
-    actions :new, :create, :destroy
-    belongs_to :issue
+  def new
+    require_role 'edit-issues'
+    @issue = publication.issues.build
+  end
 
-    before(:new, :create, :destroy) do
-      require_role 'edit-issues'
-    end
-
-    response_for(:create) do |format|
-      format.html do
-        set_default_flash(:notice, 'Note successfully created.')
-        set_default_redirect parent_path
-      end
-      format.js
-    end
-
-    response_for(:destroy) do |format|
-      format.html do
-        set_default_flash(:notice, 'Note successfully deleted.')
-        set_default_redirect parent_path
-      end
-      format.js
+  def create
+    require_role 'edit-issues'
+    @issue = create_with_audit(Issue, issue_create_params)
+    if @issue.valid?
+      redirect_to(@issue.publication)
+    else
+      render(action: new)
     end
   end
 
   def destroy
-    #load_object
-    before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
-      after :destroy
-      response_for :destroy
-    else
-      after :destroy_fails
-      response_for :destroy_fails
-    end
+    require_role 'edit-issues'
+    publication = issue.publication
+    destroy_with_audit(issue)
+    redirect_to(publication)
   end
 
   protected
 
-  def instance_variable_name
-    'notes'
+  def publication
+    @publication ||= Publication.find(params[:publication_id])
   end
 
-  def objects_path
-    publication_issue_notes_path(@issue.publication, @issue)
+  def issue
+    @issue ||= Issue.find(params[:issue_id])
   end
 
-  def parent_path
-    publication_issue_path(@issue.publication, @issue)
+  def note
+    @note ||= IssueNote.find(params[:id])
+  end
+
+  def issue_create_params
+    params.require(:issue).permit(
+      :publication_id,
+      :name,
+      :issue_date,
+      :issue_number,
+      :quantity,
+      :price,
+      :packing_hints
+    )
   end
 end

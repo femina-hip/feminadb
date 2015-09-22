@@ -85,7 +85,7 @@ module ApplicationHelper
 
   def explanation_ul_boolean(field, boolean)
     if field =~ /(standing|waiting):(.*)/
-      publication = Publication.active.select{|p| p.to_index_key == $2}.first.try(:title) || '???'
+      publication = Publication.all.select{|p| p.to_index_key == $2}.first.try(:title) || '???'
       if boolean
         "some #{$1.capitalize} Orders for #{publication}"
       else

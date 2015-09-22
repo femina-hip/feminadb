@@ -19,10 +19,10 @@
   %tbody
     - orders.each do |order|
       %tr
-        %td.publication{:rowspan => 2}= order.issue.publication.name
-        %td.issue_number{:rowspan => 2}= order.issue.issue_number
+        %td.publication{:rowspan => 2}= order.publication_name
+        %td.issue_number{:rowspan => 2}= order.issue_number
         %td.issue_name
-          .cut-off= order.issue.name
+          .cut-off= order.issue_name
         %td.num_copies= number_with_delimiter order.num_copies
         %td.order_date= order.order_date
         %td.delivery_method

@@ -11,7 +11,7 @@ class Report::ClubsByDate < Report::Base
       ss = CustomerType.find_by_name('SS')
       ts = CustomerType.find_by_name('TS')
 
-      Club.active.includes(:customer => :type).each do |club|
+      Club.includes(:customer => :type).each do |club|
         dt = club.created_at
 
         if dt.nil?

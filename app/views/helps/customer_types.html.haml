@@ -19,7 +19,7 @@
       %th Description
       %th Category
   %tbody
-    - CustomerType.active.order(:name).all.each do |type|
+    - CustomerType.order(:name).all.each do |type|
       %tr{:class => cycle('odd', 'even')}
         %td{:class => 'name'}= h type.name
         %td{:class => 'description'}= h type.description

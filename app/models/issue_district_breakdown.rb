@@ -16,7 +16,7 @@ class IssueDistrictBreakdown
 
   def issues
     @issues ||= begin
-      issues = publication.issues.active.includes(:publication)
+      issues = publication.issues.includes(:publication)
       if start_date
         issues = issues.where('issues.issue_date >= ?', start_date)
       end
@@ -34,16 +34,12 @@ class IssueDistrictBreakdown
       rows = Order.connection.select_rows(
         "SELECT regions.id,
                 orders.district,
-                issues.id,
+                orders.issue_id,
                 SUM(orders.num_copies)
          FROM orders
-         INNER JOIN issues ON orders.issue_id = issues.id
          INNER JOIN regions ON orders.region_id = regions.id
-         WHERE orders.deleted_at IS NULL
-           AND regions.deleted_at IS NULL
-           AND issues.deleted_at IS NULL
-           AND issues.id IN (#{issues.collect(&:id).join(',')})
-         GROUP BY regions.name, orders.district, issues.id
+         WHERE orders.issue_id IN (#{issues.collect(&:id).join(',')})
+         GROUP BY regions.name, orders.district, orders.issue_id
          ORDER BY regions.name, orders.district
         "
       )

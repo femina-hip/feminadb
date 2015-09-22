@@ -1,12 +1,8 @@
 class Club < ActiveRecord::Base
   extend DateField
 
-  include SoftDeletable
-  #versioned
-
   validates_presence_of :customer_id
-  validates_uniqueness_of :customer_id,
-        :scope => :deleted_at, :if => lambda { |c| c.deleted_at.nil? }
+  validates_uniqueness_of :customer_id
   validates_presence_of :name
 
   date_field :date_founded

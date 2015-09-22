@@ -1,13 +1,6 @@
-- Fix search term recognition ("name", etc)
-
-- Use Google Auth everywhere
-- double-check require_role method and usage
-- create "audit" table and move all deleted_at rows into it
-- audit every create/update/destroy, from controller methods
 - nix "soft delete" everywhere
-- nix "versioned" in all code
+- delete children of issues, etc. in controller methods
 - wipe all migrations and start over with one big one
-- audit where we used to use versioned and soft_delete
-- create spreadsheet of "ghost clubs"
-- move club comments to customer comments
+- wipe all clubs, and turn them into customer notes
+- move club comments into customer comments
 - Get a credit card number into Cloud Compute

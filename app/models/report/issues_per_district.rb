@@ -79,7 +79,7 @@ class Report::IssuesPerDistrict < Report::Base
       d1 = @start_issue.issue_date
       d2 = @end_issue.issue_date
       d1, d2 = d2, d1 if d1 > d2
-      Issue.active.where('issue_date >= ? AND issue_date <= ?', d1, d2)
+      Issue.where('issue_date >= ? AND issue_date <= ?', d1, d2)
     end
   end
 

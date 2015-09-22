@@ -14,6 +14,23 @@
 # this?" is "yes".
 #
 # These methods will all fail unless there is a `current_user` method in scope.
+#
+# This module handles a few Rails paradigms:
+#
+#   object = create_with_audit(SomeClass, param1: value1)
+#   if object.valid?
+#     # the object was saved and audited
+#   else
+#     # the object was neither saved nor audited. Check object.errors.
+#   end
+#
+#   if update_with_audit(object, param1: value2)
+#     # object.valid? == true, and the object was saved and audited.
+#   else
+#     # the object was neither saved nor audited. Check object.errors.
+#   end
+#
+# Don't use Rails paradigms not documented here: they won't work.
 module Auditor
   # Logs the creation of an object.
   #
@@ -38,18 +55,40 @@ module Auditor
   # Usage:
   #
   #  # instead of `customer = Customer.create(name: 'foo')`
-  #  customer = create_with_audit(Customer, name: 'foo')
+  #  customer = create_with_audit!(Customer, name: 'foo')
   #
   #  # instead of `note = customer.notes.create(text: 'foo')`
-  #  note = create_with_audit(customer.notes, text: 'foo')
+  #  note = create_with_audit!(customer.notes, text: 'foo')
   #
-  # The audit happens after the insert. Run in a transaction to avoid
+  # The audit happens after the insert succeeds. Run in a transaction to avoid
   # inconsistencies.
   #
   # Returns the object.
   def create_with_audit!(relation, attributes)
     object = relation.create!(attributes)
     audit_create(object)
+    object
+  end
+
+  # Creates an object and logs the creation.
+  #
+  # Usage:
+  #
+  #  # instead of `customer = Customer.create(name: 'foo')`
+  #  customer = create_with_audit(Customer, name: 'foo')
+  #  # if !customer.valid?, the database is unchanged; check customer.errors.
+  #
+  #  # instead of `note = customer.notes.create(text: 'foo')`
+  #  note = create_with_audit(customer.notes, text: 'foo')
+  #  # if !note.valid?, the database is unchanged; check note.errors.
+  #
+  # The audit happens after the insert succeeds. Run in a transaction to avoid
+  # inconsistencies.
+  #
+  # Returns the object.
+  def create_with_audit(relation, attributes)
+    object = relation.create(attributes)
+    audit_create(object) if object.valid?
     object
   end
 
@@ -73,14 +112,15 @@ module Auditor
 
   # Destroys an object and audits its destruction
   #
-  # The audit happens after the delete. Run in a transaction to avoid
+  # The audit happens after the delete succeeds. Run in a transaction to avoid
   # inconsistencies.
   #
-  # Returns the object.
+  # Returns the result of object.destroy -- that's the object (if it was
+  # destroyed) or false (if it wasn't).
   def destroy_with_audit(object)
-    object.destroy
-    audit_destroy(object)
-    object
+    ret = object.destroy
+    audit_destroy(object) if ret
+    ret
   end
 
   # Audit the change of an object.
@@ -107,7 +147,7 @@ module Auditor
 
   # Updates an object in the database, and audits the update.
   #
-  # The audit happens after the update. Run in a transaction to avoid
+  # The audit happens after the update succeeds. Run in a transaction to avoid
   # inconsistencies.
   #
   # Returns the object.
@@ -116,5 +156,18 @@ module Auditor
     object.update!(attributes)
     audit_update(object, old_attributes, object.attributes)
     object
+  end
+
+  # Updates an object in the database, and audits the update.
+  #
+  # The audit happens after the update succeeds. Run in a transaction to avoid
+  # inconsistencies.
+  #
+  # Returns true iff the update passed validations.
+  def update_with_audit(object, attributes)
+    old_attributes = object.attributes
+    saved = object.update(attributes)
+    audit_update(object, old_attributes, object.attributes) if saved
+    saved
   end
 end

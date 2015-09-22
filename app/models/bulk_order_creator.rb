@@ -1,6 +1,5 @@
 class BulkOrderCreator < ActiveRecord::Base
   extend DateField
-  include SoftDeletable
 
   date_field(:order_date)
 
@@ -12,8 +11,8 @@ class BulkOrderCreator < ActiveRecord::Base
 
   validates_presence_of(:issue_id)
   validates_presence_of(:created_by)
-  validates_numericality_of(:num_copies, :only_integer => true, :greater_than => 0, :if => lambda { |boc| boc.constant_num_copies })
-  validates_uniqueness_of(:issue_id, :scope => :deleted_at, :if => lambda { |boc| boc.deleted_at.nil? })
+  validates(:num_copies, numericality: { only_integer: true, greater_than: 0 }, if: lambda { |boc| boc.constant_num_copies })
+  validates_uniqueness_of(:issue_id)
 
   before_validation(:set_constant_num_copies)
   before_create(:set_initial_status)
@@ -58,12 +57,12 @@ class BulkOrderCreator < ActiveRecord::Base
       if query
         Sunspot::QueryBuilder::apply_string_to_search(query, self.instance_variable_get(:@search))
       end
-      paginate(:page => 1, :per_page => lots)
+      paginate(page: 1, per_page: lots)
     end
   end
 
   def find_standing_orders_from_publication
-    from_publication.standing_orders.includes(:customer).where(:customer_id => allowed_customer_ids)
+    from_publication.standing_orders.includes(:customer).where(customer_id: allowed_customer_ids)
   end
 
   def find_orders_from_issue
@@ -71,13 +70,13 @@ class BulkOrderCreator < ActiveRecord::Base
     ids = Customer.search_ids do
       lots = 999999
       CustomersSearcher.apply_query_string_to_search(self, query)
-      paginate(:page => 1, :per_page => lots)
+      paginate(page: 1, per_page: lots)
     end
-    from_issue.orders.includes(:customer).where(:customer_id => allowed_customer_ids)
+    from_issue.orders.includes(:customer).where(customer_id: allowed_customer_ids)
   end
 
   def find_customers
-    Customer.where(:id => allowed_customer_ids)
+    Customer.where(id: allowed_customer_ids)
   end
 
   def set_constant_num_copies

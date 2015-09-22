@@ -6,6 +6,7 @@ module CustomerFilterControllerMethods
   private
 
   AllInOnePage = 1 << 29 # some large number
+  NormalPage = 50
 
   def customer_search(options = {}, &block)
     page = options.delete(:page) || requested_page
@@ -13,8 +14,6 @@ module CustomerFilterControllerMethods
     q = options.delete(:q) || requested_q
 
     customers = Customer.search do
-      with(:deleted, false)
-
       if block_given?
         instance_eval(&block)
       end
@@ -88,7 +87,10 @@ module CustomerFilterControllerMethods
   end
 
   def requested_per_page
-    return AllInOnePage if request.format == Mime::CSV
-    self.class.model_class.per_page
+    if request.format == Mime::CSV
+      AllInOnePage
+    else
+      NormalPage
+    end
   end
 end

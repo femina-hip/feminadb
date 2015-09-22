@@ -1,60 +1,59 @@
 class CustomerStandingOrdersController < ApplicationController
-  make_resourceful do
-    actions :new, :create, :edit, :update, :destroy
-    belongs_to :customer
+  def new
+    require_role 'edit-orders'
+    @standing_order = customer.standing_orders.build
+  end
 
-    before(:new, :create, :edit, :update, :destroy) do
-      require_role 'edit-orders'
+  def create
+    require_role 'edit-orders'
+    @standing_order = create_with_audit(customer.standing_orders, standing_order_create_params)
+    if @standing_order.valid?
+      redirect_to(@customer)
+    else
+      render(action: 'new')
     end
+  end
 
-    response_for(:create) do |format|
-      format.html do
-        set_default_flash(:notice, 'Standing Order successfully created.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
-    end
+  def edit
+    require_role 'edit-orders'
+    @standing_order = standing_order
+  end
 
-    response_for(:update) do |format|
-      format.html do
-        set_default_flash(:notice, 'Standing Order successfully updated.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
-    end
-
-    response_for(:destroy) do |format|
-      format.html do
-        set_default_flash(:notice, 'Standing Order successfully deleted.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
+  def update
+    require_role 'edit-orders'
+    if update_with_audit(standing_order, standing_order_update_params)
+      redirect_to(@customer)
+    else
+      render(action: 'edit')
     end
   end
 
   def destroy
-    #load_object
-    before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
-      after :destroy
-      response_for :destroy
-    else
-      after :destroy_fails
-      response_for :destroy_fails
-    end
+    require_role 'edit-orders'
+    destroy_with_audit(standing_order)
+    redirect_to(customer)
   end
 
   protected
 
-  def current_model_name
-    'StandingOrder'
+  def customer
+    @customer ||= Customer.find(params[:customer_id])
   end
 
-  def instance_variable_name
-    'standing_orders'
+  def standing_order
+    @standing_order ||= StandingOrder.find(params[:id])
   end
 
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def standing_order_create_params
+    params.require(:standing_order).permit(
+      :customer_id,
+      :publication_id,
+      :num_copies,
+      :comments
+    )
+  end
+
+  def standing_order_update_params
+    params.require(:standing_order).permit(:num_copies, :comments)
   end
 end

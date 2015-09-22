@@ -3,7 +3,7 @@ class Admin::DistrictsController < ApplicationController
   # GET /districts.xml
   def index
     require_role 'edit-districts'
-    @districts = District.active.includes(:region).order('regions.name, districts.name').all
+    @districts = District.includes(:region).order('regions.name, districts.name').all
 
     respond_to do |format|
       format.html # index.rhtml

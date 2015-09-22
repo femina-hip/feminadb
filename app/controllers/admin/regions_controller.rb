@@ -34,7 +34,7 @@ class Admin::RegionsController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= Region.active.order(:name).all
+    @current_objects ||= Region.order(:name).all
   end
 
   def object_parameters

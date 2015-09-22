@@ -1,6 +1,4 @@
 class CustomerNotesController < ApplicationController
-  before_filter :login_required
-
   def create
     require_role 'edit-customers'
     create_with_audit!(customer.notes, note_params)

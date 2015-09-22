@@ -16,7 +16,7 @@
       %td= f.date_field :order_date
     %tr
       %th Delivery Method
-      %td= f.select :delivery_method_id, DeliveryMethod.active.order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
+      %td= f.select :delivery_method_id, DeliveryMethod.order(:abbreviation).all.collect{|dm| [ "#{dm.abbreviation} - #{dm.name} (#{dm.description})", dm.id ]}
     %tr
       %th Comments
       %td= f.text_field :comments

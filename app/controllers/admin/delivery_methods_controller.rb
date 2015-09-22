@@ -41,6 +41,6 @@ class Admin::DeliveryMethodsController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= DeliveryMethod.active.order(:name).all
+    @current_objects ||= DeliveryMethod.order(:name).all
   end
 end

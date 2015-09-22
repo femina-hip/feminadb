@@ -1,6 +1,4 @@
 class DeliveryMethod < ActiveRecord::Base
-  include SoftDeletable
-
   belongs_to(:warehouse)
   has_many(:orders)
   has_many(:customers)

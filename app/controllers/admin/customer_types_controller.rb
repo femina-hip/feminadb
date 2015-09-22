@@ -40,7 +40,7 @@ class Admin::CustomerTypesController < ApplicationController
   end
 
   def current_objects
-    @current_objects ||= CustomerType.active.order([:category, :name]).all
+    @current_objects ||= CustomerType.order([:category, :name]).all
   end
 
   def object_parameters

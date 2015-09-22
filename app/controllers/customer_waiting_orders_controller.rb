@@ -1,75 +1,71 @@
 class CustomerWaitingOrdersController < ApplicationController
-  make_resourceful do
-    actions :new, :create, :edit, :update, :destroy
-    belongs_to :customer
+  def new
+    require_role 'edit-orders'
+    @waiting_order = customer.waiting_orders.build(request_date: Date.today)
+  end
 
-    before(:new, :create, :edit, :update, :destroy) do
-      require_role 'edit-orders'
+  def create
+    require_role 'edit-orders'
+    @waiting_order = create_with_audit(customer.waiting_orders, waiting_order_create_params)
+    if @waiting_order.valid?
+      redirect_to(@customer)
+    else
+      render(action: 'new')
     end
+  end
 
-    before :new do
-      @waiting_order.request_date ||= Date.today
-    end
+  def edit
+    require_role 'edit-orders'
+    @waiting_order = waiting_order
+  end
 
-    response_for(:create) do |format|
-      format.html do
-        set_default_flash(:notice, 'Waiting Order successfully created.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
-    end
-
-    response_for(:update) do |format|
-      format.html do
-        set_default_flash(:notice, 'Waiting Order successfully updated.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
-    end
-
-    response_for(:destroy) do |format|
-      format.html do
-        set_default_flash(:notice, 'Waiting Order successfully deleted.')
-        set_default_redirect(customer_path(current_object.customer))
-      end
-      format.js
+  def update
+    require_role 'edit-orders'
+    if update_with_audit(waiting_order, waiting_order_update_params)
+      redirect_to(@customer)
+    else
+      render(action: 'edit')
     end
   end
 
   def destroy
-    #load_object
-    before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
-      after :destroy
-      response_for :destroy
-    else
-      after :destroy_fails
-      response_for :destroy_fails
-    end
+    require_role 'edit-orders'
+    destroy_with_audit(waiting_order)
+    redirect_to(customer)
   end
 
   def convert_to_standing_order
-    waiting_order = WaitingOrder.find(params[:id])
-    respond_to do |format|
-      if waiting_order.convert_to_standing_order(:updated_by => current_user)
-        format.html { redirect_to(waiting_order.customer, :notice => 'Now it\'s a Standing Order') }
-      else
-        format.html { render(:action => 'index', :notice => 'Could not convert to a Standing Order') }
-      end
+    require_role 'edit-orders'
+    standing_order = create_with_audit(customer.standing_orders, waiting_order.standing_order_create_params)
+    if standing_order.valid?
+      destroy_with_audit(waiting_order)
+      redirect_to(customer)
+    else
+      redirect_to(customer, notice: 'Could not convert to a Standing Order. Ask an administrator to review the server logs.')
     end
   end
 
   protected
 
-  def current_model_name
-    'WaitingOrder'
+  def customer
+    @customer ||= Customer.find(params[:customer_id])
   end
 
-  def instance_variable_name
-    'waiting_orders'
+  def waiting_order
+    @waiting_order ||= StandingOrder.find(params[:id])
   end
 
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def waiting_order_create_params
+    params.require(:waiting_order).permit(
+      :customer_id,
+      :publication_id,
+      :num_copies,
+      :comments,
+      :request_date
+    )
+  end
+
+  def waiting_order_update_params
+    params.require(:waiting_order).permit(:num_copies, :comments, :request_date)
   end
 end

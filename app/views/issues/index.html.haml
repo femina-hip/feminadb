@@ -19,11 +19,11 @@
     - @issues.each do |issue|
       %li
         %span= "#{issue.issue_number}: #{h(issue.name)}"
-        = link_to '[details]', [ @publication, issue ]
-        = link_to '[orders]', publication_issue_orders_path(@publication, issue)
+        = link_to('[details]', issue)
+        = link_to('[orders]', issue_orders_path(issue))
 
 %p.actions
   - if current_user.has_role?('admin')
-    = link_to 'Create new Issue', new_publication_issue_url(@publication)
+    = link_to 'Create new Issue', new_issue_url(publication_id: @publication.id)
     |
   = link_to 'Back to Publications List', publications_url

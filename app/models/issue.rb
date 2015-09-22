@@ -3,9 +3,6 @@ class Issue < ActiveRecord::Base
 
   class DoesNotFitInBoxesException < Exception; end
 
-  include SoftDeletable
-  #versioned
-
   belongs_to(:publication)
   has_many(:issue_box_sizes)
   has_many(:orders)
@@ -33,10 +30,8 @@ class Issue < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :issue_date
   validates_presence_of :issue_number
-  validates_uniqueness_of :name, :scope => [ :publication_id, :deleted_at ],
-                          :case_sensitive => false, :unless => lambda { |issue| issue.deleted_at }
-  validates_uniqueness_of :issue_number, :scope => [ :publication_id, :deleted_at ],
-                          :case_sensitive => false, :unless => lambda { |issue| issue.deleted_at }
+  validates_uniqueness_of :name, scope: :publication_id, case_sensitive: false
+  validates_uniqueness_of :issue_number, scope: :publication_id, case_sensitive: false
   validates_format_of :issue_number,
                       :with => /\A[-\.A-Za-z0-9]+\z/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
@@ -212,7 +207,6 @@ class Issue < ActiveRecord::Base
                ON orders.delivery_method_id = delivery_methods.id
               AND delivery_methods.include_in_distribution_quote_request
        WHERE orders.issue_id = ?
-         AND orders.deleted_at IS NULL
        GROUP BY regions.id
        ORDER BY regions.name
       ", id ]
@@ -244,7 +238,6 @@ class Issue < ActiveRecord::Base
          INNER JOIN regions
                  ON orders.region_id = regions.id
          WHERE orders.issue_id = ?
-           AND orders.deleted_at IS NULL
          GROUP BY orders.delivery_method_id, regions.id
          ORDER BY orders.delivery_method_id, region_name
          ", id ]
@@ -279,7 +272,7 @@ class Issue < ActiveRecord::Base
         conditions.merge!(:delivery_method_id => delivery_method.id)
       end
 
-      orders = Order.active.where(conditions).includes(:customer, :region, { :delivery_method => :warehouse }, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
+      orders = Order.where(conditions).includes(:customer, :region, { :delivery_method => :warehouse }, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
       Order.send(:preload_associations, orders.collect(&:issue), :issue_box_sizes)
 
       orders.each do |order|
@@ -404,6 +397,10 @@ class Issue < ActiveRecord::Base
         csv << ([ order.id, order.region.name, order.district, order.customer_name, order.deliver_via, order.num_copies ] + box_sizes.collect{ |ibs| n = sizes[ibs] || 0; n > 0 && n.to_s || '' })
       end
     end
+  end
+
+  def publication_name
+    publication && publication.name || '???'
   end
 
   private

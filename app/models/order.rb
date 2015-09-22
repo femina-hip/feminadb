@@ -2,9 +2,6 @@
 class Order < ActiveRecord::Base
   extend DateField
 
-  include SoftDeletable
-  #versioned
-
   belongs_to(:customer)
   belongs_to(:issue)
   belongs_to(:delivery_method)
@@ -17,10 +14,9 @@ class Order < ActiveRecord::Base
   validates_presence_of :delivery_method_id
   validates_presence_of :region_id
   # Allow multiple orders per customer (e.g., different dates)
-  #validates_uniqueness_of :issue_id, :scope => :customer_id
-  validates_uniqueness_of :issue_id, :scope => [ :standing_order_id, :deleted_at ],
-                          :if => lambda { |o| o.standing_order_id && o.deleted_at.nil? }
-  validates_numericality_of :num_copies, :only_integer => true, :greater_than => 0
+  #validates_uniqueness_of :issue_id, scope: :customer_id
+  validates_uniqueness_of :issue_id, scope: :standing_order_id
+  validates(:num_copies, numericality: { only_integer: true, greater_than: 0 })
 
   date_field :order_date
 
@@ -28,7 +24,19 @@ class Order < ActiveRecord::Base
   before_validation :copy_data_from_customer_if_new_record
 
   def title
-    "#{num_copies} #{issue.publication.name} #{issue.issue_number} → #{customer_name} on #{order_date.to_date.to_formatted_s(:long)}"
+    "#{num_copies} #{publication_name} #{issue_number} → #{customer_name} on #{order_date.to_date.to_formatted_s(:long)}"
+  end
+
+  def publication_name
+    issue && issue.publication_name || '???'
+  end
+
+  def issue_number
+    issue && issue.issue_number || '???'
+  end
+
+  def issue_name
+    issue && issue.name || '???'
   end
 
   def customer_type

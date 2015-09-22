@@ -1,9 +1,6 @@
 class ClubsController < ApplicationController
   include CustomerFilterControllerMethods
 
-  # GET /clubs
-  # GET /clubs.csv
-  # GET /clubs.xml
   def index
     conditions = {}
 
@@ -23,92 +20,95 @@ class ClubsController < ApplicationController
         Club.send(:preload_associations, @clubs, :customer => [ :type, :delivery_method ])
         render(:csv => @clubs)
       end
-      format.xml  { render :xml => @clubs }
     end
   end
 
-  # GET /clubs/1
-  # GET /clubs/1.xml
   def show
-    @club = Club.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @club }
-    end
+    @club = club
   end
 
-  # GET /clubs/new?customer_id=1
-  # GET /clubs/new.xml?customer_id=1
   def new
     require_role 'edit-customers'
-    customer = Customer.find(params[:customer_id].to_i)
     @club = customer.build_club
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @club }
-    end
   end
 
-  # GET /clubs/1/edit
   def edit
     require_role 'edit-customers'
-    @club = Club.find(params[:id])
+    @club = club
   end
 
-  # POST /clubs
-  # POST /clubs.xml
   def create
     require_role 'edit-customers'
-    @club = Club.new(params[:club].merge(:updated_by => current_user))
 
-    respond_to do |format|
-      if @club.save
-        flash[:notice] = 'Club was successfully created.'
-        format.html { redirect_to(@club.customer) }
-        format.xml  { render :xml => @club, :status => :created, :location => @club }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @club.errors, :status => :unprocessable_entity }
-      end
+    club = create_with_audit(club_create_params)
+    if club.valid?
+      redirect_to(club.customer)
+    else
+      render(action: 'new')
     end
   end
 
-  # PUT /clubs/1
-  # PUT /clubs/1.xml
   def update
     require_role 'edit-customers'
-    @club = Club.find(params[:id])
 
-    respond_to do |format|
-      if @club.update_attributes(params[:club].merge(:updated_by => current_user))
-        flash[:notice] = 'Club was successfully updated.'
-        format.html { redirect_to(@club.customer) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @club.errors, :status => :unprocessable_entity }
-      end
+    if update_with_audit(club, club_update_params)
+      redirect_to(club.customer)
+    else
+      render(action: 'edit')
     end
   end
 
-  # DELETE /clubs/1
-  # DELETE /clubs/1.xml
   def destroy
     require_role 'edit-customers'
-    @club = Club.find(params[:id])
-    customer_id = @club.customer_id
-
-    @club.soft_delete(:updated_by => current_user)
-
-    respond_to do |format|
-      format.html { redirect_to(customer_url(customer_id)) }
-      format.xml  { head :ok }
-    end
+    customer = club.customer
+    destroy_with_audit(club)
+    redirect_to(customer)
   end
 
-  def self.model_class
-    Club
+  private
+
+  def club
+    @club ||= Club.find(params[:id])
+  end
+
+  def club_create_params
+    params.require(:club).permit(
+      :customer_id,
+      :name,
+      :address,
+      :telephone_1,
+      :telephone_2,
+      :email,
+      :num_members,
+      :date_founded,
+      :motto,
+      :objective,
+      :eligibility,
+      :work_plan,
+      :patron,
+      :intended_duty,
+      :founding_motivation,
+      :cooperation_ideas
+    )
+  end
+
+  def club_update_params
+    params.require(:club).permit(
+      :name,
+      :address,
+      :telephone_1,
+      :telephone_2,
+      :email,
+      :num_members,
+      :date_founded,
+      :motto,
+      :objective,
+      :eligibility,
+      :work_plan,
+      :patron,
+      :intended_duty,
+      :founding_motivation,
+      :cooperation_ideas
+    )
   end
 end

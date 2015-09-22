@@ -1,54 +1,51 @@
 class IssuesController < ApplicationController
-  before_filter :get_publication
+  def index
+    @issues = publication.issues
+  end
 
-  make_resourceful do
-    actions :index, :show, :new, :edit, :destroy
+  def show
+    @issue = issue
+  end
 
-    before(:edit, :destroy) do
-      require_role 'edit-issues'
-    end
+  def new
+    require_role 'edit-issues'
+    @issue = publication.issues.build(packing_hints: publication.packing_hints)
+  end
 
-    belongs_to(:publication)
+  def edit
+    require_role 'edit-issues'
+    @issue = issue
+  end
 
-    before(:new) do
-      current_object.packing_hints = current_object.publication.packing_hints
-    end
+  def destroy
+    require_role 'edit-issues'
+    destroy_with_audit(issue)
+    redirect_to(publication)
   end
 
   def create
     require_role 'edit-issues'
-    @issue = @publication.issues.build(params[:issue].merge(:updated_by => current_user))
-
-    respond_to do |format|
-      if @issue.save
-        format.html { redirect_to([@issue.publication, @issue], :notice => 'Issue was successfully created.') }
-        format.xml  { render(:xml => @issue, :status => :created, :location => @issue) }
-      else
-        format.html { render(:action => "new") }
-        format.xml  { render(:xml => @issue.errors, :status => :unprocessable_entity) }
-      end
+    @issue = create_with_audit(@publication.issues, issue_create_params)
+    if @issue.valid?
+      redirect_to(@issue)
+    else
+      render(action: 'new')
     end
   end
 
   def update
     require_role 'edit-issues'
-    @issue = Issue.includes(:publication).find(params[:id])
-
-    respond_to do |format|
-      if @issue.update_attributes(params[:issue].merge(:updated_by => current_user))
-        format.html { redirect_to([@issue.publication, @issue], :notice => 'Issue was successfully updated.') }
-        format.xml { head :ok }
-      else
-        format.html { render(:action => 'edit') }
-        format.xml { render(:xml => @issue.errors, :status => :unprocessable_entity) }
-      end
+    @issue = update_with_attributes(issue, issue_update_params)
+    if @issue.valid?
+      redirect_to(@issue)
+    else
+      render(action: 'edit')
     end
   end
 
-  # GET /publications/1/issues/1/show_packing_instructions
   def show_packing_instructions
     # [req:ReportPackingInstructions]
-    @issue = Issue.find(params[:id])
+    @issue = issue
 
     @packing_instructions_data = begin
       @issue.packing_instructions_data
@@ -57,33 +54,28 @@ class IssuesController < ApplicationController
     end
   end
 
-  # GET /publications/1/issues/1/show_distribution_quote_request
   def show_distribution_quote_request
     # [req:ReportDistributionQuoteRequest]
-    @issue = Issue.find(params[:id])
-
+    @issue = issue
     @data = @issue.distribution_quote_request_data
 
     @delivery_methods =
-      DeliveryMethod.where(:include_in_distribution_quote_request => true).active.order(:name).all
+      DeliveryMethod.where(:include_in_distribution_quote_request => true).order(:name).all
   end
 
-  # GET /publications/1/issues/1/show_distribution_order
   def show_distribution_order
     # [req:ReportDistributionOrder]
-    @issue = Issue.find(params[:id])
-
+    @issue = issue
     @data = @issue.distribution_order_data
 
     @delivery_methods =
-      DeliveryMethod.active.order(:name).all.select{|dm| @data.include?(dm)}
+      DeliveryMethod.order(:name).all.select{|dm| @data.include?(dm)}
   end
 
   # GET /publications/1/issues/1/show_distribution_list
   def show_distribution_list
     # [req:ReportDistributionList]
-    @issue = Issue.find(params[:id])
-
+    @issue = issue
     @delivery_method = DeliveryMethod.find(params[:delivery_method_id]) if params[:delivery_method_id]
 
     respond_to do |format|
@@ -116,31 +108,36 @@ class IssuesController < ApplicationController
     current_user.has_role?('edit-orders')
   end
 
-  def destroy
-    #load_object
-    before :destroy
-    if current_object.soft_delete(:updated_by => current_user)
-      after :destroy
-      response_for :destroy
-    else
-      after :destroy_fails
-      response_for :destroy_fails
-    end
-  end
-
-  protected
-
-  def current_objects
-    @current_objects ||= get_publication.issues
-  end
-
   private
 
-  def get_publication
-    @publication ||= Publication.includes(:issues => :publication).find(params[:publication_id])
+  def publication
+    @publication ||= Publication.includes(issues: :publication).find(params[:publication_id])
   end
 
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def issue
+    @issue ||= Issue.includes(:publication).find(params[:id])
+  end
+
+  def issue_create_params
+    params.require(:issue).permit(
+      :publication_id,
+      :name,
+      :issue_date,
+      :issue_number,
+      :quantity,
+      :price,
+      :packing_hints
+    )
+  end
+
+  def issue_update_params
+    params.require(:issue).permit(
+      :name,
+      :issue_date,
+      :issue_number,
+      :quantity,
+      :price,
+      :packing_hints
+    )
   end
 end
