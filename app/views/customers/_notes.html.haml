@@ -20,16 +20,12 @@
           .redcloth= textilize(note.note).html_safe
         - if current_user.has_role? 'edit-customers'
           %td{:class => 'actions'}
-            = button_to 'Delete', customer_note_path(customer, note), :confirm => 'Are you sure you want to delete this Note from this Customer?', :method => :delete
+            = button_to 'Delete', customer_note_path(customer, note), data: { :confirm => 'Are you sure you want to delete this Note from this Customer?' }, :method => :delete
     %tr{:class => cycle('odd', 'even')}
-      - if logged_in?
-        %td{:class => 'user'}= render_user current_user
-        %td{:class => 'date'} (now)
-        %td{:class => 'note', :colspan => 2}
-          = form_for customer.notes.build, :url => customer_notes_path(customer) do |f|
-            %div
-              = f.text_area :note, :style => 'width: 100%; height: 4em;'
-            %p= submit_tag 'Write New Note'
-      - else
-        %td{:colspan => 4, :class => 'add'}
-          = link_to 'Write New Note', new_customer_note_path(customer)
+      %td{:class => 'user'}= render_user current_user
+      %td{:class => 'date'} (now)
+      %td{:class => 'note', :colspan => 2}
+        = form_for customer.notes.build, :url => customer_notes_path(customer) do |f|
+          %div
+            = f.text_area :note, :style => 'width: 100%; height: 4em;'
+          %p= submit_tag 'Write New Note'

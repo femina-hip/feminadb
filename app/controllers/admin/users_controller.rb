@@ -1,9 +1,8 @@
 class Admin::UsersController < ApplicationController
-  require_role 'admin'
-
   # GET /users
   # GET /users.xml
   def index
+    require_role 'admin'
     @users = User.active.order(:login).all
 
     respond_to do |format|
@@ -15,6 +14,7 @@ class Admin::UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
+    require_role 'admin'
     @user = User.find(params[:id])
 
     respond_to do |format|
@@ -25,17 +25,20 @@ class Admin::UsersController < ApplicationController
 
   # GET /users/new
   def new
+    require_role 'admin'
     @user = User.new
   end
 
   # GET /users/1;edit
   def edit
+    require_role 'admin'
     @user = User.find(params[:id])
   end
 
   # POST /users
   # POST /users.xml
   def create
+    require_role 'admin'
     @user = User.new(params[:user])
 
     respond_to do |format|
@@ -53,6 +56,7 @@ class Admin::UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
+    require_role 'admin'
     @user = User.find(params[:id])
 
     respond_to do |format|
@@ -70,6 +74,7 @@ class Admin::UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
+    require_role 'admin'
     @user = User.find(params[:id])
     @user.soft_delete!
 

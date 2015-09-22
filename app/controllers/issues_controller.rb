@@ -1,10 +1,12 @@
 class IssuesController < ApplicationController
-  require_role 'edit-issues', :except => [ :index, :show, :show_distribution_list, :show_distribution_quote_request, :show_packing_instructions, :show_distribution_order, :orders_in_district ]
   before_filter :get_publication
-  cache_sweeper :nav_sweeper
 
   make_resourceful do
     actions :index, :show, :new, :edit, :destroy
+
+    before(:edit, :destroy) do
+      require_role 'edit-issues'
+    end
 
     belongs_to(:publication)
 
@@ -14,6 +16,7 @@ class IssuesController < ApplicationController
   end
 
   def create
+    require_role 'edit-issues'
     @issue = @publication.issues.build(params[:issue].merge(:updated_by => current_user))
 
     respond_to do |format|
@@ -28,6 +31,7 @@ class IssuesController < ApplicationController
   end
 
   def update
+    require_role 'edit-issues'
     @issue = Issue.includes(:publication).find(params[:id])
 
     respond_to do |format|

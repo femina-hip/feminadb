@@ -34,7 +34,7 @@ end
 
 puts "Renaming #{old_district} to #{new_district}..."
 
-Customer.find_all_by_region_id_and_district(region.id, old_district).each do |c|
+Customer.where(region_id: region.id, district: old_district).each do |c|
   puts "Altering Customer #{c.id}..."
   if $options[:really]
     c.district = new_district
@@ -42,7 +42,7 @@ Customer.find_all_by_region_id_and_district(region.id, old_district).each do |c|
   end
 end
 
-Order.find_all_by_region_id_and_district(region.id, old_district).each do |o|
+Order.where(region_id: region.id, district: old_district).each do |o|
   puts "Altering Order #{o.id}..."
   if $options[:really]
     o.district = new_district

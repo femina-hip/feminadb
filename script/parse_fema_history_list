@@ -19,7 +19,7 @@ require 'optparse'
 require 'csv'
 require 'parseexcel'
 
-User.current_user = User.find_by_login('admin') # for updated_by
+User.current_user = User.find_by_login('admin').first # for updated_by
 
 $options = { :file => nil }
 OptionParser.new do |opt|

@@ -1,6 +1,6 @@
 @import vars.sass
 
-table.customers, table.clubs, table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions, table.data
+table.customers, table.clubs, table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.data
   border: 2px solid $border_color
   margin: 1em auto
   tbody tr:first-child td
@@ -36,7 +36,7 @@ table.customers, table.clubs, table.packing-instructions, table.customer-orders,
       font-weight: bold
 
 // Tables which have no "thead.title"
-table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.versions
+table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits
   thead
     border: 2px solid $heading_border_color
     th
@@ -237,7 +237,7 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
         color: #cccccc
         cursor: pointer
 
-table.versions
+table.audits
   width: 95%
   margin: 0.5em auto
   td

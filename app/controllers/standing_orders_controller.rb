@@ -1,9 +1,8 @@
 class StandingOrdersController < ApplicationController
-  require_role 'edit-orders'
-
   respond_to(:html, :js)
 
   def create
+    require_role 'edit-orders'
     @standing_order = StandingOrder.new(standing_order_param)
     flash[:notice] = 'Standing Order created' if @standing_order.save
     respond_with(@standing_order, :location => redirect_location) do |format|
@@ -12,6 +11,7 @@ class StandingOrdersController < ApplicationController
   end
 
   def update
+    require_role 'edit-orders'
     @standing_order = StandingOrder.find(params[:id])
     flash[:notice] = 'Standing Order updated' if @standing_order.update_attributes(standing_order_param)
     respond_with(@standing_order, :location => redirect_location) do |format|
@@ -20,6 +20,7 @@ class StandingOrdersController < ApplicationController
   end
 
   def destroy
+    require_role 'edit-orders'
     @standing_order = StandingOrder.find(params[:id])
     flash[:notice] = 'Standing Order destroyed' if @standing_order.soft_delete(:updated_by => current_user)
     respond_with(@standing_order, :location => redirect_location) do |format|

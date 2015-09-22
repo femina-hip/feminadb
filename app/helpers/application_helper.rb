@@ -1,7 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include GlossaryHelper
-  include HtmlNamespacing::Plugin::Rails::Helpers
   include Forms::ApplicationHelper
 
   def render_loading
@@ -36,8 +35,8 @@ module ApplicationHelper
     else
       "#{explanation_ul_step(explanation, :label => 'You asked for all records which have')}".html_safe
     end
-  rescue
-    content_tag(:p, 'Sorry, a bug in FeminaDB made this break', :class => 'error')
+  #rescue
+  #  content_tag(:p, 'Sorry, a bug in FeminaDB made this break', :class => 'error')
   end
 
   private

@@ -4,26 +4,30 @@ class Issue < ActiveRecord::Base
   class DoesNotFitInBoxesException < Exception; end
 
   include SoftDeletable
-  versioned
+  #versioned
 
-  belongs_to :publication
-  has_many :issue_box_sizes,
-           :order => :num_copies,
-           :dependent => :destroy,
-           :conditions => 'issue_box_sizes.deleted_at IS NULL'
-  has_many :orders,
-           :dependent => :destroy,
-           :include => [ :region, :delivery_method ],
-           :order => 'regions.name, orders.district, orders.customer_name',
-           :conditions => 'orders.deleted_at IS NULL'
-  has_many :notes,
-           :class_name => 'IssueNote',
-           :dependent => :destroy,
-           :order => 'created_at',
-           :conditions => 'issue_notes.deleted_at IS NULL'
-  has_many :bulk_order_creators,
-           :dependent => :destroy,
-           :conditions => 'bulk_order_creators.deleted_at IS NULL'
+  belongs_to(:publication)
+  has_many(:issue_box_sizes)
+  has_many(:orders)
+  has_many(:notes)
+  has_many(:bulk_order_creators)
+  #has_many :issue_box_sizes,
+  #         :order => :num_copies,
+  #         :dependent => :destroy,
+  #         :conditions => 'issue_box_sizes.deleted_at IS NULL'
+  #has_many :orders,
+  #         :dependent => :destroy,
+  #         :include => [ :region, :delivery_method ],
+  #         :order => 'regions.name, orders.district, orders.customer_name',
+  #         :conditions => 'orders.deleted_at IS NULL'
+  #has_many :notes,
+  #         :class_name => 'IssueNote',
+  #         :dependent => :destroy,
+  #         :order => 'created_at',
+  #         :conditions => 'issue_notes.deleted_at IS NULL'
+  #has_many :bulk_order_creators,
+  #         :dependent => :destroy,
+  #         :conditions => 'bulk_order_creators.deleted_at IS NULL'
 
   validates_presence_of :publication_id
   validates_presence_of :name
@@ -34,14 +38,16 @@ class Issue < ActiveRecord::Base
   validates_uniqueness_of :issue_number, :scope => [ :publication_id, :deleted_at ],
                           :case_sensitive => false, :unless => lambda { |issue| issue.deleted_at }
   validates_format_of :issue_number,
-                      :with => /\A[-\.A-Za-z0-9]+\Z$/,
+                      :with => /\A[-\.A-Za-z0-9]+\z/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
   validate :validate_issue_box_sizes_string
   validate :validate_packing_hints
 
   date_field :issue_date
 
-  scope :recent, :conditions => { :deleted_at => nil }, :order => 'issues.issue_date DESC', :limit => 3
+  def recent
+    order(issue_date: :desc).limit(3)
+  end
 
   # Returns "Publication 2.3: name"
   def full_name
@@ -72,7 +78,7 @@ class Issue < ActiveRecord::Base
   # The input must be a string like "4, 2, 15"
   def issue_box_sizes_string=(val)
     val.strip!
-    @issue_box_sizes_string_invalid = !(val =~ /^(|\d+(,\s*(\d+)\s*)*)$/)
+    @issue_box_sizes_string_invalid = !(val =~ /\A(|\d+(,\s*(\d+)\s*)*)\z/)
     return if @issue_box_sizes_string_invalid
 
     # FIXME: don't commit IBS changes until save

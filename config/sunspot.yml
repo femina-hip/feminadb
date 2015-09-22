@@ -10,18 +10,6 @@ development:
     port: 8982
     log_level: INFO
 
-benchmark:
-  solr:
-    hostname: localhost
-    port: 8982
-    log_level: INFO
-
-profile:
-  solr:
-    hostname: localhost
-    port: 8982
-    log_level: INFO
-
 test:
   solr:
     hostname: localhost

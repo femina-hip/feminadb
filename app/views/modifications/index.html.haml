@@ -3,51 +3,49 @@
     This page lists what has changed recently in the database. It is for
     informative purposes only.
 
-- if @versions.empty?
+- if @audits.empty?
   %p There are no modifications in the database
 - else
-  %table.versions
+  %table.audits
     %thead
       %tr
-        %th{:rowspan => 2} Time
         %th{:rowspan => 2} Record
-        %th{:rowspan => 2} User
         %th{:colspan => 3} How the data changed
       %tr
         %th Field
         %th Value before change
         %th Value after change
     %tbody
-      - @versions.each do |version|
-        - changes = display_ready_changes_for_version(version)
-        - rowspan = changes.length < 1 ? 1 : changes.length
+      - @audits.each do |audit|
+        - rowspan = audit.changed_attributes.length || 1
         - rowclass = cycle('odd', 'even')
         %tr{:class => rowclass}
-          %td.updated_at{:rowspan => rowspan}= version.updated_at.to_s(:long)
           %td.record{:rowspan => rowspan}
-            = show_record_identifier(version.versioned)
-            - unless params[:versioned_id]
-              = link_to_record_history(version.versioned)
-          %td.user{:rowspan => rowspan}= version.user && version.user.login || '?'
-          - if changes.length < 1
+            .identifier
+              = show_record_identifier(audit)
+              - if !params[:table_name] || !params[:row_id]
+                = link_to_record_history(audit)
+            .user= "#{audit.action} by #{audit.user_email}"
+            .created_at= audit.created_at.to_s(:long)
+          - if audit.changed_attributes.length < 1
             %td.change_field
             %td.change_before
             %td.change_after
           - else
             - first_change = true
-            - changes.each do |column, values|
+            - audit.changed_attributes.each do |attribute, before, after|
               - if first_change
                 - first_change = false
-                %td.change_field= column
+                %td.change_field= attribute
                 %td.change_before
-                  %div.overflow= format_column_value(column, values.first)
+                  %div.overflow= format_column_value(attribute, before)
                 %td.change_after
-                  %div.overflow= format_column_value(column, values.last)
+                  %div.overflow= format_column_value(attribute, after)
               - else
                 %tr{:class => rowclass}
-                  %td.change_field= column
+                  %td.change_field= attribute
                   %td.change_before
-                    %div.overflow= format_column_value(column, values.first)
+                    %div.overflow= format_column_value(attribute, before)
                   %td.change_after
-                    %div.overflow= format_column_value(column, values.last)
-  = will_paginate(@versions)
+                    %div.overflow= format_column_value(attribute, after)
+  = will_paginate(@audits)

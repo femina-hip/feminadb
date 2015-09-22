@@ -6,4 +6,4 @@
 # uses "YAML.load()" on a string which includes that class, everything will run
 # smoothly.
 
-BulkOrderCreator
+#BulkOrderCreator # FIXME uncomment this

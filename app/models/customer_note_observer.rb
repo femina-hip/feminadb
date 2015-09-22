@@ -13,9 +13,9 @@ class CustomerNoteObserver < ActiveRecord::Observer
     def tag_from_note(note, may_create)
       if note.note =~ /^TAG_([A-Z0-9][_A-Z0-9]+)$/
         if may_create
-          Tag.find_or_initialize_by_name($1)
+          Tag.find_or_initialize_by(name: $1)
         else
-          Tag.find_by_name($1)
+          Tag.find_by(name: $1)
         end
       end
     end

@@ -1,11 +1,11 @@
 class BulkOrderCreatorsController < ApplicationController
-  require_role 'edit-orders'
-
   def new
+    require_role 'edit-orders'
     @bulk_order_creator = BulkOrderCreator.new((params[:bulk_order_creator] || {}).merge(:created_by => current_user.id))
   end
 
   def create
+    require_role 'edit-orders'
     @bulk_order_creator = BulkOrderCreator.new((params[:bulk_order_creator] || {}).merge(:created_by => current_user.id))
 
     if @bulk_order_creator.save

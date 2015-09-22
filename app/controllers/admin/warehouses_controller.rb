@@ -1,13 +1,16 @@
 class Admin::WarehousesController < ApplicationController
-  require_role 'admin'
-
   make_resourceful do
     actions :index, :show, :new, :create, :edit, :update
+
+    before(:index, :show, :new, :create, :edit, :update) do
+      require_role 'admin'
+    end
   end
 
   # DELETE /warehouses/1
   # DELETE /warehouses/1.xml
   def destroy
+    require_role 'admin'
     @warehouse = Warehouse.find(params[:id])
 
     respond_to do |format|

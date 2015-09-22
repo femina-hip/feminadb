@@ -1,8 +1,6 @@
 class IssueOrdersController < ApplicationController
   include CustomerFilterControllerMethods
 
-  require_role 'edit-orders', :except => [ :index ]
-
   respond_to(:html, :js)
 
   before_filter :get_publication
@@ -41,6 +39,7 @@ class IssueOrdersController < ApplicationController
   # DELETE /publications/1/issues/1/orders/1
   # DELETE /publications/1/issues/1/orders/1.xml
   def destroy
+    require_role 'edit-orders'
     @order = Order.find(params[:id])
     flash[:notice] = 'Order destroyed' if @order.soft_delete(:updated_by => current_user)
     respond_with(@order, :location => redirect_location) do |format|
@@ -49,6 +48,7 @@ class IssueOrdersController < ApplicationController
   end
 
   def create
+    require_role 'edit-orders'
     @order = @issue.orders.build(order_param)
     flash[:notice] = 'Order created' if @order.save
     respond_with(@order, :location => redirect_location) do |format|
@@ -57,6 +57,7 @@ class IssueOrdersController < ApplicationController
   end
 
   def update
+    require_role 'edit-orders'
     @order = Order.find(params[:id])
     flash[:notice] = 'Order updated' if @order.update_attributes(order_param)
     respond_with(@order, :location => redirect_location) do |format|

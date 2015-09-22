@@ -1,14 +1,17 @@
 class DeliveryMethod < ActiveRecord::Base
   include SoftDeletable
 
-  belongs_to :warehouse
-  has_many :orders,
-           :include => { :issue => :publication },
-           :dependent => :restrict,
-           :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  has_many :customers,
-           :dependent => :restrict,
-           :conditions => 'customers.deleted_at IS NULL'
+  belongs_to(:warehouse)
+  has_many(:orders)
+  has_many(:customers)
+
+  #has_many :orders,
+  #         :include => { :issue => :publication },
+  #         :dependent => :restrict,
+  #         :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
+  #has_many :customers,
+  #         :dependent => :restrict,
+  #         :conditions => 'customers.deleted_at IS NULL'
 
   validates_presence_of :abbreviation
   validates_uniqueness_of :abbreviation

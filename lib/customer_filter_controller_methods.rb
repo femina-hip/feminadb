@@ -5,6 +5,8 @@ module CustomerFilterControllerMethods
 
   private
 
+  AllInOnePage = 1 << 29 # some large number
+
   def customer_search(options = {}, &block)
     page = options.delete(:page) || requested_page
     per_page = options.delete(:per_page) || requested_per_page
@@ -32,7 +34,7 @@ module CustomerFilterControllerMethods
     customers = @search.results
 
     if options[:includes]
-      Customer.send(:preload_associations, customers, options[:includes])
+      ActiveRecord::Associations::Preloader.new.preload(customers, options[:includes])
     end
 
     customers
@@ -86,7 +88,7 @@ module CustomerFilterControllerMethods
   end
 
   def requested_per_page
-    return :all if request.format == Mime::CSV
+    return AllInOnePage if request.format == Mime::CSV
     self.class.model_class.per_page
   end
 end

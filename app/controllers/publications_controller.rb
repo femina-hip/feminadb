@@ -1,9 +1,10 @@
 class PublicationsController < ApplicationController
-  require_role 'edit-publications', :except => [ :index, :show, :district_breakdown, :issue_district_breakdown ]
-  cache_sweeper :nav_sweeper
-
   make_resourceful do
     actions :index, :new, :create, :edit, :update
+
+    before(:new, :create, :edit, :update) do
+      require_role 'edit-publications'
+    end
 
     response_for(:create) do |format|
       format.html do
@@ -36,6 +37,7 @@ class PublicationsController < ApplicationController
   # DELETE /delivery_methods/1
   # DELETE /delivery_methods/1.xml
   def destroy
+    require_role 'edit-publications'
     @publication = Publication.find(params[:id])
 
     success = @publication.soft_delete(:updated_by => current_user)

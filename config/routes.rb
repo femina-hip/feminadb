@@ -24,11 +24,11 @@ Feminadb::Application.routes.draw do
       end
     end
     resources :orders, :controller => 'customer_orders'
-    resources :notes, :controller => 'customer_notes'
+    resources :notes, :controller => 'customer_notes', :only => [ :create, :destroy ]
     resource :club
   end
 
-  match 'tags/auto_complete' => 'tag#auto_complete_for_tag_name'
+  get 'tags/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
     collection do
@@ -65,13 +65,12 @@ Feminadb::Application.routes.draw do
   resources :report_graphs, :only => :show
   resources :bulk_order_creators, :only => [ :new, :create ]
 
-  match 'data/issues' => 'data/issues#index', :as => 'data_issues'
+  get 'data/issues' => 'data/issues#index', :as => 'data_issues'
 
-  match 'help(/:doc)' => 'helps#show', :as => 'help'
+  get 'help(/:doc)' => 'helps#show', :as => 'help'
 
-  match 'login' => 'account#login', :as => 'login'
-  match 'logout' => 'account#logout', :as => 'logout'
+  get 'oauth2callback' => 'auth#callback'
+  get 'logout' => 'auth#logout'
 
   root :to => 'customers#index'
-  match ':controller/service.wsdl' => '#wsdl'
 end

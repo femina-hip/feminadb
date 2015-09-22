@@ -1,13 +1,13 @@
 class ModificationsController < ApplicationController
   def index
-    records = VestalVersions::Version.order('updated_at DESC')
-    records = records.where(:versioned_type => params[:versioned_type]) if params[:versioned_type]
-    records = records.where(:versioned_id => params[:versioned_id]) if params[:versioned_id]
-    @versions = records.paginate(:page => page, :per_page => per_page)
-    VestalVersions::Version.send(:preload_associations, @versions, [:versioned, :user])
+    @audits = Audit.where(query_params).order(created_at: :desc).paginate(page: page, per_page: per_page)
   end
 
   private
+
+  def query_params
+    params.permit(:table_name, :record_id)
+  end
 
   def page
     params[:page] || 1

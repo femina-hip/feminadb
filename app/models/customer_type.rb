@@ -1,10 +1,8 @@
 class CustomerType < ActiveRecord::Base
   include SoftDeletable
-  versioned
+  #versioned
 
-  has_many :customers,
-           :dependent => :restrict,
-           :conditions => 'customers.deleted_at IS NULL'
+  has_many(:customers)
 
   validates_presence_of :name
   validates_uniqueness_of :name,

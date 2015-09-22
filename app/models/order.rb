@@ -1,14 +1,15 @@
+# encoding: utf-8
 class Order < ActiveRecord::Base
   extend DateField
 
   include SoftDeletable
-  versioned
+  #versioned
 
-  belongs_to :customer
-  belongs_to :issue
-  belongs_to :delivery_method
-  belongs_to :region
-  belongs_to :standing_order
+  belongs_to(:customer)
+  belongs_to(:issue)
+  belongs_to(:delivery_method)
+  belongs_to(:region)
+  belongs_to(:standing_order)
 
   validates_presence_of :customer_id
   validates_presence_of :issue_id

@@ -1,8 +1,10 @@
 class Admin::DeliveryMethodsController < ApplicationController
-  require_role 'admin'
-
   make_resourceful do
     actions :index, :new, :create, :edit, :update
+
+    before(:index, :new, :create, :edit, :update) do
+      require_role 'admin'
+    end
 
     response_for(:update) do |format|
       format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" updated") }
@@ -15,6 +17,7 @@ class Admin::DeliveryMethodsController < ApplicationController
   # DELETE /delivery_methods/1
   # DELETE /delivery_methods/1.xml
   def destroy
+    require_role 'admin'
     @delivery_method = DeliveryMethod.find(params[:id])
 
     respond_to do |format|

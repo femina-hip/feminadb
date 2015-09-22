@@ -7,7 +7,7 @@ require 'console_app'
 require 'optparse'
 require 'csv'
 
-User.current_user = User.find_by_login('admin') # for updated_by
+User.current_user = User.find_by_login('admin').first # for updated_by
 
 options = { :file => nil }
 OptionParser.new do |opt|
@@ -21,7 +21,7 @@ Fema5Report = File.dirname(__FILE__) + '/../doc/fema5-eaml-report.csv'
 def find_region(name)
   name = 'Dar es Salaam' if name == 'DSM'
   name = 'Pwani' if name == 'COAST'
-  region = Region.find_by_name(name.capitalize)
+  region = Region.where(name: name.capitalize)
   puts "Could not find region named '#{name}'" unless region
   region
 end
@@ -47,8 +47,8 @@ def raw_excel_data
 end
 
 def with_schools(&block)
-  ct = CustomerType.find_by_name('SS')
-  Customer.find_all_by_customer_type_id(ct.id).each do |customer|
+  ct = CustomerType.find_by(name: 'SS')
+  Customer.where(customer_type_id: ct.id).each do |customer|
     yield customer
   end
 end

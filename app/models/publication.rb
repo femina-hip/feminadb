@@ -1,37 +1,18 @@
 class Publication < ActiveRecord::Base
   include SoftDeletable
-  versioned
+  #versioned
 
-  has_many :issues,
-           :order => 'issues.issue_date DESC',
-           :dependent => :restrict,
-           :conditions => 'issues.deleted_at IS NULL'
-  has_many :standing_orders,
-           :dependent => :destroy,
-           :conditions => 'standing_orders.deleted_at IS NULL'
-  has_many :waiting_orders,
-           :dependent => :destroy,
-           :conditions => 'waiting_orders.deleted_at IS NULL'
-  has_many :customers,
-           :through => :standing_orders,
-           :include => :region,
-           :order => 'regions.name, customers.district, customers.name',
-           :conditions => 'customers.deleted_at IS NULL'
+  has_many(:issues)
+  has_many(:standing_orders)
+  has_many(:waiting_orders)
+  has_many(:customers, through: :standing_orders)
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :deleted_at, :if => lambda { |p| p.deleted_at.nil? }
 
-  scope :tracking_standing_orders,
-        :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
-        :order => :name
-
-  scope :current_periodicals,
-        :conditions => { :tracks_standing_orders => true, :deleted_at => nil },
-        :order => :name
-
-  scope :not_pr_material,
-        :conditions => { :pr_material => false, :deleted_at => nil },
-        :order => [ 'publications.tracks_standing_orders DESC, publications.name' ]
+  scope :tracking_standing_orders, -> { where(tracks_standing_orders: true).order(:name) }
+  scope :current_periodicals, -> { where(tracks_standing_orders: true).order(:name) }
+  scope :not_pr_material, -> { where(pr_material: false).order([ [ :tracks_standing_orders, :DESC ], :name ]) }
 
   def to_index_key
     name.parameterize.gsub(/-/, '_')

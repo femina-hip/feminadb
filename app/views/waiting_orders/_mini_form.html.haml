@@ -4,11 +4,11 @@
       New Waiting Order
     - else
       Edit Waiting Order
-  %form{:action => polymorphic_path(waiting_order), :method => (waiting_order.persisted? ? :put : :post)}
+  %form{:action => polymorphic_path(waiting_order), :method => (waiting_order.persisted? ? :patch : :post)}
     %div
       = error_messages_for(waiting_order)
       - if waiting_order.persisted?
-        %input{:type => 'hidden', :name => '_method', :value => 'put'}
+        %input{:type => 'hidden', :name => '_method', :value => 'patch'}
       = token_tag
       %input{:type => 'hidden', :name => 'waiting_order[customer_id]', :value => waiting_order.customer_id}
       %input{:type => 'hidden', :name => 'waiting_order[publication_id]', :value => waiting_order.publication_id}

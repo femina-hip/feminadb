@@ -1,9 +1,11 @@
 class CustomerOrdersController < ApplicationController
-  require_role 'edit-orders', :except => [ :index ]
-
   make_resourceful do
     actions :new, :create, :edit, :update, :destroy
     belongs_to :customer
+
+    before(:new, :create, :edit, :update, :destroy) do
+      require_role 'edit-orders'
+    end
 
     before :new do
       @order.order_date ||= Date.today

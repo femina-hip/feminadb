@@ -2,7 +2,7 @@ class Club < ActiveRecord::Base
   extend DateField
 
   include SoftDeletable
-  versioned
+  #versioned
 
   validates_presence_of :customer_id
   validates_uniqueness_of :customer_id,
@@ -11,7 +11,7 @@ class Club < ActiveRecord::Base
 
   date_field :date_founded
 
-  belongs_to :customer
+  belongs_to(:customer)
   after_save { |club| club.customer.try(:index) }
 
   def title; name; end

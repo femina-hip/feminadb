@@ -1,34 +1,27 @@
 module ModificationsHelper
-  # Returns, from a Version, an Array of [column, [old, new]]
-  def display_ready_changes_for_version(version)
-    hash = if version.initial?
-      record = version.versioned
-      record.revert_to(version)
-      returning({}) do |h|
-        record.attributes.each do |k, v|
-          h[k] = [nil, v]
+  def show_record_identifier(audit)
+    klass = audit.table_name.singularize.classify.safe_constantize
+
+    if audit.record_id
+      klass_or_nil = audit.table_name.singularize.classify.safe_constantize
+      record = klass_or_nil && klass_or_nil.find_by(audit.record_id) # find(id) can throw an exception. We want nil.
+      if record && record.respond_to?(:title)
+        text = "#{klass.model_name.human} #{audit.record_id}: #{record.title}"
+        if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
+          link_to(text, record)
+        else
+          content_tag(:span, text)
         end
+      else
+        content_tag(:span, "#{klass.model_name.human} #{audit.record_id}")
       end
     else
-      version.changes
-    end
-
-    hash.keys.sort.collect{|k| [k, hash[k]]}
-  end
-
-  def show_record_identifier(record)
-    text = "#{record.class.model_name.human} #{record.id}"
-    options = record.respond_to?(:title) ? {:title => record.title} : {}
-
-    if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
-      link_to(text, record, options)
-    else
-      content_tag(:span, text, options)
+      content_tag(:span, "#{audit.table_name} #{audit.record_id || '(no ID)'}")
     end
   end
 
-  def link_to_record_history(record)
-    link_to('history', modifications_path(:versioned_type => record.class.model_name, :versioned_id => record.id), :class => 'history')
+  def link_to_record_history(audit)
+    link_to('history', modifications_path(:table_name => audit.table_name, :record_id => audit.record_id), :class => 'history')
   end
 
   def format_column_value(column_name, value)

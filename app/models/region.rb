@@ -1,17 +1,21 @@
 class Region < ActiveRecord::Base
   include SoftDeletable
-  versioned
+  #versioned
 
-  has_many :customers,
-           :dependent => :restrict,
-           :conditions => 'customers.deleted_at IS NULL'
-  has_many :orders,
-           :include => { :issue => :publication },
-           :dependent => :restrict,
-           :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  has_many :districts,
-           :dependent => :destroy,
-           :conditions => 'districts.deleted_at IS NULL'
+  has_many(:customers)
+  has_many(:orders)
+  has_many(:districts)
+
+  #has_many :customers,
+  #         :dependent => :restrict,
+  #         :conditions => 'customers.deleted_at IS NULL'
+  #has_many :orders,
+  #         :include => { :issue => :publication },
+  #         :dependent => :restrict,
+  #         :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
+  #has_many :districts,
+  #         :dependent => :destroy,
+  #         :conditions => 'districts.deleted_at IS NULL'
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :deleted_at, :if => lambda { |r| r.deleted_at.nil? }

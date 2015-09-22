@@ -1,8 +1,10 @@
 class Admin::CustomerTypesController < ApplicationController
-  require_role 'admin'
-
   make_resourceful do
     actions :index, :new, :create, :edit, :update
+
+    before(:index, :new, :create, :edit, :update) do
+      require_role 'admin'
+    end
 
     response_for(:update) do |format|
       format.html { redirect_to(admin_customer_types_url, :notice => "Customer Type \"#{current_object.name}\" updated") }
@@ -15,6 +17,7 @@ class Admin::CustomerTypesController < ApplicationController
   # DELETE /customer_types/1
   # DELETE /customer_types/1.xml
   def destroy
+    require_role 'admin'
     @customer_type = CustomerType.find(params[:id])
 
     respond_to do |format|

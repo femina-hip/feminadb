@@ -1,9 +1,11 @@
 class CustomerStandingOrdersController < ApplicationController
-  require_role 'edit-orders'
-
   make_resourceful do
     actions :new, :create, :edit, :update, :destroy
     belongs_to :customer
+
+    before(:new, :create, :edit, :update, :destroy) do
+      require_role 'edit-orders'
+    end
 
     response_for(:create) do |format|
       format.html do

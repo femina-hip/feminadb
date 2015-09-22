@@ -46,7 +46,7 @@
           = link_to('Edit Details', edit_publication_issue_url(@publication, @issue))
       %tr
         %td.delete{:colspan => 2}
-          = button_to('Delete', publication_issue_path(@publication, @issue.id), :method => :delete, :confirm => 'WATCH OUT! All Orders will be deleted also. Are you sure you want to Delete this Issue?')
+          = button_to('Delete', publication_issue_path(@publication, @issue.id), :method => :delete, data: { :confirm => 'WATCH OUT! All Orders will be deleted also. Are you sure you want to Delete this Issue?' })
 
 %ul.actions
   - if @publication.tracks_standing_orders? && controller.authorized_for_generate_orders?
@@ -69,7 +69,7 @@
       Or show the Distribution List for only one Delivery Method:
       %ul
         - DeliveryMethod.active.order(:name).all.each do |dm|
-          - if Order.active.where(:issue_id => @issue.id).where(:delivery_method_id => dm.id).count != 0
+          - if Order.active.where(issue_id: @issue.id, delivery_method_id: dm.id).count != 0
             %li
               = link_to("Only #{dm.name} [Web]", show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id))
               = link_to('[Print]', show_distribution_list_publication_issue_url(@publication, @issue, :delivery_method_id => dm.id, :format => :pdf))

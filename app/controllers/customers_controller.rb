@@ -1,27 +1,31 @@
 class CustomersController < ApplicationController
   include CustomerFilterControllerMethods
 
-  require_role 'edit-customers', :except => [ :index, :show ]
-
   make_resourceful do
-    actions :new, :edit, :create, :update, :destroy
+    actions :new, :edit, :create, :destroy
+  end
+
+  def update
+    require_role 'edit-customer'
+    update_with_audit!(customer, customer_params)
+    redirect_to(customer)
   end
 
   # GET /customers
   # GET /customers.csv
   # GET /customers.xml
   def index
-    @customers = search_for_customers(:order => [:region, :district, :name], :includes => [:region, :type, :club])
+    @customers = search_for_customers(:default_order => [:region, :district, :name], :includes => [:region, :type, :club])
 
     @publications = Publication.active.tracking_standing_orders.order(:name).all
 
     respond_to do |type|
       type.html do
-        Customer.send(:preload_associations, @customers, [:standing_orders, :waiting_orders])
+        ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders, :waiting_orders ])
         # render index.haml
       end
       type.csv do
-        Customer.send(:preload_associations, @customers, [:delivery_method])
+        ActiveRecord::Associations::Preloader.new.preload(@customers, [ :delivery_method ])
         render(:csv => @customers)
       end
       type.xml  { render(:xml => @customers.to_xml) }
@@ -47,6 +51,7 @@ class CustomersController < ApplicationController
   end
 
   def destroy
+    require_role 'edit-customers'
     before :destroy
     if current_object.soft_delete(:updated_by => current_user)
       after :destroy
@@ -58,6 +63,7 @@ class CustomersController < ApplicationController
   end
 
   def tag
+    require_role 'edit-customers'
     customer = Customer.find(params[:id])
 
     tag_name = Tags.normalize_name(params[:tag][:name])
@@ -78,6 +84,33 @@ class CustomersController < ApplicationController
   end
 
   private
+
+  def customer
+    @customer ||= Customer.find(params[:id])
+  end
+
+  def customer_params
+    params.require(:customer).permit(
+      :name,
+      :customer_type_id,
+      :region_id,
+      :district,
+      :delivery_method_id,
+      :deliver_via,
+      :route,
+      :address,
+      :po_box,
+      :contact_name,
+      :contact_position,
+      :telephone_1,
+      :telephone_2,
+      :telephone_3,
+      :fax,
+      :email_1,
+      :email_2,
+      :website
+    )
+  end
 
   def self.model_class
     Customer

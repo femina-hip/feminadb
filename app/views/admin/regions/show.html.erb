@@ -11,5 +11,5 @@
 </p>
 
 <%= link_to 'Edit', edit_admin_region_path(@region) %> |
-<%= link_to 'Destroy', admin_region_path(@region), :confirm => 'Are you sure you want to delete this Region?', :method => :delete %> |
+<%= link_to 'Destroy', admin_region_path(@region), data: { :confirm => 'Are you sure you want to delete this Region?' }, :method => :delete %> |
 <%= link_to 'Back', admin_regions_path %>

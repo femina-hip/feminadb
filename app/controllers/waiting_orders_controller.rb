@@ -1,9 +1,8 @@
 class WaitingOrdersController < ApplicationController
-  require_role 'edit-orders'
-
   respond_to(:html, :js)
 
   def convert_to_standing_order
+    require_role 'edit-orders'
     @waiting_order = WaitingOrder.find(params[:id])
     @standing_order = @waiting_order.convert_to_standing_order(:updated_by => current_user)
     flash[:notice] = 'Waiting Order created' if @standing_order
@@ -13,6 +12,7 @@ class WaitingOrdersController < ApplicationController
   end
 
   def create
+    require_role 'edit-orders'
     @waiting_order = WaitingOrder.new(waiting_order_param)
     flash[:notice] = 'Waiting Order created' if @waiting_order.save
     respond_with(@waiting_order, :location => redirect_location) do |format|
@@ -21,6 +21,7 @@ class WaitingOrdersController < ApplicationController
   end
 
   def update
+    require_role 'edit-orders'
     @waiting_order = WaitingOrder.find(params[:id])
     flash[:notice] = 'Waiting Order updated' if @waiting_order.update_attributes(waiting_order_param)
     respond_with(@waiting_order, :location => redirect_location) do |format|
@@ -29,6 +30,7 @@ class WaitingOrdersController < ApplicationController
   end
 
   def destroy
+    require_role 'edit-orders'
     @waiting_order = WaitingOrder.find(params[:id])
     flash[:notice] = 'Waiting Order destroyed' if @waiting_order.soft_delete(:updated_by => current_user)
     respond_with(@waiting_order, :location => redirect_location) do |format|

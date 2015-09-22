@@ -4,17 +4,15 @@
   %head
     %title FeminaDB
     %meta{'http-equiv' => 'content-type', :content => 'application/xhtml+xml;charset=UTF-8'}
-    = javascript_include_tag('jquery', 'date', 'jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'channeler', 'jquery.svg_map', 'initializers/date_fields', 'initializers/issue_fields', :cache => 'all')
-    = stylesheet_link_tag('main', 'jquery.calendar_date_picker', 'jquery.autocomplete', :cache => 'all')
+    = javascript_include_tag('jquery', 'date', 'jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'channeler', 'jquery.svg_map', 'initializers/date_fields', 'initializers/issue_fields')
+    = stylesheet_link_tag('main', 'jquery.calendar_date_picker', 'jquery.autocomplete')
     = stylesheet_link_tag('print', :media => 'print')
   %body
-    - is_admin = current_user.has_role?('admin')
-    - cache("nav_#{is_admin ? 'admin' : 'not_admin'}") do
-      = render('application/nav', :is_admin => is_admin)
+    = render('application/nav', :is_admin => current_user.has_role?('admin'))
 
     .login
       %p
-        - if logged_in?
+        - if current_user
           Logged in as
           %span.login= h current_user.login
           = link_to('Log out', logout_path(:return_to => request.fullpath), :method => :post)
@@ -41,4 +39,3 @@
             Loading...
             %br
             %span.fine-print In case of error, Refresh this page
-    = html_namespacing_javascript_tag(:jquery)

@@ -3,7 +3,7 @@ class Customer < ActiveRecord::Base
   extend Forwardable
 
   include SoftDeletable
-  versioned
+  #versioned
 
   # Indexing happens automatically:
   #
@@ -108,32 +108,30 @@ class Customer < ActiveRecord::Base
     boolean(:deleted) { !deleted_at.nil? }
   end
 
-  belongs_to :type, :class_name => 'CustomerType',
-             :foreign_key => 'customer_type_id'
-  belongs_to :delivery_method
-  belongs_to :region
-  has_many :standing_orders,
-           :dependent => :destroy,
-           :include => [ :publication ],
-           :order => 'publications.name',
-           :conditions => 'standing_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  has_many :waiting_orders,
-           :dependent => :destroy,
-           :include => [ :publication ],
-           :order => 'publications.name',
-           :conditions => 'waiting_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  has_many :orders,
-           :dependent => :nullify,
-           :include => [ :delivery_method, { :issue => :publication } ],
-           :order => 'publications.name, issues.issue_date DESC',
-           :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  has_many :notes,
-           :dependent => :destroy,
-           :class_name => 'CustomerNote',
-           :conditions => 'customer_notes.deleted_at IS NULL'
-  has_one :club,
-          :dependent => :destroy,
-          :conditions => 'clubs.deleted_at IS NULL'
+  belongs_to(:type, class_name: 'CustomerType', foreign_key: 'customer_type_id')
+  belongs_to(:delivery_method)
+  belongs_to(:region)
+  has_many(:notes, class_name: 'CustomerNote')
+  has_one(:club)
+  has_many(:standing_orders)
+  has_many(:waiting_orders)
+  has_many(:orders)
+
+  #has_many :standing_orders,
+  #         :dependent => :destroy,
+  #         :include => [ :publication ],
+  #         :order => 'publications.name',
+  #         :conditions => 'standing_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
+  #has_many :waiting_orders,
+  #         :dependent => :destroy,
+  #         :include => [ :publication ],
+  #         :order => 'publications.name',
+  #         :conditions => 'waiting_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
+  #has_many :orders,
+  #         :dependent => :nullify,
+  #         :include => [ :delivery_method, { :issue => :publication } ],
+  #         :order => 'publications.name, issues.issue_date DESC',
+  #         :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
 
   validates_presence_of :region_id
   validates_presence_of :customer_type_id

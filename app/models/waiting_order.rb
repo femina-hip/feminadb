@@ -1,12 +1,14 @@
+# encoding: utf-8
 class WaitingOrder < ActiveRecord::Base
   extend DateField
 
   include SoftDeletable
-  versioned
+  #versioned
 
-  belongs_to :customer
+  belongs_to(:customer)
+  belongs_to(:publication)
+
   after_save { |wo| wo.customer.try(:index) }
-  belongs_to :publication
 
   validates_presence_of :customer_id
   validates_presence_of :publication_id

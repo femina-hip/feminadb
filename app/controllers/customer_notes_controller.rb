@@ -1,52 +1,29 @@
 class CustomerNotesController < ApplicationController
-  require_role 'edit-customers', :except => [ :new, :create ]
   before_filter :login_required
 
-  make_resourceful do
-    actions :new, :create, :destroy
-    belongs_to :customer
-
-    before(:create) do
-      current_object.created_by = current_user.id
-    end
-
-    response_for(:create) do |format|
-      format.html do
-        set_default_flash(:notice, 'Note successfully created.')
-        set_default_redirect parent_path
-      end
-      format.js
-    end
-
-    response_for(:destroy) do |format|
-      format.html do
-        set_default_flash(:notice, 'Note successfully deleted.')
-        set_default_redirect parent_path
-      end
-      format.js
-    end
+  def create
+    require_role 'edit-customers'
+    create_with_audit!(customer.notes, note_params)
+    redirect_to(customer)
   end
 
   def destroy
-    #load_object
-    before :destroy
-    if current_object.soft_delete
-      after :destroy
-      response_for :destroy
-    else
-      after :destroy_fails
-      response_for :destroy_fails
-    end
+    require_role 'edit-customers'
+    destroy_with_audit(note)
+    redirect_to(customer)
   end
 
   protected
 
-  def parent_path
-    # Work around bug in make_resourceful
-    customer_path(parent_object)
+  def customer
+    @customer ||= Customer.find(params[:customer_id])
   end
 
-  def instance_variable_name
-    'notes'
+  def note
+    @note ||= CustomerNote.find(params[:id])
+  end
+
+  def note_params
+    params.require(:customer_note).permit(:note)
   end
 end

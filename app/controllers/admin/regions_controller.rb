@@ -1,13 +1,16 @@
 class Admin::RegionsController < ApplicationController
-  require_role 'admin'
-
   make_resourceful do
     actions :index, :show, :new, :create, :edit, :update
+
+    before(:index, :show, :new, :create, :edit, :update) do
+      require_role 'admin'
+    end
   end
 
   # DELETE /regions/1
   # DELETE /regions/1.xml
   def destroy
+    require_role 'admin'
     @region = Region.find(params[:id])
 
     respond_to do |format|

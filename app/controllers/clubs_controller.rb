@@ -1,8 +1,6 @@
 class ClubsController < ApplicationController
   include CustomerFilterControllerMethods
 
-  require_role 'edit-customers', :except => [ :index, :show ]
-
   # GET /clubs
   # GET /clubs.csv
   # GET /clubs.xml
@@ -43,6 +41,7 @@ class ClubsController < ApplicationController
   # GET /clubs/new?customer_id=1
   # GET /clubs/new.xml?customer_id=1
   def new
+    require_role 'edit-customers'
     customer = Customer.find(params[:customer_id].to_i)
     @club = customer.build_club
 
@@ -54,12 +53,14 @@ class ClubsController < ApplicationController
 
   # GET /clubs/1/edit
   def edit
+    require_role 'edit-customers'
     @club = Club.find(params[:id])
   end
 
   # POST /clubs
   # POST /clubs.xml
   def create
+    require_role 'edit-customers'
     @club = Club.new(params[:club].merge(:updated_by => current_user))
 
     respond_to do |format|
@@ -77,6 +78,7 @@ class ClubsController < ApplicationController
   # PUT /clubs/1
   # PUT /clubs/1.xml
   def update
+    require_role 'edit-customers'
     @club = Club.find(params[:id])
 
     respond_to do |format|
@@ -94,6 +96,7 @@ class ClubsController < ApplicationController
   # DELETE /clubs/1
   # DELETE /clubs/1.xml
   def destroy
+    require_role 'edit-customers'
     @club = Club.find(params[:id])
     customer_id = @club.customer_id
 

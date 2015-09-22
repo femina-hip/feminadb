@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/boot'
+require_relative '../config/environment'
+
+$users = {}
+User.all.each { |user| $users[user.id] = user }
+def user_id_to_email(user_id)
+  ($users[user_id] || User.new(email: '')).email
+end
+
+def create_audit_from_version(version)
+  before = {}
+  after = {}
+
+  modifications = begin
+    version.modifications
+  rescue 
+    {}
+  end
+
+  modifications.each do |key, values|
+    next if key == 'deleted_at'
+    before[key] = values[0] if version.number > 1
+    after[key] = values[1]
+  end
+
+  action = if version.number == 1
+    before = {}
+    'create'
+  elsif after['deleted_at']
+    after = {}
+    'delete'
+  else
+    'update'
+  end
+
+  Audit.create(
+    created_at: version.updated_at,
+    user_email: user_id_to_email(version.user_id),
+    table_name: version.versioned_type.tableize,
+    record_id: version.versioned_id,
+    action: action,
+    before: before,
+    after: after
+  )
+end
+
+VestalVersions::Version.order(:updated_at).each { |version| create_audit_from_version(version) }

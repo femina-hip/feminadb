@@ -1,6 +1,12 @@
 module SoftDeletable
   def self.included(base)
-    base.send(:scope, :active, :conditions => { :deleted_at => nil })
+    base.send(:extend, ClassMethods)
+  end
+
+  module ClassMethods
+    def active
+      self.where(deleted_at: nil)
+    end
   end
 
   def soft_delete(options = {})

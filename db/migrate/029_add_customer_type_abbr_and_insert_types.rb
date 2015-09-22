@@ -41,7 +41,7 @@ class AddCustomerTypeAbbrAndInsertTypes < ActiveRecord::Migration
 
     if not CustomerType['Secondary School'].nil?
       CustomerType.create(:name => 'USS', :description => 'DO NOT USE: switch to GSS or PSS', :category => 'Education')
-      Customer.find_all_by_customer_type_id(CustomerType['Secondary School'].id).each do |c|
+      Customer.where(customer_type_id: CustomerType['Secondary School'].id).each do |c|
         c.customer_type_id = CustomerType['USS'].id
         c.save!
       end
@@ -50,7 +50,7 @@ class AddCustomerTypeAbbrAndInsertTypes < ActiveRecord::Migration
 
     if not CustomerType['Unknown'].nil?
       CustomerType.create(:name => 'U', :description => 'Unknown')
-      Customer.find_all_by_customer_type_id(CustomerType['Unknown'].id).each do |c|
+      Customer.where(customer_type_id: CustomerType['Unknown'].id).each do |c|
         c.customer_type_id = CustomerType['U'].id
         c.save!
       end
@@ -64,14 +64,14 @@ class AddCustomerTypeAbbrAndInsertTypes < ActiveRecord::Migration
     ss = CustomerType.create :name => 'Secondary School'
     u = CustomerType.create :name => 'Unknown'
 
-    CustomerType.find_all_by_category('Education') do |ct|
-      Customer.find_all_by_customer_type_id(ct.it) do |c|
+    CustomerType.where(category: 'Education') do |ct|
+      Customer.where(customer_type_id: ct.it) do |c|
         c.customer_type_id = ss.id
         c.save!
       end
     end
 
-    Customer.find(:all, [ 'customer_type_id <> ?', ss.id ]) do |c|
+    Customer.where(['customer_type_id <> ?', ss.id ]) do |c|
       c.customer_type_id = u.id
       c.save!
     end

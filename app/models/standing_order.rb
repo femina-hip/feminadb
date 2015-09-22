@@ -1,10 +1,12 @@
+# encoding: utf-8
 class StandingOrder < ActiveRecord::Base
   include SoftDeletable
-  versioned
+  #versioned
 
-  belongs_to :customer
+  belongs_to(:customer)
+  belongs_to(:publication)
+
   after_save { |so| so.customer.try(:index) }
-  belongs_to :publication
 
   validates_presence_of :customer_id
   validates_presence_of :publication_id

@@ -1,9 +1,8 @@
 class Admin::DistrictsController < ApplicationController
-  require_role 'edit-districts'
-
   # GET /districts
   # GET /districts.xml
   def index
+    require_role 'edit-districts'
     @districts = District.active.includes(:region).order('regions.name, districts.name').all
 
     respond_to do |format|
@@ -15,6 +14,7 @@ class Admin::DistrictsController < ApplicationController
   # GET /districts/1
   # GET /districts/1.xml
   def show
+    require_role 'edit-districts'
     @district = District.find(params[:id])
 
     respond_to do |format|
@@ -25,17 +25,20 @@ class Admin::DistrictsController < ApplicationController
 
   # GET /districts/new
   def new
+    require_role 'edit-districts'
     @district = District.new
   end
 
   # GET /districts/1;edit
   def edit
+    require_role 'edit-districts'
     @district = District.find(params[:id])
   end
 
   # POST /districts
   # POST /districts.xml
   def create
+    require_role 'edit-districts'
     @district = District.new(params[:district].merge(:updated_by => current_user))
 
     respond_to do |format|
@@ -53,6 +56,7 @@ class Admin::DistrictsController < ApplicationController
   # PUT /districts/1
   # PUT /districts/1.xml
   def update
+    require_role 'edit-districts'
     @district = District.find(params[:id])
 
     respond_to do |format|
@@ -70,6 +74,7 @@ class Admin::DistrictsController < ApplicationController
   # DELETE /districts/1
   # DELETE /districts/1.xml
   def destroy
+    require_role 'edit-districts'
     @district = District.find(params[:id])
 
     @district.soft_delete!(:updated_by => current_user)

@@ -48,7 +48,7 @@ end
 publication = Publication.find_by_name(options[:publication])
 if not publication
   puts 'Please specify a valid publication with --publication=, one of:'
-  Publication.find(:all).each do |p|
+  Publication.each do |p|
     puts " - #{p.name}"
   end
   exit 1
@@ -57,7 +57,7 @@ end
 delivery_method = DeliveryMethod.find_by_name(options[:delivery_method])
 if not delivery_method
   puts 'Please specify a valid delivery method with --delivery-method=, one of:'
-  DeliveryMethod.find(:all).each do |dm|
+  DeliveryMethod.each do |dm|
     puts " - #{dm.name}"
   end
   exit 1
