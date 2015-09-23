@@ -11,9 +11,5 @@
   = form.label(:pr_material, 'Is advertising material (pens, bags, pamphlets, calendars, etc)')
 %p
   For one-off publications, uncheck both the above checkboxes
-- if current_user.has_role?('admin')
-  %p
-    %b Packing hints
-    = form.text_field(:packing_hints)
 
 %p= form.submit('Save Publication')

@@ -5,7 +5,7 @@ class Issue < ActiveRecord::Base
 
   belongs_to(:publication)
   has_many(:issue_box_sizes, -> { order(:num_copies) })
-  has_many(:orders, -> { includes(:region, :delivery_method).order([ 'regions.name, orders.district, orders.customer_name' ]) })
+  has_many(:orders, -> { order(:delivery_method, :region, :district, :customer_name) })
   has_many(:notes, -> { order(:created_at) }, class_name: 'IssueNote')
   has_many(:bulk_order_creators)
 
@@ -19,7 +19,6 @@ class Issue < ActiveRecord::Base
                       :with => /\A[-\.A-Za-z0-9]+\z/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
   validate :validate_issue_box_sizes_string
-  validate :validate_packing_hints
 
   date_field :issue_date
 
@@ -113,17 +112,6 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  class PackingInstructionsData < Struct.new(:warehouses, :districts_with_ones)
-  end
-
-  def packing_hints_hash
-    @packing_hints_hash ||= if packing_hints && !packing_hints.empty?
-      ActiveSupport::JSON.decode(packing_hints)
-    else
-      {}
-    end
-  end
-
   # Returns an array of
   # [
   #   {
@@ -212,9 +200,8 @@ class Issue < ActiveRecord::Base
 
       orders = Order
         .where(conditions)
-        .includes(:customer, :region, { :delivery_method => :warehouse }, :issue)
-        .order('delivery_methods.name, regions.name, orders.district, orders.customer_name')
-      ActiveRecord::Associations::Preloader.new.preload(orders.collect(&:issue), :issue_box_sizes)
+        .includes(:issue => :issue_box_sizes)
+        .order(:delivery_method, :region, :district, :customer_name)
 
       orders.each do |order|
         @delivery_methods[order.delivery_method] ||= DistributionListSubData.new
@@ -224,7 +211,7 @@ class Issue < ActiveRecord::Base
 
     def each(&block)
       keys = @delivery_methods.keys
-      keys.sort!{ |dm1, dm2| dm1.name <=> dm2.name }
+      keys.sort!
       keys.collect{|dm| [ dm, @delivery_methods[dm] ]}.each(&block)
     end
 
@@ -247,8 +234,7 @@ class Issue < ActiveRecord::Base
       end
 
       def each(&block)
-        keys = @regions.keys
-        keys.sort!{ |r1, r2| r1.name <=> r2.name }
+        keys = @regions.keys.sort
         keys.collect{ |r| [ r, @regions[r] ]}.each(&block)
       end
 
@@ -318,8 +304,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns a dictionary of { IssueBoxSize => (int) num_boxes }
-  def issue_box_size_quantities(num_copies, warehouse=nil)
-    ret = find_box_sizes(num_copies, warehouse) || only_box_size_1_hash(num_copies)
+  def issue_box_size_quantities(num_copies)
+    ret = find_box_sizes(num_copies) || only_box_size_1_hash(num_copies)
     return ret if ret
 
     # We failed to find a combination of boxes
@@ -332,10 +318,10 @@ class Issue < ActiveRecord::Base
 
       csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + box_sizes.collect{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
 
-      orders.includes(:issue).where(:delivery_method_id => delivery_method.id).each do |order|
-        sizes = order.num_boxes
+      orders.where(delivery_method: delivery_method).each do |order|
+        sizes = issue_box_size_quantities(order.num_copies)
 
-        csv << ([ order.id, order.region.name, order.district, order.customer_name, order.deliver_via, order.num_copies ] + box_sizes.collect{ |ibs| n = sizes[ibs] || 0; n > 0 && n.to_s || '' })
+        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.num_copies ] + box_sizes.collect{ |ibs| n = sizes[ibs] || 0; n > 0 && n.to_s || '' })
       end
     end
   end
@@ -357,44 +343,13 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def validate_packing_hints
-    return if packing_hints.empty?
-    data = ActiveSupport::JSON.decode(packing_hints)
-    errors.add(:packing_hints, 'must be a JSON Hash') unless Hash === data
-    data.each do |key, val|
-      unless String === key
-        errors.add(:packing_hints, 'must be keyed by String')
-        return
-      end
-      unless Array === val
-        errors.add(:packing_hints, 'must have values which are Lists of Integers')
-        return
-      end
-      val.each do |v|
-        unless Fixnum === v
-          errors.add(:packing_hints, 'must have values which are Lists of Integers')
-          return
-        end
-      end
-    end
-  rescue
-    errors.add(:packing_hints, 'must be valid JSON')
-  end
-
-  def issue_box_size_integers_ordered_for_packing(warehouse)
-    @issue_box_size_integers_ordered_for_packing ||= {}
-    @issue_box_size_integers_ordered_for_packing[warehouse] ||= begin
-      warehouse && packing_hints_hash[warehouse.name] || issue_box_sizes.reverse.collect{|ibs| ibs.num_copies}
-    end
-  end
-
   # Returns a hash of { # copies => # boxes }
-  def find_box_sizes(num_copies, warehouse=nil)
+  def find_box_sizes(num_copies)
     @find_box_sizes_cache ||= {}
-    cache_key = [num_copies, warehouse]
+    cache_key = num_copies
     return @find_box_sizes_cache[cache_key] if @find_box_sizes_cache.include?(cache_key) # might be nil
 
-    size_integers = issue_box_size_integers_ordered_for_packing(warehouse)
+    size_integers = issue_box_sizes_i.reverse
 
     # Try to shortcut: if it divides evenly, use it
     size_integers.each do |ibs_num_copies|

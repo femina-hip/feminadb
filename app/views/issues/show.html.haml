@@ -19,27 +19,8 @@
       %th Date
       %td= @issue.issue_date
     %tr{:class => cycle('odd', 'even')}
-      %th Quantity Printed
-      %td= number_with_delimiter(@issue.quantity)
-    %tr{:class => cycle('odd', 'even')}
       %th Box Sizes
       %td= @issue.issue_box_sizes_string
-    - if current_user.has_role?('admin')
-      %tr{:class => cycle('odd', 'even')}
-        %th Packing hints
-        %td= @issue.packing_hints
-    %tr{:class => cycle('odd', 'even')}
-      %th Total cost
-      %td
-        = number_with_delimiter(@issue.price) || '?,???'
-        = '/-'
-    - if @issue.price && @issue.price > 0 && @issue.quantity && @issue.quantity > 0
-      %tr{:class => cycle('odd', 'even')}
-        %th Cost per Copy
-        %td
-          = number_with_delimiter(@issue.price / @issue.quantity)
-          = '/-'
-
     - if current_user.has_role?('edit-issues')
       %tr
         %td.edit{:colspan => 2}
@@ -61,7 +42,8 @@
   %li= link_to('Show Distribution Order', show_distribution_order_issue_url(@issue))
   %li
     %span
-      = link_to('Show Distribution List [Web]', show_distribution_list_issue_url(@issue))
+      Show Distribution List
+      = link_to('[Web]', show_distribution_list_issue_url(@issue))
       = link_to('[Spreadsheet]', show_distribution_list_issue_url(@issue, :format => :csv))
       (All Delivery Methods)
     %div
@@ -70,7 +52,8 @@
         - DeliveryMethod.order(:name).all.each do |dm|
           - if Order.where(issue_id: @issue.id, delivery_method_id: dm.id).count != 0
             %li
-              = link_to("Only #{dm.name} [Web]", show_distribution_list_issue_url(@issue, :delivery_method_id => dm.id))
+              = "Only #{dm.name}"
+              = link_to('[Web]', show_distribution_list_issue_url(@issue, :delivery_method_id => dm.id))
               = link_to('[Spreadsheet]', show_distribution_list_issue_url(@issue, :delivery_method_id => dm.id, :format => :csv))
   %li= link_to('Back to Issue List', @publication)
 

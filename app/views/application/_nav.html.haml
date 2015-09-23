@@ -7,7 +7,7 @@
       = link_to('Publications', publications_path)
       .quick-publications
         %ul
-          - Publication.includes(:issues => :publication).current_periodicals.each do |publication|
+          - Publication.includes(:issues => :publication).tracking_standing_orders.each do |publication|
             %li.publication
               = link_to("#{publication.name} (all Issues)", publication)
               - publication.issues.first(3).each do |issue|

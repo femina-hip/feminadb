@@ -47,8 +47,8 @@
   %tbody
     - @orders.each do |o|
       %tr{:class => cycle('odd', 'even')}
-        %td.delivery-method= delivery_method_abbr(o.delivery_method)
-        %td.region= o.region.name
+        %td.delivery-method= o.delivery_method
+        %td.region= o.region
         %td.district= o.district
         %td.customer
           .cut-off

@@ -31,7 +31,7 @@
   %tbody
     - @issue_district_breakdown.data.each do |region, district, values|
       %tr{:class => cycle('odd', 'even')}
-        %td.region= region.name
+        %td.region= region
         %td.district= district
         - @issue_district_breakdown.issues.each do |issue|
           - value = values[issue].to_i
@@ -39,4 +39,4 @@
             %td
           - else
             %td.num-copies
-              = link_to(number_with_delimiter(value), orders_in_district_issue_path(issue, :region_id => region.id, :district => district))
+              = link_to(number_with_delimiter(value), orders_in_district_issue_path(issue, :region => region, :district => district))

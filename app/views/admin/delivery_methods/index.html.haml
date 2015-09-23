@@ -8,8 +8,6 @@
       %th Name
       %th Description
       %th
-        %abbr{:title => 'Where the Packing Instructions say to send the Issues'} Warehouse
-      %th
         %abbr{:title => 'If Yes, Orders with this Delivery Method will be included in Distribution Quote Requests'} Quote?
       %th
   %tbody
@@ -18,7 +16,6 @@
         %td.abbreviation= delivery_method.abbreviation
         %td.name= delivery_method.name
         %td.description= delivery_method.description
-        %td.warehouse= delivery_method.warehouse.name
         %td.quote
           - if delivery_method.include_in_distribution_quote_request?
             Yes

@@ -10,7 +10,7 @@ class IssuesController < ApplicationController
 
   def new
     require_role 'edit-issues'
-    @issue = publication.issues.build(packing_hints: publication.packing_hints)
+    @issue = publication.issues.build
   end
 
   def edit
@@ -65,7 +65,6 @@ class IssuesController < ApplicationController
       DeliveryMethod.order(:name).all.select{|dm| @data.include?(dm)}
   end
 
-  # GET /publications/1/issues/1/show_distribution_list
   def show_distribution_list
     # [req:ReportDistributionList]
     @issue = issue
@@ -87,10 +86,13 @@ class IssuesController < ApplicationController
 
   def orders_in_district
     @issue = Issue.find(params[:id])
-    @region = Region.find(params[:region_id])
+    @region = params[:region]
     @district = params[:district]
 
-    @orders = Order.where(:region_id => @region.id, :district => @district, :issue_id => @issue.id).order('num_copies DESC').all
+    @orders = Order
+      .where(:region => @region, :district => @district, :issue_id => @issue.id)
+      .order([ { num_copies: :desc }, :customer_name ])
+      .all
   end
 
   def authorized_for_generate_orders?
@@ -112,10 +114,7 @@ class IssuesController < ApplicationController
       :name,
       :issue_date_string,
       :issue_number,
-      :issue_box_sizes_string,
-      :quantity,
-      :price,
-      :packing_hints
+      :issue_box_sizes_string
     )
   end
 end

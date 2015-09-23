@@ -28,26 +28,21 @@ class IssueDistrictBreakdown
       issues_by_id = {}
       issues.each { |i| issues_by_id[i.id] = i }
 
-      regions_by_id = {}
-      Region.all.each { |r| regions_by_id[r.id] = r }
-
-      rows = Order.connection.select_rows(
-        "SELECT regions.id,
-                orders.district,
-                orders.issue_id,
-                SUM(orders.num_copies)
-         FROM orders
-         INNER JOIN regions ON orders.region_id = regions.id
-         WHERE orders.issue_id IN (#{issues.collect(&:id).join(',')})
-         GROUP BY regions.name, orders.district, orders.issue_id
-         ORDER BY regions.name, orders.district
-        "
-      )
+      rows = Order.connection.select_rows("""
+        SELECT
+          region,
+          district,
+          issue_id,
+          SUM(orders.num_copies)
+        FROM orders
+        WHERE issue_id IN (#{issues.collect(&:id).join(',')})
+        GROUP BY region, district, issue_id
+        ORDER BY region, district
+      """)
 
       ret = []
 
-      rows.each do |region_id, district, issue_id, num_copies|
-        region = regions_by_id[region_id.to_i]
+      rows.each do |region, district, issue_id, num_copies|
         issue = issues_by_id[issue_id.to_i]
 
         key = [ region, district ]
