@@ -1,14 +1,14 @@
 class IssueNotesController < ApplicationController
   def new
     require_role 'edit-issues'
-    @issue = publication.issues.build
+    @issue_note = IssueNote.new
   end
 
   def create
     require_role 'edit-issues'
-    @issue = create_with_audit(Issue, issue_create_params)
-    if @issue.valid?
-      redirect_to(@issue.publication)
+    @issue_note = create_with_audit(issue.notes.create_with(created_by: current_user.id), issue_note_params)
+    if @issue_note.valid?
+      redirect_to(issue)
     else
       render(action: new)
     end
@@ -16,9 +16,8 @@ class IssueNotesController < ApplicationController
 
   def destroy
     require_role 'edit-issues'
-    publication = issue.publication
-    destroy_with_audit(issue)
-    redirect_to(publication)
+    destroy_with_audit(issue_note)
+    redirect_to(issue)
   end
 
   protected
@@ -31,19 +30,11 @@ class IssueNotesController < ApplicationController
     @issue ||= Issue.find(params[:issue_id])
   end
 
-  def note
+  def issue_note
     @note ||= IssueNote.find(params[:id])
   end
 
-  def issue_create_params
-    params.require(:issue).permit(
-      :publication_id,
-      :name,
-      :issue_date,
-      :issue_number,
-      :quantity,
-      :price,
-      :packing_hints
-    )
+  def issue_note_params
+    params.require(:issue_note).permit(:note)
   end
 end

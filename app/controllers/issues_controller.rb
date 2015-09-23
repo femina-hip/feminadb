@@ -20,6 +20,9 @@ class IssuesController < ApplicationController
 
   def destroy
     require_role 'edit-issues'
+    IssueBoxSize.where(issue_id: issue.id).delete_all
+    IssueNote.where(issue_id: issue.id).delete_all
+    Order.where(issue_id: issue.id).delete_all
     destroy_with_audit(issue)
     redirect_to(issue.publication)
   end
@@ -122,8 +125,9 @@ class IssuesController < ApplicationController
   def issue_params
     params.require(:issue).permit(
       :name,
-      :issue_date,
+      :issue_date_string,
       :issue_number,
+      :issue_box_sizes_string,
       :quantity,
       :price,
       :packing_hints
