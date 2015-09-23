@@ -10,6 +10,8 @@ connection = User.connection
 #  connection.execute("ALTER TABLE #{table} DROP COLUMN deleted_at")
 #end
 
+connection.execute("DELETE FROM standing_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
+connection.execute("DELETE FROM waiting_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
 connection.execute("DELETE FROM issues WHERE publication_id NOT IN (SELECT id FROM publications)")
 connection.execute("DELETE FROM orders WHERE issue_id NOT IN (SELECT id FROM issues)")
 connection.execute("DELETE FROM orders WHERE customer_id NOT IN (SELECT id FROM customers)")
