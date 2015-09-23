@@ -42,7 +42,6 @@ Feminadb::Application.routes.draw do
   resources :issues do
     member do
       get :orders_in_district
-      get :show_packing_instructions
       get :show_distribution_quote_request
       get :show_distribution_order
       get :show_distribution_list

@@ -47,17 +47,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  def show_packing_instructions
-    # [req:ReportPackingInstructions]
-    @issue = issue
-
-    @packing_instructions_data = begin
-      @issue.packing_instructions_data
-    rescue Issue::DoesNotFitInBoxesException
-      nil
-    end
-  end
-
   def show_distribution_quote_request
     # [req:ReportDistributionQuoteRequest]
     @issue = issue

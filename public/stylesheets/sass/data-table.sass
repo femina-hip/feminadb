@@ -1,6 +1,6 @@
 @import vars.sass
 
-table.customers, table.clubs, table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.data
+table.customers, table.clubs, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.data
   border: 2px solid $border_color
   margin: 1em auto
   tbody tr:first-child td
@@ -50,7 +50,7 @@ table.customers, table.clubs, table.issue-orders, table.report, table.distributi
         text-decoration: underline
 
 // Tables which have a "thead.title"
-table.packing-instructions, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory
+table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory
   thead.title
     border: 2px solid $heading_border_color
     th
@@ -68,9 +68,6 @@ table.packing-instructions, table.customer-orders, table.customer-standing-order
     color: $alt2_color
     th
       font-weight: normal
-
-table.packing-instructions
-  margin-bottom: 1em
 
 table.customers, table.clubs
   width: 100%
