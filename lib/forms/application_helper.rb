@@ -52,16 +52,18 @@ module Forms::ApplicationHelper
     end
 
     def groups
-      returning([]) do |ret|
-        periodicals = issues.select{ |i| i.publication.tracks_standing_orders? }
-        ret << IssueFieldOptGroup.new('Periodicals', periodicals) unless periodicals.empty?
+      ret = []
 
-        one_off = issues.select{ |i| p = i.publication; !p.tracks_standing_orders? && !p.pr_material? }
-        ret << IssueFieldOptGroup.new('One-off publications', one_off) unless one_off.empty?
+      periodicals = issues.select{ |i| i.publication.tracks_standing_orders? }
+      ret << IssueFieldOptGroup.new('Periodicals', periodicals) unless periodicals.empty?
 
-        advertising = issues.select{ |i| i.publication.pr_material? }
-        ret << IssueFieldOptGroup.new('Advertising materials', advertising) unless advertising.empty?
-      end
+      one_off = issues.select{ |i| p = i.publication; !p.tracks_standing_orders? && !p.pr_material? }
+      ret << IssueFieldOptGroup.new('One-off publications', one_off) unless one_off.empty?
+
+      advertising = issues.select{ |i| i.publication.pr_material? }
+      ret << IssueFieldOptGroup.new('Advertising materials', advertising) unless advertising.empty?
+
+      ret
     end
 
     private

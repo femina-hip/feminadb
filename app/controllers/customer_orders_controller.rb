@@ -7,7 +7,7 @@ class CustomerOrdersController < ApplicationController
 
   def create
     require_role 'edit-orders'
-    @order = create_with_audit(customer.orders, order_create_params)
+    @order = create_with_audit(customer.orders, order_params)
     if @order.valid?
       redirect_to(customer)
     else
@@ -17,12 +17,13 @@ class CustomerOrdersController < ApplicationController
 
   def edit
     require_role 'edit-orders'
+    @customer = customer
     @order = order
   end
 
   def update
     require_role 'edit-orders'
-    if update_with_audit(order, order_update_params)
+    if update_with_audit(order, order_params)
       redirect_to(customer)
     else
       render(action: 'edit')
@@ -38,31 +39,18 @@ class CustomerOrdersController < ApplicationController
   protected
 
   def customer
-    @customer ||= Customer.find(params[:customer_id])
+    if params[:id]
+      @customer = order.customer
+    else
+      @customer ||= Customer.find(params[:customer_id])
+    end
   end
 
   def order
-    @order ||= Order.find(params[:order_id])
+    @order ||= Order.includes(:customer).find(params[:id])
   end
 
-  def order_create_params
-    params.require(:order).permit(
-      :customer_id,
-      :issue_id,
-      :num_copies,
-      :comments,
-      :order_date,
-      :region_id,
-      :district,
-      :customer_name,
-      :deliver_via,
-      :delivery_method_id,
-      :contact_name,
-      :contact_details
-    )
-  end
-
-  def order_update_params
+  def order_params
     params.require(:order).permit(
       :issue_id,
       :num_copies,
