@@ -5,7 +5,6 @@ Feminadb::Application.routes.draw do
     resources :districts
     resources :regions
     resources :users
-    resources :warehouses
   end
 
   resources :clubs

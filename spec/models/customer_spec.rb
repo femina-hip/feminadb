@@ -11,8 +11,7 @@ describe(Customer) do
       Customer.reindex
       @region = Region.create!(:name => 'region')
       @customer_type = CustomerType.create!(:name => 'type', :description => 'test type', :category => 'category')
-      @warehouse = Warehouse.create!(:name => 'name')
-      @delivery_method = DeliveryMethod.create!(:abbreviation => 'abbr', :name => 'name', :warehouse_id => @warehouse.id)
+      @delivery_method = DeliveryMethod.create!(:abbreviation => 'abbr', :name => 'name')
     end
 
     private

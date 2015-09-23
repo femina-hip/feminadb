@@ -52,6 +52,6 @@ class Admin::DeliveryMethodsController < ApplicationController
   end
 
   def delivery_method_params
-    params.require(:delivery_method).permit(:warehouse_id, :name, :description, :abbreviation, :include_in_distribution_quote_request)
+    params.require(:delivery_method).permit(:name, :description, :abbreviation, :include_in_distribution_quote_request)
   end
 end

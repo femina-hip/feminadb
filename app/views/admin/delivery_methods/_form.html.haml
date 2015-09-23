@@ -12,10 +12,6 @@
     %abbr{:title => 'Clarification of how the delivery occurs'} Description:
   = f.text_field :description
 %p
-  %b
-    %abbr{:title => 'Which warehouse the Issues come from'} Warehouse:
-  = f.warehouse_field(:warehouse_id)
-%p
   %label
     = f.check_box :include_in_distribution_quote_request
     Include Orders with this Delivery Method when creating a Distribution

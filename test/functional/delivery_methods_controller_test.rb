@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DeliveryMethodsControllerTest < ActionController::TestCase
-  fixtures :delivery_methods, :users, :roles, :roles_users, :warehouses, :orders, :customers
+  fixtures :delivery_methods, :users, :roles, :roles_users, :orders, :customers
 
   def test_should_get_index
     login_as :admin
@@ -19,7 +19,7 @@ class DeliveryMethodsControllerTest < ActionController::TestCase
   def test_should_create_delivery_method
     login_as :admin
     old_count = DeliveryMethod.count
-    post :create, :delivery_method => { :abbreviation => 'ABC', :name => 'Amabilis', :description => 'Creation inspired for a certain editor', :warehouse_id => 1 }
+    post :create, :delivery_method => { :abbreviation => 'ABC', :name => 'Amabilis', :description => 'Creation inspired for a certain editor' }
     assert_equal old_count+1, DeliveryMethod.count
     
     assert_redirected_to admin_delivery_method_path(assigns(:delivery_method))
@@ -39,7 +39,7 @@ class DeliveryMethodsControllerTest < ActionController::TestCase
   
   def test_should_update_delivery_method
     login_as :admin
-    put :update, :id => 1, :delivery_method => { :abbreviation => 'ABC', :name => 'Amabilis', :description => 'Delivered to a certain editor', :warehouse_id => 1 }
+    put :update, :id => 1, :delivery_method => { :abbreviation => 'ABC', :name => 'Amabilis', :description => 'Delivered to a certain editor' }
     assert_redirected_to admin_delivery_method_path(assigns(:delivery_method))
   end
   

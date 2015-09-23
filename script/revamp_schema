@@ -19,5 +19,5 @@ sql("DELETE FROM orders WHERE issue_id NOT IN (SELECT id FROM issues)")
 sql("DELETE FROM orders WHERE customer_id NOT IN (SELECT id FROM customers)")
 sql("UPDATE orders SET standing_order_id = NULL WHERE standing_order_id NOT IN (SELECT id FROM standing_orders)")
 
-sql("ALTER TABLE delivery_methods DROP COLUMN warehouse_id")
-sql("DROP TABLE warehouses")
+#sql("ALTER TABLE delivery_methods DROP COLUMN warehouse_id")
+#sql("DROP TABLE warehouses")

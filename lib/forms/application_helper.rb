@@ -11,10 +11,6 @@ module Forms::ApplicationHelper
     text_field(object_name, "#{method}_string", forms_application_helper_add_class_to_options(options, 'date_field'))
   end
 
-  def warehouse_field(object_name, method, options = {})
-    select(object_name, method, Warehouse.order(:name).all.collect{|w| [w.name, w.id]}, options)
-  end
-
   def delivery_method_field(object_name, method, options = {})
     collection_select(object_name, method, DeliveryMethod.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
   end
