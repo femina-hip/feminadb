@@ -3,16 +3,21 @@
 require_relative '../config/boot'
 require_relative '../config/environment'
 
-connection = User.connection
+def sql(s)
+  User.connection.execute(s)
+end
 
 #for table in %w(bulk_order_creators clubs customer_notes customer_types customers delivery_methods districts issue_box_sizes issue_notes issues orders publications regions roles roles_users standing_orders users waiting_orders)
-#  connection.execute("DELETE FROM #{table} WHERE deleted_at IS NOT NULL")
-#  connection.execute("ALTER TABLE #{table} DROP COLUMN deleted_at")
+#  sql("DELETE FROM #{table} WHERE deleted_at IS NOT NULL")
+#  sql("ALTER TABLE #{table} DROP COLUMN deleted_at")
 #end
 
-connection.execute("DELETE FROM standing_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
-connection.execute("DELETE FROM waiting_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
-connection.execute("DELETE FROM issues WHERE publication_id NOT IN (SELECT id FROM publications)")
-connection.execute("DELETE FROM orders WHERE issue_id NOT IN (SELECT id FROM issues)")
-connection.execute("DELETE FROM orders WHERE customer_id NOT IN (SELECT id FROM customers)")
-connection.execute("UPDATE orders SET standing_order_id = NULL WHERE standing_order_id NOT IN (SELECT id FROM standing_orders)")
+sql("DELETE FROM standing_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
+sql("DELETE FROM waiting_orders WHERE customer_id NOT IN (SELECT id FROM customers)")
+sql("DELETE FROM issues WHERE publication_id NOT IN (SELECT id FROM publications)")
+sql("DELETE FROM orders WHERE issue_id NOT IN (SELECT id FROM issues)")
+sql("DELETE FROM orders WHERE customer_id NOT IN (SELECT id FROM customers)")
+sql("UPDATE orders SET standing_order_id = NULL WHERE standing_order_id NOT IN (SELECT id FROM standing_orders)")
+
+sql("ALTER TABLE delivery_methods DROP COLUMN warehouse_id")
+sql("DROP TABLE warehouses")

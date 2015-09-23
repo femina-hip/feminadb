@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.date     "order_date"
     t.integer  "created_by",          limit: 4
     t.datetime "created_at"
-    t.datetime "deleted_at"
     t.string   "status",              limit: 255
     t.datetime "updated_at"
   end
@@ -61,7 +60,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.text     "intended_duty",       limit: 65535,              null: false
     t.string   "founding_motivation", limit: 255,   default: "", null: false
     t.text     "cooperation_ideas",   limit: 65535,              null: false
-    t.datetime "deleted_at"
     t.datetime "created_at"
   end
 
@@ -70,16 +68,14 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.text     "note",        limit: 16777215
     t.datetime "created_at"
     t.integer  "created_by",  limit: 4
-    t.datetime "deleted_at"
   end
 
   add_index "customer_notes", ["customer_id"], name: "index_customer_notes_on_customer_id", using: :btree
 
   create_table "customer_types", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.datetime "deleted_at"
-    t.string   "description", limit: 255, default: "",        null: false
-    t.string   "category",    limit: 255, default: "Unknown", null: false
+    t.string "name",        limit: 255
+    t.string "description", limit: 255, default: "",        null: false
+    t.string "category",    limit: 255, default: "Unknown", null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -91,7 +87,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string   "deliver_via",        limit: 255
     t.integer  "delivery_method_id", limit: 4
     t.string   "address",            limit: 255
-    t.datetime "deleted_at"
     t.string   "full_name",          limit: 255
     t.string   "contact_position",   limit: 255
     t.string   "telephone_1",        limit: 255
@@ -122,25 +117,21 @@ ActiveRecord::Schema.define(version: 20150922073506) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "delivery_methods", force: :cascade do |t|
-    t.string   "name",                                  limit: 255
-    t.string   "description",                           limit: 255
-    t.datetime "deleted_at"
-    t.string   "abbreviation",                          limit: 255,                null: false
-    t.integer  "warehouse_id",                          limit: 4
-    t.boolean  "include_in_distribution_quote_request",             default: true, null: false
+    t.string  "name",                                  limit: 255
+    t.string  "description",                           limit: 255
+    t.string  "abbreviation",                          limit: 255,                null: false
+    t.boolean "include_in_distribution_quote_request",             default: true, null: false
   end
 
   create_table "districts", force: :cascade do |t|
-    t.integer  "region_id",  limit: 4,   null: false
-    t.string   "name",       limit: 255, null: false
-    t.string   "color",      limit: 255, null: false
-    t.datetime "deleted_at"
+    t.integer "region_id", limit: 4,   null: false
+    t.string  "name",      limit: 255, null: false
+    t.string  "color",     limit: 255, null: false
   end
 
   create_table "issue_box_sizes", force: :cascade do |t|
-    t.integer  "issue_id",   limit: 4
-    t.integer  "num_copies", limit: 4
-    t.datetime "deleted_at"
+    t.integer "issue_id",   limit: 4
+    t.integer "num_copies", limit: 4
   end
 
   create_table "issue_notes", force: :cascade do |t|
@@ -148,66 +139,59 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.text     "note",       limit: 65535, null: false
     t.datetime "created_at",               null: false
     t.integer  "created_by", limit: 4
-    t.datetime "deleted_at"
   end
 
   add_index "issue_notes", ["issue_id"], name: "index_issue_notes_on_issue_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.string   "name",           limit: 255
-    t.integer  "publication_id", limit: 4
-    t.date     "issue_date"
-    t.datetime "deleted_at"
-    t.string   "issue_number",   limit: 255,                default: "", null: false
-    t.integer  "quantity",       limit: 4,                  default: 0,  null: false
-    t.decimal  "price",                      precision: 12
-    t.string   "packing_hints",  limit: 255
+    t.string  "name",           limit: 255
+    t.integer "publication_id", limit: 4
+    t.date    "issue_date"
+    t.string  "issue_number",   limit: 255,                default: "", null: false
+    t.integer "quantity",       limit: 4,                  default: 0,  null: false
+    t.decimal "price",                      precision: 12
+    t.string  "packing_hints",  limit: 255
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "customer_id",        limit: 4
-    t.integer  "issue_id",           limit: 4
-    t.integer  "standing_order_id",  limit: 4
-    t.integer  "num_copies",         limit: 4
-    t.string   "comments",           limit: 255
-    t.date     "order_date"
-    t.integer  "region_id",          limit: 4
-    t.string   "district",           limit: 255
-    t.string   "customer_name",      limit: 255
-    t.string   "deliver_via",        limit: 255
-    t.integer  "delivery_method_id", limit: 4
-    t.string   "contact_name",       limit: 255
-    t.string   "contact_details",    limit: 255
-    t.datetime "deleted_at"
+    t.integer "customer_id",        limit: 4
+    t.integer "issue_id",           limit: 4
+    t.integer "standing_order_id",  limit: 4
+    t.integer "num_copies",         limit: 4
+    t.string  "comments",           limit: 255
+    t.date    "order_date"
+    t.integer "region_id",          limit: 4
+    t.string  "district",           limit: 255
+    t.string  "customer_name",      limit: 255
+    t.string  "deliver_via",        limit: 255
+    t.integer "delivery_method_id", limit: 4
+    t.string  "contact_name",       limit: 255
+    t.string  "contact_details",    limit: 255
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
   add_index "orders", ["issue_id"], name: "index_orders_on_issue_id", using: :btree
-  add_index "orders", ["standing_order_id", "issue_id", "deleted_at"], name: "index_orders_on_standing_order_id_and_issue_id_and_deleted_at", using: :btree
+  add_index "orders", ["standing_order_id", "issue_id"], name: "index_orders_on_standing_order_id_and_issue_id_and_deleted_at", using: :btree
 
   create_table "publications", force: :cascade do |t|
-    t.string   "name",                   limit: 255
-    t.datetime "deleted_at"
-    t.boolean  "tracks_standing_orders",             default: true, null: false
-    t.boolean  "pr_material",                        default: true
-    t.string   "packing_hints",          limit: 255
+    t.string  "name",                   limit: 255
+    t.boolean "tracks_standing_orders",             default: true, null: false
+    t.boolean "pr_material",                        default: true
+    t.string  "packing_hints",          limit: 255
   end
 
   create_table "regions", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "deleted_at"
-    t.integer  "population", limit: 4
+    t.string  "name",       limit: 255
+    t.integer "population", limit: 4
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "deleted_at"
+    t.string "name", limit: 255
   end
 
   create_table "roles_users", id: false, force: :cascade do |t|
-    t.integer  "role_id",    limit: 4
-    t.integer  "user_id",    limit: 4
-    t.datetime "deleted_at"
+    t.integer "role_id", limit: 4
+    t.integer "user_id", limit: 4
   end
 
   add_index "roles_users", ["role_id"], name: "index_roles_users_on_role_id", using: :btree
@@ -218,7 +202,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.integer  "publication_id", limit: 4
     t.integer  "num_copies",     limit: 4
     t.string   "comments",       limit: 255
-    t.datetime "deleted_at"
     t.datetime "created_at"
   end
 
@@ -240,7 +223,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.datetime "updated_at"
     t.string   "remember_token",            limit: 255
     t.datetime "remember_token_expires_at"
-    t.datetime "deleted_at"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -260,20 +242,14 @@ ActiveRecord::Schema.define(version: 20150922073506) do
   add_index "versions", ["versioned_id", "versioned_type"], name: "index_versions_on_versioned_id_and_versioned_type", using: :btree
 
   create_table "waiting_orders", force: :cascade do |t|
-    t.integer  "customer_id",    limit: 4,                null: false
-    t.integer  "publication_id", limit: 4,                null: false
-    t.integer  "num_copies",     limit: 4,                null: false
-    t.string   "comments",       limit: 255, default: "", null: false
-    t.datetime "deleted_at"
-    t.date     "request_date",                            null: false
+    t.integer "customer_id",    limit: 4,                null: false
+    t.integer "publication_id", limit: 4,                null: false
+    t.integer "num_copies",     limit: 4,                null: false
+    t.string  "comments",       limit: 255, default: "", null: false
+    t.date    "request_date",                            null: false
   end
 
   add_index "waiting_orders", ["customer_id"], name: "index_waiting_orders_on_customer_id", using: :btree
   add_index "waiting_orders", ["publication_id"], name: "index_waiting_orders_on_publication_id", using: :btree
-
-  create_table "warehouses", force: :cascade do |t|
-    t.string "name",    limit: 255
-    t.string "comment", limit: 255
-  end
 
 end
