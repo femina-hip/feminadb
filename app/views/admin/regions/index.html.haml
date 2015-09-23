@@ -10,13 +10,15 @@
       %th Name
       %th Population
       %th
+      %th
 
   %tbody
     - @regions.each do |region|
       %tr{:class => cycle('odd', 'even')}
         %td= h region.name
         %td= h region.population
-        %td= link_to 'Show', admin_region_path(region)
+        %td= link_to 'Edit', edit_admin_region_path(region)
+        %td= button_to 'Destroy', [ :admin, region ], method: :delete, data: { confirm: 'Are you sure you want to delete this Region?' }
     %tr
-      %td.add{:colspan => 3}
+      %td.add{:colspan => 4}
         = link_to 'Create New Region', new_admin_region_path

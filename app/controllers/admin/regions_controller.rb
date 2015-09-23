@@ -1,43 +1,56 @@
 class Admin::RegionsController < ApplicationController
-  make_resourceful do
-    actions :index, :show, :new, :create, :edit, :update
+  def index
+    @regions = Region.order(:name).all
+  end
 
-    before(:index, :show, :new, :create, :edit, :update) do
-      require_role 'admin'
+  def new
+    require_role 'admin'
+    @region = Region.new
+  end
+
+  def edit
+    require_role 'admin'
+    @region = region
+  end
+
+  def create
+    require_role 'admin'
+    @region = create_with_audit(Region, region_params)
+    if @region.valid?
+      redirect_to(admin_regions_url)
+    else
+      render(action: 'new')
     end
   end
 
-  # DELETE /regions/1
-  # DELETE /regions/1.xml
+  def update
+    require_role 'admin'
+    if update_with_audit(region, region_params)
+      redirect_to(admin_regions_url)
+    else
+      render(action: 'edit')
+    end
+  end
+
   def destroy
     require_role 'admin'
-    @region = Region.find(params[:id])
-
-    respond_to do |format|
-      if @region.soft_delete_would_delete_protected_dependents?
-        flash[:notice] = 'Could not delete Region: it is used by some Customers/Orders'
-        format.html { redirect_to admin_regions_url }
-        format.xml  { render :xml => @region.errors.to_xml }
-      else
-        @region.soft_delete!(:updated_by => current_user)
-        flash[:notice] = 'Region successfully deleted'
-        format.html { redirect_to admin_regions_url }
-        format.xml  { head :ok }
-      end
+    if region.customers.length > 0
+      flash[:notice] = 'Could not delete Region: it is used by some Customers'
+    elsif region.districts.length > 0
+      flash[:notice] = 'Could not delete Region: it is used by some Districts'
+    else
+      destroy_with_audit(region)
     end
+    redirect_to(admin_regions_url)
   end
 
-  protected
+  private
 
-  def url_helper_prefix
-    "admin_"
+  def region
+    @region ||= Region.find(params[:id])
   end
 
-  def current_objects
-    @current_objects ||= Region.order(:name).all
-  end
-
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def region_params
+    params.require(:region).permit(:name, :population)
   end
 end

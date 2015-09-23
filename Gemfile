@@ -5,7 +5,6 @@ gem 'comma'
 gem 'dynamic_form'
 gem 'haml'
 gem 'jwt'
-gem 'make_resourceful'
 gem 'mysql2', '~> 0.3.0'
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'RedCloth'
