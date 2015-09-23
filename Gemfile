@@ -7,7 +7,6 @@ gem 'haml'
 gem 'jwt'
 gem 'make_resourceful'
 gem 'mysql2', '~> 0.3.0'
-gem 'prawn'
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'RedCloth'
 gem 'sunspot_rails'

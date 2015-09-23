@@ -90,10 +90,6 @@ class IssuesController < ApplicationController
           nil
         end
       end
-      format.pdf do
-        writer = DistributionListPdfWriter.new(@issue, @delivery_method)
-        send_data(writer.pdf.render, :filename => 'distribution_list.pdf', :type => 'application/pdf', :disposition => 'inline')
-      end
       format.csv do
         send_data(@issue.distribution_list_csv(@delivery_method), :filename => 'distribution_list.csv', :type => 'text/csv', :disposition => 'inline')
       end
