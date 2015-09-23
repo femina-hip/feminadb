@@ -4,27 +4,10 @@ class Issue < ActiveRecord::Base
   class DoesNotFitInBoxesException < Exception; end
 
   belongs_to(:publication)
-  has_many(:issue_box_sizes)
-  has_many(:orders)
-  has_many(:notes)
+  has_many(:issue_box_sizes, -> { order(:num_copies) })
+  has_many(:orders, -> { includes(:region, :delivery_method).order([ 'regions.name, orders.district, orders.customer_name' ]) })
+  has_many(:notes, -> { order(:created_at) }, class_name: 'IssueNote')
   has_many(:bulk_order_creators)
-  #has_many :issue_box_sizes,
-  #         :order => :num_copies,
-  #         :dependent => :destroy,
-  #         :conditions => 'issue_box_sizes.deleted_at IS NULL'
-  #has_many :orders,
-  #         :dependent => :destroy,
-  #         :include => [ :region, :delivery_method ],
-  #         :order => 'regions.name, orders.district, orders.customer_name',
-  #         :conditions => 'orders.deleted_at IS NULL'
-  #has_many :notes,
-  #         :class_name => 'IssueNote',
-  #         :dependent => :destroy,
-  #         :order => 'created_at',
-  #         :conditions => 'issue_notes.deleted_at IS NULL'
-  #has_many :bulk_order_creators,
-  #         :dependent => :destroy,
-  #         :conditions => 'bulk_order_creators.deleted_at IS NULL'
 
   validates_presence_of :publication_id
   validates_presence_of :name
@@ -272,8 +255,11 @@ class Issue < ActiveRecord::Base
         conditions.merge!(:delivery_method_id => delivery_method.id)
       end
 
-      orders = Order.where(conditions).includes(:customer, :region, { :delivery_method => :warehouse }, :issue).order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
-      Order.send(:preload_associations, orders.collect(&:issue), :issue_box_sizes)
+      orders = Order
+        .where(conditions)
+        .includes(:customer, :region, { :delivery_method => :warehouse }, :issue)
+        .order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
+      ActiveRecord::Associations::Preloader.new.preload(orders.collect(&:issue), :issue_box_sizes)
 
       orders.each do |order|
         @delivery_methods[order.delivery_method] ||= DistributionListSubData.new

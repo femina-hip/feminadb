@@ -2,9 +2,9 @@
 
 <%= error_messages_for :issue %>
 
-<%= form_for(:issue, :url => publication_issue_path(@publication, @issue), :html => { :method => :patch }) do |f| %>
+<%= form_for(:issue, :url => issue_path(@issue), :html => { :method => :patch }) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <p><%= submit_tag 'Update Details' %></p>
 <% end %>
 
-<p><%= link_to 'Back to Issues List', publication_issues_url(@publication) %></p>
+<p><%= link_to 'Back to Issues List', publication_url(@publication) %></p>

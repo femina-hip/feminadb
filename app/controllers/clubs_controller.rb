@@ -17,7 +17,7 @@ class ClubsController < ApplicationController
     respond_to do |format|
       format.html # index.html.haml
       format.csv do
-        Club.send(:preload_associations, @clubs, :customer => [ :type, :delivery_method ])
+        ActiveRecord::Associations::Preloader.new.preload(@clubs, customer: [ :type, :delivery_method ])
         render(:csv => @clubs)
       end
     end

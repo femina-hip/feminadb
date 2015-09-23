@@ -3,10 +3,9 @@ class IssueOrdersController < ApplicationController
 
   respond_to(:html, :js)
 
-  before_filter :get_publication
-  before_filter :get_issue
-
   def index
+    @issue = issue
+
     if params[:all]
       customers = search_for_customers(
         :order => [:delivery_method, :region, :district, :name],
@@ -27,7 +26,7 @@ class IssueOrdersController < ApplicationController
     respond_to do |format|
       format.html # index.haml
       format.csv do
-        Order.send(:preload_associations, @orders, :customer => :type)
+        ActiveRecord::Associations::Preloader.new.preload(@orders, customer: :type)
         render(:csv => @orders)
       end
     end
@@ -78,7 +77,7 @@ class IssueOrdersController < ApplicationController
   end
 
   def issue
-    @issue ||= Issue.includes(:publication).find(params[:issue_Id])
+    @issue ||= Issue.includes(:publication).find(params[:issue_id])
   end
 
   def order_create_params

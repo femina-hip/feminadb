@@ -16,7 +16,7 @@ class IssueNotesControllerTest < ActionController::TestCase
     post :create, :publication_id => 1, :issue_id => 1, :issue_note => { :note => 'Testing' }
     assert_equal old_count + 1, IssueNote.count
 
-    assert_redirected_to publication_issue_path(1, 1)
+    assert_redirected_to issue_path(1)
   end
 
   def test_should_destroy_issue_note
@@ -25,6 +25,6 @@ class IssueNotesControllerTest < ActionController::TestCase
     delete :destroy, :publication_id => 1, :issue_id => 1, :id => 1
     assert_equal old_count-1, IssueNote.count
 
-    assert_redirected_to publication_issue_path(1, 1)
+    assert_redirected_to issue_path(1)
   end
 end

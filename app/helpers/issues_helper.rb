@@ -8,6 +8,6 @@ module IssuesHelper
   end
 
   def print_distribution_list_url
-    show_distribution_list_publication_issue_url(@publication, @issue, params.slice(:delivery_method_id).merge(:format => :pdf))
+    show_distribution_list_issue_url(@issue, params.slice(:delivery_method_id).merge(:format => :pdf))
   end
 end

@@ -19,16 +19,12 @@
           .redcloth= textilize(note.note).html_safe
         - if current_user.has_role?('edit-issues')
           %td.actions
-            = button_to 'Delete', publication_issue_note_path(issue.publication, issue, note), data: { :confirm => 'Are you sure you want to delete this Note from this Issue?' }, :method => :delete
+            = button_to 'Delete', issue_note_path(issue, note), data: { :confirm => 'Are you sure you want to delete this Note from this Issue?' }, :method => :delete
     %tr{:class => cycle('odd', 'even')}
-      - if logged_in?
-        %td.user= render_user current_user
-        %td.date (now)
-        %td.note{:colspan => 2}
-          = form_for issue.notes.build, :url => publication_issue_notes_path(issue.publication, issue) do |f|
-            %div
-              = f.text_area :note, :style => 'width: 100%; height: 4em;'
-            %p= f.submit 'Write New Note'
-      - else
-        %td{:colspan => 4, :class => 'add'}
-          = link_to 'Write New Note', new_publication_issue_note_path(issue.publication, issue)
+      %td.user= render_user current_user
+      %td.date (now)
+      %td.note{:colspan => 2}
+        = form_for issue.notes.build, :url => issue_notes_path(issue) do |f|
+          %div
+            = f.text_area :note, :style => 'width: 100%; height: 4em;'
+          %p= f.submit 'Write New Note'

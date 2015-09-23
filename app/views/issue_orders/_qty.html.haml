@@ -12,7 +12,7 @@
           New Order
         - else
           Edit Order
-      = form_for([order.issue.publication, order.issue, order]) do |f|
+      = form_for([order.issue, order]) do |f|
         %div
           = f.error_messages
           - if order.new_record?
@@ -31,4 +31,4 @@
           = f.submit(order.new_record? ? 'Create' : 'Update')
           %input{:type => 'Reset', :value => 'Cancel Changes'}
       - unless order.new_record?
-        = button_to('Delete', publication_issue_order_url(order.issue.publication, order.issue, order, :return_to => request.fullpath), :method => :delete, :class => 'delete')
+        = button_to('Delete', issue_order_url(order.issue, order, :return_to => request.fullpath), :method => :delete, :class => 'delete')

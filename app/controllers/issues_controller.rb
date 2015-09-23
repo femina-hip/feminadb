@@ -5,6 +5,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = issue
+    @publication = issue.publication
   end
 
   def new
@@ -20,7 +21,7 @@ class IssuesController < ApplicationController
   def destroy
     require_role 'edit-issues'
     destroy_with_audit(issue)
-    redirect_to(publication)
+    redirect_to(issue.publication)
   end
 
   def create

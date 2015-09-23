@@ -1,7 +1,8 @@
 = render_pretty_header 'Order List' do
   %p
     This is the list of Orders for
-    = link_to(@issue.full_name, [@issue.publication, @issue])
+    %strong= @issue.full_name
+    %span> .
 
   %p
     In this list, you can see the intended recipients of this Issue. If you
@@ -11,17 +12,17 @@
     = link_to('the Customers list', customers_path)
     and edit from there.
 
-= render(:partial => 'application/customer_search', :locals => { :path => publication_issue_orders_path(@publication, @issue), :search => @search, :num_results => (!params[:all] && @orders.total_entries) })
+= render(:partial => 'application/customer_search', :locals => { :path => issue_orders_path(@issue), :search => @search, :num_results => (!params[:all] && @orders.total_entries) })
 
 %p
   - if params[:all]
     Even Customers without Orders are in this list.
     Create Orders by changing the quantities from 0 to something else.
     You can also
-    = link_to('hide Customers who have no Orders.', publication_issue_orders_path(@publication, @issue, params.slice(:q)))
+    = link_to('hide Customers who have no Orders.', issue_orders_path(@issue, params.slice(:q)))
   - else
     The only Customers shown are the ones with Orders. You can also
-    = link_to('include Customers without any Orders yet, to add some.', publication_issue_orders_path(@publication, @issue, params.slice(:q).merge(:all => true)))
+    = link_to('include Customers without any Orders yet, to add some.', issue_orders_path(@issue, params.slice(:q).merge(:all => true)))
 
 %table.issue-orders
   %thead
@@ -60,7 +61,7 @@
 = will_paginate(@orders)
 
 %p.actions
-  = link_to('Export Data to Excel', publication_issue_orders_path(@publication, @issue, params.slice(:q).merge(:format => :csv)))
+  = link_to('Export Data to Excel', issue_orders_path(@issue, params.slice(:q).merge(:format => :csv)))
   - if current_user.has_role?('edit-orders')
     |
     = link_to('Create Orders for an Issue using this list', new_bulk_order_creator_path(:bulk_order_creator => {:from_issue_id => @issue.id, :search_string => params[:q]}))

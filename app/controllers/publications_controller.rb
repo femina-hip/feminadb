@@ -33,7 +33,7 @@ class PublicationsController < ApplicationController
   end
 
   def show
-    redirect_to(issues_path(publication_id: params[:publication_id]))
+    redirect_to(issues_path(publication_id: params[:id]))
   end
 
   def destroy

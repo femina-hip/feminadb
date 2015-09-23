@@ -1,5 +1,5 @@
 class Publication < ActiveRecord::Base
-  has_many(:issues)
+  has_many(:issues, -> { order(issue_date: :desc) })
   has_many(:standing_orders)
   has_many(:waiting_orders)
   has_many(:customers, through: :standing_orders)
