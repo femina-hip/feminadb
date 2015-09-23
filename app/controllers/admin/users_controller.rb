@@ -1,86 +1,55 @@
 class Admin::UsersController < ApplicationController
-  # GET /users
-  # GET /users.xml
   def index
     require_role 'admin'
     @users = User.order(:login).all
-
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @users.to_xml }
-    end
   end
 
-  # GET /users/1
-  # GET /users/1.xml
-  def show
-    require_role 'admin'
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @user.to_xml }
-    end
-  end
-
-  # GET /users/new
   def new
     require_role 'admin'
     @user = User.new
   end
 
-  # GET /users/1;edit
   def edit
     require_role 'admin'
-    @user = User.find(params[:id])
+    @user = user
   end
 
-  # POST /users
-  # POST /users.xml
   def create
     require_role 'admin'
-    @user = User.new(params[:user])
-
-    respond_to do |format|
-      if @user.save
-        flash[:notice] = 'User was successfully created.'
-        format.html { redirect_to admin_user_url(@user) }
-        format.xml  { head :created, :location => admin_user_url(@user) }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors.to_xml }
-      end
+    @user = create_with_audit(User, user_params)
+    if @user.valid?
+      redirect_to(admin_users_url)
+    else
+      render(action: 'new')
     end
   end
 
-  # PUT /users/1
-  # PUT /users/1.xml
   def update
     require_role 'admin'
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
-        format.html { redirect_to admin_user_url(@user) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors.to_xml }
-      end
+    if update_with_audit(user, user_params)
+      redirect_to(admin_users_url)
+    else
+      render(action: 'edit')
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.xml
   def destroy
     require_role 'admin'
-    @user = User.find(params[:id])
-    @user.soft_delete!
-
-    respond_to do |format|
-      format.html { redirect_to admin_users_url }
-      format.xml  { head :ok }
+    if user.email == current_user.email
+      flash[:notice] = 'You cannot delete yourself. Phew.'
+    else
+      destroy_with_audit(user)
     end
+    redirect_to(admin_users_url)
+  end
+
+  private
+
+  def user
+    @user ||= User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:login, :email)
   end
 end
