@@ -13,6 +13,7 @@
       %th Name
       %th Description
       %th
+      %th
 
   %tbody
     - @customer_types.each do |customer_type|
@@ -21,6 +22,7 @@
         %td= customer_type.name
         %td= customer_type.description
         %td= link_to('Edit', edit_admin_customer_type_path(customer_type))
+        %td= button_to('Destroy', [ :admin, customer_type ], method: :delete, data: { confirm: 'Are you sure you want to destroy this CustomerType?' })
     %tr
-      %td.add{:colspan => 4}
+      %td.add{:colspan => 5}
         = link_to('Create New Customer Type', new_admin_customer_type_path)

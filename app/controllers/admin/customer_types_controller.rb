@@ -1,49 +1,54 @@
 class Admin::CustomerTypesController < ApplicationController
-  make_resourceful do
-    actions :index, :new, :create, :edit, :update
+  def index
+    @customer_types = CustomerType.order(:category, :name).all
+  end
 
-    before(:index, :new, :create, :edit, :update) do
-      require_role 'admin'
-    end
+  def new
+    require_role 'admin'
+    @customer_type = CustomerType.new
+  end
 
-    response_for(:update) do |format|
-      format.html { redirect_to(admin_customer_types_url, :notice => "Customer Type \"#{current_object.name}\" updated") }
-    end
-    response_for(:create) do |format|
-      format.html { redirect_to(admin_customer_types_url, :notice => "Customer Type \"#{current_object.name}\" created") }
+  def edit
+    require_role 'admin'
+    @customer_type = customer_type
+  end
+
+  def create
+    require_role 'admin'
+    @customer_type = create_with_audit(CustomerType, customer_type_params)
+    if @customer_type.valid?
+      redirect_to(admin_customer_types_url)
+    else
+      render(action: 'new')
     end
   end
 
-  # DELETE /customer_types/1
-  # DELETE /customer_types/1.xml
+  def update
+    require_role 'admin'
+    if update_with_audit(customer_type, customer_type_params)
+      redirect_to(admin_customer_types_url)
+    else
+      render(action: 'edit')
+    end
+  end
+
   def destroy
     require_role 'admin'
-    @customer_type = CustomerType.find(params[:id])
-
-    respond_to do |format|
-      if @customer_type.soft_delete(:updated_by => current_user)
-        flash[:notice] = 'CustomerType successfully deleted'
-        format.html { redirect_to admin_customer_types_url }
-        format.xml  { head :ok }
-      else
-        flash[:notice] = 'Could not delete CustomerType: it is used by some Customers'
-        format.html { redirect_to admin_customer_types_url }
-        format.xml  { render :xml => @customer_type.errors.to_xml }
-      end
+    if customer_type.customers.length > 0
+      flash[:notice] = 'Could not delete CustomerType: it is used by some Customers'
+    else
+      destroy_with_audit(customer_type)
     end
+    redirect_to(admin_customer_types_url)
   end
 
   protected
 
-  def url_helper_prefix
-    "admin_"
+  def customer_type
+    @customer_type ||= CustomerType.find(params[:id])
   end
 
-  def current_objects
-    @current_objects ||= CustomerType.order([:category, :name]).all
-  end
-
-  def object_parameters
-    params[current_model_name.underscore] && params[current_model_name.underscore].merge(:updated_by => current_user)
+  def customer_type_params
+    params.require(:customer_type).permit(:name, :description, :category)
   end
 end
