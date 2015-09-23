@@ -1,38 +1,56 @@
 class Admin::WarehousesController < ApplicationController
-  make_resourceful do
-    actions :index, :show, :new, :create, :edit, :update
+  def index
+    @warehouses = Warehouse.order(:name)
+  end
 
-    before(:index, :show, :new, :create, :edit, :update) do
-      require_role 'admin'
+  def new
+    require_role 'admin'
+    @warehouse = Warehouse.new
+  end
+
+  def edit
+    require_role 'admin'
+    @warehouse = warehouse
+  end
+
+  def create
+    require_role 'admin'
+    @warehouse = create_with_audit(Warehouse, warehouse_params)
+    if @warehouse.valid?
+      redirect_to(admin_warehouses_url)
+    else
+      render(action: 'new')
     end
   end
 
-  # DELETE /warehouses/1
-  # DELETE /warehouses/1.xml
+  def update
+    require_role 'admin'
+    if update_with_audit(warehouse, warehouse_params)
+      redirect_to(admin_warehouses_url)
+    else
+      render(action: 'edit')
+    end
+  end
+
   def destroy
     require_role 'admin'
     @warehouse = Warehouse.find(params[:id])
 
-    respond_to do |format|
-      if !@warehouse.soft_delete_would_delete_protected_dependents?
-        @warehouse.soft_delete!(:updated_by => current_user)
-        format.html { redirect_to admin_warehouses_url }
-        format.xml  { head :ok }
-      else
-        flash[:notice] = 'Could not delete Warehouse: it is used by some DeliveryMethods'
-        format.html { redirect_to admin_warehouses_url }
-        format.xml  { render :xml => @warehouse.errors.to_xml }
-      end
+    if @warehouse.delivery_methods.length > 0
+      flash[:notice] = 'Could not delete Warehouse: it is used by some DeliveryMethods'
+    else
+      destroy_with_audit(@warehouse)
     end
+    redirect_to(admin_warehouses_url)
   end
 
   protected
 
-  def url_helper_prefix
-    "admin_"
+  def warehouse
+    @warehouse ||= Warehouse.find(params[:id])
   end
 
-  def current_objects
-    @current_objects ||= Warehouse.order(:name).all
+  def warehouse_params
+    params.require(:warehouse).permit(:name, :comment)
   end
 end

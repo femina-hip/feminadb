@@ -46,7 +46,7 @@ module Auditor
       record_id: object.respond_to?(:id) && object.id || nil,
       action: 'create',
       before: {},
-      after_json: object.attributes
+      after: object.attributes
     )
   end
 

@@ -26,7 +26,7 @@ class IssuesController < ApplicationController
 
   def create
     require_role 'edit-issues'
-    @issue = create_with_audit(@publication.issues, issue_create_params)
+    @issue = create_with_audit(publication.issues, issue_params)
     if @issue.valid?
       redirect_to(@issue)
     else
@@ -36,7 +36,7 @@ class IssuesController < ApplicationController
 
   def update
     require_role 'edit-issues'
-    @issue = update_with_attributes(issue, issue_update_params)
+    @issue = update_with_attributes(issue, issue_params)
     if @issue.valid?
       redirect_to(@issue)
     else
@@ -119,19 +119,7 @@ class IssuesController < ApplicationController
     @issue ||= Issue.includes(:publication).find(params[:id])
   end
 
-  def issue_create_params
-    params.require(:issue).permit(
-      :publication_id,
-      :name,
-      :issue_date,
-      :issue_number,
-      :quantity,
-      :price,
-      :packing_hints
-    )
-  end
-
-  def issue_update_params
+  def issue_params
     params.require(:issue).permit(
       :name,
       :issue_date,

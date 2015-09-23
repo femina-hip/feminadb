@@ -11,7 +11,6 @@ gem 'mysql2', '~> 0.3.0'
 gem 'prawn'
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'RedCloth'
-gem 'rmagick'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'treetop'

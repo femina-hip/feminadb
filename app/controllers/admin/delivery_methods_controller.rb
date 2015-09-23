@@ -1,46 +1,57 @@
 class Admin::DeliveryMethodsController < ApplicationController
-  make_resourceful do
-    actions :index, :new, :create, :edit, :update
+  def index
+    @delivery_methods = DeliveryMethod.order(:abbreviation)
+  end
 
-    before(:index, :new, :create, :edit, :update) do
-      require_role 'admin'
-    end
+  def new
+    require_role 'admin'
+    @delivery_method = DeliveryMethod.new
+  end
 
-    response_for(:update) do |format|
-      format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" updated") }
-    end
-    response_for(:create) do |format|
-      format.html { redirect_to(admin_delivery_methods_url, :notice => "Delivery Method \"#{current_object.abbreviation}\" created") }
+  def edit
+    require_role 'admin'
+    @delivery_method = delivery_method
+  end
+
+  def create
+    require_role 'admin'
+    @delivery_method = create_with_audit(DeliveryMethod, delivery_method_params)
+    if @delivery_method.valid?
+      redirect_to(admin_delivery_methods_url)
+    else
+      render(action: 'new')
     end
   end
 
-  # DELETE /delivery_methods/1
-  # DELETE /delivery_methods/1.xml
+  def update
+    require_role 'admin'
+    if update_with_audit(delivery_method, delivery_method_params)
+      redirect_to(admin_delivery_methods_url)
+    else
+      render(action: 'edit')
+    end
+  end
+
   def destroy
     require_role 'admin'
-    @delivery_method = DeliveryMethod.find(params[:id])
 
-    respond_to do |format|
-      if !@delivery_method.soft_delete_would_delete_protected_dependents?
-        @delivery_method.soft_delete!
-        flash[:notice] = 'DeliveryMethod was successfully deleted.'
-        format.html { redirect_to admin_delivery_methods_url }
-        format.xml  { head :ok }
-      else
-        flash[:notice] = 'DeliveryMethod could not be deleted: it is in use by Customers and/or Orders'
-        format.html { redirect_to admin_delivery_methods_url }
-        format.xml  { render :xml => @delivery_method.errors.to_xml }
-      end
+    if delivery_method.customers.length > 0
+      flash[:notice] = 'DeliveryMethod cannot be deleted because it has Customers'
+    elsif delivery_method.orders.length > 0
+      flash[:notice] = 'DeliveryMethod cannot be deleted because it has Orders'
+    else
+      destroy_with_audit(delivery_method)
     end
+    redirect_to(admin_delivery_methods_url)
   end
 
   protected
 
-  def url_helper_prefix
-    "admin_"
+  def delivery_method
+    @delivery_method ||= DeliveryMethod.find(params[:id])
   end
 
-  def current_objects
-    @current_objects ||= DeliveryMethod.order(:name).all
+  def delivery_method_params
+    params.require(:delivery_method).permit(:warehouse_id, :name, :description, :abbreviation, :include_in_distribution_quote_request)
   end
 end

@@ -200,7 +200,6 @@ DEPENDENCIES
   rails-observers
   rake
   responders
-  rmagick
   rspec
   rspec-rails
   sass-rails
