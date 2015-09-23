@@ -1,21 +1,3 @@
-- if logged_in?
-  %p
-    You are logged in, but you don't have permission to access this page.
-    Browse somewhere else or log in as a different user.
-- else
-  %p You need to log in to access this page.
-
-  = form_tag do
-    %p
-      %label{:for => 'login'} Login
-      %br/
-      = hidden_field_tag('return_to', params[:return_to])
-      = text_field_tag('login')
-
-    %p
-      %label{:for => 'password'} Password
-      %br/
-      = password_field_tag('password')
-
-    %p
-      = submit_tag('Log in')
+%p
+  You are logged in, but you don't have permission to access this page.
+  Browse somewhere else or log in as a different user.

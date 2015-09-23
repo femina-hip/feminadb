@@ -16,8 +16,7 @@
 - else
   %p
     There is no Club attached to this Customer.
-    - if logged_in?
-      = link_to('Add Club information', new_club_path(:customer_id => @customer.id))
+    = link_to('Add Club information', new_club_path(:customer_id => @customer.id))
 
 = render(:partial => 'notes', :locals => { :customer => @customer })
 
