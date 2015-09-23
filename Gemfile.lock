@@ -57,8 +57,6 @@ GEM
     execjs (2.6.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    gruff (0.6.0)
-      rmagick (>= 2.13.4)
     haml (4.0.7)
       tilt
     highline (1.7.6)
@@ -118,7 +116,6 @@ GEM
     rake (10.4.2)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rmagick (2.15.4)
     rsolr (1.0.12)
       builder (>= 2.1.2)
     rspec (3.3.0)
@@ -189,7 +186,6 @@ DEPENDENCIES
   coffee-rails
   comma
   dynamic_form
-  gruff
   haml
   jwt
   make_resourceful
