@@ -36,22 +36,10 @@
         = '-'
         = customer.delivery_method.name
         = "(#{customer.delivery_method.description})"
-    %tr
-      %th
-        = glossary_term('Deliver Via')
-      %td= customer.deliver_via
-    %tr
-      %th
-        = glossary_term('Route')
-      %td= customer.route
-    %tr
-      %th
-        Address
-        = glossary_term('Address')
-      %td= customer.address
     %tr.last
-      %th PO Box
-      %td= customer.po_box
+      %th
+        = glossary_term('Delivery address')
+      %td= customer.delivery_address
   %thead.contact-details
     %tr
       %th{:colspan => 2} Contact Details

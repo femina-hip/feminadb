@@ -26,21 +26,9 @@
     %tr.first
       %th Delivery Method
       %td= f.delivery_method_field(:delivery_method_id)
-    %tr
-      %th
-        %abbr{:title => 'Company to which Femina will send Issues'} Deliver Via
-      %td= f.text_field :deliver_via
-    %tr
-      %th
-        %abbr{:title => 'Order in which to deliver. This should be the name of a route and then a number: for instance, "city07"'} Route
-      %td= f.text_field :route
-    %tr
-      %th
-        %abbr{:title => 'Instructions for where to actually deliver'} Address
-      %td= f.text_field :address
     %tr.last
-      %th PO Box
-      %td= f.text_field :po_box
+      %th= glossary_term('Delivery address')
+      %td= f.text_field :delivery_address
   %thead
     %tr
       %th Contact Details

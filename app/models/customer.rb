@@ -30,8 +30,7 @@ class Customer < ActiveRecord::Base
     text(:district)
     text(:name)
     text(:contact_name)
-    text(:deliver_via)
-    text(:address)
+    text(:delivery_address)
     text(:full_name)
     text(:contact_position)
     text(:telephone_1)
@@ -41,7 +40,6 @@ class Customer < ActiveRecord::Base
     text(:email_1)
     text(:email_2)
     text(:website)
-    text(:po_box)
     text(:delivery_method) { delivery_method.abbreviation }
     text(:delivery_method_name) { delivery_method.name }
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
@@ -134,18 +132,9 @@ class Customer < ActiveRecord::Base
   validates_presence_of :delivery_method_id
 
   before_validation :strip_string_fields
-  before_validation :clear_deliver_via_if_same_as_name
 
   def self.can_visit_url?; true; end
   def title; name; end
-
-  def deliver_via_string
-    (deliver_via and not deliver_via.empty? and deliver_via != name) ? "via #{deliver_via}" : nil
-  end
-
-  def delivery_instructions
-    [ deliver_via_string, address ].reject{|x| x.nil?}.join(', ')
-  end
 
   def contact_details_string
     [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
@@ -191,10 +180,7 @@ class Customer < ActiveRecord::Base
     district('District')
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
-    delivery_method(:abbreviation => 'Deliv. Meth.', :name => 'Delivery Method (long)')
-    deliver_via('Deliver Via')
-    address('Address')
-    po_box('P.O. Box')
+    delivery_address('Delivery address')
     contact_name('Contact Name')
     contact_position('Contact Position')
     telephone_1('Tel.')
@@ -208,13 +194,6 @@ class Customer < ActiveRecord::Base
 
   private
 
-  def clear_deliver_via_if_same_as_name
-    if deliver_via == name
-      write_attribute(:deliver_via, nil)
-    end
-    true # Returning false will cancel save
-  end
-
   def strip_string_fields
     if name =~ NEEDS_STRIPPING
       write_attribute(:name, name.strip)
@@ -222,8 +201,8 @@ class Customer < ActiveRecord::Base
     if district =~ NEEDS_STRIPPING
       write_attribute(:district, district.strip)
     end
-    if deliver_via =~ NEEDS_STRIPPING
-      write_attribute(:deliver_via, deliver_via.strip)
+    if delivery_address =~ NEEDS_STRIPPING
+      write_attribute(:delivery_address, delivery_address.strip)
     end
   end
 

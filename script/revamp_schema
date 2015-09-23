@@ -19,5 +19,9 @@ sql("DELETE FROM orders WHERE issue_id NOT IN (SELECT id FROM issues)")
 sql("DELETE FROM orders WHERE customer_id NOT IN (SELECT id FROM customers)")
 sql("UPDATE orders SET standing_order_id = NULL WHERE standing_order_id NOT IN (SELECT id FROM standing_orders)")
 
-#sql("ALTER TABLE delivery_methods DROP COLUMN warehouse_id")
-#sql("DROP TABLE warehouses")
+sql("ALTER TABLE delivery_methods DROP COLUMN warehouse_id")
+sql("DROP TABLE warehouses")
+
+sql("ALTER TABLE customers ADD COLUMN delivery_address VARCHAR(512) NOT NULL")
+sql("UPDATE customers SET delivery_address = CONCAT_WS(', ', CONCAT('via ', CASE deliver_via WHEN '' THEN NULL ELSE deliver_via END), CASE address WHEN '' THEN NULL ELSE address END, CASE route WHEN '' THEN NULL ELSE route END, CONCAT('p.o. box ', CASE po_box WHEN '' THEN NULL ELSE po_box END))")
+sql("ALTER TABLE customers DROP COLUMN deliver_via, DROP COLUMN route, DROP COLUMN po_box, DROP COLUMN address")

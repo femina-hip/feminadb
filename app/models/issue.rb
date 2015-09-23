@@ -213,7 +213,7 @@ class Issue < ActiveRecord::Base
       orders = Order
         .where(conditions)
         .includes(:customer, :region, { :delivery_method => :warehouse }, :issue)
-        .order('delivery_methods.name, regions.name, orders.district, customers.route, orders.deliver_via, orders.customer_name')
+        .order('delivery_methods.name, regions.name, orders.district, orders.customer_name')
       ActiveRecord::Associations::Preloader.new.preload(orders.collect(&:issue), :issue_box_sizes)
 
       orders.each do |order|
