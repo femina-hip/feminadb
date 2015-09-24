@@ -84,9 +84,7 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.integer  "region_id",          limit: 4
     t.string   "district",           limit: 255
     t.string   "contact_name",       limit: 255
-    t.string   "deliver_via",        limit: 255
     t.integer  "delivery_method_id", limit: 4
-    t.string   "address",            limit: 255
     t.string   "full_name",          limit: 255
     t.string   "contact_position",   limit: 255
     t.string   "telephone_1",        limit: 255
@@ -96,31 +94,14 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string   "email_1",            limit: 255
     t.string   "email_2",            limit: 255
     t.string   "website",            limit: 255
-    t.string   "po_box",             limit: 255
-    t.string   "route",              limit: 255, default: "", null: false
     t.datetime "created_at"
+    t.string   "delivery_address",   limit: 512, null: false
   end
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   limit: 4,     default: 0
-    t.integer  "attempts",   limit: 4,     default: 0
-    t.text     "handler",    limit: 65535
-    t.text     "last_error", limit: 65535
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by",  limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "delivery_methods", force: :cascade do |t|
-    t.string  "name",                                  limit: 255
-    t.string  "description",                           limit: 255
-    t.string  "abbreviation",                          limit: 255,                null: false
-    t.boolean "include_in_distribution_quote_request",             default: true, null: false
+    t.string "name",         limit: 255
+    t.string "description",  limit: 255
+    t.string "abbreviation", limit: 255, null: false
   end
 
   create_table "districts", force: :cascade do |t|
@@ -147,26 +128,22 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string  "name",           limit: 255
     t.integer "publication_id", limit: 4
     t.date    "issue_date"
-    t.string  "issue_number",   limit: 255,                default: "", null: false
-    t.integer "quantity",       limit: 4,                  default: 0,  null: false
-    t.decimal "price",                      precision: 12
-    t.string  "packing_hints",  limit: 255
+    t.string  "issue_number",   limit: 255, default: "", null: false
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "customer_id",        limit: 4
-    t.integer "issue_id",           limit: 4
-    t.integer "standing_order_id",  limit: 4
-    t.integer "num_copies",         limit: 4
-    t.string  "comments",           limit: 255
+    t.integer "customer_id",       limit: 4
+    t.integer "issue_id",          limit: 4
+    t.integer "standing_order_id", limit: 4
+    t.integer "num_copies",        limit: 4
+    t.string  "comments",          limit: 255
     t.date    "order_date"
-    t.integer "region_id",          limit: 4
-    t.string  "district",           limit: 255
-    t.string  "customer_name",      limit: 255
-    t.string  "deliver_via",        limit: 255
-    t.integer "delivery_method_id", limit: 4
-    t.string  "contact_name",       limit: 255
-    t.string  "contact_details",    limit: 255
+    t.string  "district",          limit: 255
+    t.string  "customer_name",     limit: 255
+    t.string  "delivery_address",  limit: 512, null: false
+    t.string  "contact_details",   limit: 255
+    t.string  "region",            limit: 255, null: false
+    t.string  "delivery_method",   limit: 255, null: false
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
@@ -177,7 +154,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string  "name",                   limit: 255
     t.boolean "tracks_standing_orders",             default: true, null: false
     t.boolean "pr_material",                        default: true
-    t.string  "packing_hints",          limit: 255
   end
 
   create_table "regions", force: :cascade do |t|
@@ -224,22 +200,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string   "remember_token",            limit: 255
     t.datetime "remember_token_expires_at"
   end
-
-  create_table "versions", force: :cascade do |t|
-    t.integer  "versioned_id",   limit: 4
-    t.string   "versioned_type", limit: 255
-    t.integer  "user_id",        limit: 4
-    t.string   "user_type",      limit: 255
-    t.string   "user_name",      limit: 255
-    t.text     "modifications",  limit: 65535
-    t.integer  "number",         limit: 4
-    t.string   "tag",            limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "versions", ["versioned_id", "versioned_type", "number"], name: "index_versions_on_versioned_id_and_versioned_type_and_number", using: :btree
-  add_index "versions", ["versioned_id", "versioned_type"], name: "index_versions_on_versioned_id_and_versioned_type", using: :btree
 
   create_table "waiting_orders", force: :cascade do |t|
     t.integer "customer_id",    limit: 4,                null: false
