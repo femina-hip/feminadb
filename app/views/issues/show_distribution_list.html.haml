@@ -5,19 +5,12 @@
     for
     = "#{h(@issue.full_name)}."
 
-  %p= link_to('View Issue Information', [@publication, @issue])
+  %p= link_to('View Issue Information', @issue)
 
   %p
     - if @delivery_method
       Only showing Delivery Method:
-      = @delivery_method.name
+      = @delivery_method
 
-- if @data.nil?
-  .error
-    %p
-      The Issues do not all fit into boxes, and so this page cannot be
-      displayed. Create a box size of 1 on this Issue to work around this
-      problem.
-- else
-  - @data.each do |delivery_method, regions|
-    = render('distribution_list', :delivery_method => delivery_method, :regions => regions)
+  - @data.each do |obj|
+    = render('distribution_list', delivery_method: obj[0], regions: obj[1])

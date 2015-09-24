@@ -36,15 +36,9 @@ class Order < ActiveRecord::Base
     customer.try(:type)
   end
 
-  # Returns a dictionary of { IssueBoxSize => (int) num_boxes }
-  # BROKEN if the underlying Issue changes
+  # Returns a dictionary of { (int) box_size => (int) num_boxes }
   def num_boxes
-    if @box_sizes_cache and @box_sizes_cache_num_copies == num_copies
-      return @box_sizes_cache
-    end
-
-    @box_sizes_cache_num_copies = num_copies
-    @box_sizes_cache = issue.issue_box_size_quantities(num_copies)
+    issue.find_box_sizes(num_copies)
   end
 
   comma do

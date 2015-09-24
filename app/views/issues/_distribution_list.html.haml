@@ -9,7 +9,7 @@
       %th Final Recipient
       %th Delivery Address
       %th # Copies
-      - @issue.issue_box_sizes_i.each do |ibs|
+      - @issue.used_box_sizes_i(delivery_method).each do |ibs|
         %th= "x#{ibs}"
 
   %tbody
@@ -27,17 +27,16 @@
             %td= order.customer_name
             %td= order.delivery_address
             %td.num-copies= number_with_delimiter(order.num_copies.to_i)
-            - @issue.issue_box_sizes_i.each do |ibs|
-              %td.num-copies
-                = number_with_delimiter(order.num_boxes[ibs] > 0 ? order.num_boxes[ibs] : '')
+            - @issue.used_box_sizes_i(delivery_method).each do |ibs|
+              %td.num-copies= number_with_delimiter(order.num_boxes[ibs].to_s)
       %tr.subtotal
         %td
         %td{:colspan => 3} Region subtotal
         %td.num-copies= number_with_delimiter districts.total(:num_copies)
-        - @issue.issue_box_sizes_i.each do |ibs|
+        - @issue.used_box_sizes_i(delivery_method).each do |ibs|
           %td.num-copies= number_with_delimiter districts.total_boxes(ibs)
     %tr.total
       %td{:colspan => 4} Total
       %td.num-copies= number_with_delimiter regions.total(:num_copies)
-      - @issue.issue_box_sizes_i.each do |ibs|
+      - @issue.used_box_sizes_i(delivery_method).each do |ibs|
         %td.num-copies= number_with_delimiter regions.total_boxes(ibs)

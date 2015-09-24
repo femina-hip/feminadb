@@ -43,3 +43,9 @@ end
 #
 #sql("DROP TABLE delayed_jobs")
 #sql("DROP TABLE versions")
+#
+#sql("ALTER TABLE issues ADD COLUMN box_sizes VARCHAR(255) NOT NULL")
+#sql("UPDATE issues SET box_sizes = (SELECT GROUP_CONCAT(num_copies ORDER BY num_copies SEPARATOR ', ') FROM issue_box_sizes WHERE issue_id = issues.id)")
+#sql("DROP TABLE issue_box_sizes")
+
+sql("ALTER TABLE customers ADD COLUMN sms_numbers VARCHAR(255) NOT NULL DEFUALT '', ADD COLUMN club_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', contacts VARCHAR(255) NOT NULL DEFAULT '', club_contacts VARCHAR(255) NOT NULL DEFAULT ''")

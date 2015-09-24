@@ -20,7 +20,7 @@
       %td= @issue.issue_date
     %tr{:class => cycle('odd', 'even')}
       %th Box Sizes
-      %td= @issue.issue_box_sizes_string
+      %td= @issue.box_sizes
     - if current_user.has_role?('edit-issues')
       %tr
         %td.edit{:colspan => 2}

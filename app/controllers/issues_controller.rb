@@ -39,8 +39,7 @@ class IssuesController < ApplicationController
 
   def update
     require_role 'edit-issues'
-    @issue = update_with_attributes(issue, issue_params)
-    if @issue.valid?
+    if update_with_audit(issue, issue_params)
       redirect_to(@issue)
     else
       render(action: 'edit')
@@ -60,11 +59,7 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @data = begin
-          @issue.distribution_list_data(@delivery_method)
-        rescue Issue::DoesNotFitInBoxesException
-          nil
-        end
+        @data = @issue.distribution_list_data(@delivery_method)
       end
       format.csv do
         send_data(@issue.distribution_list_csv(@delivery_method), :filename => 'distribution_list.csv', :type => 'text/csv', :disposition => 'inline')
@@ -102,7 +97,7 @@ class IssuesController < ApplicationController
       :name,
       :issue_date_string,
       :issue_number,
-      :issue_box_sizes_string
+      :box_sizes
     )
   end
 end

@@ -1,4 +1,4 @@
-<h1>Editing <%=h @publication.name %> Issue #<%= @issue.issue_number %></h1>
+<h1>Editing <%=h @issue.publication_name %> Issue #<%= @issue.issue_number %></h1>
 
 <%= error_messages_for :issue %>
 
@@ -7,4 +7,4 @@
   <p><%= submit_tag 'Update Details' %></p>
 <% end %>
 
-<p><%= link_to 'Back to Issues List', publication_url(@publication) %></p>
+<p><%= link_to 'Back to Issues List', publication_url(@issue.publication) %></p>

@@ -1,10 +1,7 @@
 class Issue < ActiveRecord::Base
   extend DateField
 
-  class DoesNotFitInBoxesException < Exception; end
-
   belongs_to(:publication)
-  has_many(:issue_box_sizes, -> { order(:num_copies) })
   has_many(:orders, -> { order(:delivery_method, :region, :district, :customer_name) })
   has_many(:notes, -> { order(:created_at) }, class_name: 'IssueNote')
   has_many(:bulk_order_creators)
@@ -18,7 +15,7 @@ class Issue < ActiveRecord::Base
   validates_format_of :issue_number,
                       :with => /\A[-\.A-Za-z0-9]+\z/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
-  validate :validate_issue_box_sizes_string
+  validates_format_of :box_sizes, with: /\A([0-9]+,\s*)*[0-9]+\z/, message: 'must be a list of box sizes like "50, 100"'
 
   date_field :issue_date
 
@@ -31,7 +28,9 @@ class Issue < ActiveRecord::Base
     "#{publication.name} #{number_and_name}"
   end
 
-  def title; full_name; end
+  def title
+    full_name
+  end
 
   def number_and_name
     "#{issue_number}: #{name}"
@@ -41,74 +40,30 @@ class Issue < ActiveRecord::Base
     "[#{publication.name}] #{number_and_name}"
   end
 
-  # Returns a string list of issue box sizes
-  def issue_box_sizes_string(force_reload = false)
-    issue_box_sizes(force_reload).collect(&:num_copies).sort.join(', ')
+  # Returns [50, 75, 100]
+  #
+  # This will never include the box size of 1.
+  #
+  # [adamh] back in 2010, I ascribed some meaning to box size 1: some
+  # publications had it and others didn't. I don't remember what the point was,
+  # and I'm sure nobody else does, either. Now the UI will *always* allow box
+  # size==1, and the distribution manager can handle the case as he/she sees
+  # fit. This avoids a clunky exception.
+  def box_sizes_i
+    @box_sizes_i ||= box_sizes.split(/,\s+/).map(&:to_i).sort.reject { |i| i < 2 }
   end
 
-  # Returns [1, 50, 75, 100]
-  def issue_box_sizes_i
-    @issue_box_sizes_i ||= issue_box_sizes.collect(&:num_copies)
-  end
-
-  # Sets the box sizes of the issue
-  # The input must be a string like "4, 2, 15"
-  def issue_box_sizes_string=(val)
-    val.strip!
-    @issue_box_sizes_string_invalid = !(val =~ /\A(|\d+(,\s*(\d+)\s*)*)\z/)
-    return if @issue_box_sizes_string_invalid
-
-    # FIXME: don't commit IBS changes until save
-    transaction do
-      new_sizes = val.split(/[,;]/).map{ |s| s.to_i }.select{ |i| i > 0 }.sort.uniq
-      # Copy the old one, since we'll be editing the real list
-      old_sizes = issue_box_sizes.map{ |ibs| ibs.num_copies.to_i }.sort
-
-      # Merge the new list with the old one (don't build new issue box sizes
-      # when not strictly necessary)
-      new_i = 0
-      old_i = 0
-
-      while new_i < new_sizes.length and old_i < old_sizes.length
-        new = new_sizes[new_i]
-        old = old_sizes[old_i]
-
-        if new == old
-          new_i += 1
-          old_i += 1
-          next
-        end
-
-        if new > old
-          ibs = issue_box_sizes.find_by_num_copies(old)
-          issue_box_sizes.delete(ibs)
-          ibs.destroy
-          old_i += 1
-          next
-        end
-
-        if new < old
-          issue_box_sizes.build(:num_copies => new)
-          new_i += 1
-          next
-        end
-
-        raise Exception.new('Broken source code!')
-      end
-
-      while new_i < new_sizes.length
-        issue_box_sizes.build(:num_copies => new_sizes[new_i])
-        new_i += 1
-      end
-
-      while old_i < old_sizes.length
-        ibs = issue_box_sizes.find_by_num_copies(old_sizes[old_i])
-        issue_box_sizes.delete(ibs)
-        ibs.destroy
-        old_i += 1
-      end
-
-      issue_box_sizes_string
+  # The (Array of Integer) box sizes that actually get *used*.
+  #
+  # Unlike box_sizes_i, this *may* have box size 1, if issues don't fit into
+  # other boxes. It may also *omit* box sizes returned by box_sizes_i, if they
+  # are completely unused in all orders.
+  def used_box_sizes_i(delivery_method=nil)
+    @used_box_sizes_i ||= {}
+    @used_box_sizes_i[delivery_method] ||= begin
+      some_orders = orders
+      some_orders = some_orders.where(delivery_method: delivery_method) if delivery_method
+      order_box_sizes(some_orders)
     end
   end
 
@@ -161,7 +116,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Created by Issue.distribution_list_data
-  # This is an enumerable which maps (in order) from DeliveryMethod to
+  # This is an enumerable which maps (in order) from String delivery_method to
   # DistributionListSubData.
   class DistributionListData
     include Enumerable
@@ -169,26 +124,23 @@ class Issue < ActiveRecord::Base
     def initialize(issue, delivery_method = nil)
       @delivery_methods = {}
 
-      conditions = { :issue_id => issue.id }
+      some_orders = issue.orders.order(:delivery_method, :region, :district, :customer_name)
+
       if delivery_method
-        conditions.merge!(:delivery_method_id => delivery_method.id)
+        some_orders = some_orders.where(delivery_method: delivery_method)
       end
 
-      orders = Order
-        .where(conditions)
-        .includes(:issue => :issue_box_sizes)
-        .order(:delivery_method, :region, :district, :customer_name)
-
-      orders.each do |order|
+      some_orders.each do |order|
         @delivery_methods[order.delivery_method] ||= DistributionListSubData.new
         @delivery_methods[order.delivery_method].feed(order)
       end
     end
 
-    def each(&block)
-      keys = @delivery_methods.keys
-      keys.sort!
-      keys.collect{|dm| [ dm, @delivery_methods[dm] ]}.each(&block)
+    def each
+      keys = @delivery_methods.sort
+      keys.each do |key|
+        yield key, @delivery_methods[key]
+      end
     end
 
     # Created by Issue.distribution_list_data
@@ -279,25 +231,18 @@ class Issue < ActiveRecord::Base
     @distribution_list_data[delivery_method] ||= DistributionListData.new(self, delivery_method)
   end
 
-  # Returns a dictionary of { IssueBoxSize => (int) num_boxes }
-  def issue_box_size_quantities(num_copies)
-    ret = find_box_sizes(num_copies) || only_box_size_1_hash(num_copies)
-    return ret if ret
-
-    # We failed to find a combination of boxes
-    raise DoesNotFitInBoxesException.new('Cannot fit issues into any boxes')
-  end
-
   def distribution_list_csv(delivery_method)
-    FasterCSV.generate do |csv|
-      box_sizes = issue_box_sizes_i.reject{ |n| n == 1 }
+    these_orders = orders
+    these_orders = these_orders.where(delivery_method: delivery_method) if delivery_method
+    these_box_sizes = order_box_sizes(these_orders)
 
-      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + box_sizes.collect{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
+    CSV.generate do |csv|
+      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
 
-      orders.where(delivery_method: delivery_method).each do |order|
-        sizes = issue_box_size_quantities(order.num_copies)
+      these_orders.each do |order|
+        sizes = find_box_sizes(order.num_copies)
 
-        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.num_copies ] + box_sizes.collect{ |ibs| n = sizes[ibs] || 0; n > 0 && n.to_s || '' })
+        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
       end
     end
   end
@@ -311,72 +256,49 @@ class Issue < ActiveRecord::Base
     @order_delivery_methods = orders.select(:delivery_method).distinct.map(&:delivery_method).sort
   end
 
-  private
-
-  def validate_issue_box_sizes_string
-    # Since issue_box_sizes_string isn't an attribute, this is a bit of
-    # a hack. Fixes bug #32.
-    if @issue_box_sizes_string_invalid
-      errors.add(
-        :issue_box_sizes_string,
-        'must be of the form "50, 75, 100"'
-      )
-    end
-  end
-
   # Returns a hash of { # copies => # boxes }
   def find_box_sizes(num_copies)
     @find_box_sizes_cache ||= {}
-    cache_key = num_copies
-    return @find_box_sizes_cache[cache_key] if @find_box_sizes_cache.include?(cache_key) # might be nil
 
-    size_integers = issue_box_sizes_i.reverse
+    @find_box_sizes_cache[num_copies] ||= begin
+      ret = {}
 
-    # Try to shortcut: if it divides evenly, use it
-    size_integers.each do |ibs_num_copies|
-      next if ibs_num_copies == 1
-      i, r = num_copies.divmod(ibs_num_copies)
-      return @find_box_sizes_cache[num_copies] = Hash.new(0).merge(ibs_num_copies => i) if r == 0
-    end
-
-    ans = find_box_sizes_helper(num_copies, size_integers.reject{|i| i == 1})
-    @find_box_sizes_cache[cache_key] = if ans.nil?
-      nil
-    else
-      ans.last.default = 0
-      ans.last
-    end
-  end
-
-  # Returns nil or a pair of (# copies remaining, { # copies => # boxes })
-  def find_box_sizes_helper(num_copies, remaining_sizes)
-    return [ num_copies, {} ] if num_copies == 0
-    return nil if remaining_sizes.empty?
-
-    ibs_num_copies, other_sizes = remaining_sizes[0], remaining_sizes[1..-1]
-
-    i, r = num_copies.divmod(ibs_num_copies)
-    return [ 0, { ibs_num_copies => i } ] if r == 0
-
-    while i > 0 do
-      ans = find_box_sizes_helper(r, other_sizes)
-      if ans
-        ans.last.update({ ibs_num_copies => i })
-        return ans
+      # If box sizes are [50, 75, 100] and we ask for 150 boxes, then return
+      # 2*75 over the greedy-algorithm answer of 1*100, 1*50.
+      fits_exactly_into_single_box_size = false
+      for box_size in box_sizes_i.reverse
+        if num_copies / box_size * box_size == num_copies
+          fits_exactly_into_single_box_size = true
+          ret[box_size] = num_copies / box_size
+          break
+        end
       end
 
-      i -= 1
-      r += ibs_num_copies
-    end
+      if !fits_exactly_into_single_box_size
+        num_copies_remaining = num_copies
+        for box_size in box_sizes_i.reverse
+          num_boxes, num_copies_remaining = num_copies_remaining.divmod(box_size)
+          ret[box_size] = num_boxes if num_boxes > 0
+        end
 
-    return find_box_sizes_helper(num_copies, other_sizes)
+        # Sometimes the copies don't all fit into boxes. That's a problem for
+        # a human to handle, not us. Put the rest into the fictional "size-1"
+        # box so a human can eventually see the problem.
+        ret[1] = num_copies_remaining if num_copies_remaining > 0
+      end
+
+      ret
+    end
   end
 
-  def only_box_size_1_hash(num_copies)
-    return nil if @box_size_1_nil
-    @box_size_1 ||= issue_box_sizes.find_by_num_copies(1)
-    @box_size_1_nil ||= @box_size_1.nil?
-    return nil if @box_size_1_nil
-    Hash.new(0).merge(1 => num_copies)
+  private
+
+  def order_box_sizes(some_orders)
+    distinct_num_copies = some_orders.select(:num_copies).distinct.map(&:num_copies)
+    distinct_num_copies
+      .map { |num_copies| find_box_sizes(num_copies).keys }
+      .flatten
+      .uniq
+      .sort
   end
 end
