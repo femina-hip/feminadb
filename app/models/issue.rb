@@ -83,21 +83,21 @@ class Issue < ActiveRecord::Base
   #   ...
   # }
   def distribution_order_data
-    rows = Order.find_by_sql ["""
+    rows = Order.connection.execute("""
       SELECT
         delivery_method,
         region,
         COUNT(*) AS num_recipients,
         SUM(orders.num_copies) AS num_copies
       FROM orders
-      WHERE orders.issue_id = ?
+      WHERE orders.issue_id = #{id}
       GROUP BY delivery_method, region
       ORDER BY delivery_method, region
-      """, id ]
+    """)
     last_delivery_method = nil
     ret = []
     rows.each do |row|
-      delivery_method = row['delivery_method']
+      delivery_method = row[0]
       if delivery_method != last_delivery_method
         last_delivery_method = delivery_method
         ret <<= {
@@ -107,128 +107,52 @@ class Issue < ActiveRecord::Base
       end
 
       ret.last[:rows] <<= {
-        region: row['region'].to_s,
-        num_recipients: row['num_recipients'].to_i,
-        num_copies: row['num_copies'].to_i
+        region: row[1],
+        num_recipients: row[2],
+        num_copies: row[3]
       }
     end
     ret
   end
 
-  # Created by Issue.distribution_list_data
-  # This is an enumerable which maps (in order) from String delivery_method to
-  # DistributionListSubData.
-  class DistributionListData
-    include Enumerable
-
-    def initialize(issue, delivery_method = nil)
-      @delivery_methods = {}
-
-      some_orders = issue.orders.order(:delivery_method, :region, :district, :customer_name)
-
-      if delivery_method
-        some_orders = some_orders.where(delivery_method: delivery_method)
-      end
-
-      some_orders.each do |order|
-        @delivery_methods[order.delivery_method] ||= DistributionListSubData.new
-        @delivery_methods[order.delivery_method].feed(order)
-      end
+  class LightweightOrder
+    def initialize(array)
+      @array = array
     end
 
-    def each
-      keys = @delivery_methods.sort
-      keys.each do |key|
-        yield key, @delivery_methods[key]
-      end
-    end
-
-    # Created by Issue.distribution_list_data
-    # This is an enumerable which maps (in order) from Region to
-    # DistributionListSubSubData.
-    class DistributionListSubData
-      include Enumerable
-
-      attr :regions
-
-      def initialize
-        @regions = {}
-      end
-
-      # Used during construction
-      def feed(order)
-        @regions[order.region] ||= DistributionListSubSubData.new
-        @regions[order.region].feed(order)
-      end
-
-      def each(&block)
-        keys = @regions.keys.sort
-        keys.collect{ |r| [ r, @regions[r] ]}.each(&block)
-      end
-
-      # Calculates the total of :attr in the orders
-      def total(attr)
-        @total ||= {}
-        @total[attr] ||= @regions.values.inject(0) { |sum, v| sum + v.total(attr) }
-      end
-
-      # Calculates the total number of boxes of the given size
-      def total_boxes(ibs)
-        @total_boxes ||= {}
-        @total_boxes[ibs] ||= @regions.values.inject(0) { |sum, v| sum + v.total_boxes(ibs) }
-      end
-
-      # Created by Issue.distribution_list_data.
-      # This is an enumerable which maps (in order) from district name to
-      # a list of orders.
-      class DistributionListSubSubData
-        include Enumerable
-
-        attr :districts
-
-        def initialize
-          @districts = {}
-        end
-
-        # Used during construction
-        def feed(order)
-          order.num_boxes # Throw an exception if applicable
-
-          @districts[order.district || ''] ||= []
-          @districts[order.district || ''] << order
-        end
-
-        def each(&block)
-          keys = @districts.keys.sort
-          keys.collect{|d| [ d, @districts[d] ]}.each(&block)
-        end
-
-        # Calculates the total of :attr in the orders
-        def total(attr)
-          @total ||= {}
-          @total[attr] ||= @districts.values.inject(0) do |sum, orders|
-            sum + orders.inject(0) do |sum2, order|
-              sum2 + order.send(attr).to_i
-            end
-          end
-        end
-
-        # Calculates the total number of boxes of the given size
-        def total_boxes(ibs)
-          @districts.values.inject(0) do |sum, orders|
-            sum + orders.inject(0) do |sum2, order|
-              sum2 + order.num_boxes[ibs].to_i
-            end
-          end
-        end
-      end
-    end
+    def id; @array[0]; end
+    def delivery_method; @array[1]; end
+    def region; @array[2]; end
+    def district; @array[3]; end
+    def customer_name; @array[4]; end
+    def delivery_address; @array[5]; end
+    def num_copies; @array[6]; end
   end
 
-  # Returns a DistributionListData structure
+  # Returns an Array of LightweightOrders with just enough info to build a
+  # distribution list.
+  #
+  # This uses raw SQL, because ActiveRecord is too heavy.
   def distribution_list_data(delivery_method = nil)
     @distribution_list_data ||= {}
-    @distribution_list_data[delivery_method] ||= DistributionListData.new(self, delivery_method)
+    @distribution_list_data[delivery_method] ||= begin
+      where_sql = delivery_method && " AND delivery_method = #{Order.sanitize_sql(delivery_method)}" || ''
+
+      Order.connection.execute("""
+        SELECT
+          id,
+          delivery_method,
+          region,
+          district,
+          customer_name,
+          delivery_address,
+          num_copies
+        FROM orders
+        WHERE issue_id = #{id}
+        #{where_sql}
+        ORDER BY delivery_method, region, district, customer_name
+      """).map { |array| LightweightOrder.new(array) }
+    end
   end
 
   def distribution_list_csv(delivery_method)
@@ -239,7 +163,7 @@ class Issue < ActiveRecord::Base
     CSV.generate do |csv|
       csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
 
-      these_orders.each do |order|
+      distribution_list_data.each do |order|
         sizes = find_box_sizes(order.num_copies)
 
         csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })

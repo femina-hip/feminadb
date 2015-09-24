@@ -12,5 +12,5 @@
       Only showing Delivery Method:
       = @delivery_method
 
-  - @data.each do |obj|
-    = render('distribution_list', delivery_method: obj[0], regions: obj[1])
+  - @data.chunk(&:delivery_method).each do |delivery_method, rows|
+    = render('distribution_list', delivery_method: delivery_method, rows: rows)
