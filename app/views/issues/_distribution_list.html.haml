@@ -1,6 +1,5 @@
 -# Required variables: "delivery_method"; "regions", a DistributionListSubData
-%h3= delivery_method ? delivery_method.name : 'Unknown'
-%h4= delivery_method ? delivery_method.description : 'Database inconsistencies'
+%h3= delivery_method
 
 %table.distribution-list
   %thead
@@ -8,7 +7,7 @@
       %th Region
       %th District
       %th Final Recipient
-      %th Distribution Instructions
+      %th Delivery Address
       %th # Copies
       - @issue.issue_box_sizes_i.each do |ibs|
         %th= "x#{ibs}"
@@ -21,12 +20,12 @@
         - new_district = true
         - orders.each do |order|
           %tr{:class => cycle('odd', 'even')}
-            %th= new_region ? (order.region ? order.region.name : 'INCONSISTENT') : ''
+            %th= new_region ? order.region : ''
             - new_region = false
             %th= new_district ? order.district : ''
             - new_district = false
             %td= order.customer_name
-            %td= order.deliver_via
+            %td= order.delivery_address
             %td.num-copies= number_with_delimiter(order.num_copies.to_i)
             - @issue.issue_box_sizes_i.each do |ibs|
               %td.num-copies

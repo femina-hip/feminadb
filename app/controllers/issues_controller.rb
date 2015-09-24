@@ -47,22 +47,10 @@ class IssuesController < ApplicationController
     end
   end
 
-  def show_distribution_quote_request
-    # [req:ReportDistributionQuoteRequest]
-    @issue = issue
-    @data = @issue.distribution_quote_request_data
-
-    @delivery_methods =
-      DeliveryMethod.where(:include_in_distribution_quote_request => true).order(:name).all
-  end
-
   def show_distribution_order
     # [req:ReportDistributionOrder]
     @issue = issue
     @data = @issue.distribution_order_data
-
-    @delivery_methods =
-      DeliveryMethod.order(:name).all.select{|dm| @data.include?(dm)}
   end
 
   def show_distribution_list

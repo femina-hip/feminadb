@@ -112,75 +112,51 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  # Returns an array of
+  # Returns an Array of:
   # [
   #   {
-  #     :region_name => (string),
-  #     :num_recipients => (int),
-  #     :num_copies => (int)
+  #     delivery_method: 'Some delivery method',
+  #     rows: [
+  #       {
+  #         :region_name => (string),
+  #         :num_recipients => (int),
+  #         :num_copies => (int)
+  #       },
+  #       ...
+  #     ]
   #   },
   #   ...
-  # ]
-  def distribution_quote_request_data
-    rows = Order.find_by_sql [
-      "SELECT regions.name AS region_name,
-              COUNT(*) AS num_recipients,
-              SUM(orders.num_copies) AS num_copies
-       FROM orders
-       INNER JOIN regions
-               ON orders.region_id = regions.id
-       INNER JOIN delivery_methods
-               ON orders.delivery_method_id = delivery_methods.id
-              AND delivery_methods.include_in_distribution_quote_request
-       WHERE orders.issue_id = ?
-       GROUP BY regions.id
-       ORDER BY regions.name
-      ", id ]
-    rows.collect do |row|
-      {
-        :region_name => row['region_name'].to_s,
-        :num_recipients => row['num_recipients'].to_i,
-        :num_copies => row['num_copies'].to_i
-      }
-    end
-  end
-
-  # Returns a dictionary of
-  # DeliveryMethod => [
-  #   {
-  #     :region_name => (string),
-  #     :num_recipients => (int),
-  #     :num_copies => (int)
-  #   },
-  #   ...
-  # ]
+  # }
   def distribution_order_data
-    rows = Order.find_by_sql [
-        "SELECT orders.delivery_method_id,
-                regions.name AS region_name,
-                COUNT(*) AS num_recipients,
-                SUM(orders.num_copies) AS num_copies
-         FROM orders
-         INNER JOIN regions
-                 ON orders.region_id = regions.id
-         WHERE orders.issue_id = ?
-         GROUP BY orders.delivery_method_id, regions.id
-         ORDER BY orders.delivery_method_id, region_name
-         ", id ]
-
-    ret = {}
-
+    rows = Order.find_by_sql ["""
+      SELECT
+        delivery_method,
+        region,
+        COUNT(*) AS num_recipients,
+        SUM(orders.num_copies) AS num_copies
+      FROM orders
+      WHERE orders.issue_id = ?
+      GROUP BY delivery_method, region
+      ORDER BY delivery_method, region
+      """, id ]
+    last_delivery_method = nil
+    ret = []
     rows.each do |row|
-      delivery_method = DeliveryMethod.find(row[:delivery_method_id].to_i)
+      delivery_method = row['delivery_method']
+      if delivery_method != last_delivery_method
+        last_delivery_method = delivery_method
+        ret <<= {
+          delivery_method: delivery_method,
+          rows: []
+        }
+      end
 
-      ret[delivery_method] ||= []
-      ret[delivery_method] << {
-        :region_name => row[:region_name].to_s,
-        :num_recipients => row[:num_recipients].to_i,
-        :num_copies => row[:num_copies].to_i
+      ret.last[:rows] <<= {
+        region: row['region'].to_s,
+        num_recipients: row['num_recipients'].to_i,
+        num_copies: row['num_copies'].to_i
       }
     end
-
     ret
   end
 
@@ -328,6 +304,11 @@ class Issue < ActiveRecord::Base
 
   def publication_name
     publication && publication.name || '???'
+  end
+
+  # An Array of all String delivery methods used by orders for this issue
+  def order_delivery_methods
+    @order_delivery_methods = orders.select(:delivery_method).distinct.map(&:delivery_method).sort
   end
 
   private

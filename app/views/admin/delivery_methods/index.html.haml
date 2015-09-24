@@ -8,19 +8,12 @@
       %th Name
       %th Description
       %th
-        %abbr{:title => 'If Yes, Orders with this Delivery Method will be included in Distribution Quote Requests'} Quote?
-      %th
   %tbody
     - @delivery_methods.each do |delivery_method|
       %tr{:class => cycle('odd', 'even')}
         %td.abbreviation= delivery_method.abbreviation
         %td.name= delivery_method.name
         %td.description= delivery_method.description
-        %td.quote
-          - if delivery_method.include_in_distribution_quote_request?
-            Yes
-          - else
-            No
         %td.actions
           = link_to('Edit', edit_admin_delivery_method_path(delivery_method))
     %tr.add

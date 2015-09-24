@@ -39,6 +39,7 @@ end
 #sql("ALTER TABLE issues DROP COLUMN packing_hints")
 #sql("ALTER TABLE issues DROP COLUMN quantity")
 #sql("ALTER TABLE issues DROP COLUMN price")
+#sql("ALTER TABLE delivery_methods DROP COLUMN include_in_distribution_quote_request")
 #
 #sql("DROP TABLE delayed_jobs")
 #sql("DROP TABLE versions")

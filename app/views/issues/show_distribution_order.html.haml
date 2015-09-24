@@ -5,7 +5,30 @@
     for
     = "#{h(@issue.full_name)}."
 
-  %p= link_to 'View Issue Information', [@publication, @issue]
+  %p= link_to 'View Issue Information', @issue
 
-- @delivery_methods.each do |delivery_method|
-  = render :partial => 'distribution_quote_request_table', :locals => { :delivery_method => delivery_method, :table => @data[delivery_method] }
+- @data.each do |delivery_method_table|
+  %table.distribution-quote-request
+    %thead.title
+      %tr
+        %th{colspan: 4}
+          Distribution Order for
+          = delivery_method_table[:delivery_method]
+    %thead
+      %tr
+        %th Region
+        %th # Recipients
+        %th # Copies
+        %th # Units of 50
+    %tbody
+      - delivery_method_table[:rows].each do |row|
+        %tr{:class => cycle('odd', 'even')}
+          %td=h row[:region]
+          %td= number_with_delimiter(row[:num_recipients])
+          %td= number_with_delimiter(row[:num_copies])
+          %td= number_with_delimiter(row[:num_copies] / 50)
+      %tr.total
+        %th Total
+        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] })
+        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] })
+        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] / 50 })

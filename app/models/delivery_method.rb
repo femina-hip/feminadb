@@ -19,8 +19,4 @@ class DeliveryMethod < ActiveRecord::Base
   def full_name
     "#{abbreviation}: #{name} (#{description})"
   end
-
-  def include_in_distribution_quote_request?
-    include_in_distribution_quote_request
-  end
 end
