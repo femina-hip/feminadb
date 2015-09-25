@@ -5,13 +5,11 @@ class Report::IssuesPerRegion < Report::Base
   end
 
   def data
-    @data ||= Order.sum(
-      :num_copies,
-      :group => :region,
-      :order => 'SUM(orders.num_copies) DESC',
-      :include => :region,
-      :conditions => [ 'orders.issue_id = ? AND orders.deleted_at IS NULL', @issue.id ]
-    )
+    @data ||= Order
+      .where(issue_id: @issue.id)
+      .group(:region)
+      .sum(:num_copies)
+      .sort_by { |k, v| -v }
   end
 
   def subtitle
@@ -20,7 +18,7 @@ class Report::IssuesPerRegion < Report::Base
 
   def columns
     [
-      { :key => :region, :title => 'Region', :class => Region },
+      { :key => :region, :title => 'Region', :class => String },
       { :key => :num_copies, :title => 'Qty', :class => Integer }
     ]
   end

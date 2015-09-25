@@ -8,14 +8,15 @@
       %th Name
       %th Description
       %th
+      %th
   %tbody
     - @delivery_methods.each do |delivery_method|
       %tr{:class => cycle('odd', 'even')}
         %td.abbreviation= delivery_method.abbreviation
         %td.name= delivery_method.name
         %td.description= delivery_method.description
-        %td.actions
-          = link_to('Edit', edit_admin_delivery_method_path(delivery_method))
+        %td.actions= link_to('Edit', edit_admin_delivery_method_path(delivery_method))
+        %td.actions= button_to('Destroy', [ :admin, delivery_method ], method: :delete, data: { confirm: 'Are you sure you want to delete this Delivery Method?' })
     %tr.add
-      %td{:colspan => 6}
+      %td{:colspan => 7}
         = link_to('Create new Delivery Method', new_admin_delivery_method_path)

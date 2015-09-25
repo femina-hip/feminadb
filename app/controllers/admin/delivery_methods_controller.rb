@@ -37,8 +37,6 @@ class Admin::DeliveryMethodsController < ApplicationController
 
     if delivery_method.customers.length > 0
       flash[:notice] = 'DeliveryMethod cannot be deleted because it has Customers'
-    elsif delivery_method.orders.length > 0
-      flash[:notice] = 'DeliveryMethod cannot be deleted because it has Orders'
     else
       destroy_with_audit(delivery_method)
     end

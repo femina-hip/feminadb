@@ -11,5 +11,5 @@
     - @issues.each do |issue|
       %tr{:class => cycle('odd', 'even')}
         %td.publication= link_to(issue.publication.name, issue.publication)
-        %td.issue= link_to(issue.number_and_name, [issue.publication, issue])
+        %td.issue= link_to(issue.number_and_name, issue)
         %td.date= issue.issue_date.to_formatted_s(:long)
