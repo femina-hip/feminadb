@@ -1,0 +1,121 @@
+@import 'global';
+@import 'pretty-header';
+@import 'data-table';
+@import 'detail-table';
+@import 'reports';
+@import 'helps';
+@import 'search';
+@import 'nav';
+
+div.fieldWithErrors {
+  display: inline;
+  border: 2px solid red;
+  padding: 4px 2px;
+}
+
+div.login {
+  float: right;
+  font-size: small;
+
+  span.login {
+    font-weight: bold;
+  }
+
+  p {
+    margin: .5em
+  }
+}
+
+div.flash {
+  background: white;
+  color: $flash_color;
+  padding: .5em;
+  text-align: center;
+}
+
+div.main {
+  margin: 1em;
+
+  &>p, &>h1, &>h2, &>h3, &>ul {
+    margin-left: 168px;
+    padding-left: 1em;
+  }
+
+  &>p.actions {
+    margin-left: 0;
+  }
+}
+
+div.footer {
+  margin: 1em 25%;
+  border-top: 1px solid gray;
+
+  ul {
+    margin: .5em auto 0;
+    padding: 0;
+    text-align: center;
+
+    li {
+      margin: 0;
+      display: inline;
+      padding: 0 1em;
+    }
+  }
+}
+
+textarea.note-input {
+  width: 100%;
+}
+
+ul.publications, ul.issues {
+  list-style: none;
+
+  li {
+    margin-left: 3em;
+    padding: 0;
+
+    span {
+      font-size: 1.2em;
+      line-height: 150%;
+      display: block;
+      margin-left: -2.5em;
+    }
+  }
+}
+
+.pagination {
+  margin-top: 6px;
+  text-align: center;
+}
+
+div.errorExplanation {
+  border: 2px solid black;
+  padding: 1em;
+  margin: 1em;
+  background: $error_background_color;
+  color: $error_color;
+
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 1.1em;
+    border-bottom: 2px solid black;
+  }
+
+  p {
+    margin: 1em 0 0 0;
+    padding: 0;
+  }
+
+  ul {
+    margin: 0 0 0 2em;
+    padding: 0;
+  }
+
+  input, select {
+    border: none;
+    background: inherit;
+    color: inherit;
+    padding: 2px;
+  }
+}

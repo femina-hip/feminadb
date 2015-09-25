@@ -1,0 +1,103 @@
+@import 'vars';
+
+div#nav {
+  border-bottom: 4px solid black;
+  background: $alt_background_color;
+  color: $alt_color;
+  padding: .7em;
+  line-height: 1.3em;
+
+  a {
+    color: inherit;
+  }
+
+  ul.main {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      float: left;
+      padding: 0 .7em;
+
+      &:hover {
+        background-color: $background_color;
+        color: $link_color;
+      }
+
+      &:hover div.quick-publications {
+        display: block;
+      }
+    }
+
+    div.quick-publications {
+      display: none; /* unless we're hovering over its parent li */
+      position: absolute;
+      top: 1.3em;
+      left: 0;
+
+      ul {
+        float: left;
+        margin: 0;
+        padding: .7em;
+        list-style: none;
+        background: $alt_background_color;
+        color: $alt_color;
+        border: 2px solid $border_color;
+      }
+
+      li {
+        display: block;
+        position: static;
+        float: none;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+
+        &:hover {
+          // don't highlight
+          background: $alt_background_color;
+          color: $alt_color;
+        }
+      }
+
+      a {
+        line-height: 1.4em;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  div.admin {
+    clear: left;
+    margin: .5em 1em;
+    font-size: small;
+
+    p {
+      margin: 0;
+      padding: 0;
+      display: inline;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      display: inline;
+
+      li {
+        list-style: none;
+        display: inline;
+        margin: 0 .7em;
+      }
+    }
+  }
+
+  div.spacer {
+    height: 0;
+    clear: both;
+  }
+}
