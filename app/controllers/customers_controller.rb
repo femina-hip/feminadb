@@ -3,7 +3,7 @@ class CustomersController < ApplicationController
 
   def new
     require_role 'edit-customer'
-    @customer = Customer.build
+    @customer = Customer.new
   end
 
   def edit
@@ -23,6 +23,10 @@ class CustomersController < ApplicationController
 
   def destroy
     require_role 'edit-customer'
+    Order.where(customer_id: customer.id).update_all(customer_id: nil)
+    StandingOrder.where(customer_id: customer.id).delete_all
+    WaitingOrder.where(customer_id: customer.id).delete_all
+    CustomerNote.where(customer_id: customer.id).delete_all
     destroy_with_audit(customer)
     redirect_to(Customer)
   end
