@@ -20,7 +20,6 @@ class IssuesController < ApplicationController
 
   def destroy
     require_role 'edit-issues'
-    IssueBoxSize.where(issue_id: issue.id).delete_all
     IssueNote.where(issue_id: issue.id).delete_all
     Order.where(issue_id: issue.id).delete_all
     destroy_with_audit(issue)
