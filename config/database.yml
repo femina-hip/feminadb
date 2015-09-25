@@ -19,5 +19,5 @@ production:
   database: feminadb
   username: feminadb
   password: feminadb
-  host: localhost
+  host: 127.0.0.1 # "localhost" makes the driver look for a socket in the wrong place. By default.
   encoding: utf8
