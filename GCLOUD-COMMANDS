@@ -1,0 +1,8 @@
+sudo apt-get -yy -q update
+sudo apt-get -yy -q install mariadb-server mariadb-client git ruby ruby-dev build-essential bundler zlib1g-dev libmariadb-client-lgpl-dev libcurl4-openssl-dev libssl-dev ruby-passenger nodejs nodejs-legacy haproxy openjdk-8-jre-headless
+cd /opt
+sudo mkdir feminadb
+sudo chown `whoami`:`whoami` feminadb
+git clone https://github.com/femina-hip/feminadb.git
+cd feminadb
+bundle install
