@@ -2,15 +2,13 @@ class Customer < ActiveRecord::Base
   NEEDS_STRIPPING = /(^\s)|(\s$)/
   extend Forwardable
 
-  # Indexing happens automatically:
-  #
-  # - When creating/updating a Customer, because Sunspot does that automatically
-  # - When creating/updating standing/waiting orders, school infos, clubs and
-  #   notes, because we before_save() in those classes
+  # Controllers index manually whenever anything might have changed.
   searchable(
-      :include => [
-        { :standing_orders => :publication },
-        { :waiting_orders => :publication },
+      auto_index: false,  # controllers handle indexing
+      auto_remove: false, # controllers handle indexing
+      include: [
+        { standing_orders: :publication },
+        { waiting_orders: :publication },
         :region,
         :delivery_method,
         :type,

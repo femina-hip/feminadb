@@ -15,6 +15,7 @@ class CustomersController < ApplicationController
     require_role 'edit-customer'
     @customer = create_with_audit(Customer, customer_params)
     if @customer.valid?
+      @customer.solr_index!
       redirect_to(@customer)
     else
       render(action: 'new')
@@ -28,12 +29,14 @@ class CustomersController < ApplicationController
     WaitingOrder.where(customer_id: customer.id).delete_all
     CustomerNote.where(customer_id: customer.id).delete_all
     destroy_with_audit(customer)
+    customer.solr_remove_from_index!
     redirect_to(Customer)
   end
 
   def update
     require_role 'edit-customer'
     if update_with_audit(customer, customer_params)
+      customer.solr_index!
       redirect_to(customer)
     else
       render(action: 'edit')

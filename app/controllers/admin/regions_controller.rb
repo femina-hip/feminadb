@@ -26,6 +26,8 @@ class Admin::RegionsController < ApplicationController
   def update
     require_role 'admin'
     if update_with_audit(region, region_params)
+      customers = Customer.where(region_id: region.id).includes(Customer.sunspot_options[:include])
+      Sunspot.index(customers)
       redirect_to(admin_regions_url)
     else
       render(action: 'edit')

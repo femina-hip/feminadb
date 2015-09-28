@@ -8,7 +8,8 @@ class CustomerStandingOrdersController < ApplicationController
     require_role 'edit-orders'
     @standing_order = create_with_audit(customer.standing_orders, standing_order_create_params)
     if @standing_order.valid?
-      redirect_to(@customer)
+      customer.solr_index!
+      redirect_to(customer)
     else
       render(action: 'new')
     end
@@ -22,7 +23,8 @@ class CustomerStandingOrdersController < ApplicationController
   def update
     require_role 'edit-orders'
     if update_with_audit(standing_order, standing_order_update_params)
-      redirect_to(@customer)
+      customer.solr_index!
+      redirect_to(customer)
     else
       render(action: 'edit')
     end
@@ -31,6 +33,7 @@ class CustomerStandingOrdersController < ApplicationController
   def destroy
     require_role 'edit-orders'
     destroy_with_audit(standing_order)
+    customer.solr_index!
     redirect_to(customer)
   end
 

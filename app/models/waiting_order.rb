@@ -47,6 +47,14 @@ class WaitingOrder < ActiveRecord::Base
     "#{num_copies} #{publication.name} → #{customer.name}"
   end
 
+  def self.customer_ids_with_publication_id(publication_id)
+    Customer.connection.execute("""
+      SELECT customer_id
+      FROM waiting_orders
+      WHERE publication_id = #{publication_id.to_i}
+    """).map { |row| row[0] }
+  end
+
   comma do
     customer_delivery_method(:abbreviation => 'Deliv. Meth.')
     customer_region(:name => 'Region')

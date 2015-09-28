@@ -23,6 +23,14 @@ class StandingOrder < ActiveRecord::Base
     customer.type
   end
 
+  def self.customer_ids_with_publication_id(publication_id)
+    Customer.connection.execute("""
+      SELECT customer_id
+      FROM standing_orders
+      WHERE publication_id = #{publication_id.to_i}
+    """).map { |row| row[0] }
+  end
+
   comma do
     customer_delivery_method(:abbreviation => 'Deliv. Meth.')
     customer_region(:name => 'Region')

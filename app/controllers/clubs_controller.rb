@@ -42,6 +42,7 @@ class ClubsController < ApplicationController
 
     club = create_with_audit(club_create_params)
     if club.valid?
+      club.customer.solr_index!
       redirect_to(club.customer)
     else
       render(action: 'new')
@@ -52,6 +53,7 @@ class ClubsController < ApplicationController
     require_role 'edit-customers'
 
     if update_with_audit(club, club_update_params)
+      club.customer.solr_index!
       redirect_to(club.customer)
     else
       render(action: 'edit')
@@ -62,6 +64,7 @@ class ClubsController < ApplicationController
     require_role 'edit-customers'
     customer = club.customer
     destroy_with_audit(club)
+    customer.solr_index!
     redirect_to(customer)
   end
 

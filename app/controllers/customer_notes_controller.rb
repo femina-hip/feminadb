@@ -2,12 +2,14 @@ class CustomerNotesController < ApplicationController
   def create
     require_role 'edit-customers'
     create_with_audit!(customer.notes, note_params)
+    customer.solr_index!
     redirect_to(customer)
   end
 
   def destroy
     require_role 'edit-customers'
     destroy_with_audit(note)
+    customer.solr_remove_from_index!
     redirect_to(customer)
   end
 

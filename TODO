@@ -1,4 +1,3 @@
-- delete children of issues, etc. in controller methods
 - wipe all migrations and start over with one big one
 - wipe all clubs, and turn them into customer notes
 - move club comments into customer comments

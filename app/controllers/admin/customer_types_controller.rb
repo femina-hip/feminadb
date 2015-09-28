@@ -26,6 +26,8 @@ class Admin::CustomerTypesController < ApplicationController
   def update
     require_role 'admin'
     if update_with_audit(customer_type, customer_type_params)
+      customers = Customer.where(customer_type_id: customer_type.id).includes(Customer.sunspot_options[:include])
+      Sunspot.index(customers)
       redirect_to(admin_customer_types_url)
     else
       render(action: 'edit')
@@ -37,6 +39,7 @@ class Admin::CustomerTypesController < ApplicationController
     if customer_type.customers.length > 0
       flash[:notice] = 'Could not delete CustomerType: it is used by some Customers'
     else
+      # No need to reindex any customers, since there aren't any
       destroy_with_audit(customer_type)
     end
     redirect_to(admin_customer_types_url)

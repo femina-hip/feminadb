@@ -8,7 +8,8 @@ class CustomerWaitingOrdersController < ApplicationController
     require_role 'edit-orders'
     @waiting_order = create_with_audit(customer.waiting_orders, waiting_order_create_params)
     if @waiting_order.valid?
-      redirect_to(@customer)
+      customer.solr_index!
+      redirect_to(customer)
     else
       render(action: 'new')
     end
@@ -22,7 +23,8 @@ class CustomerWaitingOrdersController < ApplicationController
   def update
     require_role 'edit-orders'
     if update_with_audit(waiting_order, waiting_order_update_params)
-      redirect_to(@customer)
+      customer.solr_index!
+      redirect_to(customer)
     else
       render(action: 'edit')
     end
@@ -31,6 +33,7 @@ class CustomerWaitingOrdersController < ApplicationController
   def destroy
     require_role 'edit-orders'
     destroy_with_audit(waiting_order)
+    customer.solr_index!
     redirect_to(customer)
   end
 
@@ -39,6 +42,7 @@ class CustomerWaitingOrdersController < ApplicationController
     standing_order = create_with_audit(customer.standing_orders, waiting_order.standing_order_create_params)
     if standing_order.valid?
       destroy_with_audit(waiting_order)
+      customer.solr_index!
       redirect_to(customer)
     else
       redirect_to(customer, notice: 'Could not convert to a Standing Order. Ask an administrator to review the server logs.')

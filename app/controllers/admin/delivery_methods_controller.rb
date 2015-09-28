@@ -26,6 +26,8 @@ class Admin::DeliveryMethodsController < ApplicationController
   def update
     require_role 'admin'
     if update_with_audit(delivery_method, delivery_method_params)
+      customers = Customer.where(delivery_method_id: delivery_method.id).includes(Customer.sunspot_options[:include])
+      Sunspot.index(customers)
       redirect_to(admin_delivery_methods_url)
     else
       render(action: 'edit')
@@ -38,6 +40,7 @@ class Admin::DeliveryMethodsController < ApplicationController
     if delivery_method.customers.length > 0
       flash[:notice] = 'DeliveryMethod cannot be deleted because it has Customers'
     else
+      # No need to reindex any customers, since there aren't any
       destroy_with_audit(delivery_method)
     end
     redirect_to(admin_delivery_methods_url)
