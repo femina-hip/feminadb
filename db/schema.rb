@@ -43,26 +43,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
 
   add_index "bulk_order_creators", ["issue_id"], name: "index_bulk_order_creators_on_issue_id", using: :btree
 
-  create_table "clubs", force: :cascade do |t|
-    t.integer  "customer_id",         limit: 4,                  null: false
-    t.string   "name",                limit: 255,                null: false
-    t.string   "address",             limit: 255,   default: "", null: false
-    t.string   "telephone_1",         limit: 255,   default: "", null: false
-    t.string   "telephone_2",         limit: 255,   default: "", null: false
-    t.string   "email",               limit: 255,   default: "", null: false
-    t.integer  "num_members",         limit: 4,     default: 0,  null: false
-    t.date     "date_founded"
-    t.string   "motto",               limit: 255,   default: "", null: false
-    t.string   "objective",           limit: 255,   default: "", null: false
-    t.string   "eligibility",         limit: 255,   default: "", null: false
-    t.string   "work_plan",           limit: 255,   default: "", null: false
-    t.string   "patron",              limit: 255,   default: "", null: false
-    t.text     "intended_duty",       limit: 65535,              null: false
-    t.string   "founding_motivation", limit: 255,   default: "", null: false
-    t.text     "cooperation_ideas",   limit: 65535,              null: false
-    t.datetime "created_at"
-  end
-
   create_table "customer_notes", force: :cascade do |t|
     t.integer  "customer_id", limit: 4
     t.text     "note",        limit: 16777215
@@ -79,23 +59,20 @@ ActiveRecord::Schema.define(version: 20150922073506) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string   "name",               limit: 255
-    t.integer  "customer_type_id",   limit: 4
-    t.integer  "region_id",          limit: 4
-    t.string   "district",           limit: 255
-    t.string   "contact_name",       limit: 255
-    t.integer  "delivery_method_id", limit: 4
-    t.string   "full_name",          limit: 255
-    t.string   "contact_position",   limit: 255
-    t.string   "telephone_1",        limit: 255
-    t.string   "telephone_2",        limit: 255
-    t.string   "telephone_3",        limit: 255
-    t.string   "fax",                limit: 255
-    t.string   "email_1",            limit: 255
-    t.string   "email_2",            limit: 255
-    t.string   "website",            limit: 255
+    t.string   "name",                 limit: 255
+    t.integer  "customer_type_id",     limit: 4
+    t.integer  "region_id",            limit: 4
+    t.string   "district",             limit: 255
+    t.string   "contact_name",         limit: 255
+    t.integer  "delivery_method_id",   limit: 4
     t.datetime "created_at"
-    t.string   "delivery_address",   limit: 512, null: false
+    t.string   "delivery_address",     limit: 512,              null: false
+    t.string   "sms_numbers",          limit: 255, default: "", null: false
+    t.string   "club_sms_numbers",     limit: 255, default: "", null: false
+    t.string   "old_sms_numbers",      limit: 255, default: "", null: false
+    t.string   "old_club_sms_numbers", limit: 255, default: "", null: false
+    t.string   "other_contacts",       limit: 255, default: "", null: false
+    t.string   "student_sms_numbers",  limit: 255, default: "", null: false
   end
 
   create_table "delivery_methods", force: :cascade do |t|
@@ -108,11 +85,6 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.integer "region_id", limit: 4,   null: false
     t.string  "name",      limit: 255, null: false
     t.string  "color",     limit: 255, null: false
-  end
-
-  create_table "issue_box_sizes", force: :cascade do |t|
-    t.integer "issue_id",   limit: 4
-    t.integer "num_copies", limit: 4
   end
 
   create_table "issue_notes", force: :cascade do |t|
@@ -129,6 +101,7 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.integer "publication_id", limit: 4
     t.date    "issue_date"
     t.string  "issue_number",   limit: 255, default: "", null: false
+    t.string  "box_sizes",      limit: 255,              null: false
   end
 
   create_table "orders", force: :cascade do |t|
