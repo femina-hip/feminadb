@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922073506) do
+ActiveRecord::Schema.define(version: 20150928124632) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -66,13 +66,13 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.string   "contact_name",         limit: 255
     t.integer  "delivery_method_id",   limit: 4
     t.datetime "created_at"
-    t.string   "delivery_address",     limit: 512,              null: false
+    t.string   "delivery_address",     limit: 255,              null: false
     t.string   "sms_numbers",          limit: 255, default: "", null: false
     t.string   "club_sms_numbers",     limit: 255, default: "", null: false
     t.string   "old_sms_numbers",      limit: 255, default: "", null: false
     t.string   "old_club_sms_numbers", limit: 255, default: "", null: false
-    t.string   "other_contacts",       limit: 255, default: "", null: false
     t.string   "student_sms_numbers",  limit: 255, default: "", null: false
+    t.string   "other_contacts",       limit: 255, default: "", null: false
   end
 
   create_table "delivery_methods", force: :cascade do |t|
@@ -113,10 +113,10 @@ ActiveRecord::Schema.define(version: 20150922073506) do
     t.date    "order_date"
     t.string  "district",          limit: 255
     t.string  "customer_name",     limit: 255
-    t.string  "delivery_address",  limit: 512, null: false
+    t.string  "delivery_address",  limit: 255, default: "", null: false
     t.string  "contact_details",   limit: 255
-    t.string  "region",            limit: 255, null: false
-    t.string  "delivery_method",   limit: 255, null: false
+    t.string  "region",            limit: 255,              null: false
+    t.string  "delivery_method",   limit: 255,              null: false
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree

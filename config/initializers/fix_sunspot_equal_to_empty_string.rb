@@ -4,11 +4,11 @@ module Sunspot
       class EqualTo
         def to_positive_boolean_phrase
           if @value == ''
-            "#{escape(@field.indexed_name)}:[* TO \"\"]"
+            "#{Util.escape(@field.indexed_name)}:[* TO \"\"]"
           elsif !@value.nil?
             super
           else
-            "#{escape(@field.indexed_name)}:[* TO *]"
+            "#{Util.escape(@field.indexed_name)}:[* TO *]"
           end
         end
       end
