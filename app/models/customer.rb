@@ -12,7 +12,6 @@ class Customer < ActiveRecord::Base
         :region,
         :delivery_method,
         :type,
-        :club,
         :notes
       ]
     ) do
