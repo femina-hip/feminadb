@@ -205,11 +205,11 @@ module Auditor
     before = {}
     after = {}
 
-    for key, values of object.changes
+    object.changes.each do |key, values|
       before[key] = values[0]
       after[key] = values[1]
     end
 
-    before, after
+    [ before, after ]
   end
 end
