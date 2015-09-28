@@ -44,7 +44,7 @@ class CustomersController < ApplicationController
   end
 
   def index
-    @customers = search_for_customers(order: [:region, :district, :name], includes: [:region, :type, :club])
+    @customers = search_for_customers(order: [:region, :district, :name], includes: [:region, :type ])
 
     @publications = Publication.tracking_standing_orders.order(:name).all
 
@@ -95,19 +95,16 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(
       :name,
       :customer_type_id,
+      :delivery_method_id,
       :region_id,
       :district,
-      :delivery_method_id,
       :delivery_address,
-      :contact_name,
-      :contact_position,
-      :telephone_1,
-      :telephone_2,
-      :telephone_3,
-      :fax,
-      :email_1,
-      :email_2,
-      :website
+      :sms_numbers,
+      :club_sms_numbers,
+      :student_sms_numbers,
+      :old_sms_numbers,
+      :old_club_sms_numbers,
+      :other_contacts
     )
   end
 end

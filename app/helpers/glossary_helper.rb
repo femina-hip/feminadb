@@ -7,6 +7,11 @@ module GlossaryHelper
 
   def glossary_helper_definition(term)
     case term
+    when 'SMS numbers' then 'SMS numbers for headmasters, etc., whose information we store in Telerivet'
+    when 'Old SMS numbers' then 'SMS numbers for headmasters, etc., which we have stored in Telerivet; but we think the number no longer works or the contact is no longer at the school'
+    when 'Club SMS numbers' then 'SMS numbers for Club Guardians, etc., which we can use with Telerivet'
+    when 'Old Club SMS numbers' then 'SMS numbers for Club Guardians, etc., which we once used with Telerivet; but we think the number no longer works or the contact is no longer a Club Guardian'
+    when 'Student SMS numbers' then 'SMS numbers for students, current or former, who have contacted Femina through Telerivet'
     when 'Order' then 'The desire to transfer a certain number of Copies of a particular Issue from a Warehouse to a Customer'
     when 'Orders' then 'The desires to transfer a certain number of Copies of some particular Issues from a Warehouse to a Customer'
     when 'Delivery address' then 'How the person delivering Copies gets them to the recipient. If there is an intermediary, include all information: for instance, "via office A in village B, to school C in village D"'

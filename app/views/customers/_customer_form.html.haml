@@ -2,7 +2,7 @@
 %table.customer
   %thead
     %tr
-      %th{:colspan => 2}
+      %th{colspan: 2}
         General Information:
         %b= h @customer.name
   %tbody
@@ -21,42 +21,35 @@
 
   %thead
     %tr
-      %th Delivery Details
+      %th{colspan: 2} Delivery Details
   %tbody
     %tr.first
       %th Delivery Method
       %td= f.delivery_method_field(:delivery_method_id)
-    %tr.last
+    %tr
       %th= glossary_term('Delivery address')
       %td= f.text_field :delivery_address
-  %thead
     %tr
-      %th Contact Details
-  %tbody
-    %tr.first
-      %th Contact Name
-      %td= f.text_field :contact_name
+      %th= glossary_term('SMS numbers')
+      %td= f.text_field :sms_numbers
     %tr
-      %th Contact Position
-      %td= f.text_field :contact_position
-    %tr
-      %th Telephone (1)
-      %td= f.text_field :telephone_1
-    %tr
-      %th Telephone (2)
-      %td= f.text_field :telephone_2
-    %tr
-      %th Telephone (3)
-      %td= f.text_field :telephone_3
-    %tr
-      %th Fax
-      %td= f.text_field :fax
-    %tr
-      %th Email (1)
-      %td= f.text_field :email_1
-    %tr
-      %th Email (2)
-      %td= f.text_field :email_2
+      %th= glossary_term('Old SMS numbers')
+      %td= f.text_field :old_sms_numbers
     %tr.last
-      %th Website
-      %td= f.text_field :website
+      %th
+        %abbr{title: 'Headmasters, etc., whom we cannot contact via SMS'} Other contacts
+      %td= f.text_field :other_contacts
+  - if @customer.type.category == 'Education'
+    %thead
+      %tr
+        %th{colspan: 2} Students
+    %tbody
+      %tr.first
+        %th= glossary_term('Club SMS numbers')
+        %td= f.text_field :club_sms_numbers
+      %tr
+        %th= glossary_term('Old Club SMS numbers')
+        %td= f.text_field :old_club_sms_numbers
+      %tr.last
+        %th= glossary_term('Student SMS numbers')
+        %td= f.text_field :student_sms_numbers

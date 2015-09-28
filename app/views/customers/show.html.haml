@@ -11,13 +11,6 @@
 
 = render(:partial => 'customer_orders/orders', :locals => { :orders => @customer.orders })
 
-- if @customer.club
-  = render(:partial => 'clubs/club', :locals => { :club => @customer.club })
-- else
-  %p
-    There is no Club attached to this Customer.
-    = link_to('Add Club information', new_club_path(:customer_id => @customer.id))
-
 = render(:partial => 'notes', :locals => { :customer => @customer })
 
 = render(:partial => 'add_tag', :locals => { :customer => @customer })

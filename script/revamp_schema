@@ -47,5 +47,34 @@ end
 #sql("ALTER TABLE issues ADD COLUMN box_sizes VARCHAR(255) NOT NULL")
 #sql("UPDATE issues SET box_sizes = (SELECT GROUP_CONCAT(num_copies ORDER BY num_copies SEPARATOR ', ') FROM issue_box_sizes WHERE issue_id = issues.id)")
 #sql("DROP TABLE issue_box_sizes")
-
-sql("ALTER TABLE customers ADD COLUMN sms_numbers VARCHAR(255) NOT NULL DEFUALT '', ADD COLUMN club_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', contacts VARCHAR(255) NOT NULL DEFAULT '', club_contacts VARCHAR(255) NOT NULL DEFAULT ''")
+#
+#sql("ALTER TABLE customers ADD COLUMN sms_numbers VARCHAR(255) NOT NULL DEFAULT '', ADD COLUMN club_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', ADD COLUMN old_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', ADD COLUMN old_club_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', ADD COLUMN student_sms_numbers VARCHAR(255) NOT NULL DEFAULT '', ADD COLUMN other_contacts VARCHAR(255) NOT NULL DEFAULT ''")
+#sql("UPDATE customers SET other_contacts = CONCAT_WS('; ', contact_position, telephone_1, telephone_2, telephone_3, email_1, email_2, website, fax)")
+#sql("ALTER TABLE customers DROP COLUMN full_name, DROP COLUMN contact_position, DROP COLUMN telephone_1, DROP COLUMN telephone_2, DROP COLUMN telephone_3, DROP COLUMN email_1, DROP COLUMN email_2, DROP COLUMN website, DROP COLUMN fax")
+#
+sql("""
+  INSERT INTO customer_notes (customer_id, created_at, created_by, note)
+  SELECT
+    customer_id,
+    NOW(),
+    2,
+    CONCAT_WS('\n', 'h4. Deleted old club information\n\nWe used to show this club information on this page, but it is probably obsolete. Now we use Telerivet surveys instead.\n',
+      CONCAT('- Inserted := ', created_at),
+      CONCAT('- Name := ', CASE name WHEN '' THEN NULL ELSE name END),
+      CONCAT('- Telephone 1 := ', CASE telephone_1 WHEN '' THEN NULL ELSE telephone_1 END),
+      CONCAT('- Telephone 2 := ', CASE telephone_2 WHEN '' THEN NULL ELSE telephone_2 END),
+      CONCAT('- Email := ', CASE email WHEN '' THEN NULL ELSE email END),
+      CONCAT('- Number of members := ', CASE num_members WHEN 0 THEN NULL ELSE num_members END),
+      CONCAT('- Date founded := ', date_founded),
+      CONCAT('- Motto := ', CASE motto WHEN '' THEN NULL ELSE motto END),
+      CONCAT('- Objective := ', CASE objective WHEN '' THEN NULL ELSE objective END),
+      CONCAT('- Eligibility := ', CASE eligibility WHEN '' THEN NULL ELSE eligibility END),
+      CONCAT('- Work plan := ', CASE work_plan WHEN '' THEN NULL ELSE work_plan END),
+      CONCAT('- Patron := ', CASE patron WHEN '' THEN NULL ELSE patron END),
+      CONCAT('- Intended duty := ', CASE intended_duty WHEN '' THEN NULL ELSE intended_duty END),
+      CONCAT('- Founding motivation := ', CASE founding_motivation WHEN '' THEN NULL ELSE founding_motivation END),
+      CONCAT('- Cooperation ideas := ', CASE cooperation_ideas WHEN '' THEN NULL ELSE cooperation_ideas END)
+    )
+  FROM clubs
+""")
+sql('DROP TABLE clubs')

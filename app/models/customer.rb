@@ -29,15 +29,12 @@ class Customer < ActiveRecord::Base
     text(:name)
     text(:contact_name)
     text(:delivery_address)
-    text(:full_name)
-    text(:contact_position)
-    text(:telephone_1)
-    text(:telephone_2)
-    text(:telephone_3)
-    text(:fax)
-    text(:email_1)
-    text(:email_2)
-    text(:website)
+    text(:sms_numbers)
+    text(:club_sms_numbers)
+    text(:student_sms_numbers)
+    text(:old_sms_numbers)
+    text(:old_club_sms_numbers)
+    text(:other_contacts)
     text(:delivery_method) { delivery_method.abbreviation }
     text(:delivery_method_name) { delivery_method.name }
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
@@ -47,7 +44,7 @@ class Customer < ActiveRecord::Base
     text(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
-    boolean(:club) { !club.nil? }
+    boolean(:club) { has_club? }
     dynamic_integer(:standing_num_copies) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
         key = publication.to_index_key
@@ -90,53 +87,30 @@ class Customer < ActiveRecord::Base
         hash.merge!(key => value)
       end
     end
-    Club.columns.each do |c|
-      if c.text?
-        text("club_#{c.name}") { club.try(c.name) }
-      end
-    end
-    date(:club_created_at) { club.try(:created_at) }
   end
 
   belongs_to(:type, class_name: 'CustomerType', foreign_key: 'customer_type_id')
   belongs_to(:delivery_method)
   belongs_to(:region)
-  has_one(:club)
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:standing_orders)
   has_many(:waiting_orders)
   has_many(:orders)
-
-  #has_many :standing_orders,
-  #         :dependent => :destroy,
-  #         :include => [ :publication ],
-  #         :order => 'publications.name',
-  #         :conditions => 'standing_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  #has_many :waiting_orders,
-  #         :dependent => :destroy,
-  #         :include => [ :publication ],
-  #         :order => 'publications.name',
-  #         :conditions => 'waiting_orders.deleted_at IS NULL AND publications.deleted_at IS NULL'
-  #has_many :orders,
-  #         :dependent => :nullify,
-  #         :include => [ :delivery_method, { :issue => :publication } ],
-  #         :order => 'publications.name, issues.issue_date DESC',
-  #         :conditions => 'orders.deleted_at IS NULL AND issues.deleted_at IS NULL AND publications.deleted_at IS NULL'
 
   validates_presence_of :region_id
   validates_presence_of :customer_type_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [ :region_id, :district ], :case_sensitive => false
   validates_presence_of :delivery_method_id
+  validates_format_of :sms_numbers, :club_sms_numbers, :old_sms_numbers, :old_club_sms_numbers, :student_sms_numbers,
+    with: /\A(\+\d+(,\s*\+\d+)*)?\z/,
+    message: '%{value} must look like "+255123456789, +255234567890"'
 
   before_validation :strip_string_fields
 
   def self.can_visit_url?; true; end
   def title; name; end
-
-  def contact_details_string
-    [ telephone_1, email_1, telephone_2, email_2, telephone_3, fax ].select{|x| not x.nil? }[0..2].join(', ')
-  end
+  def has_club?; !club_sms_numbers.empty?; end
 
   def standing_orders_hash
     @standing_orders_hash ||= standing_orders.index_by(&:publication_id)
@@ -179,15 +153,9 @@ class Customer < ActiveRecord::Base
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
     delivery_address('Delivery address')
-    contact_name('Contact Name')
-    contact_position('Contact Position')
-    telephone_1('Tel.')
-    telephone_2('Tel. (2)')
-    telephone_3('Tel. (3)')
-    fax('Fax')
-    email_1('Email')
-    email_2('Email (2)')
-    website('Website')
+    sms_numbers('SMS numbers')
+    club_sms_numbers('Club SMS numbers')
+    other_contacts('Other contacts')
   end
 
   private

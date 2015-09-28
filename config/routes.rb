@@ -7,8 +7,6 @@ Feminadb::Application.routes.draw do
     resources :users
   end
 
-  resources :clubs
-
   resources :customers do
     collection do
       get :similar
@@ -24,7 +22,6 @@ Feminadb::Application.routes.draw do
     end
     resources :orders, :controller => 'customer_orders'
     resources :notes, :controller => 'customer_notes'
-    resource :club
   end
 
   get 'tags/auto_complete' => 'tag#auto_complete_for_tag_name'
