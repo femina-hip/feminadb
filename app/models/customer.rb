@@ -150,6 +150,20 @@ class Customer < ActiveRecord::Base
     waiting_orders_hash[publication.id]
   end
 
+  def standing_or_waiting_order_string_for(publication)
+    s = standing_order_for(publication).try(:num_copies)
+    w = waiting_order_for(publication).try(:num_copies)
+    if s && w
+      "#{s}, #{w}W"
+    elsif s
+      s.to_s
+    elsif w
+      "#{w}W"
+    else
+      ''
+    end
+  end
+
   def self.fuzzy_find(region_id, district, name)
     fuzz = "~0.5"
     search = Customer.search do
@@ -166,6 +180,10 @@ class Customer < ActiveRecord::Base
       end
     end
     search.raw_results
+  end
+
+  def contact_details
+    [ sms_numbers, other_contacts ].reject(&:empty?).join('; ')
   end
 
   comma do
