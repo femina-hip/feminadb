@@ -78,13 +78,6 @@ class CustomersController < ApplicationController
     @customer = customer
   end
 
-  def tag
-    require_role 'edit-customers'
-    tag_name = Tags.normalize_name(params[:tag][:name])
-    note = create_with_audit!(customer.notes, note: "TAG_#{tag_name}")
-    redirect_to(customer)
-  end
-
   private
 
   def customer

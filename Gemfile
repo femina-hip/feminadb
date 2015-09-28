@@ -14,7 +14,6 @@ gem 'treetop'
 gem 'will_paginate'
 
 gem 'rails', '~> 4.2.4'
-gem 'rails-observers'
 gem 'responders'
 
 gem 'sass-rails'

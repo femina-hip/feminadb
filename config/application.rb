@@ -15,8 +15,6 @@ module Feminadb
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.active_record.observers = :customer_note_observer
-
     config.encoding = 'utf-8'
     config.time_zone = 'UTC'
 

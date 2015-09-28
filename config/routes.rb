@@ -11,9 +11,6 @@ Feminadb::Application.routes.draw do
     collection do
       get :similar
     end
-    member do
-      post :tag
-    end
     resources :standing_orders, :controller => 'customer_standing_orders'
     resources :waiting_orders, :controller => 'customer_waiting_orders' do
       member do
@@ -23,8 +20,6 @@ Feminadb::Application.routes.draw do
     resources :orders, :controller => 'customer_orders'
     resources :notes, :controller => 'customer_notes'
   end
-
-  get 'tags/auto_complete' => 'tag#auto_complete_for_tag_name'
 
   resources :publications do
     collection do
