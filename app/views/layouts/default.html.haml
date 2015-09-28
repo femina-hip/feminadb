@@ -4,9 +4,8 @@
   %head
     %title FeminaDB
     %meta{'http-equiv' => 'content-type', :content => 'application/xhtml+xml;charset=UTF-8'}
-    = javascript_include_tag('jquery', 'jquery.calendar_date_picker', 'jquery.datetime_picker_field', 'jquery.autocomplete.js', 'initializers/date_fields', 'initializers/issue_fields')
-    = stylesheet_link_tag('main', 'jquery.calendar_date_picker', 'jquery.autocomplete')
-    = stylesheet_link_tag('print', :media => 'print')
+    = javascript_include_tag('application')
+    = stylesheet_link_tag('application')
   %body
     = render('application/nav', :is_admin => current_user.has_role?('admin'))
 

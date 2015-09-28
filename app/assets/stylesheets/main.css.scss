@@ -111,3 +111,7 @@ div.errorExplanation {
     padding: 2px;
   }
 }
+
+@media print {
+  nav, footer, header .logo { display: none; }
+}
