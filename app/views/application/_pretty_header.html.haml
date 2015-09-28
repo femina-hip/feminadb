@@ -1,13 +1,9 @@
 -# Required variables:
 -# - "title", the title;
 -# - "description", HTML to append
+%header
+  .logo= image_tag('logo.png')
 
-%div.logo
-  = image_tag 'logo.png'
-
-%div.pretty-header
-  %h1= title
-
-  = description
-
-%div{:style => 'clear: both'}
+  .pretty-header
+    %h1= title
+    = description

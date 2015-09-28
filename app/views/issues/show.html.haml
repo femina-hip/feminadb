@@ -42,8 +42,8 @@
   %li
     %span
       Show Distribution List
-      = link_to('[Web]', show_distribution_list_issue_url(@issue))
-      = link_to('[Spreadsheet]', show_distribution_list_issue_url(@issue, :format => :csv))
+      = link_to('Web', show_distribution_list_issue_url(@issue))
+      = link_to('Spreadsheet', show_distribution_list_issue_url(@issue, :format => :csv))
       (All Delivery Methods)
     %div
       Or show the Distribution List for only one Delivery Method:
@@ -51,8 +51,8 @@
         - @issue.order_delivery_methods.each do |delivery_method|
           %li
             = "Only #{delivery_method}"
-            = link_to('[Web]', show_distribution_list_issue_url(@issue, :delivery_method => delivery_method))
-            = link_to('[Spreadsheet]', show_distribution_list_issue_url(@issue, :delivery_method => delivery_method, :format => :csv))
+            = link_to('Web', show_distribution_list_issue_url(@issue, :delivery_method => delivery_method))
+            = link_to('Spreadsheet', show_distribution_list_issue_url(@issue, :delivery_method => delivery_method, :format => :csv))
   %li= link_to('Back to Issue List', @publication)
 
 = render('notes', issue: @issue)

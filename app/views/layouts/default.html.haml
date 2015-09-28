@@ -10,16 +10,6 @@
   %body
     = render('application/nav', :is_admin => current_user.has_role?('admin'))
 
-    .login
-      %p
-        - if current_user
-          Logged in as
-          %span.login= h current_user.login
-          = link_to('Log out', logout_path(:return_to => request.fullpath), :method => :post)
-        - else
-          %b Not logged in
-          = link_to('Log in', login_path(:return_to => request.fullpath))
-
     - if flash[:notice]
       .flash= flash[:notice]
 

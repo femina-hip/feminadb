@@ -1,5 +1,5 @@
 -# Required variables: "is_admin" (boolean)
-#nav
+%nav#nav
   %ul.main
     %li= link_to('Customers', customers_path)
     %li= link_to('Clubs', clubs_path)
@@ -14,7 +14,12 @@
                 %li.issue= link_to(issue.full_name, issue)
     %li= link_to('Reports', reports_path)
     %li= link_to('Help', help_path)
-  - if is_admin
+  .login
+    %p
+      Logged in as
+      %span.login= h current_user.login
+      = link_to('Log out', logout_path(:return_to => request.fullpath), :method => :post)
+  - if current_user.has_role?('admin')
     .admin
       %p Admin:
       %ul

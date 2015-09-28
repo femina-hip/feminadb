@@ -13,19 +13,6 @@ div.fieldWithErrors {
   padding: 4px 2px;
 }
 
-div.login {
-  float: right;
-  font-size: small;
-
-  span.login {
-    font-weight: bold;
-  }
-
-  p {
-    margin: .5em
-  }
-}
-
 div.flash {
   background: white;
   color: $flash_color;
@@ -72,6 +59,7 @@ ul.publications, ul.issues {
 
   li {
     margin-left: 3em;
+    margin-bottom: 1em;
     padding: 0;
 
     span {
@@ -79,6 +67,10 @@ ul.publications, ul.issues {
       line-height: 150%;
       display: block;
       margin-left: -2.5em;
+    }
+
+    a {
+      margin-right: 1em;
     }
   }
 }

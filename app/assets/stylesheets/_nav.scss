@@ -1,6 +1,6 @@
 @import 'vars';
 
-div#nav {
+nav#nav {
   border-bottom: 4px solid black;
   background: $alt_background_color;
   color: $alt_color;
@@ -99,5 +99,18 @@ div#nav {
   div.spacer {
     height: 0;
     clear: both;
+  }
+
+  div.login {
+    float: right;
+    font-size: small;
+
+    span.login {
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+    }
   }
 }
