@@ -111,6 +111,29 @@ class Customer < ActiveRecord::Base
   def title; name; end
   def has_club?; !club_sms_numbers.empty?; end
 
+  # Adds an SMS number to the specified field, ensuring there is a link for the
+  # SMS number in Telerivet.
+  #
+  # This method is safe: it will verify all parameters before writing them.
+  def add_sms_number(attribute, sms_number)
+    if ![ 'sms_numbers', 'club_sms_numbers', 'student_sms_numbers' ].include?(attribute.to_s)
+      raise AttributeError.new("Invalid attribute for SMS number: #{attribute}")
+    end
+
+    if !/\A\+\d+\z/.match(sms_number)
+      raise AttributeError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.")
+    end
+
+    TelerivetBridge.ensure_customer_sms_link(id, sms_number)
+    before = attributes[attribute]
+    after = if before.strip.empty?
+      sms_number
+    else
+      "#{before}, #{sms_number}"
+    end
+    attributes[attribute] = after
+  end
+
   def standing_orders_hash
     @standing_orders_hash ||= standing_orders.index_by(&:publication_id)
   end

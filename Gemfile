@@ -1,15 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'rake'
 gem 'comma'
 gem 'dynamic_form'
 gem 'haml'
 gem 'jwt'
 gem 'mysql2', '~> 0.3.0'
 gem 'progress_bar' # for rake sunspot:reindex
+gem 'rake'
 gem 'RedCloth'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'telerivet'
 gem 'treetop'
 gem 'will_paginate'
 

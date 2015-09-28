@@ -158,6 +158,34 @@ module Auditor
     object
   end
 
+  # Audits the saving of an object.
+  #
+  # This is like audit_update(), but it uses ActiveRecord::Dirty to figure out
+  # what changed:
+  #
+  #   object.foo = 'bar'
+  #   save_with_audit(object)
+  def save_with_audit(object)
+    before, after = changed_attributes(object)
+    saved = object.save
+    audit_update(object, before, after) if saved
+    saved
+  end
+
+  # Audits the save!-ing of an object.
+  #
+  # This is like audit_update(), but it uses ActiveRecord::Dirty to figure out
+  # what changed:
+  #
+  #   object.foo = 'bar'
+  #   save_with_audit!(object)
+  def save_with_audit!(object)
+    before, after = changed_attributes(object)
+    saved = object.save!
+    audit_update(object, before, after)
+    saved
+  end
+
   # Updates an object in the database, and audits the update.
   #
   # The audit happens after the update succeeds. Run in a transaction to avoid
@@ -169,5 +197,19 @@ module Auditor
     saved = object.update(attributes)
     audit_update(object, old_attributes, object.attributes) if saved
     saved
+  end
+
+  private
+
+  def changed_attributes(object)
+    before = {}
+    after = {}
+
+    for key, values of object.changes
+      before[key] = values[0]
+      after[key] = values[1]
+    end
+
+    before, after
   end
 end

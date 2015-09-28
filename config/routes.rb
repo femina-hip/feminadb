@@ -11,6 +11,9 @@ Feminadb::Application.routes.draw do
     collection do
       get :similar
     end
+    member do
+      post :add_sms_number
+    end
     resources :standing_orders, :controller => 'customer_standing_orders'
     resources :waiting_orders, :controller => 'customer_waiting_orders' do
       member do

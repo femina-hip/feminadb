@@ -43,6 +43,15 @@ class CustomersController < ApplicationController
     end
   end
 
+  def add_sms_number
+    require_role 'edit-customer'
+
+    customer.add_sms_number(params[:attribute], params[:sms])
+    save_with_audit!(customer)
+    customer.solr_index!
+    redirect_to(customer)
+  end
+
   def index
     @customers = search_for_customers(order: [:region, :district, :name], includes: [:region, :type ])
 

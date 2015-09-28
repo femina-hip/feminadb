@@ -3,6 +3,7 @@ module CustomersSearcher
     Sunspot::QueryBuilder::apply_string_to_search(query, search_builder.instance_variable_get(:@search))
 
     search_builder.facet(:region, :sort => :index)
+    search_builder.facet(:district, :sort => :index)
     search_builder.facet(:type, :sort => :index)
     search_builder.facet(:delivery_method, :sort => :index)
     search_builder.facet(:club, :sort => :index)

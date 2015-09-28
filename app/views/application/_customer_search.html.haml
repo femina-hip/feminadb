@@ -35,7 +35,7 @@
 
     %p Filter:
     %ul.facets
-      - [[:type, 'Type'], [:region, 'Region'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
+      - [[:type, 'Type'], [:region, 'Region'], [:district, 'District'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
         - facet = @search.facet(facet_sym)
         - if facet.rows.length > 1
           %li.facet
@@ -63,7 +63,6 @@
           %select{:name => 'add_term'}
             %option{:value => ''} (Anything)
             %option{:value => 'name'} Name
-            %option{:value => 'club_name'} Club Name
             %option{:value => 'district'} District
             %option{:value => 'category'} Category
         %input{:type => 'text', :name => 'add_value'}
