@@ -1,11 +1,10 @@
 require File.dirname(__FILE__) + "/../spec_helper"
-require "steak"
 require 'capybara/rails'
-require 'capybara/envjs'
+require 'capybara/poltergeist'
 
 RSpec.configure do |config|
-  config.include Capybara
-  Capybara.javascript_driver = :envjs
+  config.include Capybara::DSL
+  Capybara.javascript_driver = :poltergeist
 end
 
 # Put your acceptance spec helpers inside /spec/acceptance/support
