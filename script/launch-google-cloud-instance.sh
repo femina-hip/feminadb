@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# TODO comment all the other steps to creating a Google Cloud for FeminaDB.
+#
+# Things you'll need to do before this:
+# 
+# * Set up a static IP address on Google Cloud, in zone us-central1
+# * Make `db.feminahip.or.tz` point to that IP address
+# * Set up your SSH key in Google Cloud
+
+DIR="$(dirname "$0")"
+IP_ADDRESS="$(host db.feminahip.or.tz | cut -d' ' -f4)"
+
+gcloud compute instances create db \
+  --zone us-central1-f \
+  --image ubuntu-15-04 \
+  --machine-type g1-small \
+  --address $IP_ADDRESS \
+  --metadata-from-file startup-script="$DIR"/gcloud-startup-script.sh
+
+gcloud compute config-ssh
+
+# Now log in to the new "db" server, and...
+# * copy ~/.ssh to /opt/rails/.ssh so you can SSH to "rails"
+# * copy the database over and set it up...
+# * deploy with Capistrano...
+# * reindex...
