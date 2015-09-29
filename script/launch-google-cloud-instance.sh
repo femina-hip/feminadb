@@ -16,6 +16,7 @@ gcloud compute instances create db \
   --image ubuntu-15-04 \
   --machine-type g1-small \
   --address $IP_ADDRESS \
+  --tags http-server,https-server \
   --metadata-from-file startup-script="$DIR"/gcloud-startup-script.sh
 
 gcloud compute config-ssh
@@ -23,5 +24,9 @@ gcloud compute config-ssh
 # Now log in to the new "db" server, and...
 # * copy ~/.ssh to /opt/rails/.ssh so you can SSH to "rails"
 # * copy the database over and set it up...
+# * bundle install (on a dev computer)
+# * cap production deploy
+# * add feminadb.service and feminadb-index.service to /etc/systemd/system, and start them
+# * copy haproxy.cfg and ssl.pem into /etc/haproxy/, and systemctl start haproxy
 # * deploy with Capistrano...
 # * reindex...
