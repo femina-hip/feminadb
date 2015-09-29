@@ -1,0 +1,3 @@
+%li.sms-number
+  %span.static<>= sms_number
+  = button_to('×', remove_sms_number_customer_path(customer, attribute, sms_number), method: 'delete')

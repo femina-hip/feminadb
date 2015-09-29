@@ -1,0 +1,23 @@
+table.customer {
+  ul.sms-numbers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      margin-right: 1em;
+    }
+
+    form.button_to, form.button_to input {
+      border: 0;
+      font: inherit;
+      background: transparent;
+      color: $link_color;
+    }
+
+    input[name=sms_number] {
+      border-right: 0;
+    }
+  }
+}

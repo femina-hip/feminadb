@@ -1,0 +1,7 @@
+%ul.sms-numbers
+  - customer.split_sms_numbers(attribute).each do |sms_number|
+    = render('editable_sms_number', customer: customer, attribute: attribute, sms_number: sms_number)
+  %li.new-sms-number
+    %form.new-sms-number{method: 'post', action: add_sms_number_customer_path(customer, attribute)}
+      %input{type: 'tel', name: 'sms_number', pattern: '\\+\\d+', placeholder: '+255111222333'}<>
+      %input{type: 'submit', value: 'Add'}

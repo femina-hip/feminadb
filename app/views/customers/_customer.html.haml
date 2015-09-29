@@ -40,13 +40,13 @@
       %th
         = glossary_term('Delivery address')
       %td= customer.delivery_address
-    %tr.sms-numbers
+    %tr
       %th= glossary_term('SMS numbers')
-      %td= customer.sms_numbers
-    %tr.old.old-sms-numbers
+      %td= show_sms_numbers(customer, :sms_numbers)
+    %tr
       %th= glossary_term('Old SMS numbers')
-      %td= customer.old_sms_numbers
-    %tr.last.other-contacts
+      %td= show_sms_numbers(customer, :old_sms_numbers)
+    %tr.last
       %th Non-SMS contacts
       %td= customer.other_contacts
   - if @customer.type.category == 'Education'
@@ -54,15 +54,15 @@
       %tr
         %th{colspan: 2} Club Details
     %tbody.club-details
-      %tr.first.club-sms-numbers
+      %tr.first
         %th= glossary_term('Club SMS numbers')
-        %td= customer.club_sms_numbers
-      %tr.old.old-club-sms-numbers
+        %td= show_sms_numbers(customer, :club_sms_numbers)
+      %tr
         %th= glossary_term('Old Club SMS numbers')
-        %td= customer.old_club_sms_numbers
-      %tr.last.student-sms-numbers
+        %td= show_sms_numbers(customer, :old_club_sms_numbers)
+      %tr.last
         %th= glossary_term('Student SMS numbers')
-        %td= customer.student_sms_numbers
+        %td= show_sms_numbers(customer, :student_sms_numbers)
     - if current_user.has_role?('edit-customers')
       %tbody.actions
         %tr{:class => 'footer'}

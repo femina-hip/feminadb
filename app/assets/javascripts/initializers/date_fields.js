@@ -1,4 +1,4 @@
-$('input.date_field').live('focus', function() {
+$('document').on('focus', 'input.date_field', function() {
   if (!this.has_datetime_picker_field) {
     this.has_datetime_picker_field = true;
     $(this).datetime_picker_field({

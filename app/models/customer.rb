@@ -1,5 +1,7 @@
 class Customer < ActiveRecord::Base
   NEEDS_STRIPPING = /(^\s)|(\s$)/
+  SMS_NUMBER_FIELDS = %w(sms_numbers old_sms_numbers club_sms_numbers old_club_sms_numbers student_sms_numbers)
+
   extend Forwardable
 
   # Controllers index manually whenever anything might have changed.
@@ -116,22 +118,28 @@ class Customer < ActiveRecord::Base
   #
   # This method is safe: it will verify all parameters before writing them.
   def add_sms_number(attribute, sms_number)
-    if ![ 'sms_numbers', 'club_sms_numbers', 'student_sms_numbers' ].include?(attribute.to_s)
-      raise AttributeError.new("Invalid attribute for SMS number: #{attribute}")
-    end
-
-    if !/\A\+\d+\z/.match(sms_number)
-      raise AttributeError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.")
-    end
+    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !SMS_NUMBER_FIELDS.include?(attribute.to_s)
+    raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
 
     TelerivetBridge.ensure_customer_sms_link(id, sms_number)
-    before = attributes[attribute]
-    after = if before.strip.empty?
-      sms_number
-    else
-      "#{before}, #{sms_number}"
-    end
-    attributes[attribute] = after
+    assign_attributes(attribute => split_sms_numbers(attribute).push(sms_number).uniq.join(', '))
+  end
+
+  # Removes an SMS number from the specified field.
+  #
+  # This method is safe: it will verify all parameters before writing them.
+  def remove_sms_number(attribute, sms_number)
+    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !SMS_NUMBER_FIELDS.include?(attribute.to_s)
+    raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
+
+    assign_attributes(attribute => split_sms_numbers(attribute).reject{ |sms| sms == sms_number }.join(', '))
+  end
+
+  # Returns the SMS numbers as an Array of Strings.
+  def split_sms_numbers(attribute)
+    (attributes[attribute.to_s] || '')
+      .split(/,\s*/)
+      .reject(&:empty?)
   end
 
   def standing_orders_hash

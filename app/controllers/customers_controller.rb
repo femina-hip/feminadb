@@ -46,7 +46,18 @@ class CustomersController < ApplicationController
   def add_sms_number
     require_role 'edit-customer'
 
-    customer.add_sms_number(params[:attribute], params[:sms])
+    customer.add_sms_number(params[:attribute], params[:sms_number])
+    save_with_audit!(customer)
+    customer.solr_index!
+    render('_editable_sms_number', layout: nil, locals: {
+      customer: customer, attribute: params[:attribute], sms_number: params[:sms_number]
+    })
+  end
+
+  def remove_sms_numbers
+    require_role 'edit-customer'
+
+    customer.remove_sms_number(params[:attribute], params[:sms_number])
     save_with_audit!(customer)
     customer.solr_index!
     redirect_to(customer)
@@ -101,11 +112,6 @@ class CustomersController < ApplicationController
       :region_id,
       :district,
       :delivery_address,
-      :sms_numbers,
-      :club_sms_numbers,
-      :student_sms_numbers,
-      :old_sms_numbers,
-      :old_club_sms_numbers,
       :other_contacts
     )
   end
