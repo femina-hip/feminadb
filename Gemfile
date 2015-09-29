@@ -5,6 +5,7 @@ gem 'dynamic_form'
 gem 'haml'
 gem 'jwt'
 gem 'mysql2', '~> 0.3.0'
+gem 'passenger' # this is how we run it in production
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'rake'
 gem 'RedCloth'
@@ -24,6 +25,9 @@ gem 'uglifier'
 
 group :development do
   gem 'web-console'
+  gem 'capistrano'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rails'
 end
 
 group :test do
