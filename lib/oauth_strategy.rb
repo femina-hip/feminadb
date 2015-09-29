@@ -49,11 +49,6 @@ module OauthStrategy
   end
 
   def self.redirect_uri(request)
-    port_part = case request.scheme
-      when "http" then request.port == 80 ? "" : ":#{request.port}"
-      when "https" then request.port == 443 ? "" : ":#{request.port}"
-      else ":#{request.port}"
-    end
-    "#{request.scheme}://#{request.host}#{port_part}/oauth2callback"
+    "#{request.protocol}://#{request.host_with_port}/oauth2callback"
   end
 end
