@@ -48,17 +48,17 @@
         %td.qty
           - if current_user.has_role?('edit-orders')
             %span.editable-order{ |
-              'data-id': o.id,    |
-              'data-customer-id': o.customer.id || '',
-              'data-issue-id': @issue.id,
-              'data-customer-name': o.customer.name,
-              'data-comments': o.comments,
-              'data-order-date': o.order_date,
-              'data-region': o.region,
-              'data-district': o.district,
-              'data-delivery-method': o.delivery_method,
-              'data-delivery-address': o.delivery_address,
-              'data-contact-details': o.contact_details,
+              'data-id' => o.id,  |
+              'data-customer-id' => o.customer.id || '',
+              'data-issue-id' => @issue.id,
+              'data-customer-name' => o.customer.name,
+              'data-comments' => o.comments,
+              'data-order-date' => o.order_date,
+              'data-region' => o.region,
+              'data-district' => o.district,
+              'data-delivery-method' => o.delivery_method,
+              'data-delivery-address' => o.delivery_address,
+              'data-contact-details' => o.contact_details,
             }= o.num_copies > 0 && o.num_copies.to_s || ''
           - else
             %span= o.num_copies > 0 && o.num_copies.to_s || ''

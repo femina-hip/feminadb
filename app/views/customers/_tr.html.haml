@@ -10,6 +10,6 @@
     %td.standing-orders
       - s = customer.standing_or_waiting_order_string_for(publication)
       - if current_user.has_role?('edit-orders')
-        %span.editable-standing-order{'data-customer-id': customer.id}= customer.standing_or_waiting_order_string_for(publication)
+        %span.editable-standing-order{'data-customer-id' => customer.id}= customer.standing_or_waiting_order_string_for(publication)
       - else
         %span= s
