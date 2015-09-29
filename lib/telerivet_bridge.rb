@@ -1,10 +1,15 @@
 module TelerivetBridge
-  def self.ensure_customer_sms_link(customer_id, sms_number)
+  # Returns a contact ID
+  def self.ensure_customer_sms_link_and_return_id(customer_id, sms_number)
     project.get_or_create_contact({
       phone_number: sms_number,
       lookup_key: 'phone_number',
       vars: { feminadb_url: "https://db.feminahip.or.tz/customers/#{customer_id}" }
-    })
+    }).id
+  end
+
+  def self.url_for_contact_id(contact_id)
+    "https://telerivet.com/p/#{project_id[2...10]}/contact/#{contact_id}"
   end
 
   private

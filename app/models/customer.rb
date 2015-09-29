@@ -106,6 +106,7 @@ class Customer < ActiveRecord::Base
   validates_format_of :sms_numbers, :club_sms_numbers, :old_sms_numbers, :old_club_sms_numbers, :student_sms_numbers,
     with: /\A(\+\d+(,\s*\+\d+)*)?\z/,
     message: '%{value} must look like "+255123456789, +255234567890"'
+  serialize :telerivet_id_cache, Hash
 
   before_validation :strip_string_fields
 
@@ -121,8 +122,9 @@ class Customer < ActiveRecord::Base
     raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !SMS_NUMBER_FIELDS.include?(attribute.to_s)
     raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
 
-    TelerivetBridge.ensure_customer_sms_link(id, sms_number)
+    telerivet_id = TelerivetBridge.ensure_customer_sms_link_and_return_id(id, sms_number)
     assign_attributes(attribute => split_sms_numbers(attribute).push(sms_number).uniq.join(', '))
+    telerivet_id_cache[sms_number] = telerivet_id
   end
 
   # Removes an SMS number from the specified field.

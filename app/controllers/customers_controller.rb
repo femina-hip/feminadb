@@ -54,7 +54,7 @@ class CustomersController < ApplicationController
     })
   end
 
-  def remove_sms_numbers
+  def remove_sms_number
     require_role 'edit-customer'
 
     customer.remove_sms_number(params[:attribute], params[:sms_number])

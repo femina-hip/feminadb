@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928124632) do
+ActiveRecord::Schema.define(version: 20150929090205) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -66,13 +66,14 @@ ActiveRecord::Schema.define(version: 20150928124632) do
     t.string   "contact_name",         limit: 255
     t.integer  "delivery_method_id",   limit: 4
     t.datetime "created_at"
-    t.string   "delivery_address",     limit: 255,              null: false
-    t.string   "sms_numbers",          limit: 255, default: "", null: false
-    t.string   "club_sms_numbers",     limit: 255, default: "", null: false
-    t.string   "old_sms_numbers",      limit: 255, default: "", null: false
-    t.string   "old_club_sms_numbers", limit: 255, default: "", null: false
-    t.string   "student_sms_numbers",  limit: 255, default: "", null: false
-    t.string   "other_contacts",       limit: 255, default: "", null: false
+    t.string   "delivery_address",     limit: 255,                null: false
+    t.string   "sms_numbers",          limit: 255,   default: "", null: false
+    t.string   "club_sms_numbers",     limit: 255,   default: "", null: false
+    t.string   "old_sms_numbers",      limit: 255,   default: "", null: false
+    t.string   "old_club_sms_numbers", limit: 255,   default: "", null: false
+    t.string   "student_sms_numbers",  limit: 255,   default: "", null: false
+    t.string   "other_contacts",       limit: 255,   default: "", null: false
+    t.text     "telerivet_id_cache",   limit: 65535
   end
 
   create_table "delivery_methods", force: :cascade do |t|

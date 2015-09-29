@@ -1,4 +1,4 @@
 %ul.sms-numbers
   - customer.split_sms_numbers(attribute).each do |sms_number|
     %li.sms-number
-      %span.static= sms_number
+      %span.static= link_to_sms_number(customer, sms_number)
