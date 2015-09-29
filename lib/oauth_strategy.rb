@@ -49,6 +49,6 @@ module OauthStrategy
   end
 
   def self.redirect_uri(request)
-    "#{request.protocol}://#{request.host_with_port}/oauth2callback"
+    "#{request.protocol}#{request.host_with_port}/oauth2callback"
   end
 end
