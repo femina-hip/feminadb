@@ -9,7 +9,8 @@
 
 = form_for :order, :url => customer_orders_path(@customer) do |f|
   = render :partial => 'form', :locals => { :f => f }
-  %p= submit_tag 'Create New Order'
+  %p
+    %button.debounced Create New Order
 
 %p.actions
   = link_to 'Back to Customer', customer_path(@customer)

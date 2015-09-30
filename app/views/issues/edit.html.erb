@@ -4,7 +4,7 @@
 
 <%= form_for(:issue, :url => issue_path(@issue), :html => { :method => :patch }) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <p><%= submit_tag 'Update Details' %></p>
+  <p><button class="debounced">Save</button></p>
 <% end %>
 
 <p><%= link_to 'Back to Issues List', publication_url(@issue.publication) %></p>

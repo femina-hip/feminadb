@@ -28,4 +28,5 @@
         = form_for customer.notes.build, :url => customer_notes_path(customer) do |f|
           %div
             = f.text_area :note, :style => 'width: 100%; height: 4em;'
-          %p= submit_tag 'Write New Note'
+          %p
+            %button.debounced Write New Note

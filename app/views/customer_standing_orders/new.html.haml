@@ -9,7 +9,8 @@
 
 = form_for :standing_order, :url => customer_standing_orders_path(@customer) do |f|
   = render :partial => 'form', :locals => { :f => f }
-  %p= submit_tag 'Create New Standing Order'
+  %p
+    %button.debounced Create New Standing Order
 
 %p.actions
   = link_to 'Back to Customer', customer_path(@customer)

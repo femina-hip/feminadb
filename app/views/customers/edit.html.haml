@@ -7,7 +7,7 @@
 = form_for :customer, :url => customer_path(@customer), :html => { :method => :patch } do |f|
   = render :partial => 'customer_form', :locals => { :f => f }
   %p
-    = submit_tag
+    %button.debounced Save
 
 %p.actions
   = link_to 'Return without Saving', customer_path(@customer)

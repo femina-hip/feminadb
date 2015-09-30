@@ -10,4 +10,4 @@
   .form-group
     = f.label(:attribute, 'This phone number is what to the customer?')
     = f.select(:attribute, options_for_select([[ 'A contact SMS', 'sms_numbers' ], [ 'A club leader SMS', 'club_sms_numbers' ], [ 'A student SMS', 'student_sms_numbers' ], [ 'A contact SMS that no longer reaches a contact', 'old_sms_numbers' ], [ 'A club leader SMS that no longer reaches a club leader', 'old_club_sms_numbers' ]]))
-  %button.btn.btn-default{type: 'submit'} Submit
+  %button.btn.btn-default.debounced{type: 'submit'} Submit

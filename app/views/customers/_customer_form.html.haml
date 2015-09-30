@@ -39,7 +39,7 @@
       %th
         %abbr{title: 'Headmasters, etc., whom we cannot contact via SMS'} Other contacts
       %td= f.text_field :other_contacts
-  - if @customer.type.category == 'Education'
+  - if @customer.type.try(:category) == 'Education'
     %thead
       %tr
         %th{colspan: 2} Students

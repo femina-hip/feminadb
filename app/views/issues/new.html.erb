@@ -6,7 +6,7 @@
 
 <%= form_for(:issue, :url => issues_path(publication_id: @publication.id)) do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
-  <p><%= submit_tag "Create Issue of #{h(@publication.name)}" %></p>
+  <p><button class="debounced">Create Issue of <%=h @publication.name %></button></p>
 <% end %>
 
 <p><%= link_to 'Back to Issue List', issues_url(publication_id: @publication.id) %></p>

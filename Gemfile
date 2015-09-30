@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'comma'
 gem 'dynamic_form'
+gem 'font-awesome-rails'
 gem 'haml'
 gem 'jwt'
 gem 'mysql2', '~> 0.3.0'

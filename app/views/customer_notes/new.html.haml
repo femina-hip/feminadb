@@ -8,7 +8,8 @@
 = form_for @note, :url => customer_notes_path(@customer) do |f|
   %div
     = f.text_area :note
-  %p= submit_tag 'Write New Note'
+  %p
+    %button.debounced Write New Note
 
 %p.actions
   = link_to 'Back to Customer', @customer
