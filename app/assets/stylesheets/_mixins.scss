@@ -1,0 +1,16 @@
+@mixin bootstrapy-form() {
+  .form-group {
+    margin: 1rem 0;
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: .25rem;
+    }
+  }
+
+  button.btn {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    padding: .25rem .5rem;
+  }
+}

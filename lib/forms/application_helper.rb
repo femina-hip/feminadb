@@ -27,6 +27,21 @@ module Forms::ApplicationHelper
     grouped_collection_select(object_name, method, opt_groups.groups, :issues, :label, :id, :full_name_for_issue_select, options, :class => 'issue_field')
   end
 
+  def sms_number_field(object_name, method, options = {})
+    telephone_field(object_name, method, { pattern: '\\+\\d+', placeholder: '+255123456789' }.merge(options))
+  end
+
+  # Chooses a customer ID
+  def customer_id_field(object_name, method, options = {})
+    select(
+      object_name,
+      method,
+      [[ 'Search for a customer', '' ]],
+      {},
+      forms_application_helper_add_class_to_options(options, 'customer-id-field')
+    )
+  end
+
   private
 
   def forms_application_helper_add_class_to_options(options, klass)

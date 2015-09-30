@@ -10,6 +10,7 @@ Feminadb::Application.routes.draw do
   resources :customers do
     collection do
       get :similar
+      get :autocomplete
     end
     member do
       post 'sms-numbers/:attribute', action: 'add_sms_number', as: 'add_sms_number'
@@ -57,6 +58,8 @@ Feminadb::Application.routes.draw do
   resources :reports, :only => [ :index, :show ]
   resources :report_graphs, :only => :show
   resources :bulk_order_creators, :only => [ :new, :create ]
+
+  resources :telerivet_links
 
   get 'data/issues' => 'data/issues#index', :as => 'data_issues'
 

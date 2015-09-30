@@ -94,6 +94,28 @@ class CustomersController < ApplicationController
     })
   end
 
+  def autocomplete
+    q = params[:q].to_s
+    q += '*' if q.present?
+    customers = customer_search(q: q, order: [:region, :district, :name], page: 1, per_page: 10).results
+    ActiveRecord::Associations::Preloader.new.preload(customers, [ :region, :type ])
+
+    json = customers.map do |customer|
+      {
+        id: customer.id,
+        name: customer.name,
+        region: customer.region.name,
+        district: customer.district,
+        type: {
+          name: customer.type.name,
+          description: customer.type.description
+        }
+      }
+    end
+
+    render(json: json)
+  end
+
   def show
     @customer = customer
   end
