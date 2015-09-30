@@ -27,7 +27,6 @@ gem 'uglifier'
 group :development do
   gem 'web-console'
   gem 'capistrano'
-  gem 'capistrano-passenger'
   gem 'capistrano-rails'
 end
 

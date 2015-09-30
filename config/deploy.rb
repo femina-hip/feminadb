@@ -22,8 +22,15 @@ task :reindex do
   end
 end
 
-task :deploy do
+namespace :deploy do
+  task :restart do
+    on roles(:app) do |host|
+      execute(:kill, '-9', '$(systemctl show feminadb | grep ExecMainPID | cut -d= -f2)')
+    end
+  end
+  after(:publishing, :'deploy:restart')
+
   task :symlink do
-    after :shared, :configure-sunspot
+    after :shared, :'configure-sunspot'
   end
 end
