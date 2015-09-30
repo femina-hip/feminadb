@@ -7,14 +7,15 @@ module GlossaryHelper
 
   def glossary_helper_definition(term)
     case term
-    when 'SMS numbers' then 'SMS numbers for headmasters, etc., whose information we store in Telerivet'
-    when 'Old SMS numbers' then 'SMS numbers for headmasters, etc., which we have stored in Telerivet; but we think the number no longer works or the contact is no longer at the school'
-    when 'Club SMS numbers' then 'SMS numbers for Club Guardians, etc., which we can use with Telerivet'
-    when 'Old Club SMS numbers' then 'SMS numbers for Club Guardians, etc., which we once used with Telerivet; but we think the number no longer works or the contact is no longer a Club Guardian'
-    when 'Student SMS numbers' then 'SMS numbers for students, current or former, who have contacted Femina through Telerivet'
+    when 'Expired SMS numbers' then 'Any SMS numbers that we removed from the customer, but which still exists in Telerivet'
+    when 'Headmaster SMS numbers' then 'SMS numbers for school headmasters (and ONLY school headmasters), whom we can contact with Telerivet'
+    when 'Primary Contact SMS numbers' then 'SMS numbers for the person who receives magazines from us, whom we can contact with Telerivet'
+    when 'Club SMS numbers' then 'SMS numbers for Club Guardians, etc. (ONLY if a club exists), whom we can contact with Telerivet'
+    when 'Student SMS numbers' then 'SMS numbers for students, current or former, whom we can contact with Telerivet'
     when 'Order' then 'The desire to transfer a certain number of Copies of a particular Issue from a Warehouse to a Customer'
     when 'Orders' then 'The desires to transfer a certain number of Copies of some particular Issues from a Warehouse to a Customer'
     when 'Delivery address' then 'How the person delivering Copies gets them to the recipient. If there is an intermediary, include all information: for instance, "via office A in village B, to school C in village D"'
+    when 'Delivery contact' then 'Name, position and/or phone number of somebody to contact when trying to deliver Copies to the Customer'
     when 'Distribution List' then 'A list, sorted by Region and District, of each Customer, its Address, and how many Copies it should receive (based on its Order)'
     when 'Distribution Order' then 'A communication with a distributor regarding a particular Issue. Femina describes, for each Delivery Method, how many Customers in each Region have Orders for that Issue, and how many Copies of the Issue will be distributed onto each Region.'
     when 'Issue' then 'A print run of Fema, a print run of Si Mchezo!, or another one-off printing which must be Distributed'

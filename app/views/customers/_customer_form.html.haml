@@ -29,27 +29,6 @@
     %tr
       %th= glossary_term('Delivery address')
       %td= f.text_field :delivery_address
-    %tr
-      %th= glossary_term('SMS numbers')
-      %td= f.text_field :sms_numbers
-    %tr
-      %th= glossary_term('Old SMS numbers')
-      %td= f.text_field :old_sms_numbers
     %tr.last
-      %th
-        %abbr{title: 'Headmasters, etc., whom we cannot contact via SMS'} Other contacts
-      %td= f.text_field :other_contacts
-  - if @customer.type.try(:category) == 'Education'
-    %thead
-      %tr
-        %th{colspan: 2} Students
-    %tbody
-      %tr.first
-        %th= glossary_term('Club SMS numbers')
-        %td= f.text_field :club_sms_numbers
-      %tr
-        %th= glossary_term('Old Club SMS numbers')
-        %td= f.text_field :old_club_sms_numbers
-      %tr.last
-        %th= glossary_term('Student SMS numbers')
-        %td= f.text_field :student_sms_numbers
+      %th= glossary_term('Delivery contact')
+      %td= f.text_field :delivery_contact

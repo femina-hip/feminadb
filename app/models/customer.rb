@@ -1,6 +1,28 @@
 class Customer < ActiveRecord::Base
   NEEDS_STRIPPING = /(^\s)|(\s$)/
-  SMS_NUMBER_FIELDS = %w(sms_numbers old_sms_numbers club_sms_numbers old_club_sms_numbers student_sms_numbers)
+  @@SMS_NUMBER_FIELDS = {
+    primary_contact_sms_numbers: {
+      singular: 'Main contact SMS number',
+      plural: 'Main contact SMS numbers',
+    },
+    headmaster_sms_numbers: {
+      singular: 'Headmaster SMS number',
+      plural: 'Headmaster SMS numbers',
+    },
+    club_sms_numbers: {
+      singular: 'Club leader SMS number',
+      plural: 'Club leader SMS numbers',
+    },
+    student_sms_numbers: {
+      singular: 'Student SMS number',
+      plural: 'Student SMS numbers',
+    },
+    old_sms_numbers: {
+      singular: 'SMS number that no longer applies',
+      plural: 'SMS numbers that no longer apply',
+    },
+  }
+  cattr_reader(:SMS_NUMBER_FIELDS)
 
   extend Forwardable
 
@@ -30,12 +52,12 @@ class Customer < ActiveRecord::Base
     text(:name)
     text(:contact_name)
     text(:delivery_address)
-    text(:sms_numbers)
+    text(:delivery_contact)
+    text(:primary_contact_sms_numbers)
     text(:club_sms_numbers)
     text(:student_sms_numbers)
     text(:old_sms_numbers)
-    text(:old_club_sms_numbers)
-    text(:other_contacts)
+    text(:headmaster_sms_numbers)
     text(:delivery_method) { delivery_method.abbreviation }
     text(:delivery_method_name) { delivery_method.name }
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
@@ -103,7 +125,7 @@ class Customer < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [ :region_id, :district ], :case_sensitive => false
   validates_presence_of :delivery_method_id
-  validates_format_of :sms_numbers, :club_sms_numbers, :old_sms_numbers, :old_club_sms_numbers, :student_sms_numbers,
+  validates_format_of *@@SMS_NUMBER_FIELDS.keys,
     with: /\A(\+\d+(,\s*\+\d+)*)?\z/,
     message: '%{value} must look like "+255123456789, +255234567890"'
   serialize :telerivet_id_cache, Hash
@@ -112,14 +134,14 @@ class Customer < ActiveRecord::Base
 
   def self.can_visit_url?; true; end
   def title; name; end
-  def has_club?; !club_sms_numbers.empty?; end
+  def has_club?; club_sms_numbers.present?; end
 
   # Adds an SMS number to the specified field, ensuring there is a link for the
   # SMS number in Telerivet.
   #
   # This method is safe: it will verify all parameters before writing them.
   def add_sms_number(attribute, sms_number)
-    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !SMS_NUMBER_FIELDS.include?(attribute.to_s)
+    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !Customer.SMS_NUMBER_FIELDS.include?(attribute.to_sym)
     raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
 
     telerivet_id = TelerivetBridge.ensure_customer_sms_link_and_return_id(id, sms_number)
@@ -131,7 +153,7 @@ class Customer < ActiveRecord::Base
   #
   # This method is safe: it will verify all parameters before writing them.
   def remove_sms_number(attribute, sms_number)
-    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !SMS_NUMBER_FIELDS.include?(attribute.to_s)
+    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !Customer.SMS_NUMBER_FIELDS.include?(attribute.to_sym)
     raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
 
     assign_attributes(attribute => split_sms_numbers(attribute).reject{ |sms| sms == sms_number }.join(', '))
@@ -192,10 +214,6 @@ class Customer < ActiveRecord::Base
     search.raw_results
   end
 
-  def contact_details
-    [ sms_numbers, other_contacts ].reject(&:empty?).join('; ')
-  end
-
   comma do
     id('ID')
     region(:name => 'Region')
@@ -203,9 +221,10 @@ class Customer < ActiveRecord::Base
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
     delivery_address('Delivery address')
-    sms_numbers('SMS numbers')
+    delivery_contact('Delivery contact')
+    primary_contact_sms_numbers('Primary Contact SMS numbers')
+    headmaster_sms_numbers('Headmaster SMS numbers')
     club_sms_numbers('Club SMS numbers')
-    other_contacts('Other contacts')
   end
 
   private

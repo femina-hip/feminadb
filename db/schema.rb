@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929090205) do
+ActiveRecord::Schema.define(version: 20150930103813) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -59,21 +59,21 @@ ActiveRecord::Schema.define(version: 20150929090205) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string   "name",                 limit: 255
-    t.integer  "customer_type_id",     limit: 4
-    t.integer  "region_id",            limit: 4
-    t.string   "district",             limit: 255
-    t.string   "contact_name",         limit: 255
-    t.integer  "delivery_method_id",   limit: 4
+    t.string   "name",                        limit: 255
+    t.integer  "customer_type_id",            limit: 4
+    t.integer  "region_id",                   limit: 4
+    t.string   "district",                    limit: 255
+    t.string   "contact_name",                limit: 255
+    t.integer  "delivery_method_id",          limit: 4
     t.datetime "created_at"
-    t.string   "delivery_address",     limit: 255,                null: false
-    t.string   "sms_numbers",          limit: 255,   default: "", null: false
-    t.string   "club_sms_numbers",     limit: 255,   default: "", null: false
-    t.string   "old_sms_numbers",      limit: 255,   default: "", null: false
-    t.string   "old_club_sms_numbers", limit: 255,   default: "", null: false
-    t.string   "student_sms_numbers",  limit: 255,   default: "", null: false
-    t.string   "other_contacts",       limit: 255,   default: "", null: false
-    t.text     "telerivet_id_cache",   limit: 65535
+    t.string   "delivery_address",            limit: 255,                null: false
+    t.string   "primary_contact_sms_numbers", limit: 255,   default: "", null: false
+    t.string   "club_sms_numbers",            limit: 255,   default: "", null: false
+    t.string   "old_sms_numbers",             limit: 255,   default: "", null: false
+    t.string   "student_sms_numbers",         limit: 255,   default: "", null: false
+    t.string   "delivery_contact",            limit: 255,   default: "", null: false
+    t.text     "telerivet_id_cache",          limit: 65535
+    t.string   "headmaster_sms_numbers",      limit: 255
   end
 
   create_table "delivery_methods", force: :cascade do |t|

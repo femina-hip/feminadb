@@ -37,32 +37,30 @@
         = customer.delivery_method.name
         = "(#{customer.delivery_method.description})"
     %tr
-      %th
-        = glossary_term('Delivery address')
+      %th= glossary_term('Delivery address')
       %td= customer.delivery_address
-    %tr
-      %th= glossary_term('SMS numbers')
-      %td= show_sms_numbers(customer, :sms_numbers)
-    %tr
-      %th= glossary_term('Old SMS numbers')
-      %td= show_sms_numbers(customer, :old_sms_numbers)
     %tr.last
-      %th Non-SMS contacts
-      %td= customer.other_contacts
-  - if @customer.type.category == 'Education'
-    %thead.club-details
-      %tr
-        %th{colspan: 2} Club Details
-    %tbody.club-details
-      %tr.first
-        %th= glossary_term('Club SMS numbers')
-        %td= show_sms_numbers(customer, :club_sms_numbers)
-      %tr
-        %th= glossary_term('Old Club SMS numbers')
-        %td= show_sms_numbers(customer, :old_club_sms_numbers)
-      %tr.last
-        %th= glossary_term('Student SMS numbers')
-        %td= show_sms_numbers(customer, :student_sms_numbers)
+      %th= glossary_term('Delivery contact')
+      %td= customer.delivery_contact
+  %thead.sms-numbers
+    %tr
+      %th{colspan: 2} SMS Numbers
+  %tbody.sms-numbers
+    %tr.first
+      %th= glossary_term('Primary Contact SMS numbers')
+      %td= show_sms_numbers(customer, :primary_contact_sms_numbers)
+    %tr
+      %th= glossary_term('Headmaster SMS numbers')
+      %td= show_sms_numbers(customer, :headmaster_sms_numbers)
+    %tr
+      %th= glossary_term('Club SMS numbers')
+      %td= show_sms_numbers(customer, :club_sms_numbers)
+    %tr
+      %th= glossary_term('Student SMS numbers')
+      %td= show_sms_numbers(customer, :student_sms_numbers)
+    %tr.last
+      %th= glossary_term('Expired SMS numbers')
+      %td= show_sms_numbers(customer, :old_sms_numbers)
     - if current_user.has_role?('edit-customers')
       %tbody.actions
         %tr{:class => 'footer'}

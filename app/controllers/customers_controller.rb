@@ -134,7 +134,7 @@ class CustomersController < ApplicationController
       :region_id,
       :district,
       :delivery_address,
-      :other_contacts
+      :delivery_contact
     )
   end
 end

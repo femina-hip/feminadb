@@ -9,5 +9,5 @@
     = f.customer_id_field(:customer_id, required: true)
   .form-group
     = f.label(:attribute, 'This phone number is what to the customer?')
-    = f.select(:attribute, options_for_select([[ 'A contact SMS', 'sms_numbers' ], [ 'A club leader SMS', 'club_sms_numbers' ], [ 'A student SMS', 'student_sms_numbers' ], [ 'A contact SMS that no longer reaches a contact', 'old_sms_numbers' ], [ 'A club leader SMS that no longer reaches a club leader', 'old_club_sms_numbers' ]]))
+    = f.select(:attribute, options_for_select(Customer.SMS_NUMBER_FIELDS.map { |attribute, descriptions| [ descriptions[:singular], attribute ] }))
   %button.btn.btn-default.debounced{type: 'submit'} Submit
