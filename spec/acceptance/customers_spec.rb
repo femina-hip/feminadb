@@ -68,36 +68,3 @@ feature "Edit standing/waiting orders from customer page", %q{
     WaitingOrder.active.count.should == 0
   end
 end
-
-feature "Use tags", %q{
-  In order to find customers by arbitrary characteristics
-  As a user with edit-customers privilege
-  I want to use tags
-} do
-
-  background do
-    r1 = Role.make(:name => 'edit-customers')
-    r2 = Role.make(:name => 'view')
-    User.make(:login => 'customer-editor', :password => 'password', :roles => [r1, r2])
-    login('customer-editor', 'password')
-  end
-
-  scenario "Add a tag and search for it" do
-    c1 = Customer.make
-    c2 = Customer.make(:name => 'Customer 2', :type => c1.type, :region => c1.region, :delivery_method => c1.delivery_method)
-
-    visit(customer_path(c1))
-    within('div.add-tag') do
-      fill_in('tag_name', :with => 'foobar')
-      click_button('Add Tag')
-    end
-
-    within('table.customer-notes') do
-      page.should(have_content('TAG_FOOBAR'))
-    end
-
-    visit(customers_index('tag:foobar'))
-    page.should(have_css("#customer-#{c1.id}"))
-    page.should(have_no_css("#customer-#{c2.id}"))
-  end
-end
