@@ -26,7 +26,7 @@
         %th
     %tbody
       - @issues.each do |issue|
-        %tr
+        %tr{:class => cycle('odd', 'even')}
           - if !@publication
             %td.publication= link_to(issue.publication_name, issue.publication)
           %td.issue= link_to("#{issue.issue_number}: #{issue.name}", issue)
