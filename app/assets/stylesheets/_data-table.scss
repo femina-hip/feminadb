@@ -1,6 +1,6 @@
 @import 'vars';
 
-table.customers, table.clubs, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
+table.customers, table.clubs, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
   border: 2px solid $border_color;
   margin: 1em auto;
 
@@ -56,7 +56,7 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
 }
 
 // Tables which have no "thead.title"
-table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
+table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
   thead {
     border: 2px solid $heading_border_color;
 
@@ -285,12 +285,6 @@ table.distribution-list {
   }
 }
 
-table.publication-district-breakdown, table.issue-district-breakdown, table.issue-district-breakdown-orders {
-  td.num-copies {
-    text-align: right;
-  }
-}
-
 table.inventory {
   width: 100%;
 
@@ -310,10 +304,6 @@ table.inventory {
   td.total {
     font-weight: bold;
     text-align: right;
-  }
-
-  td.breakdown * {
-    font-weight: bold;
   }
 
   td.comment {
