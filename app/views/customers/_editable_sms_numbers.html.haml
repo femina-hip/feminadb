@@ -1,4 +1,4 @@
-%ul.sms-numbers
+%ul.sms-numbers{'data-attribute' => attribute}
   - customer.split_sms_numbers(attribute).each do |sms_number|
     = render('editable_sms_number', customer: customer, attribute: attribute, sms_number: sms_number)
   %li.new-sms-number

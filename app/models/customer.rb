@@ -149,9 +149,8 @@ class Customer < ActiveRecord::Base
     raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !Customer.SMS_NUMBER_FIELDS.include?(attribute.to_sym)
     raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
 
-    telerivet_id = TelerivetBridge.ensure_customer_sms_link_and_return_id(id, sms_number)
+    telerivet_id_cache[sms_number] ||= TelerivetBridge.ensure_customer_sms_link_and_return_id(id, sms_number)
     assign_attributes(attribute => split_sms_numbers(attribute).push(sms_number).uniq.join(', '))
-    telerivet_id_cache[sms_number] = telerivet_id
   end
 
   # Removes an SMS number from the specified field.
