@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/boot'
+require_relative '../config/environment'
+
+project = TelerivetBridge.project
+project.query_contacts.each do |contact|
+  if contact.phone_number =~ /\A\+?255\d+\z/ && !contact.vars.feminadb_url
+    puts "Adding link to #{contact.phone_number}..."
+    contact.vars.set('feminadb_url', "https://db.feminahip.or.tz/telerivet_links/new?sms_number=#{contact.phone_number}")
+    contact.save
+  end
+end
