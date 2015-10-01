@@ -84,14 +84,6 @@ class Report::Base
       []
     end
 
-    # Returns a String describing how to render the Report as a graph.
-    #
-    # There must be a file at app/views/report_graphs/X.html.erb with the
-    # actual rendering code.
-    def graph_view
-      'sidebar'
-    end
-
     # Returns an Array of Report classes.
     #
     # To create a new Report, simply create its file in app/models/reports.

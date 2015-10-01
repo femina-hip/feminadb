@@ -48,7 +48,6 @@ Feminadb::Application.routes.draw do
 
   resources :modifications, :only => :index
   resources :reports, :only => [ :index, :show ]
-  resources :report_graphs, :only => :show
   resources :bulk_order_creators, :only => [ :new, :create ]
 
   resources :telerivet_links
