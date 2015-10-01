@@ -2,26 +2,10 @@
 -# Required instance variables: "user", a user
 
 %p
-  %b Login:
-  = f.text_field :login
-
-%p
   %b Email:
   = f.text_field :email
 
 %p
-  %b Password:
-  = f.password_field :password
-  %br
-  %b Confirm Password:
-  = f.password_field :password_confirmation
-
-%p
   %b Roles:
-
-%ul.roles
-  - Role.order(:name).each do |role|
-    %li
-      %label
-        = check_box_tag "#{f.object_name}[role_ids][]", role.id, @user.role_ids.include?(role.id)
-        = h role.name
+  = f.text_field :roles
+  %span.help Separate roles by spaces. Valid roles are <code>admin</code>, <code>edit-customers</code>, <code>edit-issues</code>, <code>edit-orders</code>.

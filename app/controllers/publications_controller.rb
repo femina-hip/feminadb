@@ -4,17 +4,17 @@ class PublicationsController < ApplicationController
   end
 
   def new
-    require_role 'edit-publications'
+    require_role 'edit-issues'
     @publication = Publication.new
   end
 
   def edit
-    require_role 'edit-publications'
+    require_role 'edit-issues'
     @publication = publication
   end
 
   def create
-    require_role 'edit-publications'
+    require_role 'edit-issues'
     @publication = create_with_audit(Publication, publication_params)
     if @publication.valid?
       redirect_to(@publication)
@@ -24,7 +24,7 @@ class PublicationsController < ApplicationController
   end
 
   def update
-    require_role 'edit-publications'
+    require_role 'edit-issues'
     customer_ids1 = StandingOrder.customer_ids_with_publication_id(publication.id)
     if update_with_audit(publication, publication_params)
       customer_ids2 = StandingOrder.customer_ids_with_publication_id(publication.id)
@@ -42,7 +42,7 @@ class PublicationsController < ApplicationController
   end
 
   def destroy
-    require_role 'edit-publications'
+    require_role 'edit-issues'
     if publication.issues.length > 0
       flash[:notice] = 'Publication could not be deleted: delete each of its Issues first.'
     else

@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   def index
     require_role 'admin'
-    @users = User.order(:login).all
+    @users = User.order(:email).all
   end
 
   def new
@@ -50,6 +50,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:login, :email)
+    params.require(:user).permit(:email, :roles)
   end
 end
