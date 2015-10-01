@@ -2,22 +2,27 @@ class Customer < ActiveRecord::Base
   NEEDS_STRIPPING = /(^\s)|(\s$)/
   @@SMS_NUMBER_FIELDS = {
     primary_contact_sms_numbers: {
+      person: 'Primary contact',
       singular: 'Main contact SMS number',
       plural: 'Main contact SMS numbers',
     },
     headmaster_sms_numbers: {
+      person: 'Headmaster',
       singular: 'Headmaster SMS number',
       plural: 'Headmaster SMS numbers',
     },
     club_sms_numbers: {
-      singular: 'Club leader SMS number',
-      plural: 'Club leader SMS numbers',
+      person: 'Club Mentor',
+      singular: 'Club Mentor SMS number',
+      plural: 'Club Mentor SMS numbers',
     },
     student_sms_numbers: {
+      person: 'Student',
       singular: 'Student SMS number',
       plural: 'Student SMS numbers',
     },
     old_sms_numbers: {
+      person: 'Expired Contact',
       singular: 'SMS number that no longer applies',
       plural: 'SMS numbers that no longer apply',
     },
@@ -225,6 +230,37 @@ class Customer < ActiveRecord::Base
     primary_contact_sms_numbers('Primary Contact SMS numbers')
     headmaster_sms_numbers('Headmaster SMS numbers')
     club_sms_numbers('Club SMS numbers')
+  end
+
+  # Returns all Telerivet contact IDs for all SMS numbers.
+  def telerivet_contact_ids
+    @@SMS_NUMBER_FIELDS.keys
+      .map { |attribute| split_sms_numbers(attribute) }
+      .flatten
+      .map { |sms_number| telerivet_id_cache[sms_number] }
+      .reject(&:blank?)
+      .uniq
+  end
+
+  # Returns an Array of SmsMessages, sorted by created_at descending.
+  #
+  # We'll fetch 200 messages per contact (this is set in TelerivetBridge). That
+  # should cover all the messages. So if we have five contacts (a reasonable
+  # 95th percentile), that's 1,000 messages, which should be quick to sort.
+  #
+  # This sends off a number of API requests, so it may take some time.
+  def sms_messages
+    telerivet_contact_ids
+      .map { |contact_id| TelerivetBridge.sms_messages_for_contact_id(contact_id) }
+      .flatten
+      .sort { |a, b| b.created_at - a.created_at }
+  end
+
+  # Given an SMS number, returns which field it's from
+  def sms_number_attribute(sms_number)
+    @sms_number_attribute_cache ||= {}
+    @sms_number_attribute_cache[sms_number] ||= @@SMS_NUMBER_FIELDS.keys
+      .find { |attribute| split_sms_numbers(attribute).include?(sms_number) }
   end
 
   private

@@ -26,4 +26,16 @@ module CustomersHelper
       content_tag(:span, sms_number, class: 'sms-number')
     end
   end
+
+  def link_to_sms_number_with_description(customer, sms_number)
+    url = sms_number_url(customer, sms_number)
+    attribute = customer.sms_number_attribute(sms_number)
+    person = attribute && Customer.SMS_NUMBER_FIELDS[attribute][:person] || '???'
+    text = "#{sms_number} (#{person})"
+    if url.present?
+      content_tag(:a, text, class: 'sms-number', href: url, target: '_blank')
+    else
+      content_tag(:span, text, class: 'sms-number')
+    end
+  end
 end

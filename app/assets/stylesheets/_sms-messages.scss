@@ -1,0 +1,33 @@
+div.sms-messages {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    border: $sms_message_border;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .sms-message-incoming {
+    margin-left: 10%;
+    background: $incoming_sms_message_background_color;
+  }
+
+  .sms-message-outgoing {
+    margin-right: 10%;
+    background: $outgoing_sms_message_background_color;
+  }
+
+  .from-to {
+    margin-bottom: 1rem;
+  }
+
+  .created-at {
+    text-align: right;
+    font-size: small;
+  }
+}

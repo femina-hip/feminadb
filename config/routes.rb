@@ -16,6 +16,7 @@ Feminadb::Application.routes.draw do
       post 'sms-numbers/:attribute', action: 'add_sms_number', as: 'add_sms_number'
       delete 'sms-numbers/:attribute/:sms_number', action:'remove_sms_number', as: 'remove_sms_number'
     end
+    resources :sms_messages, only: :index
     resources :standing_orders, :controller => 'customer_standing_orders'
     resources :waiting_orders, :controller => 'customer_waiting_orders' do
       member do

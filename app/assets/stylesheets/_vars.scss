@@ -25,3 +25,7 @@ $horiz_even_background_color: $odd_background_color;
 $progress_bar_empty_color: white;
 $progress_bar_full_color: blue;
 $faded_color: #666;
+
+$sms_message_border: 2px solid #dcdcde;
+$incoming_sms_message_background_color: #f0f0f0; // Like Telerivet
+$outgoing_sms_message_background_color: white;

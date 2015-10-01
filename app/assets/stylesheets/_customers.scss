@@ -21,3 +21,21 @@ table.customer {
     }
   }
 }
+
+section.sms-messages {
+  width: 95%;
+  margin: 1rem auto;
+  border: 2px solid $border_color;
+
+  h2 {
+    margin: 0;
+    color: $alt_color;
+    background-color: $alt_background_color;
+    font: inherit;
+    padding: .5rem;
+  }
+
+  .sms-messages-container {
+    padding: .5rem;
+  }
+}

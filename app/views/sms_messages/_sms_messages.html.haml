@@ -1,0 +1,29 @@
+.sms-messages
+  %link{rel: 'stylesheet', src: '/assets/stylesheets/application.css'}
+  - if @sms_messages.length == 0
+    %p No SMS messages found
+  - else
+    - if @sms_messages.length == 1
+      %p Found one SMS message
+    - else
+      %p= "Found #{@sms_messages.length} SMS messages"
+
+    %ul.sms-messages
+      - @sms_messages.each do |sms_message|
+        %li{class: "sms-message sms-message-#{sms_message.direction}"}
+          .from-to
+            - if sms_message.direction == :incoming
+              %span.from= link_to_sms_number_with_description(@customer, sms_message.sms_number)
+              →
+              %span.to Femina
+            - else
+              %span.from Femina
+              →
+              %span.to= link_to_sms_number_with_description(@customer, sms_message.sms_number)
+          .content= sms_message.content
+          - if sms_message.error_message.present?
+            .error=sms_message.error_message
+          .created-at
+            %a{href: sms_message.url, target: '_blank'}
+              = time_ago_in_words(sms_message.created_at)
+              ago
