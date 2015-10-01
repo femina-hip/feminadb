@@ -258,6 +258,12 @@ class Customer < ActiveRecord::Base
 
   # Given an SMS number, returns which field it's from
   def sms_number_attribute(sms_number)
+    # Sometimes Telerivet will return SMS numbers without a "+". When we figure
+    # out why, remove this workaround.
+    if sms_number[0] != '+'
+      sms_number = "+#{sms_number}"
+    end
+
     @sms_number_attribute_cache ||= {}
     @sms_number_attribute_cache[sms_number] ||= @@SMS_NUMBER_FIELDS.keys
       .find { |attribute| split_sms_numbers(attribute).include?(sms_number) }
