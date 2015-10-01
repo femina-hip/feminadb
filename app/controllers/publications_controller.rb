@@ -58,13 +58,6 @@ class PublicationsController < ApplicationController
     redirect_to(:publications)
   end
 
-  def district_breakdown
-    @district_breakdown = PublicationDistrictBreakdown.new(params.slice(:start_date))
-    if !@district_breakdown.start_date
-      @district_breakdown.start_date = 1.year.ago.to_date
-    end
-  end
-
   protected
 
   def publication

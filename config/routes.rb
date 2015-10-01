@@ -27,11 +27,7 @@ Feminadb::Application.routes.draw do
     resources :notes, :controller => 'customer_notes'
   end
 
-  resources :publications do
-    collection do
-      get :district_breakdown
-    end
-  end
+  resources :publications
 
   resources :issues do
     member do
