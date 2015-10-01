@@ -49,30 +49,7 @@ module CustomerFilterControllerMethods
   end
 
   def requested_q
-    if !((params[:add_term] || '') + (params[:add_value] || '')).strip.empty?
-      # FIXME ugly, untested, unnecessarily complex
-      if params[:q]
-        params[:q] << ' '
-      else
-        params[:q] = ''
-      end
-      if params[:add_term]
-        params[:q] << params[:add_term] << ':'
-      end
-      add_value = params[:add_value].strip
-      if add_value =~ / /
-        if add_value =~ /"/
-          add_value = "'#{add_value}'"
-        else
-          add_value = "\"#{add_value}\""
-        end
-      elsif add_value.strip == ''
-        add_value = '""'
-      end
-      params[:q] << add_value
-    end
-    params[:q] ||= session[:customers_q]
-    params[:q] || ''
+    params[:q] ||= session[:customers_q] || ''
   end
 
   def remember_q_and_page

@@ -14,3 +14,14 @@
     padding: .25rem .5rem;
   }
 }
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}

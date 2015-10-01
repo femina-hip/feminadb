@@ -6,7 +6,7 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
 
   tbody {
     th, td {
-      border: 1px solid $border_color;
+      border-bottom: 1px solid $border_color;
       border-left: 0;
       border-right: 0;
     }
@@ -41,14 +41,12 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
 
     tr.subtotal {
       background: $alt2_background_color;
-      border-top: 2px solid $border_color;
       border-bottom: 2px solid $border_color;
       font-weight: bold;
     }
 
     tr.subsubtotal {
       background: $alt2_background_color;
-      border-top: 2px solid gray;
       border-bottom: 2px solid gray;
       font-weight: bold;
     }
@@ -59,11 +57,11 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
 table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
   thead {
     th {
-      border-bottom: 2px solid $heading_border_color;
+      border-bottom: 0;
       font-weight: normal;
       background-color: $alt_background_color;
       color: $alt_color;
-      padding: 8px 6px 2px;
+      padding: .5rem 6px .25rem;
 
       a {
         color: inherit;
@@ -81,7 +79,7 @@ table.customer-orders, table.customer-standing-orders, table.customer-waiting-or
       font-weight: normal;
       background-color: $alt_background_color;
       color: $alt_color;
-      padding: 8px 6px 2px;
+      padding: .5rem 6px .25rem;
 
       a {
         background-color: $alt_background_color;
@@ -145,7 +143,6 @@ table.customers td.standing-orders, table.issue-orders td.qty {
     right: -10px;
     padding: 9px;
     border: 1px solid $border_color;
-    border-top: none;
     z-index: 1;
 
     div.submitting {
@@ -281,7 +278,6 @@ table.customer-orders {
   }
 
   tr.comments td {
-    border-top: 0;
     padding-top: 0;
     color: $faded_color;
   }

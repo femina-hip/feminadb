@@ -1,110 +1,77 @@
 @import 'vars';
 
-form.search {
-  text-align: center;
+.customer-search {
+  form {
+    display: -webkit-flex;
+    display: flex;
+    font-size: 1.2rem;
+    line-height: 2.25rem;
 
-  input, select {
-    font-size: inherit;
-  }
-
-  table {
-    width: 100%;
-    border: none;
-
-    td {
-      border: none;
-      margin: 0;
-      padding: 0 6px;
-      white-space: nowrap;
-      width: 1em;
-      vertical-align: top;
-
-      input[type="text"] {
-        width: 100%;
-      }
+    label, input {
+      margin: 0 .1rem;
     }
 
-    td.stretch {
-      padding: 1px 3px;
-      width: auto;
+    label {
+      // Assume inputs have 2px borders
+      border: 2px solid transparent;
     }
 
-    p {
-      display: block;
-      margin: 0;
-      padding: 0;
+    input[name=q] {
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
     }
 
-    p.help {
-      font-size: .75em;
+    input {
+      padding: 0 .75rem;
+      font: inherit;
     }
   }
 
-  table.search {
-    clear: both;
-    margin: 1em 5% .5em;
-    width: 90%;
-    font-size: 1.1em;
+  .help {
+    font-size: small;
+    text-align: center;
   }
 
-  div.explanation {
-    div.content {
-      text-align: left;
-      border: 2px solid $border_color;
-      background: $even_background_color;
-      padding: 6px;
-      margin: 6px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      margin-left: 2em;
-      padding: 0;
-      line-height: 1.5;
-    }
-
-    q {
-      font-weight: bold;
-
-      &:before, &:after { content: ""; }
-    }
+  div.count {
+    text-align: center;
+    margin: .75rem;
   }
 
   div.facets {
-    display: inline-block;
     text-align: center;
-    font-size: .9em;
+    font-size: .9rem;
     line-height: 1.4;
-    vertical-align: middle;
-  }
 
-  p {
-    display: inline-block;
-    margin: 0 1em 0 0;
-    padding: 0;
-  }
+    ul.facets {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
 
-  ul.facets {
-    display: inline;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-  }
+    span.title, li.facet {
+      display: inline-block;
+      margin: 0 .5rem;
 
-  li.facet, li.non-facet {
-    list-style: none;
-    display: inline-block;
-    margin: 0 .5em;
-    padding: 0;
-    background: $background_color;
+      ul {
+        display: none;
+      }
 
-    &:hover ul {
-      display: block;
+      &:hover ul {
+        display: block;
+      }
+    }
+
+    li.row a {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+
+      .count {
+        padding-left: 1rem;
+        color: $faded_color;
+      }
     }
   }
 

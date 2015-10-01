@@ -47,15 +47,15 @@ class Customer < ActiveRecord::Base
     integer(:id)
     integer(:region_id)
     date(:created_at)
-    string(:region, :stored => true) { region.name }
-    string(:district, :stored => true)
-    string(:name, :stored => true)
+    string(:region, stored: true) { region.name }
+    string(:district, stored: true)
+    string(:name, stored: true)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
     string(:category) { type.category }
+    text(:region) { region.name }
     text(:district)
     text(:name)
-    text(:contact_name)
     text(:delivery_address)
     text(:delivery_contact)
     text(:primary_contact_sms_numbers)
@@ -63,12 +63,7 @@ class Customer < ActiveRecord::Base
     text(:student_sms_numbers)
     text(:old_sms_numbers)
     text(:headmaster_sms_numbers)
-    text(:delivery_method) { delivery_method.abbreviation }
-    text(:delivery_method_name) { delivery_method.name }
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
-    text(:standing_order_comments) { standing_orders.collect(&:comments).join("\n") }
-    text(:waiting_order_comments) { waiting_orders.collect(&:comments).join("\n") }
-    text(:region) { region.name }
     text(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
@@ -84,20 +79,6 @@ class Customer < ActiveRecord::Base
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
         key = publication.to_index_key
         value = waiting_order_for(publication).try(:num_copies) || 0
-        hash.merge!(key => value)
-      end
-    end
-    dynamic_date(:created_standing) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
-        key = publication.to_index_key
-        value = standing_order_for(publication).try(:created_at)
-        hash.merge!(key => value)
-      end
-    end
-    dynamic_date(:requested_waiting) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
-        key = publication.to_index_key
-        value = waiting_order_for(publication).try(:request_date)
         hash.merge!(key => value)
       end
     end

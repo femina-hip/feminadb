@@ -7,35 +7,27 @@
 -# - all (optional) will get passed through
 - num_results ||= nil
 
-= form_tag(path, :method => :get, :class => 'search') do
-  %table.search
-    %tr
-      %td
-        %label{:for => 'q'} Search:
-      %td.stretch
-        - if params[:all]
-          = hidden_field_tag(:all, params[:all])
-        %p= text_field_tag(:q, params[:q])
-        .explanation
-          %a{:href => '#'} What am I searching for?
-          .content{:style => 'display:none'}=explanation_ul_for_customer_query(params[:q] || '')
-        %p.help
-          = link_to('Search tips and instructions', help_path(:find_customer))
-      %td
-        %input{:type => 'submit', :value => 'Search'}
-        %input{:type => 'reset', :value => 'Clear Search'}
+.customer-search
+  %form.search{:method => :get, action: path}
+    - if params[:all]
+      = hidden_field_tag(:all, params[:all])
+    %label{:for => 'q'} Search:
+    %input{:name => 'q', :value => params[:q]}
+    %input{:type => 'submit', :value => 'Search'}
+    %input{:type => 'reset', :value => 'Clear Search'}
+  .help= link_to('Search tips and instructions', help_path(:find_customer))
+
+  .count
+    - if num_results
+      %strong= num_results
+      Orders, out of
+    %strong= search.total
+    Customers
 
   .facets
-    %p
-      - if num_results
-        %b= num_results
-        Orders, out of
-      %b= search.total
-      Customers.
-
-    %p Filter:
+    %span.title Filter:
     %ul.facets
-      - [[:type, 'Type'], [:region, 'Region'], [:district, 'District'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
+      - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:district, 'District'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
         - facet = @search.facet(facet_sym)
         - if facet.rows.length > 1
           %li.facet
@@ -43,8 +35,9 @@
             %ul.rows
               - facet.rows.each do |row|
                 %li.row
-                  = link_to(row.value.to_s, params.slice(:q).merge(:add_term => facet_sym.to_s, :add_value => row.value.to_s))
-                  %span.count== (#{row.count})
+                  %a{:href => url_for(q: refine_q(params[:q], facet_sym.to_s, row.value.to_s))}
+                    %span.value= row.value.to_s
+                    %span.count= number_with_delimiter(row.count)
       - publications = Customer.publications_tracking_standing_orders_for_indexing.collect{|p| [p.to_index_key.to_sym, p.name]}
       - [[:standing, 'Standing'], [:waiting, 'Waiting']].each do |standing_or_waiting, standing_or_waiting_name|
         - if publications.any?{ |sym, name| @search.facet(standing_or_waiting, sym).rows.length > 1 }
@@ -55,16 +48,6 @@
                 - facet = @search.facet(standing_or_waiting, sym)
                 - facet.rows.each do |row|
                   %li.row
-                    = link_to("#{row.value ? 'Has' : 'Does not have'} #{standing_or_waiting_name} Orders for #{name}", params.slice(:q).merge(:add_term => "#{standing_or_waiting}:#{sym}", :add_value => row.value.to_s))
-                    %span.count== (#{row.count})
-      %li.non-facet
-        %label
-          Custom:
-          %select{:name => 'add_term'}
-            %option{:value => ''} (Anything)
-            %option{:value => 'name'} Name
-            %option{:value => 'district'} District
-            %option{:value => 'category'} Category
-        %input{:type => 'text', :name => 'add_value'}
-        %input{:type => 'submit', :value => 'Refine'}
-    %div{:style => 'clear:both;'}
+                    %a{:href => url_for(q: refine_q(params[:q], "#{standing_or_waiting}:#{sym}", row.value.to_s))}
+                      %span.value= "#{row.value ? 'Has' : 'Does not have'} #{standing_or_waiting_name} Orders for #{name}"
+                      %span.count= number_with_delimiter(row.count)
