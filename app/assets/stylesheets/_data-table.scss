@@ -4,10 +4,6 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
   border: 2px solid $border_color;
   margin: 1em auto;
 
-  tbody tr:first-child td {
-    padding-top: 8px;
-  }
-
   tbody {
     th, td {
       border: 1px solid $border_color;
@@ -16,7 +12,7 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
     td {
       font-family: Times, serif;
       font-size: 0.9em;
-      padding: 2px 9px;
+      padding: .5rem .75rem;
 
       .add {
         text-align: center;
