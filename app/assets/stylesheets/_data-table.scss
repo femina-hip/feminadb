@@ -7,6 +7,8 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
   tbody {
     th, td {
       border: 1px solid $border_color;
+      border-left: 0;
+      border-right: 0;
     }
 
     td {
