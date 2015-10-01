@@ -10,6 +10,12 @@ module CustomersHelper
   end
 
   def sms_number_url(customer, sms_number)
+    # Link to an SMS number from TeleRivet that's missing a "+". Once we figure
+    # out why the "+"s are missing, nix this workaround.
+    if sms_number[0] != '+'
+      sms_number = "+#{sms_number}"
+    end
+
     contact_id = customer.telerivet_id_cache[sms_number]
     if contact_id.present?
       TelerivetBridge.url_for_contact_id(contact_id)
