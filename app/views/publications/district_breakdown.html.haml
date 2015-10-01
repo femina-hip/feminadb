@@ -20,7 +20,7 @@
       %th Region
       %th District
       - @district_breakdown.publications.each do |publication|
-        %th= link_to(publication.name, issue_district_breakdown_publication_path(publication, params.slice(:start_date)))
+        %th= publication.name
   %tbody
     - @district_breakdown.data.each do |region_name, district, values|
       %tr{:class => cycle('odd', 'even')}

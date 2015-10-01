@@ -31,10 +31,6 @@ Feminadb::Application.routes.draw do
     collection do
       get :district_breakdown
     end
-
-    member do
-      get :issue_district_breakdown
-    end
   end
 
   resources :issues do
