@@ -1,6 +1,11 @@
 class IssuesController < ApplicationController
   def index
-    @issues = publication.issues
+    @publication = publication
+    @issues = if @publication
+      @publication.issues
+    else
+      Issue.includes(:publication).order(issue_date: :desc)
+    end
   end
 
   def show
@@ -73,7 +78,11 @@ class IssuesController < ApplicationController
   private
 
   def publication
-    @publication ||= Publication.includes(issues: :publication).find(params[:publication_id])
+    @publication ||= if params[:publication_id]
+      Publication.find(params[:publication_id])
+    else
+      nil
+    end
   end
 
   def issue

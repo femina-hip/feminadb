@@ -4,6 +4,8 @@
     Publications: we distribute Issues of Publications. An Issue is a
     collection of printed copies.
 
+  %p= "You can also skip to a #{link_to('list of all Issues', issues_path)}.".html_safe
+
 - if @publications.empty?
   %p There are no publications in the database.
 - else

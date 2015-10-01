@@ -52,8 +52,6 @@ Feminadb::Application.routes.draw do
 
   resources :telerivet_links
 
-  get 'data/issues' => 'data/issues#index', :as => 'data_issues'
-
   get 'help(/:doc)' => 'helps#show', :as => 'help'
 
   get 'oauth2callback' => 'auth#callback'

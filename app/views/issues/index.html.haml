@@ -1,10 +1,11 @@
-= render_pretty_header "Issues of #{@publication.name}" do
+- title = @publication && "Issues of #{@publication.name}" || "Issues of all publications"
+= render_pretty_header(title) do
   %p
     An Issue is a collection of printed Copies. This list displays Issues
     which have been distributed, are being distributed, and are about to be
     distributed.
 
-- if @publication.tracks_standing_orders?
+- if @publication.try(:tracks_standing_orders?)
   %p Hey, Standing Orders are allowed for this publication. Maybe you want to:
   %ul
     %li= link_to("Show or edit Standing Orders of #{@publication.name}", customers_path(:q => "standing:#{@publication.to_index_key}:true"))
@@ -13,17 +14,27 @@
   %p Otherwise... let's show the list of Issues.
 
 - if @issues.empty?
-  %p There are no issues of this Publication
+  %p No issues found
 - else
-  %ul.issues
-    - @issues.each do |issue|
-      %li
-        %span= "#{issue.issue_number}: #{h(issue.name)}"
-        = link_to('details', issue)
-        = link_to('orders', issue_orders_path(issue))
+  %table.issues
+    %thead
+      %tr
+        - if !@publication
+          %th Publication
+        %th Issue
+        %th Date
+        %th
+    %tbody
+      - @issues.each do |issue|
+        %tr
+          - if !@publication
+            %td.publication= link_to(issue.publication_name, issue.publication)
+          %td.issue= link_to("#{issue.issue_number}: #{issue.name}", issue)
+          %td.date= issue.issue_date
+          %td.orders= link_to('orders', issue_orders_path(issue))
 
 %p.actions
-  - if current_user.has_role?('admin')
+  - if @publication && current_user.has_role?('admin')
     = link_to 'Create new Issue', new_issue_url(publication_id: @publication.id)
     |
   = link_to 'Back to Publications List', publications_url
