@@ -25,6 +25,9 @@ end
 namespace :deploy do
   task :restart do
     on roles(:app) do |host|
+      # The working directory of Passenger and Solr may be deleted. Kill them,
+      # so systemd will restart them in the newest directory.
+      execute(:kill, '-9', '$(systemctl show feminadb-index | grep ExecMainPID | cut -d= -f2)')
       execute(:kill, '-9', '$(systemctl show feminadb | grep ExecMainPID | cut -d= -f2)')
     end
   end
