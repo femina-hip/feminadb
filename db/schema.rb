@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001083824) do
+ActiveRecord::Schema.define(version: 20151001100507) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20151001083824) do
     t.string  "district",          limit: 255
     t.string  "customer_name",     limit: 255
     t.string  "delivery_address",  limit: 255, default: "", null: false
-    t.string  "contact_details",   limit: 255
+    t.string  "delivery_contact",  limit: 255
     t.string  "region",            limit: 255,              null: false
     t.string  "delivery_method",   limit: 255,              null: false
   end

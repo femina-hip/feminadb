@@ -50,6 +50,6 @@ class Order < ActiveRecord::Base
     order_date('Date')
     comments('Comment')
     delivery_address('Delivery address')
-    contact_details('Contact Details')
+    delivery_contact('Delivery contact')
   end
 end

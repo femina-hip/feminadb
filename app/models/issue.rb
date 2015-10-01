@@ -126,7 +126,8 @@ class Issue < ActiveRecord::Base
     def district; @array[3]; end
     def customer_name; @array[4]; end
     def delivery_address; @array[5]; end
-    def num_copies; @array[6]; end
+    def delivery_contact; @array[6]; end
+    def num_copies; @array[7]; end
   end
 
   # Returns an Array of LightweightOrders with just enough info to build a
@@ -146,6 +147,7 @@ class Issue < ActiveRecord::Base
           district,
           customer_name,
           delivery_address,
+          delivery_contact,
           num_copies
         FROM orders
         WHERE issue_id = #{id}
@@ -161,12 +163,12 @@ class Issue < ActiveRecord::Base
     these_box_sizes = order_box_sizes(these_orders)
 
     CSV.generate do |csv|
-      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments' ])
+      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Delivery Contact', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments', 'Recipient Contact Details' ])
 
       distribution_list_data.each do |order|
         sizes = find_box_sizes(order.num_copies)
 
-        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
+        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.delivery_contact, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
       end
     end
   end

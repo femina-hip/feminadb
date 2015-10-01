@@ -84,13 +84,13 @@ class IssueOrdersController < ApplicationController
   def order_params
     params.require(:order).permit(
       :customer_id,
-      :delivery_method,
+      :num_copies,
       :region,
       :district,
       :customer_name,
-      :num_copies,
+      :delivery_method,
       :delivery_address,
-      :contact_details,
+      :delivery_contact,
       :comments
     )
   end
@@ -104,7 +104,7 @@ class IssueOrdersController < ApplicationController
       customer_name: customer.name,
       num_copies: 0,
       delivery_address: customer.delivery_address,
-      contact_details: customer.contact_details
+      delivery_contact: customer.delivery_contact
     )
   end
 end

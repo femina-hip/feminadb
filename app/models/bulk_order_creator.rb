@@ -1,25 +1,21 @@
-class BulkOrderCreator < ActiveRecord::Base
-  extend DateField
+class BulkOrderCreator
+  include ActiveModel::Model
+  attr_accessor(:issue_id, :from_issue_id, :from_publication_id, :delivery_method_id, :created_by_email, :order_date, :num_copies, :constant_num_copies)
 
+  extend DateField
   date_field(:order_date)
 
-  belongs_to(:issue)
-  belongs_to(:from_issue, :class_name => 'Issue')
-  belongs_to(:from_publication, :class_name => 'Publication')
-  belongs_to(:delivery_method)
-  belongs_to(:created_by_user, :class_name => 'User', :foreign_key => :created_by)
-
   validates_presence_of(:issue_id)
-  validates_presence_of(:created_by)
+  validates_presence_of(:created_by_email)
   validates(:num_copies, numericality: { only_integer: true, greater_than: 0 }, if: lambda { |boc| boc.constant_num_copies })
   validates_uniqueness_of(:issue_id)
 
   before_validation(:set_constant_num_copies)
 
   def creation_type
-    if from_publication
+    if from_publication_id
       :publication
-    elsif from_issue
+    elsif from_issue_id
       :issue
     else
       :customers
@@ -70,12 +66,12 @@ class BulkOrderCreator < ActiveRecord::Base
         num_copies,
         comments,
         order_date,
-        delivery_method,
         region,
         district,
         customer_name,
+        delivery_method,
         delivery_address,
-        contact_details
+        delivery_contact
       )
       SELECT
         customers.id,
@@ -84,14 +80,16 @@ class BulkOrderCreator < ActiveRecord::Base
         #{num_copies_sql},
         #{comment_sql},
         #{order_date_sql},
-        (SELECT name FROM delivery_methods WHERE delivery_methods.id = customers.delivery_method_id),
-        (SELECT name FROM regions WHERE regions.id = customers.region_id),
+        regions.name,
         customers.district,
         customers.name,
+        delivery_methods.name,
         customers.delivery_address,
-        CONCAT_WS(', ', customers.telephone_1, customers.email_1, customers.telephone_2, customers.email_2, customers.telephone_3, customers.fax)
+        customers.delivery_contact
       FROM standing_orders
       INNER JOIN customers ON standing_orders.customer_id = customers.id
+      INNER JOIN regions ON customers.region_id = regions.id
+      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
       WHERE customers.id IN (#{allowed_customer_ids.join(',')})
     """)
   end
@@ -113,31 +111,30 @@ class BulkOrderCreator < ActiveRecord::Base
         num_copies,
         comments,
         order_date,
-        region_id,
+        region,
         district,
         customer_name,
-        deliver_via,
-        delivery_method_id,
-        contact_name,
-        contact_details
+        delivery_method,
+        delivery_address,
+        delivery_contact
       )
       SELECT
-        customers.id,
+        orders.customer_id,
         #{issue_id},
         #{num_copies_sql},
         #{comment_sql},
         #{order_date_sql},
-        customers.region_id,
+        regions.name,
         customers.district,
         customers.name,
-        customers.deliver_via,
-        customers.delivery_method_id,
-        customers.contact_name,
-        CONCAT_WS(', ', customers.telephone_1, customers.email_1, customers.telephone_2, customers.email_2, customers.telephone_3, customers.fax)
+        customers.delivery_address,
+        customers.delivery_contact
       FROM orders
       INNER JOIN customers ON orders.customer_id = customers.id
+      INNER JOIN regions ON customers.region_id = regions.id
+      INNER JOIN delivery_methods ON customer.delivery_method_id = delivery_methods.id
       WHERE orders.issue_id = #{from_issue_id}
-        AND customers.id IN (#{allowed_customer_ids.join(',')})
+        AND orders.customer_id IN (#{allowed_customer_ids.join(',')})
     """)
   end
 
@@ -152,13 +149,12 @@ class BulkOrderCreator < ActiveRecord::Base
         num_copies,
         comments,
         order_date,
-        region_id,
+        region,
         district,
         customer_name,
-        deliver_via,
-        delivery_method_id,
-        contact_name,
-        contact_details
+        delivery_method,
+        delivery_address,
+        delivery_contact
       )
       SELECT
         customers.id,
@@ -166,19 +162,20 @@ class BulkOrderCreator < ActiveRecord::Base
         #{num_copies},
         #{comment_sql},
         #{order_date_sql},
-        customers.region_id,
+        regions.name,
         customers.district,
         customers.name,
-        customers.deliver_via,
-        customers.delivery_method_id,
-        customers.contact_name,
-        CONCAT_WS(', ', customers.telephone_1, customers.email_1, customers.telephone_2, customers.email_2, customers.telephone_3, customers.fax)
+        delivery_methods.name,
+        customers.delivery_address,
+        customers.delivery_contact
       FROM customers
+      INNER JOIN regions ON customers.region_id = regions.id
+      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
       WHERE id IN (#{allowed_customer_ids.join(',')})
     """)
   end
 
   def connection
-    BulkOrderCreator.connection
+    Order.connection
   end
 end

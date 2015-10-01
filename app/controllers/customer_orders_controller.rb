@@ -56,13 +56,12 @@ class CustomerOrdersController < ApplicationController
       :num_copies,
       :comments,
       :order_date,
-      :region_id,
+      :region,
       :district,
       :customer_name,
-      :deliver_via,
-      :delivery_method_id,
-      :contact_name,
-      :contact_details
+      :delivery_method,
+      :delivery_address,
+      :delivery_contact
     )
   end
 end

@@ -58,7 +58,7 @@
               'data-district' => o.district,
               'data-delivery-method' => o.delivery_method,
               'data-delivery-address' => o.delivery_address,
-              'data-contact-details' => o.contact_details,
+              'data-delivery-contact' => o.delivery_contact,
             }= o.num_copies > 0 && o.num_copies.to_s || ''
           - else
             %span= o.num_copies > 0 && o.num_copies.to_s || ''
