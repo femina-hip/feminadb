@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def roles_set
-    @roles_set ||= roles.split(/ /).to_set
+    @roles_set ||= (roles || '').split(/ /).to_set
   end
 
   def has_role?(role_name)
