@@ -117,13 +117,14 @@ class Issue < ActiveRecord::Base
     end
 
     def id; @array[0]; end
-    def delivery_method; @array[1]; end
-    def region; @array[2]; end
-    def district; @array[3]; end
-    def customer_name; @array[4]; end
-    def delivery_address; @array[5]; end
-    def delivery_contact; @array[6]; end
-    def num_copies; @array[7]; end
+    def customer_type; @array[1]; end
+    def delivery_method; @array[2]; end
+    def region; @array[3]; end
+    def district; @array[4]; end
+    def customer_name; @array[5]; end
+    def delivery_address; @array[6]; end
+    def delivery_contact; @array[7]; end
+    def num_copies; @array[8]; end
   end
 
   # Returns an Array of LightweightOrders with just enough info to build a
@@ -133,18 +134,27 @@ class Issue < ActiveRecord::Base
   def distribution_list_data(delivery_method = nil)
     @distribution_list_data ||= {}
     @distribution_list_data[delivery_method] ||= begin
-      where_sql = delivery_method && " AND delivery_method = #{Order.sanitize_sql(delivery_method)}" || ''
+      where_sql = delivery_method && " AND orders.delivery_method = #{Order.sanitize_sql(delivery_method)}" || ''
 
       Order.connection.execute("""
         SELECT
-          id,
-          delivery_method,
-          region,
-          district,
-          customer_name,
-          delivery_address,
-          delivery_contact,
-          num_copies
+          orders.id,
+          (
+            SELECT customer_types.name
+            FROM customer_types
+            WHERE customer_types.id = (
+              SELECT customer_type_id
+              FROM customers
+              WHERE id = orders.customer_id
+            )
+          ),
+          orders.delivery_method,
+          orders.region,
+          orders.district,
+          orders.customer_name,
+          orders.delivery_address,
+          orders.delivery_contact,
+          orders.num_copies
         FROM orders
         WHERE issue_id = #{id}
         #{where_sql}
@@ -159,12 +169,12 @@ class Issue < ActiveRecord::Base
     these_box_sizes = order_box_sizes(these_orders)
 
     CSV.generate do |csv|
-      csv << ([ 'ID', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Delivery Contact', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments', 'Recipient Contact Details' ])
+      csv << ([ 'ID', 'Type', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Delivery Contact', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments', 'Recipient Contact Details' ])
 
       distribution_list_data.each do |order|
         sizes = find_box_sizes(order.num_copies)
 
-        csv << ([ order.id, order.region, order.district, order.customer_name, order.delivery_address, order.delivery_contact, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
+        csv << ([ order.id, order.customer_type, order.region, order.district, order.customer_name, order.delivery_address, order.delivery_contact, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
       end
     end
   end
