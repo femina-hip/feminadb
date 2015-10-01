@@ -66,17 +66,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  def orders_in_district
-    @issue = Issue.find(params[:id])
-    @region = params[:region]
-    @district = params[:district]
-
-    @orders = Order
-      .where(:region => @region, :district => @district, :issue_id => @issue.id)
-      .order([ { num_copies: :desc }, :customer_name ])
-      .all
-  end
-
   def authorized_for_generate_orders?
     current_user.has_role?('edit-orders')
   end

@@ -36,7 +36,6 @@
         - @issue_district_breakdown.issues.each do |issue|
           - value = values[issue].to_i
           - if value == 0
-            %td
-          - else
             %td.num-copies
-              = link_to(number_with_delimiter(value), orders_in_district_issue_path(issue, :region => region, :district => district))
+          - else
+            %td.num-copies= number_with_delimiter(value)
