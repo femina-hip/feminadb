@@ -63,6 +63,23 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def num_copies_by_district_csv
+    rows = Issue.connection.execute("""
+      SELECT region, district, SUM(num_copies)
+      FROM orders
+      WHERE issue_id = #{id}
+      GROUP BY region, district
+    """)
+
+    CSV.generate do |csv|
+      csv << [ 'Region', 'District', 'Number of Copies' ]
+
+      rows.each do |row|
+        csv << row
+      end
+    end
+  end
+
   # Returns an Array of:
   # [
   #   {

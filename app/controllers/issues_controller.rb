@@ -56,6 +56,10 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_order_data
   end
 
+  def show_num_copies_by_district
+    send_data(issue.num_copies_by_district_csv, type: 'text/csv')
+  end
+
   def show_distribution_list
     # [req:ReportDistributionList]
     @issue = issue

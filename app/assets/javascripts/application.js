@@ -2,4 +2,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require selectize
-//= require_tree .
+//= require add-sms-numbers
+//= require customer-id-field
+//= require customer-search
+//= require debounced-button
+//= require load-sms-history
+//= require selectize
+//= require initializers/issue_fields

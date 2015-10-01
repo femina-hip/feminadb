@@ -1,0 +1,12 @@
+= render_pretty_header 'Map' do
+  %p Choose what to draw on the map!
+
+%form#map-data{:method => 'get', :action => '#'}
+  %h2 Number of copies
+  .issue-id
+    Issue:
+    = issue_field(:filter, :issue_id)
+
+#map
+
+= javascript_include_tag('map-bundle')

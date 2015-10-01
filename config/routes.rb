@@ -33,6 +33,7 @@ Feminadb::Application.routes.draw do
     member do
       get :show_distribution_order
       get :show_distribution_list
+      get :show_num_copies_by_district
     end
 
     resources :notes, :controller => 'issue_notes'
@@ -47,10 +48,10 @@ Feminadb::Application.routes.draw do
   end
 
   resources :modifications, :only => :index
-  resources :reports, :only => [ :index, :show ]
   resources :bulk_order_creators, :only => [ :new, :create ]
 
   resources :telerivet_links
+  resource :map, only: :show
 
   get 'help(/:doc)' => 'helps#show', :as => 'help'
 

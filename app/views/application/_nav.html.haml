@@ -11,7 +11,7 @@
               = link_to("#{publication.name} (all Issues)", publication)
               - publication.issues.first(3).each do |issue|
                 %li.issue= link_to(issue.full_name, issue)
-    %li= link_to('Reports', reports_path)
+    %li= link_to('Map', map_path)
     %li= link_to('Link Telerivet Contact', new_telerivet_link_path)
     %li= link_to('Help', help_path)
   .login
