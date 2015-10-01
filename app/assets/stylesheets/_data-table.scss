@@ -58,17 +58,16 @@ table.customers, table.clubs, table.customer-orders, table.customer-standing-ord
 // Tables which have no "thead.title"
 table.customers, table.clubs, table.issue-orders, table.report, table.distribution-list, table.customer-types, table.users, table.regions, table.warehouses, table.delivery-methods, table.audits, table.issues {
   thead {
-    border: 2px solid $heading_border_color;
-
     th {
+      border-bottom: 2px solid $heading_border_color;
       font-weight: normal;
       background-color: $alt_background_color;
       color: $alt_color;
       padding: 8px 6px 2px;
 
       a {
-        background-color: $alt_background_color;
-        color: $alt_color;
+        color: inherit;
+        background-color: inherit;
         text-decoration: underline;
       }
     }
@@ -78,8 +77,6 @@ table.customers, table.clubs, table.issue-orders, table.report, table.distributi
 // Tables which have a "thead.title"
 table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory {
   thead.title {
-    border: 2px solid $heading_border_color;
-
     th {
       font-weight: normal;
       background-color: $alt_background_color;
@@ -95,7 +92,6 @@ table.customer-orders, table.customer-standing-orders, table.customer-waiting-or
   }
 
   thead {
-    border: 2px solid $heading_border_color;
     background: $alt2_background_color;
     color: $alt2_color;
 
@@ -273,9 +269,21 @@ table.customer-standing-orders, table.customer-waiting-orders, table.customer-or
       font-size: smaller;
 
       * {
-        font-size: inherit;
+        font: inherit;
       }
     }
+  }
+}
+
+table.customer-orders {
+  tr.has-comments td {
+    border-bottom: 0;
+  }
+
+  tr.comments td {
+    border-top: 0;
+    padding-top: 0;
+    color: $faded_color;
   }
 }
 

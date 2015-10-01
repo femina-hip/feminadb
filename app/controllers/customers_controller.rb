@@ -131,6 +131,10 @@ class CustomersController < ApplicationController
 
   def show
     @customer = customer
+
+    ActiveRecord::Associations::Preloader.new.preload(@customer.standing_orders, :publication)
+    ActiveRecord::Associations::Preloader.new.preload(@customer.waiting_orders, :publication)
+    ActiveRecord::Associations::Preloader.new.preload(@customer.orders, issue: :publication)
   end
 
   private

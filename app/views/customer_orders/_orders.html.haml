@@ -3,38 +3,32 @@
 %table.customer-orders
   %thead.title
     %tr
-      %th{:colspan => (current_user.has_role?('edit-orders') ? 7 : 6)}
+      %th{:colspan => (current_user.has_role?('edit-orders') ? 5 : 4)}
         = "Orders (#{orders.length})"
   %thead
     %tr
-      %th Publication
-      %th #
       %th Issue
       %th Qty
       %th Order Date
       %th
         %abbr{:title => 'Delivery Method'} DM
-      - if current_user.has_role? 'edit-orders'
+      - if current_user.has_role?('edit-orders')
         %th
   %tbody
     - orders.each do |order|
-      %tr
-        %td.publication{:rowspan => 2}= order.publication_name
-        %td.issue_number{:rowspan => 2}= order.issue_number
-        %td.issue_name
-          .cut-off= order.issue_name
+      %tr{:class => order.comments.present? && 'has-comments' || ''}
+        %td.issue= link_to(order.issue.full_name, order.issue)
         %td.num_copies= number_with_delimiter order.num_copies
         %td.order_date= order.order_date
         %td.delivery_method= order.delivery_method
         - if current_user.has_role?('edit-orders')
-          %td.actions{:rowspan => 2}
+          %td.actions
             = link_to 'Edit', edit_customer_order_path(@customer, order)
             = button_to 'Delete', customer_order_path(@customer, order), data: { :confirm => 'Are you sure you want to delete this Order from this Customer?' }, :method => :delete
-      %tr
-        %td{:colspan => 4}
-          .redcloth
-            %p= order.comments
+      - if order.comments.present?
+        %tr.comments
+          %td.comments{:colspan => current_user.has_role?('edit-orders') && 5 || 4}= order.comments
     - if current_user.has_role?('edit-orders')
       %tr
-        %td.add{:colspan => 7}
+        %td.add{:colspan => current_user.has_role?('edit-orders') && 5 || 4}
           = link_to 'Add New Order', new_customer_order_path(@customer)
