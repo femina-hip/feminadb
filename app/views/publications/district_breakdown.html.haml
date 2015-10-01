@@ -11,7 +11,7 @@
 %form{:action => district_breakdown_publications_path, :method => :get}
   %p
     Change date:
-    %input{:name => 'start_date_string', :value => @district_breakdown.start_date_string, :class => 'date_field'}
+    %input{:type => 'date', :name => 'start_date', :value => @district_breakdown.start_date}
     %input{:type => 'submit', :value => 'Update'}
 
 %table.publication-district-breakdown
@@ -20,7 +20,7 @@
       %th Region
       %th District
       - @district_breakdown.publications.each do |publication|
-        %th= link_to(publication.name, issue_district_breakdown_publication_path(publication, params.slice(:start_date_string)))
+        %th= link_to(publication.name, issue_district_breakdown_publication_path(publication, params.slice(:start_date)))
   %tbody
     - @district_breakdown.data.each do |region_name, district, values|
       %tr{:class => cycle('odd', 'even')}

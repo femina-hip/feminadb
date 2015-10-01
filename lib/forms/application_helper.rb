@@ -7,10 +7,6 @@ module Forms::ApplicationHelper
     collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {:prompt => true}.merge(options))
   end
 
-  def date_field(object_name, method, options = {})
-    text_field(object_name, "#{method}_string", forms_application_helper_add_class_to_options(options, 'date_field'))
-  end
-
   def delivery_method_field(object_name, method, options = {})
     collection_select(object_name, method, DeliveryMethod.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
   end

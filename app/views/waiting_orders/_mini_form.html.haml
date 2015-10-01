@@ -19,7 +19,7 @@
 
         %label
           Requested Date
-          %input.request_date.date_field{:name => 'waiting_order[request_date_string]', :value => waiting_order.request_date_string}
+          %input.request_date{:type => 'date', :name => 'waiting_order[request_date]', :value => waiting_order.request_date}
 
         %label
           Comment

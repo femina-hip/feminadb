@@ -25,7 +25,7 @@ class BulkOrderCreatorsController < ApplicationController
       :num_copies,
       :comment,
       :delivery_method_id,
-      :order_date_string
+      :order_date
     )
   end
 end

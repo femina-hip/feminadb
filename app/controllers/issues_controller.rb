@@ -94,7 +94,7 @@ class IssuesController < ApplicationController
   def issue_params
     params.require(:issue).permit(
       :name,
-      :issue_date_string,
+      :issue_date,
       :issue_number,
       :box_sizes
     )

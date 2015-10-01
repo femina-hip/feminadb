@@ -1,16 +1,37 @@
 class BulkOrderCreator
   include ActiveModel::Model
-  attr_accessor(:issue_id, :from_issue_id, :from_publication_id, :delivery_method_id, :created_by_email, :order_date, :num_copies, :constant_num_copies)
+  attr_accessor(:issue_id, :from_issue_id, :from_publication_id, :delivery_method_id, :created_by_email, :order_date, :num_copies, :constant_num_copies, :comment, :search_string)
 
-  extend DateField
-  date_field(:order_date)
+  # Pretend we're an ActiveRecord::Base, so we can audit this
+  cattr_accessor(:table_name)
+  @@table_name = 'bulk_orders'
+  def attributes
+    {
+      issue_id: issue_id,
+      from_issue_id: from_issue_id,
+      from_publication_id: from_publication_id,
+      delivery_method_id: delivery_method_id,
+      created_by_email: created_by_email,
+      order_date: order_date,
+      num_copies: num_copies,
+      constant_num_copies: constant_num_copies,
+      comment: comment,
+      search_string: search_string,
+    }
+  end
 
   validates_presence_of(:issue_id)
   validates_presence_of(:created_by_email)
   validates(:num_copies, numericality: { only_integer: true, greater_than: 0 }, if: lambda { |boc| boc.constant_num_copies })
-  validates_uniqueness_of(:issue_id)
 
-  before_validation(:set_constant_num_copies)
+  def initialize(options = {})
+    super(options)
+    write_attribute(:constant_num_copies, true) if creation_type == :customers
+  end
+
+  def issue
+    @issue ||= Issue.find(issue_id)
+  end
 
   def creation_type
     if from_publication_id
@@ -42,10 +63,6 @@ class BulkOrderCreator
       end
       paginate(page: 1, per_page: lots)
     end
-  end
-
-  def set_constant_num_copies
-    write_attribute(:constant_num_copies, true) if creation_type == :customers
   end
 
   def do_copy_from_publication

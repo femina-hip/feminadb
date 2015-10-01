@@ -1,7 +1,5 @@
 # encoding: utf-8
 class Order < ActiveRecord::Base
-  extend DateField
-
   belongs_to(:customer) # nullable
   belongs_to(:standing_order) # nullable
   belongs_to(:issue)
@@ -13,8 +11,6 @@ class Order < ActiveRecord::Base
   validates_presence_of :num_copies
   validates_presence_of :order_date
   validates(:num_copies, numericality: { only_integer: true, greater_than: 0 })
-
-  date_field :order_date
 
   def title
     "#{num_copies} #{publication_name} #{issue_number} → #{customer_name} on #{order_date.to_date.to_formatted_s(:long)}"

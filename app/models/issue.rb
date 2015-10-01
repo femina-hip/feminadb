@@ -1,6 +1,4 @@
 class Issue < ActiveRecord::Base
-  extend DateField
-
   belongs_to(:publication)
   has_many(:orders, -> { order(:delivery_method, :region, :district, :customer_name) })
   has_many(:notes, -> { order(:created_at) }, class_name: 'IssueNote')
@@ -16,8 +14,6 @@ class Issue < ActiveRecord::Base
                       :with => /\A[-\.A-Za-z0-9]+\z/,
                       :message => 'must only contain numbers, letters, periods, and dashes'
   validates_format_of :box_sizes, with: /\A([0-9]+,\s*)*[0-9]+\z/, message: 'must be a list of box sizes like "50, 100"'
-
-  date_field :issue_date
 
   def recent
     order(issue_date: :desc).limit(3)

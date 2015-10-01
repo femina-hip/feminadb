@@ -17,7 +17,7 @@
 %form{:action => issue_district_breakdown_publication_path(@issue_district_breakdown.publication), :method => :get}
   %p
     Change date:
-    %input{:name => 'start_date_string', :value => @issue_district_breakdown.start_date_string, :class => 'date_field'}
+    %input{:type => 'date', :name => 'start_date', :value => @issue_district_breakdown.start_date}
     %input{:type => 'submit', :value => 'Update'}
 
 %table{:class => 'issue-district-breakdown'}

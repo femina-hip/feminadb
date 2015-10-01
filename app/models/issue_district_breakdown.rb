@@ -1,10 +1,6 @@
 class IssueDistrictBreakdown
-  extend DateField
-
   attr_accessor(:start_date)
   attr_reader(:publication)
-
-  date_field(:start_date)
 
   def initialize(publication, options = {})
     @publication = publication

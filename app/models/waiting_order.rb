@@ -1,7 +1,5 @@
 # encoding: utf-8
 class WaitingOrder < ActiveRecord::Base
-  extend DateField
-
   belongs_to(:customer)
   belongs_to(:publication)
 
@@ -12,8 +10,6 @@ class WaitingOrder < ActiveRecord::Base
   validates_presence_of :request_date
   validates_uniqueness_of :publication_id, scope: :customer_id
   validates(:num_copies, numericality: { only_integer: true, greater_than: 0 })
-
-  date_field :request_date
 
   def customer_delivery_method
     customer.delivery_method

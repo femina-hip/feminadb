@@ -1,9 +1,5 @@
 class PublicationDistrictBreakdown
-  extend DateField
-
   attr_accessor(:start_date)
-
-  date_field(:start_date)
 
   def initialize(options = {})
     options.each do |k, v|

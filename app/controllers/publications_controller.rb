@@ -59,14 +59,14 @@ class PublicationsController < ApplicationController
   end
 
   def issue_district_breakdown
-    @issue_district_breakdown = IssueDistrictBreakdown.new(publication, params.permit(:start_date_string))
+    @issue_district_breakdown = IssueDistrictBreakdown.new(publication, params.permit(:start_date))
     if !@issue_district_breakdown.start_date
       @issue_district_breakdown.start_date = 1.year.ago.to_date
     end
   end
 
   def district_breakdown
-    @district_breakdown = PublicationDistrictBreakdown.new(params.slice(:start_date_string))
+    @district_breakdown = PublicationDistrictBreakdown.new(params.slice(:start_date))
     if !@district_breakdown.start_date
       @district_breakdown.start_date = 1.year.ago.to_date
     end
