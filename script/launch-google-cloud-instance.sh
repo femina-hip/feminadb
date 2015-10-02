@@ -16,6 +16,7 @@ gcloud compute instances create db \
   --image ubuntu-15-04 \
   --machine-type g1-small \
   --address $IP_ADDRESS \
+  --scopes storage-rw \
   --tags http-server,https-server \
   --metadata-from-file startup-script="$DIR"/gcloud-startup-script.sh
 
@@ -30,3 +31,8 @@ gcloud compute config-ssh
 # * copy haproxy.cfg and ssl.pem into /etc/haproxy/, and systemctl start haproxy
 # * deploy with Capistrano...
 # * reindex...
+#
+# Finally, BACKUPS!
+# =================
+#
+# Create a bucket, feminadb-backups
