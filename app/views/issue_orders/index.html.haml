@@ -47,21 +47,9 @@
               = o.customer_name
         %td.qty
           - if current_user.has_role?('edit-orders')
-            %span.editable-order{ |
-              'data-id' => o.id,  |
-              'data-customer-id' => o.customer.id || '',
-              'data-issue-id' => @issue.id,
-              'data-customer-name' => o.customer.name,
-              'data-comments' => o.comments,
-              'data-order-date' => o.order_date,
-              'data-region' => o.region,
-              'data-district' => o.district,
-              'data-delivery-method' => o.delivery_method,
-              'data-delivery-address' => o.delivery_address,
-              'data-delivery-contact' => o.delivery_contact,
-            }= o.num_copies > 0 && o.num_copies.to_s || ''
+            = link_to(number_with_delimiter(o.num_copies), edit_customer_order_path(o.customer_id, o), class: 'in-modal-dialog')
           - else
-            %span= o.num_copies > 0 && o.num_copies.to_s || ''
+            = number_with_delimiter(o.num_copies)
 = will_paginate(@orders)
 
 %p.actions

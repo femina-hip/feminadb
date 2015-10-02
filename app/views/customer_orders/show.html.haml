@@ -1,0 +1,22 @@
+.customer-order
+  %p
+    %strong Customer:
+    = @customer.name
+  %p
+    %strong Issue:
+    = @issue.full_name
+  - if current_user.has_role?('edit-orders')
+    = error_messages_for :order
+    = form_for(@order, url: [ @customer, @order ]) do |f|
+      = render('form', f: f)
+      %button.debounced Save
+  - else
+    .form-group
+      %strong Number of Copies
+      = number_with_delimiter(@order.num_copies)
+    .form-group
+      %strong Order Date
+      = @order.order_date
+    .form-group
+      %strong Comments
+      = @order.comments

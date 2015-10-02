@@ -1,22 +1,19 @@
 -# Required variables: "f" => a form_for instance
-%table.order
-  %thead.title
-    %tr
-      %th{:colspan => 2}
-        = glossary_term('Order')
-  %tbody
-    %tr
-      %th Issue
-      %td= f.issue_field :issue_id
-    %tr
-      %th # Copies
-      %td= f.text_field :num_copies
-    %tr
-      %th Order Date
-      %td= f.date_field :order_date
-    %tr
-      %th Delivery Method
-      %td= f.select(:delivery_method, ([f.object.delivery_method] + DeliveryMethod.all.map(&:name)).uniq.sort)
-    %tr
-      %th Comments
-      %td= f.text_field :comments
+%p
+  %strong Customer:
+  = @customer.name
+%p
+  %strong Issue:
+  = @order.issue.full_name
+.form-group
+  = f.label(:num_copies, 'Number of Copies')
+  = f.number_field(:num_copies, required: true, step: 1)
+.form-group
+  = f.label(:delivery_method, 'Delivery Method')
+  = f.delivery_method_field(:delivery_method)
+.form-group
+  = f.label(:order_date, 'Order Date')
+  = f.date_field(:order_date)
+.form-group
+  = f.label(:comments, 'Comments')
+  = f.text_field(:comments)

@@ -1,16 +1,5 @@
-%h1
-  New
-  = glossary_term('Order')
-%h2
-  Customer:
-  = link_to @customer.name, customer_path(@customer)
-
 = error_messages_for :order
 
-= form_for :order, :url => customer_orders_path(@customer) do |f|
-  = render :partial => 'form', :locals => { :f => f }
-  %p
-    %button.debounced Create New Order
-
-%p.actions
-  = link_to 'Back to Customer', customer_path(@customer)
+= form_for(@order, url: [ @customer, @order ]) do |f|
+  = render('form', f: f)
+  %button.debounced Create New Order

@@ -5,6 +5,7 @@
 //= require add-sms-numbers
 //= require customer-id-field
 //= require customer-search
+//= require in-modal-dialog
 //= require debounced-button
 //= require load-sms-history
 //= require selectize

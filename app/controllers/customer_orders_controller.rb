@@ -9,7 +9,10 @@ class CustomerOrdersController < ApplicationController
     require_role 'edit-orders'
     @order = create_with_audit(customer.orders, order_params)
     if @order.valid?
-      redirect_to(customer)
+      respond_to do |format|
+        format.html { redirect_to(customer) }
+        format.json { render(json: { text: @order.num_copies.to_s }) }
+      end
     else
       render(action: 'new')
     end
@@ -24,7 +27,10 @@ class CustomerOrdersController < ApplicationController
   def update
     require_role 'edit-orders'
     if update_with_audit(order, order_params)
-      redirect_to(customer)
+      respond_to do |format|
+        format.html { redirect_to(customer) }
+        format.json { render(json: { text: order.num_copies.to_s }) }
+      end
     else
       render(action: 'edit')
     end
