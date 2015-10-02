@@ -134,14 +134,16 @@ class Issue < ActiveRecord::Base
     end
 
     def id; @array[0]; end
-    def customer_type; @array[1]; end
-    def delivery_method; @array[2]; end
-    def region; @array[3]; end
-    def district; @array[4]; end
-    def customer_name; @array[5]; end
-    def delivery_address; @array[6]; end
-    def delivery_contact; @array[7]; end
-    def num_copies; @array[8]; end
+    def customer_id; @array[1]; end
+    def customer_type; @array[2]; end
+    def delivery_method; @array[3]; end
+    def region; @array[4]; end
+    def district; @array[5]; end
+    def customer_name; @array[6]; end
+    def delivery_address; @array[7]; end
+    def delivery_contact; @array[8]; end
+    def primary_contact_sms_numbers; @array[9]; end
+    def num_copies; @array[10]; end
   end
 
   # Returns an Array of LightweightOrders with just enough info to build a
@@ -156,6 +158,7 @@ class Issue < ActiveRecord::Base
       Order.connection.execute("""
         SELECT
           orders.id,
+          orders.customer_id,
           (
             SELECT customer_types.name
             FROM customer_types
@@ -171,6 +174,7 @@ class Issue < ActiveRecord::Base
           orders.customer_name,
           orders.delivery_address,
           orders.delivery_contact,
+          orders.primary_contact_sms_numbers,
           orders.num_copies
         FROM orders
         WHERE issue_id = #{id}
@@ -185,13 +189,47 @@ class Issue < ActiveRecord::Base
     these_orders = these_orders.where(delivery_method: delivery_method) if delivery_method
     these_box_sizes = order_box_sizes(these_orders)
 
+    headings = [
+      'Order ID',
+      'Customer ID',
+      'Customer Type',
+      'Region',
+      'District',
+      'Final Recipient',
+      'Delivery Instructions',
+      'Delivery Contact',
+      'Femina Contact',
+      'Qty',
+    ] + these_box_sizes.map { |n| "x#{n}" } + [
+      # We ask for these fields to be filled in by the distribution company
+      'Delivery Note Number',
+      'Date Delivered',
+      'Recipient Name',
+      'Recipient Title',
+      'Recipient Phone Number',
+      'Comments'
+    ]
+
     CSV.generate do |csv|
-      csv << ([ 'ID', 'Type', 'Region', 'District', 'Final Recipient', 'Delivery Instructions', 'Delivery Contact', 'Qty'] + these_box_sizes.map{|n| "x#{n}"} + [ 'Delivery Note', 'Date Delivered', 'Delivery Comments', 'Recipient Contact Details' ])
+      csv << headings
 
       distribution_list_data.each do |order|
         sizes = find_box_sizes(order.num_copies)
 
-        csv << ([ order.id, order.customer_type, order.region, order.district, order.customer_name, order.delivery_address, order.delivery_contact, order.num_copies ] + these_box_sizes.map{ |bs| sizes[bs].to_s })
+        row = [
+          order.id,
+          order.customer_id,
+          order.customer_type,
+          order.region,
+          order.district,
+          order.customer_name,
+          order.delivery_address,
+          order.delivery_contact,
+          order.primary_contact_sms_numbers,
+          order.num_copies,
+        ] + these_box_sizes.map { |bs| sizes[bs].to_s }
+
+        csv << row
       end
     end
   end

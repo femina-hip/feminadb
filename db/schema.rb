@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001100507) do
+ActiveRecord::Schema.define(version: 20151002065203) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -106,18 +106,19 @@ ActiveRecord::Schema.define(version: 20151001100507) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "customer_id",       limit: 4
-    t.integer "issue_id",          limit: 4
-    t.integer "standing_order_id", limit: 4
-    t.integer "num_copies",        limit: 4
-    t.string  "comments",          limit: 255
+    t.integer "customer_id",                 limit: 4
+    t.integer "issue_id",                    limit: 4
+    t.integer "standing_order_id",           limit: 4
+    t.integer "num_copies",                  limit: 4
+    t.string  "comments",                    limit: 255
     t.date    "order_date"
-    t.string  "district",          limit: 255
-    t.string  "customer_name",     limit: 255
-    t.string  "delivery_address",  limit: 255, default: "", null: false
-    t.string  "delivery_contact",  limit: 255
-    t.string  "region",            limit: 255,              null: false
-    t.string  "delivery_method",   limit: 255,              null: false
+    t.string  "district",                    limit: 255
+    t.string  "customer_name",               limit: 255
+    t.string  "delivery_address",            limit: 255, default: "", null: false
+    t.string  "delivery_contact",            limit: 255
+    t.string  "region",                      limit: 255,              null: false
+    t.string  "delivery_method",             limit: 255,              null: false
+    t.string  "primary_contact_sms_numbers", limit: 255
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree

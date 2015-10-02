@@ -88,7 +88,8 @@ class BulkOrderCreator
         customer_name,
         delivery_method,
         delivery_address,
-        delivery_contact
+        delivery_contact,
+        primary_contact_sms_numbers
       )
       SELECT
         customers.id,
@@ -102,7 +103,8 @@ class BulkOrderCreator
         customers.name,
         delivery_methods.name,
         customers.delivery_address,
-        customers.delivery_contact
+        customers.delivery_contact,
+        customers.primary_contact_sms_numbers
       FROM standing_orders
       INNER JOIN customers ON standing_orders.customer_id = customers.id
       INNER JOIN regions ON customers.region_id = regions.id
@@ -133,7 +135,8 @@ class BulkOrderCreator
         customer_name,
         delivery_method,
         delivery_address,
-        delivery_contact
+        delivery_contact,
+        primary_contact_sms_numbers
       )
       SELECT
         orders.customer_id,
@@ -145,7 +148,8 @@ class BulkOrderCreator
         customers.district,
         customers.name,
         customers.delivery_address,
-        customers.delivery_contact
+        customers.delivery_contact,
+        customers.primary_contact_sms_numbers
       FROM orders
       INNER JOIN customers ON orders.customer_id = customers.id
       INNER JOIN regions ON customers.region_id = regions.id
@@ -171,7 +175,8 @@ class BulkOrderCreator
         customer_name,
         delivery_method,
         delivery_address,
-        delivery_contact
+        delivery_contact,
+        primary_contact_sms_numbers
       )
       SELECT
         customers.id,
@@ -184,7 +189,8 @@ class BulkOrderCreator
         customers.name,
         delivery_methods.name,
         customers.delivery_address,
-        customers.delivery_contact
+        customers.delivery_contact,
+        customers.primary_contact_sms_numbers
       FROM customers
       INNER JOIN regions ON customers.region_id = regions.id
       INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
