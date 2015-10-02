@@ -1,6 +1,6 @@
 class TelerivetLinksController < ApplicationController
   def new
-    require_role 'edit-customer'
+    require_role 'edit-customers'
 
     # When Telerivet gives a link, it puts "+" cool the URL.
     if params[:sms_number].present? and params[:sms_number][0] == ' '
@@ -11,7 +11,7 @@ class TelerivetLinksController < ApplicationController
   end
 
   def create
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     @telerivet_link = TelerivetLink.new(telerivet_link_params)
     if @telerivet_link.valid?
       customer = Customer.find(@telerivet_link.customer_id)

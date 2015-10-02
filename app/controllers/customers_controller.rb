@@ -2,17 +2,17 @@ class CustomersController < ApplicationController
   include CustomerFilterControllerMethods
 
   def new
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     @customer = Customer.new
   end
 
   def edit
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     @customer = customer
   end
 
   def create
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     @customer = create_with_audit(Customer, customer_params)
     if @customer.valid?
       @customer.solr_index!
@@ -23,7 +23,7 @@ class CustomersController < ApplicationController
   end
 
   def destroy
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     Order.where(customer_id: customer.id).update_all(customer_id: nil)
     StandingOrder.where(customer_id: customer.id).delete_all
     WaitingOrder.where(customer_id: customer.id).delete_all
@@ -34,7 +34,7 @@ class CustomersController < ApplicationController
   end
 
   def update
-    require_role 'edit-customer'
+    require_role 'edit-customers'
     if update_with_audit(customer, customer_params)
       customer.solr_index!
       redirect_to(customer)
@@ -44,7 +44,7 @@ class CustomersController < ApplicationController
   end
 
   def add_sms_number
-    require_role 'edit-customer'
+    require_role 'edit-customers'
 
     # If the number was in the trash can, take it out
     if params[:attribute] != 'old_sms_numbers'
@@ -61,7 +61,7 @@ class CustomersController < ApplicationController
   end
 
   def remove_sms_number
-    require_role 'edit-customer'
+    require_role 'edit-customers'
 
     customer.remove_sms_number(params[:attribute], params[:sms_number])
 

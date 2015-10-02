@@ -16,15 +16,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # Renders a 403 error if the user doesn't have the role
   def require_role(*roles)
-    allow = false
     for role in roles
       if current_user.has_role?(role)
-        allow = true
-        break
+        return
       end
     end
-    throw AuthorizationException.new("You must belong to one of these groups to continue: #{roles.join(' ')}") if !allow
+    render(status: :forbidden, text: "You do not have permission. Ask for this role: #{roles.join(' ')}")
   end
 
 #  rescue_from(RSolr::RequestError, :with => :render_rsolr_error)
