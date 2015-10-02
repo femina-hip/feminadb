@@ -7,10 +7,9 @@
 
 = error_messages_for :waiting_order
 
-= form_for :waiting_order, :url => customer_waiting_order_path(@customer, @waiting_order), :html => { :method => :patch } do |f|
+= form_for @waiting_order, :url => customer_waiting_order_path(@customer, @waiting_order), :html => { :method => :patch } do |f|
   = render :partial => 'form', :locals => { :f => f }
-  %p
-    %button.debounced Save
+  %button.debounced Save
 
 %p.actions
   = link_to 'Back to Customer', customer_path(@customer)

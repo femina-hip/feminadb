@@ -1,6 +1,7 @@
 class CustomerWaitingOrdersController < ApplicationController
   def new
     require_role 'edit-orders'
+    @customer = customer
     @waiting_order = customer.waiting_orders.build(request_date: Date.today)
   end
 
@@ -9,14 +10,19 @@ class CustomerWaitingOrdersController < ApplicationController
     @waiting_order = create_with_audit(customer.waiting_orders, waiting_order_create_params)
     if @waiting_order.valid?
       customer.solr_index!
-      redirect_to(customer)
+      respond_to do |format|
+        format.html { redirect_to(customer) }
+        format.json { render(json: { text: "#{@waiting_order.num_copies}W" }) }
+      end
     else
+      @customer = customer
       render(action: 'new')
     end
   end
 
   def edit
     require_role 'edit-orders'
+    @customer = customer
     @waiting_order = waiting_order
   end
 
@@ -24,8 +30,12 @@ class CustomerWaitingOrdersController < ApplicationController
     require_role 'edit-orders'
     if update_with_audit(waiting_order, waiting_order_update_params)
       customer.solr_index!
-      redirect_to(customer)
+      respond_to do |format|
+        format.html { redirect_to(customer) }
+        format.json { render(json: { text: "#{@waiting_order.num_copies}W" }) }
+      end
     else
+      @customer = customer
       render(action: 'edit')
     end
   end
@@ -56,7 +66,7 @@ class CustomerWaitingOrdersController < ApplicationController
   end
 
   def waiting_order
-    @waiting_order ||= StandingOrder.find(params[:id])
+    @waiting_order ||= WaitingOrder.find(params[:id])
   end
 
   def waiting_order_create_params
