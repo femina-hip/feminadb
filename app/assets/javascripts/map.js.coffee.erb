@@ -9,6 +9,18 @@ legend = undefined
 tooltip = null
 data = {} # mapping from district name to number of copies
 
+TzCorrections =
+  Songea: 'Songea Rural'
+  Butiam: 'Butiama'
+  'Mafinga Township Authority': 'Mafinga'
+  'Makambako Township Authority': 'Makambako'
+  'Masasi  Township Authority': 'Masasi Urban'
+  'Handeni Mji': 'Handeni Urban'
+  'Kasulu Township Authority': 'Kasulu Urban'
+
+correct = (tz_district_name) ->
+  TzCorrections[tz_district_name] || tz_district_name
+
 d3.json '<%= asset_path('districts.json') %>', (err, geometry) ->
   return console.warn(err) if err
   display_map(geometry)
@@ -23,9 +35,10 @@ start_load_csv = (url) ->
 display_map = (geometry) ->
   tip = d3.tip()
     .attr('class', 'map-tooltip')
+    .offset([ -8, 0 ])
     .html (d) -> """
-      <h4>#{d.id}</h4>
-      <div class="count">#{data[d.id] || 0} Copies</div>
+      <h4>#{correct(d.id)}</h4>
+      <div class="count">#{data[correct(d.id)] || 0} Copies</div>
     """
 
   svg = d3.select('#map').append('svg')
@@ -47,12 +60,12 @@ display_map = (geometry) ->
   districts.selectAll('path')
     .data(topojson.feature(geometry, geometry.objects.Districts).features)
     .enter().append('path')
-      .attr('data-name', (d) -> d.id)
+      .attr('data-name', (d) -> correct(d.id))
       .attr('d', path)
       .style('stroke', 'black')
       .style('stroke-width', '0.2')
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
+      .on('mouseover', (d) -> d3.select(@).style('stroke-width', '2'); tip.show.call(@, d))
+      .on('mouseout', (d) -> d3.select(@).style('stroke-width', '0.2'); tip.hide.call(@, d))
 
   $('form#map-data').prop('disabled', false)
   on_submit()
@@ -71,7 +84,7 @@ display_data = (rows) ->
 
   districts.selectAll('path')
     .transition()
-      .style('fill', (d) -> data[d.id] && colorScale(data[d.id]) || 'white')
+      .style('fill', (d) -> data[correct(d.id)] && colorScale(data[correct(d.id)]) || 'white')
 
   legend.remove() if legend
 
