@@ -15,4 +15,20 @@ class Publication < ActiveRecord::Base
   end
 
   def title; name; end
+
+  def standing_order_num_copies
+    Publication.connection.execute("""
+      SELECT SUM(num_copies)
+      FROM standing_orders
+      WHERE publication_id = #{id}
+    """).first[0]
+  end
+
+  def waiting_order_num_copies
+    Publication.connection.execute("""
+      SELECT SUM(num_copies)
+      FROM waiting_orders
+      WHERE publication_id = #{id}
+    """).first[0]
+  end
 end
