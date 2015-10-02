@@ -22,6 +22,12 @@
       Here are some more complex queries, which you can use as examples:
 
     %dl
+      %dt= search_link('Elders')
+      %dd All customers with the word "elders" in their names, details or comments
+      %dt= search_link('Elder*')
+      %dd All customers with a word that <em>starts with</em> "Elder": "Elder", "Elders" or "Elderly", for instance.
+      %dt= search_link('Elderlo~')
+      %dd All customers with a word that is <em>similar to</em> "Elderlo": "Elderly", for instance.
       %dt= search_link('region:Arusha')
       %dd All Customers in Arusha
       %dt= search_link('region:Arusha district:Arumeru')
@@ -36,10 +42,6 @@
       %dd All Customers with Standing Orders for Fema of over 100 Copies
       %dt= search_link('type:ss standing:fema:false waiting:fema:false')
       %dd All Secondary Schools with neither Standing or Waiting orders for Fema
-      %dt= search_link('created_standing:si_mchezo>2010-01-01')
-      %dd All Customers who have Standing Orders for Si Mchezo! which were created on or after 2010-01-01 (January 1st, 2010)
-      %dt= search_link('requested_waiting:fema<2010-03-01')
-      %dd All Customers who have had Waiting Orders for Fema dating earlier than 2010-03-01 (March 1st, 2010)
       %dt= search_link('created_at>2010-01-05')
       %dd All Customers created after 2010-01-05 (January 5th, 2010)
   = render_help_step 'Click the "Search" button' do
