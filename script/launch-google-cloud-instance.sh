@@ -36,3 +36,6 @@ gcloud compute config-ssh
 # =================
 #
 # Create a bucket, feminadb-backups
+# Log in as `rails@db.feminahip.or.tz`, run `crontab -e` and add this line:
+#
+# 0 0 * * * mysqldump -u feminadb --password=feminadb feminadb | gzip - | gsutil -q cp - "gs://feminadb-backups/feminadb-$(date '+%Y-%m-%d_%H:%M').sql.gz"
