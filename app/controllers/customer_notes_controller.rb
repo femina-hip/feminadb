@@ -24,6 +24,8 @@ class CustomerNotesController < ApplicationController
   end
 
   def note_params
-    params.require(:customer_note).permit(:note)
+    ret = params.require(:customer_note).permit(:note).to_h
+    ret[:created_by] = current_user.id
+    ret
   end
 end
