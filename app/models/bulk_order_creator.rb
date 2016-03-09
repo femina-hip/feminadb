@@ -110,6 +110,7 @@ class BulkOrderCreator
       INNER JOIN regions ON customers.region_id = regions.id
       INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
       WHERE customers.id IN (#{allowed_customer_ids.join(',')})
+                        AND standing_orders.publication_id = #{from_publication_id}
     """)
   end
 
