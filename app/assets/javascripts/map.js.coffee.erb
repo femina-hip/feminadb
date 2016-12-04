@@ -21,7 +21,8 @@ TzCorrections =
 correct = (tz_council_name) ->
   TzCorrections[tz_council_name] || tz_council_name
 
-d3.json '<%= asset_path('assets/councils.json') %>', (err, geometry) ->
+# asset_path() seems to have trouble finding ".json" files. Renamed to .js.
+d3.json '<%= asset_path('districts-topojson.js') %>', (err, geometry) ->
   return console.warn(err) if err
   display_map(geometry)
 
