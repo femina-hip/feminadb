@@ -49,6 +49,7 @@ class Customer < ActiveRecord::Base
     date(:created_at)
     string(:region, stored: true) { region.name }
     string(:council, stored: true)
+    boolean(:council_valid, stored: true) { council_valid? }
     string(:name, stored: true)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
@@ -121,6 +122,7 @@ class Customer < ActiveRecord::Base
   def self.can_visit_url?; true; end
   def title; name; end
   def has_club?; club_sms_numbers.present?; end
+  def council_valid?; region.councils.include?(council); end
 
   # Adds an SMS number to the specified field, ensuring there is a link for the
   # SMS number in Telerivet.
