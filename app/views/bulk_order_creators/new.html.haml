@@ -2,7 +2,7 @@
   %p
     You are preparing to create many Orders at once.
     There will be a total of
-    %b= pluralize(@bulk_order_creator.customers.length, 'Customer')
+    %b= pluralize(@bulk_order_creator.n_customers, 'Customer')
     getting new orders.
 
   %p

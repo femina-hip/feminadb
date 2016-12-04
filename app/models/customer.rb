@@ -48,13 +48,13 @@ class Customer < ActiveRecord::Base
     integer(:region_id)
     date(:created_at)
     string(:region, stored: true) { region.name }
-    string(:district, stored: true)
+    string(:council, stored: true)
     string(:name, stored: true)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
     string(:category) { type.category }
     text(:region) { region.name }
-    text(:district)
+    text(:council)
     text(:name)
     text(:delivery_address)
     text(:delivery_contact)
@@ -109,7 +109,7 @@ class Customer < ActiveRecord::Base
   validates_presence_of :region_id
   validates_presence_of :customer_type_id
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [ :region_id, :district ], :case_sensitive => false
+  validates_uniqueness_of :name, :scope => [ :region_id, :council ], :case_sensitive => false
   validates_presence_of :delivery_method_id
   validates_format_of *@@SMS_NUMBER_FIELDS.keys,
     with: /\A(\+\d+(,\s*\+\d+)*)?\z/,
@@ -181,15 +181,15 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def self.fuzzy_find(region_id, district, name)
+  def self.fuzzy_find(region_id, council, name)
     fuzz = "~0.5"
     search = Customer.search do
       with(:region_id, region_id)
 
       adjust_solr_params do |params|
         params[:fq] ||= []
-        district.split.each do |word|
-          params[:fq] << "district_text:#{RSolr.escape(word.downcase)}#{fuzz}"
+        council.split.each do |word|
+          params[:fq] << "council_text:#{RSolr.escape(word.downcase)}#{fuzz}"
         end
         name.split.each do |word|
           params[:fq] << "name_text:#{RSolr.escape(word.downcase)}#{fuzz}"
@@ -202,7 +202,7 @@ class Customer < ActiveRecord::Base
   comma do
     id('ID')
     region(:name => 'Region')
-    district('District')
+    council('Council')
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
     delivery_address('Delivery address')
@@ -255,8 +255,8 @@ class Customer < ActiveRecord::Base
     if name =~ NEEDS_STRIPPING
       write_attribute(:name, name.strip)
     end
-    if district =~ NEEDS_STRIPPING
-      write_attribute(:district, district.strip)
+    if council =~ NEEDS_STRIPPING
+      write_attribute(:council, council.strip)
     end
     if delivery_address =~ NEEDS_STRIPPING
       write_attribute(:delivery_address, delivery_address.strip)

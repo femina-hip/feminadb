@@ -2,10 +2,11 @@ Feminadb::Application.routes.draw do
   namespace :admin do
     resources :customer_types, :except => :show
     resources :delivery_methods, :except => :show
-    resources :districts
     resources :regions
     resources :users
   end
+
+  get '/councils/by-region.json', controller: 'councils', action: 'by_region_json'
 
   resources :customers do
     collection do
@@ -33,7 +34,7 @@ Feminadb::Application.routes.draw do
     member do
       get :show_distribution_order
       get :show_distribution_list
-      get :show_num_copies_by_district
+      get :show_num_copies_by_council
     end
 
     resources :notes, :controller => 'issue_notes'

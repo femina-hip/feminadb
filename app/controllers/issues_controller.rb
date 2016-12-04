@@ -56,14 +56,20 @@ class IssuesController < ApplicationController
     @data = @issue.distribution_order_data
   end
 
-  def show_num_copies_by_district
-    send_data(issue.num_copies_by_district_csv, type: 'text/csv')
+  def show_num_copies_by_council
+    send_data(issue.num_copies_by_council_csv, type: 'text/csv')
   end
 
   def show_distribution_list
     # [req:ReportDistributionList]
     @issue = issue
-    @delivery_method = DeliveryMethod.find(params[:delivery_method_id]) if params[:delivery_method_id]
+    if params[:delivery_method]
+      delivery_method_object = DeliveryMethod.find_by_name(params[:delivery_method].to_s)
+      if delivery_method_object.nil?
+        return render(status: 404, text: 'Delivery method not found')
+      end
+      @delivery_method = delivery_method_object.name
+    end
 
     respond_to do |format|
       format.html do

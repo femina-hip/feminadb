@@ -7,7 +7,7 @@
     = csrf_meta_tag
     = javascript_include_tag('application')
     = stylesheet_link_tag('application')
-  %body
+  %body{:class => "#{controller.controller_name}-#{controller.action_name}"}
     = render('application/nav', :is_admin => current_user.has_role?('admin'))
 
     - if flash[:notice]

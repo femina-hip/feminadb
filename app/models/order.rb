@@ -40,7 +40,7 @@ class Order < ActiveRecord::Base
   comma do
     delivery_method('Delivery Method')
     region('Region')
-    district('District')
+    council('Council')
     customer_name('Customer')
     num_copies('Copies')
     order_date('Date')

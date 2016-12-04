@@ -20,6 +20,22 @@ table.customer {
       border-right: 0;
     }
   }
+
+  .council-corrector {
+    display: inline-block;
+    font-size: .8rem;
+    padding-left: .5rem;
+    color: $faded-color;
+
+    span.invalid {
+      font-weight: bold;
+      color: $error_color;
+    }
+
+    select {
+      opacity: .5;
+    }
+  }
 }
 
 section.sms-messages {

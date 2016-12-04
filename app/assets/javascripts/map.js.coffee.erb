@@ -1,13 +1,13 @@
 WIDTH = 600
 HEIGHT = 500
 
-CsvPathTemplate = '/issues/ISSUE_ID/show_num_copies_by_district.csv'
+CsvPathTemplate = '/issues/ISSUE_ID/show_num_copies_by_council.csv'
 
 svg = undefined
-districts = undefined
+councils = undefined
 legend = undefined
 tooltip = null
-data = {} # mapping from district name to number of copies
+data = {} # mapping from council name to number of copies
 
 TzCorrections =
   Songea: 'Songea Rural'
@@ -18,16 +18,16 @@ TzCorrections =
   'Handeni Mji': 'Handeni Urban'
   'Kasulu Township Authority': 'Kasulu Urban'
 
-correct = (tz_district_name) ->
-  TzCorrections[tz_district_name] || tz_district_name
+correct = (tz_council_name) ->
+  TzCorrections[tz_council_name] || tz_council_name
 
-d3.json '<%= asset_path('districts.json') %>', (err, geometry) ->
+d3.json '<%= asset_path('assets/councils.json') %>', (err, geometry) ->
   return console.warn(err) if err
   display_map(geometry)
 
 start_load_csv = (url) ->
   d3.csv(url)
-    .row((d) -> { district: d.District, value: +d['Number of Copies'] })
+    .row((d) -> { council: d.Council, value: +d['Number of Copies'] })
     .get (err, rows) ->
       return console.warn(err) if err
       display_data(rows)
@@ -55,9 +55,9 @@ display_map = (geometry) ->
 
   path = d3.geo.path().projection(projection)
 
-  districts = svg.append('g').attr('class', 'districts')
+  councils = svg.append('g').attr('class', 'councils')
 
-  districts.selectAll('path')
+  councils.selectAll('path')
     .data(topojson.feature(geometry, geometry.objects.Districts).features)
     .enter().append('path')
       .attr('data-name', (d) -> correct(d.id))
@@ -79,10 +79,10 @@ display_data = (rows) ->
     .domain(values)
     .range(['#edf8fb', '#b3cde3', '#8c96c6', '#88419d'])
 
-  data = {} # Map from district name to value
-  (data[row.district] = row.value) for row in rows
+  data = {} # Map from council name to value
+  (data[row.council] = row.value) for row in rows
 
-  districts.selectAll('path')
+  councils.selectAll('path')
     .transition()
       .style('fill', (d) -> data[correct(d.id)] && colorScale(data[correct(d.id)]) || 'white')
 

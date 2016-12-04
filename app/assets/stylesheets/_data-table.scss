@@ -102,7 +102,7 @@ table.customer-orders, table.customer-standing-orders, table.customer-waiting-or
 table.customers, table.clubs {
   width: 100%;
 
-  td.region, td.district, td.type, td.actions, td.standing-orders, td.club {
+  td.region, td.council, td.type, td.actions, td.standing-orders, td.club {
     width: 1em;
   }
 
@@ -235,7 +235,7 @@ table.customer-notes, table.issue-notes {
 table.issue-orders {
   width: 100%;
 
-  td.delivery-method, td.region, td.district, td.qty, td.actions {
+  td.delivery-method, td.region, td.council, td.qty, td.actions {
     width: 1em;
   }
 

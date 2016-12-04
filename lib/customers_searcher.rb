@@ -4,7 +4,7 @@ module CustomersSearcher
 
     search_builder.facet(:category, :sort => :index)
     search_builder.facet(:region, :sort => :index)
-    search_builder.facet(:district, :sort => :index)
+    search_builder.facet(:council, :sort => :index)
     search_builder.facet(:type, :sort => :index)
     search_builder.facet(:delivery_method, :sort => :index)
     search_builder.facet(:club, :sort => :index)

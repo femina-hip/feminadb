@@ -63,7 +63,7 @@ class CustomerOrdersController < ApplicationController
       :comments,
       :order_date,
       :region,
-      :district,
+      :council,
       :customer_name,
       :delivery_method,
       :delivery_address,

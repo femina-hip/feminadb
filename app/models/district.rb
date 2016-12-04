@@ -1,4 +1,4 @@
-class District < ActiveRecord::Base
+class Council < ActiveRecord::Base
   belongs_to(:region)
 
   validates_uniqueness_of :name, :scope => :region_id

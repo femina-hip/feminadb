@@ -54,7 +54,7 @@ class WaitingOrder < ActiveRecord::Base
   comma do
     customer_delivery_method(:abbreviation => 'Deliv. Meth.')
     customer_region(:name => 'Region')
-    customer(:district => 'District')
+    customer(:council => 'Council')
     customer(:name => 'Customer')
     num_copies('Copies')
     request_date('Requested Date')

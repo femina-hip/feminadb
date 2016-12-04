@@ -1,7 +1,7 @@
 +----------+------------+------------------------------+-----+
-|  Region  | District   | Customer                     | Qty |
+|  Region  | Council    | Customer                     | Qty |
 +----------+------------+------------------------------+-----+
 <% list.each do |line| -%>
- <%= truncate(line[:region].name, 10).ljust(10) %> <%= truncate(line[:district].to_s, 12).ljust(12) %> <%= truncate(line[:customer_name].to_s, 30).ljust(30) %> <%= line[:num_copies].to_s.rjust(5) %>
+ <%= truncate(line[:region].name, 10).ljust(10) %> <%= truncate(line[:council].to_s, 12).ljust(12) %> <%= truncate(line[:customer_name].to_s, 30).ljust(30) %> <%= line[:num_copies].to_s.rjust(5) %>
 <% end -%>
 +----------+------------+------------------------------+-----+

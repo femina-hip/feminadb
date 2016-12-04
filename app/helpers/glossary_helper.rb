@@ -16,7 +16,7 @@ module GlossaryHelper
     when 'Orders' then 'The desires to transfer a certain number of Copies of some particular Issues from a Warehouse to a Customer'
     when 'Delivery address' then 'How the person delivering Copies gets them to the recipient. If there is an intermediary, include all information: for instance, "via office A in village B, to school C in village D"'
     when 'Delivery contact' then 'Name, position and/or phone number of somebody to contact when trying to deliver Copies to the Customer'
-    when 'Distribution List' then 'A list, sorted by Region and District, of each Customer, its Address, and how many Copies it should receive (based on its Order)'
+    when 'Distribution List' then 'A list, sorted by Region and Council, of each Customer, its Address, and how many Copies it should receive (based on its Order)'
     when 'Distribution Order' then 'A communication with a distributor regarding a particular Issue. Femina describes, for each Delivery Method, how many Customers in each Region have Orders for that Issue, and how many Copies of the Issue will be distributed onto each Region.'
     when 'Issue' then 'A print run of Fema, a print run of Si Mchezo!, or another one-off printing which must be Distributed'
     when 'Issue Number' then 'A number representing an Issue. For a magazine, this is the Issue Number. For other publications, this is some unique sequence of numbers, letters, dashes, and periods.'

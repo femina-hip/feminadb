@@ -1,6 +1,6 @@
 class Issue < ActiveRecord::Base
   belongs_to(:publication)
-  has_many(:orders, -> { order(:delivery_method, :region, :district, :customer_name) })
+  has_many(:orders, -> { order(:delivery_method, :region, :council, :customer_name) })
   has_many(:notes, -> { order(:created_at) }, class_name: 'IssueNote')
   has_many(:bulk_order_creators)
 
@@ -63,16 +63,16 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def num_copies_by_district_csv
+  def num_copies_by_council_csv
     rows = Issue.connection.execute("""
-      SELECT region, district, SUM(num_copies)
+      SELECT region, council, SUM(num_copies)
       FROM orders
       WHERE issue_id = #{id}
-      GROUP BY region, district
+      GROUP BY region, council
     """)
 
     CSV.generate do |csv|
-      csv << [ 'Region', 'District', 'Number of Copies' ]
+      csv << [ 'Region', 'Council', 'Number of Copies' ]
 
       rows.each do |row|
         csv << row
@@ -138,7 +138,7 @@ class Issue < ActiveRecord::Base
     def customer_type; @array[2]; end
     def delivery_method; @array[3]; end
     def region; @array[4]; end
-    def district; @array[5]; end
+    def council; @array[5]; end
     def customer_name; @array[6]; end
     def delivery_address; @array[7]; end
     def delivery_contact; @array[8]; end
@@ -153,7 +153,7 @@ class Issue < ActiveRecord::Base
   def distribution_list_data(delivery_method = nil)
     @distribution_list_data ||= {}
     @distribution_list_data[delivery_method] ||= begin
-      where_sql = delivery_method && " AND orders.delivery_method = #{Order.sanitize_sql(delivery_method)}" || ''
+      where_sql = delivery_method && " AND orders.delivery_method = #{Order.connection.quote(delivery_method)}" || ''
 
       Order.connection.execute("""
         SELECT
@@ -170,7 +170,7 @@ class Issue < ActiveRecord::Base
           ),
           orders.delivery_method,
           orders.region,
-          orders.district,
+          orders.council,
           orders.customer_name,
           orders.delivery_address,
           orders.delivery_contact,
@@ -179,7 +179,7 @@ class Issue < ActiveRecord::Base
         FROM orders
         WHERE issue_id = #{id}
         #{where_sql}
-        ORDER BY delivery_method, region, district, customer_name
+        ORDER BY delivery_method, region, council, customer_name
       """).map { |array| LightweightOrder.new(array) }
     end
   end
@@ -194,7 +194,7 @@ class Issue < ActiveRecord::Base
       'Customer ID',
       'Customer Type',
       'Region',
-      'District',
+      'Council',
       'Final Recipient',
       'Delivery Instructions',
       'Delivery Contact',
@@ -221,7 +221,7 @@ class Issue < ActiveRecord::Base
           order.customer_id,
           order.customer_type,
           order.region,
-          order.district,
+          order.council,
           order.customer_name,
           order.delivery_address,
           order.delivery_contact,

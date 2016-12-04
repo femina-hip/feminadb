@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002065203) do
+ActiveRecord::Schema.define(version: 20161204191739) do
 
   create_table "audits", force: :cascade do |t|
     t.datetime "created_at",               null: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20151002065203) do
     t.string   "name",                        limit: 255
     t.integer  "customer_type_id",            limit: 4
     t.integer  "region_id",                   limit: 4
-    t.string   "district",                    limit: 255
+    t.string   "council",                     limit: 255
     t.string   "contact_name",                limit: 255
     t.integer  "delivery_method_id",          limit: 4
     t.datetime "created_at"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20151002065203) do
     t.integer "num_copies",                  limit: 4
     t.string  "comments",                    limit: 255
     t.date    "order_date"
-    t.string  "district",                    limit: 255
+    t.string  "council",                     limit: 255
     t.string  "customer_name",               limit: 255
     t.string  "delivery_address",            limit: 255, default: "", null: false
     t.string  "delivery_contact",            limit: 255
@@ -132,8 +132,9 @@ ActiveRecord::Schema.define(version: 20151002065203) do
   end
 
   create_table "regions", force: :cascade do |t|
-    t.string  "name",       limit: 255
-    t.integer "population", limit: 4
+    t.string  "name",                          limit: 255
+    t.integer "population",                    limit: 4
+    t.text    "councils_separated_by_newline", limit: 65535
   end
 
   create_table "standing_orders", force: :cascade do |t|

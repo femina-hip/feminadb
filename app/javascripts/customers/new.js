@@ -1,12 +1,12 @@
 var $region_id = $('select#customer_region_id');
-var $district = $('input#customer_district');
+var $council = $('input#customer_council');
 var $name = $('input#customer_name');
 var $stuff;
 
 function render_similar_customer(similar_customer) {
   var $a = $('<a></a>');
   $a.attr('href', '/customers/' + similar_customer.id);
-  $a.text(similar_customer.name + ', ' + similar_customer.district + ', ' + similar_customer.region);
+  $a.text(similar_customer.name + ', ' + similar_customer.council + ', ' + similar_customer.region);
   return $a;
 }
 
@@ -37,7 +37,7 @@ channel.add_listener('check.success', function(type, response, data) {
 function show_stuff($contents, html_class) {
   if (!$stuff) {
     $stuff = $('<div class="similar"></div>');
-    $district.after($stuff);
+    $council.after($stuff);
   }
 
   $stuff.empty();
@@ -47,7 +47,7 @@ function show_stuff($contents, html_class) {
 
 function check_for_similar_customers() {
   var region_id = $region_id.val();
-  var district = $district.val();
+  var council = $council.val();
   var name = $name.val();
 
   if (!name) {
@@ -58,7 +58,7 @@ function check_for_similar_customers() {
 
   var params = {
     'customer[region_id]': region_id,
-    'customer[district]': district,
+    'customer[council]': council,
     'customer[name]': name
   };
 
@@ -70,7 +70,7 @@ function check_for_similar_customers() {
   });
 }
 
-$.each([$region_id, $district, $name], function() {
+$.each([$region_id, $council, $name], function() {
   $(this).change(function() {
     check_for_similar_customers();
   });

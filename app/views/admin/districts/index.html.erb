@@ -1,6 +1,6 @@
-<h1>Districts</h1>
+<h1>Councils</h1>
 
-<table class="districts">
+<table class="councils">
   <thead>
     <tr>
       <th>Region</th>
@@ -11,17 +11,17 @@
   </thead>
   
   <tbody>
-    <% for district in @districts %>
+    <% for council in @councils %>
       <tr class="<%= cycle 'odd', 'even' %>">
-        <td><%=h district.region.name %></td>
-        <td><%=h district.name %></td>
-        <td><%=h district.color %></td>
-        <td><%= link_to 'Show', admin_district_path(district) %></td>
+        <td><%=h council.region.name %></td>
+        <td><%=h council.name %></td>
+        <td><%=h council.color %></td>
+        <td><%= link_to 'Show', admin_council_path(council) %></td>
       </tr>
     <% end %>
     <tr>
       <td colspan="4" class="add">
-        <%= link_to 'New district', new_admin_district_path %>
+        <%= link_to 'New council', new_admin_council_path %>
       </td>
     </tr>
   </tbody>

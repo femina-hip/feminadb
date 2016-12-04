@@ -4,7 +4,7 @@ $.fn.customer_id_field = ->
       <span class="name"><%- name %></span>
       <abbr class="type" title="<%- type.description %>"><%- type.name %></abbr>
       <span class="address">
-        <span class="district"><%- district %></span>, <span class="region"><%- region %></span>
+        <span class="council"><%- council %></span>, <span class="region"><%- region %></span>
       </span>
     </div>
   ''')

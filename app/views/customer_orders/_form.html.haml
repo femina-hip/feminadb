@@ -2,9 +2,14 @@
 %p
   %strong Customer:
   = @customer.name
-%p
-  %strong Issue:
-  = @order.issue.full_name
+- if f.object.persisted?
+  %p
+    %strong Issue:
+    = @order.issue.full_name
+- else
+  .form-group
+    = f.label(:issue_id, 'Issue')
+    = f.issue_field(:issue_id)
 .form-group
   = f.label(:num_copies, 'Number of Copies')
   = f.number_field(:num_copies, required: true, step: 1)

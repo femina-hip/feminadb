@@ -26,7 +26,10 @@ class BulkOrderCreator
 
   def initialize(options = {})
     super(options)
-    write_attribute(:constant_num_copies, true) if creation_type == :customers
+    self.constant_num_copies = true if creation_type == :customers
+
+    # Coerce "false" to false
+    self.constant_num_copies = (constant_num_copies.to_s == 'true')
   end
 
   def issue
@@ -48,6 +51,14 @@ class BulkOrderCreator
     when :publication then do_copy_from_publication
     when :issue then do_copy_from_issue
     when :customers then do_copy_from_customers
+    end
+  end
+
+  def n_customers
+    case creation_type
+    when :publication then do_n_customers_from_publication
+    when :issue then do_n_customers_from_issue
+    when :customers then do_n_customers_from_customers
     end
   end
 
@@ -84,7 +95,7 @@ class BulkOrderCreator
         comments,
         order_date,
         region,
-        district,
+        council,
         customer_name,
         delivery_method,
         delivery_address,
@@ -99,7 +110,7 @@ class BulkOrderCreator
         #{comment_sql},
         #{order_date_sql},
         regions.name,
-        customers.district,
+        customers.council,
         customers.name,
         delivery_methods.name,
         customers.delivery_address,
@@ -118,7 +129,13 @@ class BulkOrderCreator
     num_copies_sql = if constant_num_copies
       num_copies
     else
-      'standing_orders.num_copies'
+      'orders.num_copies'
+    end
+
+    delivery_method_sql = if delivery_method_id.to_i != 0
+      "(SELECT name FROM delivery_methods WHERE id = #{delivery_method_id.to_i})"
+    else
+      'delivery_methods.name'
     end
 
     comment_sql = connection.quote(comment)
@@ -132,7 +149,7 @@ class BulkOrderCreator
         comments,
         order_date,
         region,
-        district,
+        council,
         customer_name,
         delivery_method,
         delivery_address,
@@ -146,15 +163,28 @@ class BulkOrderCreator
         #{comment_sql},
         #{order_date_sql},
         regions.name,
-        customers.district,
+        customers.council,
         customers.name,
+        #{delivery_method_sql},
         customers.delivery_address,
         customers.delivery_contact,
         customers.primary_contact_sms_numbers
       FROM orders
       INNER JOIN customers ON orders.customer_id = customers.id
       INNER JOIN regions ON customers.region_id = regions.id
-      INNER JOIN delivery_methods ON customer.delivery_method_id = delivery_methods.id
+      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
+      WHERE orders.issue_id = #{from_issue_id}
+        AND orders.customer_id IN (#{allowed_customer_ids.join(',')})
+    """)
+  end
+
+  def do_n_customers_from_issue
+    connection.select_value("""
+      SELECT COUNT(DISTINCT orders.customer_id)
+      FROM orders
+      INNER JOIN customers ON orders.customer_id = customers.id
+      INNER JOIN regions ON customers.region_id = regions.id
+      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
       WHERE orders.issue_id = #{from_issue_id}
         AND orders.customer_id IN (#{allowed_customer_ids.join(',')})
     """)
@@ -172,7 +202,7 @@ class BulkOrderCreator
         comments,
         order_date,
         region,
-        district,
+        council,
         customer_name,
         delivery_method,
         delivery_address,
@@ -186,7 +216,7 @@ class BulkOrderCreator
         #{comment_sql},
         #{order_date_sql},
         regions.name,
-        customers.district,
+        customers.council,
         customers.name,
         delivery_methods.name,
         customers.delivery_address,
@@ -195,7 +225,17 @@ class BulkOrderCreator
       FROM customers
       INNER JOIN regions ON customers.region_id = regions.id
       INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
-      WHERE id IN (#{allowed_customer_ids.join(',')})
+      WHERE customers.id IN (#{allowed_customer_ids.join(',')})
+    """)
+  end
+
+  def do_n_customers_from_customers
+    connection.select_value("""
+      SELECT COUNT(*)
+      FROM customers
+      INNER JOIN regions ON customers.region_id = regions.id
+      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
+      WHERE customers.id IN (#{allowed_customer_ids.join(',')})
     """)
   end
 

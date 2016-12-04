@@ -27,7 +27,7 @@
   .facets
     %span.title Filter:
     %ul.facets
-      - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:district, 'District'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
+      - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:council, 'Council'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
         - facet = @search.facet(facet_sym)
         - if facet.rows.length > 1
           %li.facet

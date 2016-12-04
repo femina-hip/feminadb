@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TMPDIR="$(dirname "$0")/../tmp"
+OUTDIR="$(dirname "$0")/../app/assets/maps"
+SHP_URL="http://www.nbs.go.tz/nbstz/index.php/english/geographical-information-system-gis/795-2012-phc-shapefiles-level-one-and-two-2"
+
+set -ex
+
+curl 'http://www.nbs.go.tz/nbs/takwimu/references/GIS_Maps.zip' > "$TMPDIR"/GIS_Maps.zip
+(cd "$TMPDIR" && unzip GIS_Maps.zip)
+topojson --id-property District_N -q 5000 --simplify-proportion 0.2 -- "$TMPDIR"/Districts.shp > "$OUTDIR"/councils.json

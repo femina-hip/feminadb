@@ -5,99 +5,99 @@
 %script{src: asset_path("/javascripts/d3-3.5.6.js")}
 %script{src: asset_path("/javascripts/topojson.v1.min.js")}
 :javascript
-  var width = 600;
-  var height = 500;
-
-  var svg = d3.select('#map').append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-  d3.json("/maps/districts.json", function(error, geometry) {
-    if (error) return console.error(error);
-    display_map(geometry);
-  });
-
-  // Returns an Object mapping district name to nCopies
-  function get_data() {
-    // Pull data from HTML
-    var districts = $('#report [data-district]').map(function() { return this.getAttribute('data-district'); });
-    var copies = $('#report [data-num_copies]').map(function() { return this.getAttribute('data-num_copies'); });
-
-    var ret = {};
-    for (var i = 0; i < districts.length && i < copies.length; i++) {
-      ret[districts[i]] = parseInt(copies[i], 10);
-    }
-
-    return ret;
-  }
-
-  function display_map(geometry) {
-    var data = get_data();
-    var values = Object.keys(data).map(function(k) { return data[k]; });
-
-    var projection = d3.geo.conicConformal()
-      .center([ 35, -6.3 ])
-      .rotate([ 0, 0 ])
-      .parallels([ -3, -9 ])
-      .scale(2590)
-      .translate([ width / 2 - 50, height / 2 ]);
-
-    var path = d3.geo.path().projection(projection);
-
-    var colorScale = d3.scale.quantile()
-      .domain(values.filter(function(x) { return x != 0; }))
-      .range(['#edf8fb', '#b3cde3', '#8c96c6', '#88419d']);
-
-    svg.selectAll('path')
-      .data(topojson.feature(geometry, geometry.objects.Districts).features)
-      .enter().append('path')
-        .attr('class', function(d) { return 'district district-' + d.id.replace(/[^a-zA-Z]/g, '-'); })
-        .attr('d', path)
-        .style('fill', function(d) { return data[d.id] ? colorScale(data[d.id]) : 'white'; })
-        .style('stroke', 'black')
-        .style('stroke-width', '0.2');
-
-    var legendFontSize = 14,
-        legendBoxSize = legendFontSize - 1;
-        legendSpacing = 6,
-        legendLineHeight = legendFontSize + legendSpacing;
-
-    var legend = svg.append('g')
-      .attr('class', 'legend')
-      .attr('transform', 'translate(420, 0)');
-
-    // Legend title
-    legend.append('text')
-      .attr('class', 'title')
-      .attr('y', 14)
-      .text('Issues distributed');
-
-    // Legend items
-    var li = legend.append('g')
-      .attr('class', 'legend-items')
-      .attr('transform', 'translate(0, 22)');
-
-    li.selectAll('rect')
-      .data(colorScale.range())
-      .enter().append('rect')
-        .attr('y', function(d, i) { return i * legendLineHeight; })
-        .attr('width', legendBoxSize)
-        .attr('height', legendBoxSize)
-        .style('fill', function(color) { return color; });
-
-    li.selectAll('text')
-      .data(colorScale.range().map(function(color) {
-        var d = colorScale.invertExtent(color);
-        if (!d[0]) d[0] = 1;
-        if (!d[1]) d[1] = Math.max.apply(Math, values);
-        return d;
-      }))
-      .enter().append('text')
-        .attr('x', legendBoxSize + legendSpacing)
-        .attr('y', function(d, i) { return i * legendLineHeight + legendFontSize - 2 /* looks nicer */; })
-        .text(function(d, i) {
-          if (i == 0) d[0] = 1;
-          if (i != colorScale.range().length - 1) d[1] = d[1] - 1; // retvals are [min,max)
-          return d[0] + ' to ' + d[1];
-        });
-  }
+  //  var width = 600;
+  //  var height = 500;
+  //
+  //  var svg = d3.select('#map').append('svg')
+  //    .attr('width', width)
+  //    .attr('height', height);
+  //
+  //  d3.json("/maps/councils.json", function(error, geometry) {
+  //    if (error) return console.error(error);
+  //    display_map(geometry);
+  //  });
+  //
+  //  // Returns an Object mapping council name to nCopies
+  //  function get_data() {
+  //    // Pull data from HTML
+  //    var councils = $('#report [data-council]').map(function() { return this.getAttribute('data-council'); });
+  //    var copies = $('#report [data-num_copies]').map(function() { return this.getAttribute('data-num_copies'); });
+  //
+  //    var ret = {};
+  //    for (var i = 0; i < councils.length && i < copies.length; i++) {
+  //      ret[councils[i]] = parseInt(copies[i], 10);
+  //    }
+  //
+  //    return ret;
+  //  }
+  //
+  //  function display_map(geometry) {
+  //    var data = get_data();
+  //    var values = Object.keys(data).map(function(k) { return data[k]; });
+  //
+  //    var projection = d3.geo.conicConformal()
+  //      .center([ 35, -6.3 ])
+  //      .rotate([ 0, 0 ])
+  //      .parallels([ -3, -9 ])
+  //      .scale(2590)
+  //      .translate([ width / 2 - 50, height / 2 ]);
+  //
+  //    var path = d3.geo.path().projection(projection);
+  //
+  //    var colorScale = d3.scale.quantile()
+  //      .domain(values.filter(function(x) { return x != 0; }))
+  //      .range(['#edf8fb', '#b3cde3', '#8c96c6', '#88419d']);
+  //
+  //    svg.selectAll('path')
+  //      .data(topojson.feature(geometry, geometry.objects.Councils).features)
+  //      .enter().append('path')
+  //        .attr('class', function(d) { return 'council council-' + d.id.replace(/[^a-zA-Z]/g, '-'); })
+  //        .attr('d', path)
+  //        .style('fill', function(d) { return data[d.id] ? colorScale(data[d.id]) : 'white'; })
+  //        .style('stroke', 'black')
+  //        .style('stroke-width', '0.2');
+  //
+  //    var legendFontSize = 14,
+  //        legendBoxSize = legendFontSize - 1;
+  //        legendSpacing = 6,
+  //        legendLineHeight = legendFontSize + legendSpacing;
+  //
+  //    var legend = svg.append('g')
+  //      .attr('class', 'legend')
+  //      .attr('transform', 'translate(420, 0)');
+  //
+  //    // Legend title
+  //    legend.append('text')
+  //      .attr('class', 'title')
+  //      .attr('y', 14)
+  //      .text('Issues distributed');
+  //
+  //    // Legend items
+  //    var li = legend.append('g')
+  //      .attr('class', 'legend-items')
+  //      .attr('transform', 'translate(0, 22)');
+  //
+  //    li.selectAll('rect')
+  //      .data(colorScale.range())
+  //      .enter().append('rect')
+  //        .attr('y', function(d, i) { return i * legendLineHeight; })
+  //        .attr('width', legendBoxSize)
+  //        .attr('height', legendBoxSize)
+  //        .style('fill', function(color) { return color; });
+  //
+  //    li.selectAll('text')
+  //      .data(colorScale.range().map(function(color) {
+  //        var d = colorScale.invertExtent(color);
+  //        if (!d[0]) d[0] = 1;
+  //        if (!d[1]) d[1] = Math.max.apply(Math, values);
+  //        return d;
+  //      }))
+  //      .enter().append('text')
+  //        .attr('x', legendBoxSize + legendSpacing)
+  //        .attr('y', function(d, i) { return i * legendLineHeight + legendFontSize - 2 /* looks nicer */; })
+  //        .text(function(d, i) {
+  //          if (i == 0) d[0] = 1;
+  //          if (i != colorScale.range().length - 1) d[1] = d[1] - 1; // retvals are [min,max)
+  //          return d[0] + ' to ' + d[1];
+  //        });
+  //  }

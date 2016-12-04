@@ -38,8 +38,6 @@ class Admin::RegionsController < ApplicationController
     require_role 'admin'
     if region.customers.length > 0
       flash[:notice] = 'Could not delete Region: it is used by some Customers'
-    elsif region.districts.length > 0
-      flash[:notice] = 'Could not delete Region: it is used by some Districts'
     else
       destroy_with_audit(region)
     end
@@ -53,6 +51,6 @@ class Admin::RegionsController < ApplicationController
   end
 
   def region_params
-    params.require(:region).permit(:name, :population)
+    params.require(:region).permit(:name, :population, :councils_separated_by_newline)
   end
 end

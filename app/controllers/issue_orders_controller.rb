@@ -8,7 +8,7 @@ class IssueOrdersController < ApplicationController
 
     if params[:all]
       customers = search_for_customers(
-        :order => [:delivery_method, :region, :district, :name],
+        :order => [:delivery_method, :region, :council, :name],
         :includes => [:region, :type, :delivery_method]
       )
 
@@ -22,7 +22,7 @@ class IssueOrdersController < ApplicationController
     else
       @orders = @issue.orders
         .where(conditions)
-        .order(:delivery_method, :region, :district, :customer_name)
+        .order(:delivery_method, :region, :council, :customer_name)
         .paginate(:page => requested_page, :per_page => requested_per_page)
     end
 
@@ -86,7 +86,7 @@ class IssueOrdersController < ApplicationController
       :customer_id,
       :num_copies,
       :region,
-      :district,
+      :council,
       :customer_name,
       :delivery_method,
       :delivery_address,
@@ -100,7 +100,7 @@ class IssueOrdersController < ApplicationController
       customer_id: customer.id,
       delivery_method: customer.delivery_method.name,
       region: customer.region.name,
-      district: customer.district,
+      council: customer.council,
       customer_name: customer.name,
       num_copies: 0,
       delivery_address: customer.delivery_address,

@@ -77,7 +77,7 @@ class CustomersController < ApplicationController
   end
 
   def index
-    @customers = search_for_customers(order: [:region, :district, :name], includes: [:region, :type ])
+    @customers = search_for_customers(order: [:region, :council, :name], includes: [:region, :type ])
 
     @publications = Publication.tracking_standing_orders.order(:name).all
 
@@ -95,13 +95,13 @@ class CustomersController < ApplicationController
 
   def similar
     customer = params[:customer]
-    @raw_results = Customer.fuzzy_find(customer[:region_id].to_i, customer[:district], customer[:name])
+    @raw_results = Customer.fuzzy_find(customer[:region_id].to_i, customer[:council], customer[:name])
 
     render(:json => @raw_results.collect { |r|
       {
         :id => r.primary_key.to_i,
         :region => r.stored(:region),
-        :district => r.stored(:district),
+        :council => r.stored(:council),
         :name => r.stored(:name)
       }
     })
@@ -110,7 +110,7 @@ class CustomersController < ApplicationController
   def autocomplete
     q = params[:q].to_s
     q += '*' if q.present?
-    customers = customer_search(q: q, order: [:region, :district, :name], page: 1, per_page: 10).results
+    customers = customer_search(q: q, order: [:region, :council, :name], page: 1, per_page: 10).results
     ActiveRecord::Associations::Preloader.new.preload(customers, [ :region, :type ])
 
     json = customers.map do |customer|
@@ -118,7 +118,7 @@ class CustomersController < ApplicationController
         id: customer.id,
         name: customer.name,
         region: customer.region.name,
-        district: customer.district,
+        council: customer.council,
         type: {
           name: customer.type.name,
           description: customer.type.description
@@ -149,7 +149,7 @@ class CustomersController < ApplicationController
       :customer_type_id,
       :delivery_method_id,
       :region_id,
-      :district,
+      :council,
       :delivery_address,
       :delivery_contact
     )

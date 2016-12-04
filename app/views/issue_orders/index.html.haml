@@ -30,7 +30,7 @@
       %th
         %abbr{:title => 'Delivery Method'} DM
       %th Region
-      %th District
+      %th Council
       %th Customer
       %th Qty
   %tbody
@@ -38,7 +38,7 @@
       %tr{:class => cycle('odd', 'even')}
         %td.delivery-method= o.delivery_method
         %td.region= o.region
-        %td.district= o.district
+        %td.council= o.council
         %td.customer
           .cut-off
             - if o.customer_id

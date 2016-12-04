@@ -7,7 +7,7 @@
   %thead
     %tr
       %th Region
-      %th District
+      %th Council
       %th Final Recipient
       %th Delivery Address
       %th # Copies
@@ -18,12 +18,12 @@
     - rows.chunk(&:region).each do |region, rows1|
       - new_region = true
       - reset_cycle
-      - rows1.chunk(&:district).each do |district, rows2|
-        - new_district = true
+      - rows1.chunk(&:council).each do |council, rows2|
+        - new_council = true
         - rows2.each do |row|
           %tr{class: cycle('odd', 'even')}
             %th= new_region ? region : ''
-            %th= new_district ? district : ''
+            %th= new_council ? council : ''
             %td= row.customer_name
             %td= row.delivery_address
             %td.num-copies= number_with_delimiter(row.num_copies)
@@ -33,7 +33,7 @@
                 - if order_box_sizes[box_size]
                   = number_with_delimiter(order_box_sizes[box_size])
             - new_region = false
-            - new_district = false
+            - new_council = false
       %tr.subtotal
         %td
           %td{colspan: 3} Region subtotal

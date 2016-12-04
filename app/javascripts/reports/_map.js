@@ -20,7 +20,7 @@ function parse_region(text) {
   return parse_string(text);
 }
 
-function parse_district(text) {
+function parse_council(text) {
   return parse_string(text);
 }
 
@@ -29,7 +29,7 @@ function parse_num(text) {
 }
 
 /*
- * The map has some weird district names, and so do we. Both have slight
+ * The map has some weird council names, and so do we. Both have slight
  * mistakes. Not passing judgment, we'll make a "common key" which will be the
  * lowest common denominator. For instance, we only have one "unguja"; the map
  * only has one "dar-es-salaam"; so in the common key, there is only one
@@ -85,8 +85,8 @@ var OUR_KEY_TO_COMMON_KEY = {
   'singida|singida-urban': 'singida|singida',
 };
 
-function make_key(region, district, is_our_notation) {
-  var key = region + '|' + district;
+function make_key(region, council, is_our_notation) {
+  var key = region + '|' + council;
   if (is_our_notation) {
     return OUR_KEY_TO_COMMON_KEY[key] || key;
   } else {
@@ -104,12 +104,12 @@ function get_table_data() {
   $table.find('tbody tr').each(function() {
     var $tr = $(this);
     var region = parse_region($tr.children('td:eq(0)').text());
-    var district = parse_district($tr.children('td:eq(1)').text());
+    var council = parse_council($tr.children('td:eq(1)').text());
     var n = parse_number($tr.children('td:eq(2)').text());
 
-    var key = make_key(region, district, true);
+    var key = make_key(region, council, true);
 
-    // Sometimes two districts merge in the map, so we'll add the numbers
+    // Sometimes two council merge in the map, so we'll add the numbers
     if (!ret[key]) ret[key] = 0;
     ret[key] += n;
   });
@@ -120,15 +120,15 @@ function get_table_data() {
 function path_class_to_key(class_name) {
   if (!/\bmi-region\b/.test(class_name)) return undefined;
   var region_match = class_name.match(/ADM1-([-\w]*)/);
-  /* district must match "ADM2-(Moshi Rural) ..." (a bug in the map data) */
-  var district_match = class_name.match(/ADM2-([- \w]*?) mi-TAN/);
+  /* council must match "ADM2-(Moshi Rural) ..." (a bug in the map data) */
+  var council = class_name.match(/ADM2-([- \w]*?) mi-TAN/);
 
-  if (!region_match || !district_match) return undefined;
+  if (!region_match || !council) return undefined;
 
   var region = parse_region(region_match[1]);
-  var district = parse_district(district_match[1]);
+  var council = parse_council(council[1]);
 
-  var key = make_key(region, district, false);
+  var key = make_key(region, council, false);
 
   if (/-lake$/.test(key)) return '#0000ff'; // it's a lake
 

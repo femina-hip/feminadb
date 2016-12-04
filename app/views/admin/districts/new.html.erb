@@ -1,15 +1,15 @@
-<h1>New District</h1>
+<h1>New Council</h1>
 
-<%= error_messages_for :district %>
+<%= error_messages_for :council %>
 
-<%= form_for(:district, :url => admin_districts_path) do |f| %>
+<%= form_for(:council, :url => admin_councils_path) do |f| %>
   <p>
     <b>Region</b><br />
     <%= f.select :region_id, Region.order(:name).all.collect{|r| [ r.name, r.id ]} %>
   </p>
 
   <p>
-    <b>District Name</b><br />
+    <b>Council Name</b><br />
     <%= f.text_field :name %>
   </p>
 
@@ -23,4 +23,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Back', admin_districts_path %>
+<%= link_to 'Back', admin_councils_path %>

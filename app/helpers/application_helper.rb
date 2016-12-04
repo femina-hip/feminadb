@@ -26,7 +26,7 @@ module ApplicationHelper
     end
   end
 
-  # refineq('foo', 'district', '') returns 'foo district:""'
+  # refineq('foo', 'council', '') returns 'foo council:""'
   def refine_q(original_q, term, value)
     q = "#{original_q} #{term}:"
 

@@ -30,13 +30,13 @@
       %dd All customers with a word that is <em>similar to</em> "Elderlo": "Elderly", for instance.
       %dt= search_link('region:Arusha')
       %dd All Customers in Arusha
-      %dt= search_link('region:Arusha district:Arumeru')
-      %dd All Customers in the Arumeru district of Arusha
-      %dt= search_link('region:Arusha AND (district:Arumeru OR district:Monduli)')
-      %dd All Customers which are either in Arusha, either in the Arumeru or the Monduli districts
-      %dt= search_link('district:""')
+      %dt= search_link('region:Arusha council:Arumeru')
+      %dd All Customers in the Arumeru council of Arusha
+      %dt= search_link('region:Arusha AND (council:Arumeru OR council:Monduli)')
+      %dd All Customers which are either in Arusha, either in the Arumeru or the Monduli council
+      %dt= search_link('council:""')
       %dd
-        All Customers without a district entered
+        All Customers without a council entered
         %em This should be empty!
       %dt= search_link('standing_num_copies:fema>101')
       %dd All Customers with Standing Orders for Fema of over 100 Copies
