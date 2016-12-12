@@ -12,7 +12,7 @@
       %select{name: 'old_council'}
         %option{value: ''} Invalid council
         - for council in @invalid_councils
-          %option{'data-region-id': council[:region_id], value: council[:council]}
+          %option{'data-region-id' => council[:region_id], 'value' => council[:council]}
             = "#{council[:region_name]}/#{council[:council]} (#{council[:n]} customers)"
     %input{type: 'hidden', name: 'region_id'}
   %p
@@ -22,7 +22,7 @@
         %option{value: ''} Valid council to replace it
         - for region in @regions
           - for council in region.councils
-            %option{'data-region-id': region.id, value: council}
+            %option{'data-region-id' => region.id, 'value' => council}
               = "#{region.name}/#{council}"
   %button{type: 'submit'}
     Bulk rename (DANGER: this cannot be undone)
