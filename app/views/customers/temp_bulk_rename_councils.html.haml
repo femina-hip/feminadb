@@ -13,7 +13,7 @@
         %option{value: ''} Invalid council
         - for council in @invalid_councils
           %option{'data-region-id': council[:region_id], value: council[:council]}
-            = "#{council[:region_name]}/#{council[:council]}"
+            = "#{council[:region_name]}/#{council[:council]} (#{council[:n]} customers)"
     %input{type: 'hidden', name: 'region_id'}
   %p
     %label
