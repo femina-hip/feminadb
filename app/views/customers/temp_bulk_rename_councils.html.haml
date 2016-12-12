@@ -1,0 +1,68 @@
+= render_pretty_header('Customers') do
+  %p
+    Each Customer is located in a Council. Some Council names aren't valid. You
+    can fix them by editing every customer, OR you can let this page edit lots
+    of customers at once.
+
+%form.temp-bulk-rename-councils{method: 'post', action: :temp_do_bulk_rename_councils}
+  = hidden_field_tag(:authenticity_token, form_authenticity_token)
+  %p
+    %label
+      Select an invalid council:
+      %select{name: 'old_council'}
+        %option{value: ''} Invalid council
+        - for council in @invalid_councils
+          %option{'data-region-id': council[:region_id], value: council[:council]}
+            = "#{council[:region_name]}/#{council[:council]}"
+    %input{type: 'hidden', name: 'region_id'}
+  %p
+    %label
+      Replace it with this council in the same region:
+      %select{name: 'new_council'}
+        %option{value: ''} Valid council to replace it
+        - for region in @regions
+          - for council in region.councils
+            %option{'data-region-id': region.id, value: council}
+              = "#{region.name}/#{council}"
+  %button{type: 'submit'}
+    Bulk rename (DANGER: this cannot be undone)
+
+:javascript
+  var form = document.querySelector('form.temp-bulk-rename-councils');
+  var oldSelect = form.querySelector('select[name=old_council]');
+  var regionIdInput = form.querySelector('input[name=region_id]');
+  var newSelect = form.querySelector('select[name=new_council]');
+
+  function resetRegionId() {
+    var regionId = oldSelect.querySelector('option:checked').getAttribute('data-region-id');
+    regionIdInput.value = regionId;
+    for (var i = 0; i < newSelect.children.length; i++) {
+      var option = newSelect.children[i];
+      var optionRegionId = option.getAttribute('data-region-id');
+      var enabled = (!optionRegionId || optionRegionId === regionId);
+      option.disabled = !enabled;
+    }
+  }
+
+  oldSelect.addEventListener('change', function() {
+    resetRegionId();
+    newSelect.children[0].checked = true;
+  });
+
+  resetRegionId();
+  document.addEventListener('DOMContentLoaded', resetRegionId);
+
+  form.addEventListener('submit', function(ev) {
+    if (oldSelect.selectedIndex === 0 || newSelect.selectedIndex === 0 || !regionIdInput.value) {
+      window.alert("Please select valid values");
+      ev.preventDefault();
+      return;
+    }
+
+    if (!window.confirm("Are you sure you want to do this rename? You can't undo it")) {
+      ev.preventDefault();
+      return;
+    }
+
+    form.querySelector('button').disabled = true;
+  });
