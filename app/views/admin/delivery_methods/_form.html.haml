@@ -1,13 +1,9 @@
 -# Required variables: "f", a form_for
 %p
-  %b
+  %b<
     %abbr{:title => 'Shown when there is very little space'} Abbreviation:
   = f.text_field :abbreviation
 %p
-  %b
+  %b<
     %abbr{:title => 'Short name of the delivery method'} Name:
   = f.text_field :name
-%p
-  %b
-    %abbr{:title => 'Clarification of how the delivery occurs'} Description:
-  = f.text_field :description

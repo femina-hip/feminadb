@@ -16,6 +16,6 @@ class DeliveryMethod < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def full_name
-    "#{abbreviation}: #{name} (#{description})"
+    "#{abbreviation}: #{name}"
   end
 end
