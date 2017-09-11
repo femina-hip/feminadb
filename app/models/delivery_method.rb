@@ -1,5 +1,4 @@
 class DeliveryMethod < ActiveRecord::Base
-  belongs_to(:warehouse)
   has_many(:orders)
   has_many(:customers)
 

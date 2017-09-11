@@ -6,7 +6,6 @@ describe(Customer) do
       Region.delete_all
       CustomerType.delete_all
       DeliveryMethod.delete_all
-      Warehouse.delete_all
       Customer.delete_all
       Customer.reindex
       @region = Region.create!(:name => 'region')
