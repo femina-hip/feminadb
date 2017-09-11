@@ -47,7 +47,7 @@
               = o.customer_name
         %td.qty
           - if current_user.has_role?('edit-orders')
-            = link_to(number_with_delimiter(o.num_copies), edit_customer_order_path(o.customer_id, o), class: 'in-modal-dialog')
+            = link_to(number_with_delimiter(o.num_copies), (o.id.nil? ? new_customer_order_path(customer_id: o.customer_id) : edit_customer_order_path(o.customer_id, o)), class: 'in-modal-dialog')
           - else
             = number_with_delimiter(o.num_copies)
 = will_paginate(@orders)

@@ -2,6 +2,10 @@
 %p
   %strong Customer:
   = @customer.name
+  = f.hidden_field(:customer_id)
+  = f.hidden_field(:region, value: @customer.region.name)
+  = f.hidden_field(:council, value: @customer.council)
+  = f.hidden_field(:customer_name, value: @customer.name)
 - if f.object.persisted?
   %p
     %strong Issue:
