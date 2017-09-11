@@ -4,7 +4,7 @@ module ModificationsHelper
 
     if audit.record_id
       klass_or_nil = audit.table_name.singularize.classify.safe_constantize
-      record = klass_or_nil && klass_or_nil.find_by(audit.record_id) # find(id) can throw an exception. We want nil.
+      record = klass_or_nil && klass_or_nil.find_by_id(audit.record_id) # find(id) can throw an exception. We want nil.
       if record && record.respond_to?(:title)
         text = "#{klass.model_name.human} #{audit.record_id}: #{record.title}"
         if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
