@@ -19,10 +19,10 @@
     Even Customers without Orders are in this list.
     Create Orders by changing the quantities from 0 to something else.
     You can also
-    = link_to('hide Customers who have no Orders.', issue_orders_path(@issue, params.slice(:q)))
+    = link_to('hide Customers who have no Orders.', issue_orders_path(@issue, q: params[:q]))
   - else
     The only Customers shown are the ones with Orders. You can also
-    = link_to('include Customers without any Orders yet, to add some.', issue_orders_path(@issue, params.slice(:q).merge(:all => true)))
+    = link_to('include Customers without any Orders yet, to add some.', issue_orders_path(@issue, q: params[:q], all: true))
 
 %table.issue-orders
   %thead
@@ -53,7 +53,7 @@
 = will_paginate(@orders)
 
 %p.actions
-  = link_to('Export Data to Excel', issue_orders_path(@issue, params.slice(:q).merge(:format => :csv)))
+  = link_to('Export Data to Excel', issue_orders_path(@issue, q: params[:q], format: :csv))
   - if current_user.has_role?('edit-orders')
     |
     = link_to('Create Orders for an Issue using this list', new_bulk_order_creator_path(:bulk_order_creator => {:from_issue_id => @issue.id, :search_string => params[:q]}))
