@@ -3,7 +3,7 @@
 # database was down anyway, so migrating from scratch made more sense.
 #
 # This is essentially a db:schema:dump.
-class CreateInitialSchema < ActiveRecord::Migration
+class CreateInitialSchema < ActiveRecord::Migration[4.2]
   def change
     create_table "audits", force: :cascade do |t|
       t.datetime "created_at",               null: false

@@ -1,6 +1,6 @@
 module CustomerFilterControllerMethods
   def self.included(base)
-    base.before_filter :remember_q_and_page, :only => :index
+    base.before_action(:remember_q_and_page, only: :index)
   end
 
   private
@@ -64,7 +64,7 @@ module CustomerFilterControllerMethods
   end
 
   def requested_per_page
-    if request.format == Mime::CSV
+    if request.media_type == 'text/csv'
       AllInOnePage
     else
       NormalPage

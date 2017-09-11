@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include Auditor
-  before_filter(:ensure_logged_in)
+  before_action(:ensure_logged_in)
 
   protect_from_forgery
 

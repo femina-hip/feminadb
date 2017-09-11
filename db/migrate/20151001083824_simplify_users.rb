@@ -1,4 +1,4 @@
-class SimplifyUsers < ActiveRecord::Migration
+class SimplifyUsers < ActiveRecord::Migration[4.2]
   def up
     add_column(:users, :roles, :string)
     execute <<-SQL

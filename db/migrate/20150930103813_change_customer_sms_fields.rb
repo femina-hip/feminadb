@@ -1,4 +1,4 @@
-class ChangeCustomerSmsFields < ActiveRecord::Migration
+class ChangeCustomerSmsFields < ActiveRecord::Migration[4.2]
   def up
     rename_column(:customers, :other_contacts, :delivery_contact)
     rename_column(:customers, :sms_numbers, :primary_contact_sms_numbers)
