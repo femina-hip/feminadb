@@ -29,8 +29,6 @@ class Customer < ActiveRecord::Base
   }
   cattr_reader(:SMS_NUMBER_FIELDS)
 
-  extend Forwardable
-
   # Controllers index manually whenever anything might have changed.
   searchable(
       auto_index: false,  # controllers handle indexing
