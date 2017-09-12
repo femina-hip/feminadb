@@ -5,7 +5,6 @@
       = link_to('issues', issues_path(publication_id: publication.id))
       - if publication.tracks_standing_orders?
         = link_to("standing orders (#{number_with_delimiter(publication.standing_order_num_copies) || 0})", customers_path(:q => "standing:#{publication.to_index_key}:true"))
-        = link_to("waiting orders (#{number_with_delimiter(publication.waiting_order_num_copies) || 0})", customers_path(:q => "waiting:#{publication.to_index_key}:true"))
       - if current_user.has_role?('edit-publications')
         = link_to('edit', edit_publication_path(publication))
         = button_to('destroy', publication_path(publication), data: { :confirm => 'Are you sure?' }, :method => :delete)

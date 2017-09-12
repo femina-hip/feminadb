@@ -1,6 +1,6 @@
 @import 'vars';
 
-table.customers, table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.delivery-methods, table.audits, table.issues {
+table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.delivery-methods, table.audits, table.issues {
   border: 2px solid $border_color;
   margin: 1em auto;
 
@@ -73,7 +73,7 @@ table.customers, table.issue-orders, table.report, table.distribution-list, tabl
 }
 
 // Tables which have a "thead.title"
-table.customer-orders, table.customer-standing-orders, table.customer-waiting-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory {
+table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory {
   thead.title {
     th {
       font-weight: normal;
@@ -191,7 +191,7 @@ table.customers td.standing-orders, table.issue-orders td.qty {
   }
 }
 
-table.customer-standing-orders, table.customer-waiting-orders {
+table.customer-standing-orders {
   td.publication, td.num_copies, td.request_date, td.created_at {
     width: 1em;
   }
@@ -215,7 +215,7 @@ table.customer-orders {
   }
 }
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes {
+table.customer-standing-orders, table.customer-orders, table.customer-notes, table.issue-notes {
   margin-bottom: 1em;
 
   tbody {
@@ -248,7 +248,7 @@ table.issue-orders {
   }
 }
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders, table.customer-notes, table.issue-notes {
+table.customer-standing-orders, table.customer-orders, table.customer-notes, table.issue-notes {
   width: 100%;
   margin-bottom: 1em;
 
@@ -336,7 +336,7 @@ table.inventory {
   }
 }
 
-table.customer-standing-orders, table.customer-waiting-orders, table.customer-orders {
+table.customer-standing-orders, table.customer-orders {
   width: 95%;
   margin: 0.5em auto;
 

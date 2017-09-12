@@ -1,7 +1,6 @@
 class Publication < ActiveRecord::Base
   has_many(:issues, -> { order(issue_date: :desc) })
   has_many(:standing_orders)
-  has_many(:waiting_orders)
   has_many(:customers, through: :standing_orders)
 
   validates_presence_of :name
@@ -20,14 +19,6 @@ class Publication < ActiveRecord::Base
     Publication.connection.execute("""
       SELECT SUM(num_copies)
       FROM standing_orders
-      WHERE publication_id = #{id}
-    """).first[0]
-  end
-
-  def waiting_order_num_copies
-    Publication.connection.execute("""
-      SELECT SUM(num_copies)
-      FROM waiting_orders
       WHERE publication_id = #{id}
     """).first[0]
   end

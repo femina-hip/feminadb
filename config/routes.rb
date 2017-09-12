@@ -21,11 +21,6 @@ Feminadb::Application.routes.draw do
     end
     resources :sms_messages, only: :index
     resources :standing_orders, :controller => 'customer_standing_orders'
-    resources :waiting_orders, :controller => 'customer_waiting_orders' do
-      member do
-        post :convert_to_standing_order
-      end
-    end
     resources :orders, :controller => 'customer_orders'
     resources :notes, :controller => 'customer_notes'
   end
@@ -44,11 +39,6 @@ Feminadb::Application.routes.draw do
   end
 
   resources :standing_orders
-  resources :waiting_orders do
-    member do
-      post :convert_to_standing_order
-    end
-  end
 
   resources :modifications, :only => :index
   resources :bulk_order_creators, :only => [ :new, :create ]

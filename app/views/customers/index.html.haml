@@ -20,7 +20,7 @@
       %th Customer
       - @publications.each do |publication|
         %th
-          %abbr{:title => "Standing Orders for #{publication.name}, or Waiting Orders if there is a \"W\""}= publication.name
+          %abbr{:title => "Standing Orders for #{publication.name}"}= publication.name
   %tbody
     - @customers.each do |customer|
       = render('tr', :customer => customer, :publications => @publications)

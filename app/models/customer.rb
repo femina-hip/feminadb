@@ -35,7 +35,6 @@ class Customer < ActiveRecord::Base
       auto_remove: false, # controllers handle indexing
       include: [
         { standing_orders: :publication },
-        { waiting_orders: :publication },
         :region,
         :delivery_method,
         :type,
@@ -74,24 +73,10 @@ class Customer < ActiveRecord::Base
         hash.merge!(key => value)
       end
     end
-    dynamic_integer(:waiting_num_copies) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
-        key = publication.to_index_key
-        value = waiting_order_for(publication).try(:num_copies) || 0
-        hash.merge!(key => value)
-      end
-    end
     dynamic_boolean(:standing) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
         key = publication.to_index_key
         value = standing_order_for(publication) && true || false
-        hash.merge!(key => value)
-      end
-    end
-    dynamic_boolean(:waiting) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
-        key = publication.to_index_key
-        value = waiting_order_for(publication) && true || false
         hash.merge!(key => value)
       end
     end
@@ -102,7 +87,6 @@ class Customer < ActiveRecord::Base
   belongs_to(:region)
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:standing_orders)
-  has_many(:waiting_orders)
   has_many(:orders)
 
   validates_presence_of :region_id
@@ -159,23 +143,10 @@ class Customer < ActiveRecord::Base
     standing_orders_hash[publication.id]
   end
 
-  def waiting_orders_hash
-    @waiting_orders_hash ||= waiting_orders.index_by(&:publication_id)
-  end
-
-  def waiting_order_for(publication)
-    waiting_orders_hash[publication.id]
-  end
-
-  def standing_or_waiting_order_string_for(publication)
+  def standing_order_string_for(publication)
     s = standing_order_for(publication).try(:num_copies)
-    w = waiting_order_for(publication).try(:num_copies)
-    if s && w
-      "#{s}, #{w}W"
-    elsif s
+    if s
       s.to_s
-    elsif w
-      "#{w}W"
     else
       ''
     end

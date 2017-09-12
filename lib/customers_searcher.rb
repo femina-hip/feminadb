@@ -13,7 +13,6 @@ module CustomersSearcher
       sym = p.to_index_key.to_sym
 
       search_builder.dynamic(:standing) { facet(sym, :sort => :index) }
-      search_builder.dynamic(:waiting) { facet(sym, :sort => :index) }
     end
   end
 end

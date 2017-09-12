@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/acceptance_helper'
 
-feature "Edit standing/waiting orders from customer page", %q{
-  In order to create and edit standing/waiting orders
+feature "Edit standing orders from customer page", %q{
+  In order to create and edit standing orders
   As a user with edit-orders privilege
-  I want to use an edit standing/waiting orders form on the customers page
+  I want to use an edit standing orders form on the customers page
 } do
 
   background do
@@ -13,7 +13,7 @@ feature "Edit standing/waiting orders from customer page", %q{
     login('order-editor', 'password')
   end
   
-  scenario "Get an 'edit standing/waiting order' form when there's a standing order" do
+  scenario "Get an 'edit standing order' form when there's a standing order" do
     c = Customer.make
     Publication.make
     visit(customers_index)
@@ -21,7 +21,6 @@ feature "Edit standing/waiting orders from customer page", %q{
     page.should(have_css("#customer-#{c.id}"))
     within("#customer-#{c.id}") do
       page.should(have_css("form.new_standing_order"))
-      page.should(have_css("form.new_waiting_order"))
     end
   end
 
@@ -44,27 +43,5 @@ feature "Edit standing/waiting orders from customer page", %q{
     so.publication_id.should == p.id
     so.num_copies.should == 150
     so.comments.should == 'Some comment'
-  end
-
-  scenario "Convert a waiting order to a standing order using the form" do
-    c = Customer.make
-    p = Publication.make
-    c.waiting_orders.create!(:publication => p, :num_copies => 10, :request_date => Date.parse('2010-07-14'), :comments => 'blah')
-    visit(customers_index)
-
-    #find("#customer-#{c.id} .standing-orders div.frame>a:first").click # show the form
-
-    css = "#customer-#{c.id} input.convert"
-    page.should(have_css(css))
-    find(css).click
-
-    StandingOrder.count.should == 1
-    so = StandingOrder.first
-    so.customer_id.should == c.id
-    so.publication_id.should == p.id
-    so.num_copies.should == 10
-    so.comments.should == 'From Waiting Order July 14, 2010: blah'
-
-    WaitingOrder.active.count.should == 0
   end
 end

@@ -46,11 +46,8 @@ class PublicationsController < ApplicationController
     if publication.issues.length > 0
       flash[:notice] = 'Publication could not be deleted: delete each of its Issues first.'
     else
-      customer_ids1 = StandingOrder.customer_ids_with_publication_id(publication.id)
-      customer_ids2 = WaitingOrder.customer_ids_with_publication_id(publication.id)
-      customer_ids = (customer_ids1 + customer_ids2).uniq
+      customer_ids = StandingOrder.customer_ids_with_publication_id(publication.id)
       StandingOrder.where(publication_id: publication.id).delete_all
-      WaitingOrder.where(publication_id: publication.id).delete_all
       customers = Customer.where(id: customer_ids).includes(Customer.sunspot_options(:include))
       Sunspot.index(customers)
       destroy_with_audit(publication)

@@ -26,7 +26,6 @@ class CustomersController < ApplicationController
     require_role 'edit-customers'
     Order.where(customer_id: customer.id).update_all(customer_id: nil)
     StandingOrder.where(customer_id: customer.id).delete_all
-    WaitingOrder.where(customer_id: customer.id).delete_all
     CustomerNote.where(customer_id: customer.id).delete_all
     destroy_with_audit(customer)
     customer.solr_remove_from_index!
@@ -60,7 +59,6 @@ class CustomersController < ApplicationController
       .where(id: customer_ids)
       .includes(
         standing_orders: :publication,
-        waiting_orders: :publication,
         region: nil,
         delivery_method: nil,
         type: nil,
@@ -108,13 +106,13 @@ class CustomersController < ApplicationController
   end
 
   def index
-    @customers = search_for_customers(order: [:region, :council, :name], includes: [:region, :type ])
+    @customers = search_for_customers(order: [ :region, :council, :name ], includes: [ :region, :type ])
 
     @publications = Publication.tracking_standing_orders.order(:name).all
 
     respond_to do |type|
       type.html do
-        ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders, :waiting_orders ])
+        ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders ])
         # render index.haml
       end
       type.csv do
@@ -164,7 +162,6 @@ class CustomersController < ApplicationController
     @customer = customer
 
     ActiveRecord::Associations::Preloader.new.preload(@customer.standing_orders, :publication)
-    ActiveRecord::Associations::Preloader.new.preload(@customer.waiting_orders, :publication)
     ActiveRecord::Associations::Preloader.new.preload(@customer.orders, issue: :publication)
   end
 

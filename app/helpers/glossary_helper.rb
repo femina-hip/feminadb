@@ -23,8 +23,6 @@ module GlossaryHelper
     when 'Publication' then 'A magazine or type of product. For instance: Fema, Si Mchezo!, Pens, or Kangas.'
     when 'Standing Order' then 'The desire of a Customer to receive a certain number of Copies of each future Issue of a particular Publication. When a new Issue is released, a new Customer Order will be created for each Standing Order.'
     when 'Standing Orders' then 'The desires of Customers to receive Copies of each future Issue of particular Publications. When a new Issue is released, a new Customer Order will be created for each Standing Order.'
-    when 'Waiting Order' then 'The desire of a Customer to have a Standing Order, which we (Femina) have denied for the time being.'
-    when 'Waiting Orders' then 'The desires of Customers to have Standing Orders, which we (Femina) have denied for the time being.'
     else '(Sorry, there is no definition here)'
     end
   end

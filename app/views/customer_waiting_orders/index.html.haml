@@ -1,9 +1,0 @@
-%h1= glossary_term('Waiting Orders')
-%h2
-  Customer:
-  = link_to @customer.name, customer_path(@customer)
-
-= render :partial => 'waiting_orders', :locals => { :waiting_orders => @waiting_orders }
-
-%p.actions
-  = link_to 'Back to Customer', customer_path(@customer)

@@ -12,8 +12,6 @@
 
 = render(:partial => 'customer_standing_orders/standing_orders', :locals => { :standing_orders => @customer.standing_orders })
 
-= render(:partial => 'customer_waiting_orders/waiting_orders', :locals => { :waiting_orders => @customer.waiting_orders })
-
 = render(:partial => 'customer_orders/orders', :locals => { :orders => @customer.orders })
 
 = render(:partial => 'notes', :locals => { :customer => @customer })

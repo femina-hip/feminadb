@@ -39,15 +39,14 @@
                     %span.value= row.value.to_s
                     %span.count= number_with_delimiter(row.count)
       - publications = Customer.publications_tracking_standing_orders_for_indexing.collect{|p| [p.to_index_key.to_sym, p.name]}
-      - [[:standing, 'Standing'], [:waiting, 'Waiting']].each do |standing_or_waiting, standing_or_waiting_name|
-        - if publications.any?{ |sym, name| @search.facet(standing_or_waiting, sym).rows.length > 1 }
-          %li.facet
-            %h3= standing_or_waiting_name
-            %ul.rows
-              - publications.each do |sym, name|
-                - facet = @search.facet(standing_or_waiting, sym)
-                - facet.rows.each do |row|
-                  %li.row
-                    %a{:href => url_for(q: refine_q(params[:q], "#{standing_or_waiting}:#{sym}", row.value.to_s))}
-                      %span.value= "#{row.value ? 'Has' : 'Does not have'} #{standing_or_waiting_name} Orders for #{name}"
-                      %span.count= number_with_delimiter(row.count)
+      - if publications.any?{ |sym, name| @search.facet(:standing, sym).rows.length > 1 }
+        %li.facet
+          %h3 Standing
+          %ul.rows
+            - publications.each do |sym, name|
+              - facet = @search.facet(:standing, sym)
+              - facet.rows.each do |row|
+                %li.row
+                  %a{:href => url_for(q: refine_q(params[:q], "standing:#{sym}", row.value.to_s))}
+                    %span.value= "#{row.value ? 'Has' : 'Does not have'} Standing Orders for #{name}"
+                    %span.count= number_with_delimiter(row.count)

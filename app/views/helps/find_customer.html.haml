@@ -40,8 +40,8 @@
         %em This should be empty!
       %dt= search_link('standing_num_copies:fema>101')
       %dd All Customers with Standing Orders for Fema of over 100 Copies
-      %dt= search_link('type:ss standing:fema:false waiting:fema:false')
-      %dd All Secondary Schools with neither Standing or Waiting orders for Fema
+      %dt= search_link('type:ss standing:fema:false')
+      %dd All Secondary Schools with no Standing Orders for Fema
       %dt= search_link('created_at>2010-01-05')
       %dd All Customers created after 2010-01-05 (January 5th, 2010)
   = render_help_step 'Click the "Search" button' do
@@ -86,6 +86,6 @@
         "I don't like this guy"; anything!
   = render_help_step 'Customer Standing Orders' do
     %p
-      Standing or Waiting Orders can be edited straight from the Customers
+      Standing Orders can be edited straight from the Customers
       page. Just log in and click on the numbers you want to edit. Create new
-      Standing or Waiting Orders by clicking where you want them to be.
+      Standing Orders by clicking where you want them to be.

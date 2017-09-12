@@ -32,7 +32,7 @@ class StandingOrdersController < ApplicationController
 #
 #  def render_json_response
 #    render(:json => {
-#      'td_html' => render_to_string(:partial => 'customers/standing_or_waiting_order', :locals => {
+#      'td_html' => render_to_string(:partial => 'customers/standing_order', :locals => {
 #        :customer => @standing_order.customer,
 #        :publication => @standing_order.publication,
 #        :standing_order => @standing_order.deleted_at.nil? ? @standing_order : nil

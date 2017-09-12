@@ -14,11 +14,5 @@
           = link_to(s.num_copies, edit_customer_standing_order_path(customer, s), class: 'in-modal-dialog')
         - else
           = s.num_copies
-      - w = customer.waiting_order_for(publication)
-      - if w
-        - if current_user.has_role?('edit-orders')
-          = link_to("#{w.num_copies}W", edit_customer_waiting_order_path(customer, w), class: 'in-modal-dialog')
-        - else
-          = "#{w.num_copies}W"
-      - if s.blank? && w.blank? && current_user.has_role?('edit-orders')
+      - if s.blank? && current_user.has_role?('edit-orders')
         = link_to('…', new_customer_standing_order_path(customer), class: 'in-modal-dialog')

@@ -38,16 +38,9 @@ function fetch_elems($td) {
 
   ret.$standing_order_div = $td.find('div.standing-order-form');
   ret.$standing_order_h3 = ret.$standing_order_div.children('h3');
-  ret.$standing_order_form = ret.$standing_order_h3.siblings();
-
-  ret.$waiting_order_div = $td.find('div.waiting-order-form');
-  ret.$waiting_order_h3 = ret.$waiting_order_div.children('h3');
-  ret.$waiting_order_form = ret.$waiting_order_h3.siblings();
+  ret.$form = ret.$standing_order_h3.siblings();
 
   ret.$forms_div = $td.find('div.forms');
-  ret.$both_divs = ret.$standing_order_div.add(ret.$waiting_order_div);
-  ret.$both_h3s = ret.$standing_order_h3.add(ret.$waiting_order_h3);
-  ret.$both_forms = ret.$standing_order_form.add(ret.$waiting_order_form);
 
   return ret;
 }
@@ -63,11 +56,6 @@ function on_a_click(e) {
   $forms_div = elems.$forms_div;
 
   if (!$forms_div.is(':visible')) {
-    if (elems.$both_divs.length == 2) {
-      // Creating new ones: if they're both hidden, show just the h3's
-      elems.$both_forms.hide();
-    }
-
     $forms_div.show();
     show_pane();
   } else {
@@ -88,7 +76,7 @@ function on_h3_click(e) {
 
     var elems = fetch_elems($td);
 
-    elems.$both_forms.hide();
+    elems.$form.hide();
     $h3.siblings().show();
   }
 }
@@ -133,10 +121,6 @@ function on_form_submit(e) {
     var elems = fetch_elems($td);
 
     if (elems.$forms_div.find('div.errorExplanation').length > 0) {
-      if (elems.$both_divs.length == 2) {
-        elems.$both_forms.hide();
-        elems.$forms_div.find('div.errorExplanation').closest('form').show();
-      }
       $forms_div = elems.$forms_div;
       $forms_div.show();
     } else {

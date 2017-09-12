@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911030953) do
+ActiveRecord::Schema.define(version: 20170912055138) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
@@ -151,16 +151,6 @@ ActiveRecord::Schema.define(version: 20170911030953) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "roles"
-  end
-
-  create_table "waiting_orders", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "customer_id", null: false
-    t.integer "publication_id", null: false
-    t.integer "num_copies", null: false
-    t.string "comments", default: "", null: false
-    t.date "request_date", null: false
-    t.index ["customer_id"], name: "index_waiting_orders_on_customer_id"
-    t.index ["publication_id"], name: "index_waiting_orders_on_publication_id"
   end
 
 end
