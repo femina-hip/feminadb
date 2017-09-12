@@ -4,6 +4,6 @@ $.fn.debounce_button = function() {
     .prepend('<span class="debouncing"><i class="fa fa-spinner fa-spin"></i></span>')
 }
 
-$(document).on('submit', 'form', (ev) => {
+$(document).on('submit', 'form', function(ev) {
   $('button.debounced', ev.currentTarget).debounce_button()
 })

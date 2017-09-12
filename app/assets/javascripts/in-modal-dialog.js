@@ -25,9 +25,9 @@ $(document).on('click', 'a.in-modal-dialog', function(ev) {
     '</div>'
   ].join(''))
     .appendTo('body')
-    .on('click', '.modal', (ev) => ev.stopPropagation()) // do not remove the modal when clicking around
-    .on('click', 'a.modal-dismiss, .modal-outer', (ev) => { ev.preventDefault(); $modal.remove() })
-    .on('submit', 'form', (ev) => {
+    .on('click', '.modal', function(ev) { ev.stopPropagation() }) // do not remove the modal when clicking around
+    .on('click', 'a.modal-dismiss, .modal-outer', function(ev) { ev.preventDefault(); $modal.remove() })
+    .on('submit', 'form', function(ev) {
       ev.preventDefault()
       var $form = $(ev.currentTarget)
       var url = $form.attr('action')
@@ -39,15 +39,15 @@ $(document).on('click', 'a.in-modal-dialog', function(ev) {
         url: url,
         data: data,
         dataType: 'json',
-        success: (response) => {
+        success: function(response) {
           $a.text(response.text)
           if (response.url) $a.attr('href', response.url)
         },
-        error: (xhr, status, error) => {
+        error: function(xhr, status, error) {
           console.log("Error", status, error)
           alert("Error saving: ", error)
         },
-        complete: () => $modal.remove()
+        complete: function()  { $modal.remove() }
       })
     })
 
