@@ -1,3 +1,5 @@
+require_relative './customers_searcher'
+
 module CustomerFilterControllerMethods
   def self.included(base)
     base.before_action(:remember_q_and_page, only: :index)
