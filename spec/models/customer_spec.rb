@@ -8,9 +8,9 @@ describe(Customer) do
       DeliveryMethod.delete_all
       Customer.delete_all
       Customer.reindex
-      @region = Region.create!(:name => 'region')
-      @customer_type = CustomerType.create!(:name => 'type', :description => 'test type', :category => 'category')
       @delivery_method = DeliveryMethod.create!(:abbreviation => 'abbr', :name => 'name')
+      @region = Region.create!(:name => 'region', :delivery_method_id => @delivery_method.id)
+      @customer_type = CustomerType.create!(:name => 'type', :description => 'test type', :category => 'category')
     end
 
     private
@@ -108,7 +108,6 @@ describe(Customer) do
       Customer.new({
         :region_id => @region.id,
         :customer_type_id => @customer_type.id,
-        :delivery_method_id => @delivery_method.id,
         :district => district,
         :name => name
       }.merge(options))
@@ -118,7 +117,7 @@ describe(Customer) do
       customer = build_customer(district, name, options)
 
       customer.save!
-      Customer.reindex(:include => [ :region, :type, :delivery_method ])
+      Customer.reindex(:include => [ { :region => :delivery_method }, :type ])
 
       customer
     end

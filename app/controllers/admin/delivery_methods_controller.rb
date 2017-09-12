@@ -26,7 +26,7 @@ class Admin::DeliveryMethodsController < ApplicationController
   def update
     require_role 'admin'
     if update_with_audit(delivery_method, delivery_method_params)
-      customers = Customer.where(delivery_method_id: delivery_method.id).includes(Customer.sunspot_options[:include])
+      customers = Customer.all.includes(Customer.sunspot_options[:include])
       Sunspot.index(customers)
       redirect_to(admin_delivery_methods_url)
     else
@@ -37,8 +37,8 @@ class Admin::DeliveryMethodsController < ApplicationController
   def destroy
     require_role 'admin'
 
-    if delivery_method.customers.length > 0
-      flash[:notice] = 'DeliveryMethod cannot be deleted because it has Customers'
+    if delivery_method.regions.length > 0
+      flash[:notice] = 'DeliveryMethod cannot be deleted because it has Regions'
     else
       # No need to reindex any customers, since there aren't any
       destroy_with_audit(delivery_method)

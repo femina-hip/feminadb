@@ -35,8 +35,7 @@ class Customer < ActiveRecord::Base
       auto_remove: false, # controllers handle indexing
       include: [
         { standing_orders: :publication },
-        :region,
-        :delivery_method,
+        { region: :delivery_method },
         :type,
         :notes
       ]
@@ -83,7 +82,6 @@ class Customer < ActiveRecord::Base
   end
 
   belongs_to(:type, class_name: 'CustomerType', foreign_key: 'customer_type_id')
-  belongs_to(:delivery_method)
   belongs_to(:region)
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:standing_orders)
@@ -93,7 +91,6 @@ class Customer < ActiveRecord::Base
   validates_presence_of :customer_type_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [ :region_id, :council ], :case_sensitive => false
-  validates_presence_of :delivery_method_id
   validates_format_of *@@SMS_NUMBER_FIELDS.keys,
     with: /\A(\+\d+(,\s*\+\d+)*)?\z/,
     message: '%{value} must look like "+255123456789, +255234567890"'
@@ -105,6 +102,7 @@ class Customer < ActiveRecord::Base
   def title; name; end
   def has_club?; club_sms_numbers.present?; end
   def council_valid?; region.councils.include?(council); end
+  def delivery_method; region.delivery_method; end # better than has_one-through, because there's only one way to preload it
 
   # Adds an SMS number to the specified field, ensuring there is a link for the
   # SMS number in Telerivet.

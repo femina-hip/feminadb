@@ -1,6 +1,6 @@
 class DeliveryMethod < ActiveRecord::Base
   has_many(:orders)
-  has_many(:customers)
+  has_many(:regions)
 
   #has_many :orders,
   #         :include => { :issue => :publication },

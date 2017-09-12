@@ -1,6 +1,7 @@
 class Region < ActiveRecord::Base
   has_many(:customers)
   has_many(:orders)
+  belongs_to(:delivery_method)
 
   #has_many :customers,
   #         :dependent => :restrict,

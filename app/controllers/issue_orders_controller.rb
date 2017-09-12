@@ -8,8 +8,8 @@ class IssueOrdersController < ApplicationController
 
     if params[:all]
       customers = search_for_customers(
-        :order => [:delivery_method, :region, :council, :name],
-        :includes => [:region, :type, :delivery_method]
+        :order => [ :region, :council, :name ],
+        :includes => [ { region: :delivery_method }, :type ]
       )
 
       orders_by_customer_id = {}

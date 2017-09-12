@@ -24,9 +24,6 @@
       %th{colspan: 2} Delivery Details
   %tbody
     %tr.first
-      %th Delivery Method
-      %td= f.delivery_method_field(:delivery_method_id)
-    %tr
       %th= glossary_term('Delivery address')
       %td= f.text_field :delivery_address
     %tr.last

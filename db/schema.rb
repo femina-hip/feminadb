@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912055138) do
+ActiveRecord::Schema.define(version: 20170912084713) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 20170912055138) do
     t.integer "region_id"
     t.string "council"
     t.string "contact_name"
-    t.integer "delivery_method_id"
     t.datetime "created_at"
     t.string "delivery_address", null: false
     t.string "primary_contact_sms_numbers", default: "", null: false
@@ -128,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170912055138) do
     t.string "name"
     t.integer "population"
     t.text "councils_separated_by_newline"
+    t.integer "delivery_method_id", null: false
   end
 
   create_table "standing_orders", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

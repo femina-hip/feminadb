@@ -30,12 +30,6 @@
       %th{:colspan => 2} Delivery Details
   %tbody.delivery-details
     %tr.first
-      %th Delivery Method
-      %td
-        = customer.delivery_method.abbreviation
-        = '-'
-        = customer.delivery_method.name
-    %tr
       %th= glossary_term('Delivery address')
       %td= customer.delivery_address
     %tr.last

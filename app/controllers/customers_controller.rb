@@ -59,8 +59,7 @@ class CustomersController < ApplicationController
       .where(id: customer_ids)
       .includes(
         standing_orders: :publication,
-        region: nil,
-        delivery_method: nil,
+        region: :delivery_method,
         type: nil,
         notes: nil
       )
@@ -116,7 +115,6 @@ class CustomersController < ApplicationController
         # render index.haml
       end
       type.csv do
-        ActiveRecord::Associations::Preloader.new.preload(@customers, [ :delivery_method ])
         render(:csv => @customers)
       end
     end
