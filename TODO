@@ -3,7 +3,6 @@ Add region.femina_manager? (right now, manager appears in parentheses)
 Make "council" a drop-down, once and for all :)
 Add <-- / --> links on Customer pages to flip through search results
 Add tagging system (tags maintained by admin)
-Move delivery method from Customer to Region
 Use db-supplied number of boxes/envelopes instead of just 50 on distribution order page
 Filter distribution-list Excel downloads by delivery method (instead of always showing all orders)
 Make standing-order editing UI faster to use
