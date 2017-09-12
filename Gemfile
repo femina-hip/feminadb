@@ -27,6 +27,7 @@ gem 'uglifier'
 group :development do
   gem 'web-console'
   gem 'capistrano'
+  gem 'capistrano-rbenv'
   gem 'capistrano-rails'
 end
 
