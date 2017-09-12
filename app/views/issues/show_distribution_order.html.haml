@@ -11,7 +11,7 @@
   %table.distribution-quote-request
     %thead.title
       %tr
-        %th{colspan: 4}
+        %th{colspan: 3 + @issue.box_sizes_i.length}
           Distribution Order for
           = delivery_method_table[:delivery_method]
     %thead
@@ -19,16 +19,19 @@
         %th Region
         %th # Recipients
         %th # Copies
-        %th # Units of 50
+        - @issue.used_box_sizes_i.each do |size|
+          %th # Units of #{size}
     %tbody
       - delivery_method_table[:rows].each do |row|
         %tr{:class => cycle('odd', 'even')}
           %td=h row[:region]
           %td= number_with_delimiter(row[:num_recipients])
           %td= number_with_delimiter(row[:num_copies])
-          %td= number_with_delimiter(row[:num_copies] / 50)
+          - @issue.used_box_sizes_i.each do |size|
+            %td= number_with_delimiter(row[:num_boxes][size])
       %tr.total
         %th Total
+        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_recipients] })
         %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] })
-        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] })
-        %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_copies] / 50 })
+        - @issue.used_box_sizes_i.each do |size|
+          %td= number_with_delimiter(delivery_method_table[:rows].sum { |row| row[:num_boxes][size] || 0 })

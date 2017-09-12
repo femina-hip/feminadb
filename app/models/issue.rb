@@ -101,7 +101,7 @@ class Issue < ActiveRecord::Base
         delivery_method,
         region,
         COUNT(*) AS num_recipients,
-        SUM(orders.num_copies) AS num_copies
+        GROUP_CONCAT(orders.num_copies) AS list_of_num_copies
       FROM orders
       WHERE orders.issue_id = #{id}
       GROUP BY delivery_method, region
@@ -122,7 +122,8 @@ class Issue < ActiveRecord::Base
       ret.last[:rows] <<= {
         region: row[1],
         num_recipients: row[2],
-        num_copies: row[3]
+        num_copies: row[3].split(',').map(&:to_i).sum,
+        num_boxes: num_copies_box_sizes(row[3].split(',').map(&:to_i))
       }
     end
     ret
@@ -279,6 +280,17 @@ class Issue < ActiveRecord::Base
   end
 
   private
+
+  def num_copies_box_sizes(num_copies_array)
+    ret = {}
+    for num_copies in num_copies_array
+      find_box_sizes(num_copies).each do |size, n|
+        ret[size] ||= 0
+        ret[size] += n
+      end
+    end
+    ret
+  end
 
   def order_box_sizes(some_orders)
     distinct_num_copies = some_orders.select(:num_copies).distinct.map(&:num_copies)
