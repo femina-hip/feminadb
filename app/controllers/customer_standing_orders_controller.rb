@@ -56,6 +56,13 @@ class CustomerStandingOrdersController < ApplicationController
     end
   end
 
+  def destroy
+    require_role 'edit-orders'
+    destroy_with_audit(standing_order)
+    customer.solr_index!
+    redirect_to(customer)
+  end
+
   protected
 
   def customer
