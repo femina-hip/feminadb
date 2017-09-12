@@ -10,9 +10,9 @@ $(function() {
     $container.empty().append('<div class="loading"><i class="fa fa-spinner fa-spin"></i> Loading SMS messages…</div>')
     $container.load(href, (_, status, xhr) => {
       if (status === 'error') {
-        console.warn(`Error loading ${href}`, xhr)
+        console.warn('Error loading ' + href, xhr)
         $container.empty()
-          .append(`<div class='error'>There was an error loading SMS messages: ${xhr.status} ${xhr.statusText}.</div>`)
+          .append("<div class='error'>There was an error loading SMS messages: " + xhr.status + ' ' + xhr.statusText + '.</div>')
           .append($a)
       } else {
         var $hideA = $('<a href="#" class="hide-sms-history">Hide SMS history</a>')

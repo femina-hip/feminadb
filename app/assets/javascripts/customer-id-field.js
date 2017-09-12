@@ -20,7 +20,7 @@ $.fn.customer_id_field = function() {
         if (!query.length) return callback()
 
         $.ajax({
-          url: `/customers/autocomplete?q=${encodeURIComponent(query)}`,
+          url: '/customers/autocomplete?q=' + encodeURIComponent(query),
           error: function(xhr) {
             console.warn("Query error", xhr)
             callback()

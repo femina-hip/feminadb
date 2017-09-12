@@ -18,7 +18,7 @@ $(function() {
     function maybe_delete_old_sms_number(sms_number) {
       var added_attribute = $form.closest('ul.sms-numbers').attr('data-attribute')
       if (added_attribute !== 'old_sms_numbers') {
-        $(`ul.sms-numbers[data-attribute=old_sms_numbers] li[data-sms-number='${sms_number}']`).remove()
+        $("ul.sms-numbers[data-attribute=old_sms_numbers] li[data-sms-number='" + sms_number + "']").remove()
       }
     }
 
@@ -38,7 +38,7 @@ $(function() {
       },
       error: function(xhr) {
         console.warn(xhr)
-        alert(`FeminaDB failed to communicate with Telerivet. Error: ${xhr.responseText}`)
+        alert('FeminaDB failed to communicate with Telerivet. Error: ' + xhr.responseText)
         unset_loading()
       }
     })
