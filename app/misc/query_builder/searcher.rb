@@ -92,7 +92,7 @@ module QueryBuilder
       else
         ret = begin
           @search_setup.text_fields(field).first
-        rescue UnrecognizedFieldError
+        rescue Sunspot::UnrecognizedFieldError
           nil
         end
         ret ||= @search_setup.field(field)
