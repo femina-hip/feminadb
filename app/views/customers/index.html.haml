@@ -17,10 +17,10 @@
       %th Council
       %th Type
       %th Club
-      %th Customer
       - @publications.each do |publication|
         %th
           %abbr{:title => "Standing Orders for #{publication.name}"}= publication.name
+      %th Customer
   %tbody
     - @customers.each do |customer|
       = render('tr', :customer => customer, :publications => @publications)
