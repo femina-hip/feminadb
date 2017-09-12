@@ -1,5 +1,3 @@
-require_relative './customers_searcher'
-
 module CustomerFilterControllerMethods
   def self.included(base)
     base.before_action(:remember_q_and_page, only: :index)
@@ -20,7 +18,7 @@ module CustomerFilterControllerMethods
         instance_eval(&block)
       end
 
-      CustomersSearcher.apply_query_string_to_search(self, q)
+      ::CustomersSearcher.apply_query_string_to_search(self, q)
       (options[:order] || []).each do |field|
         order_by(field)
       end

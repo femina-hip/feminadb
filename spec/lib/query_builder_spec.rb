@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe(Sunspot::QueryBuilder) do
+describe(::QueryBuilder) do
   def self.t(description, query, normalized)
     it(description) { normalize(query).should == normalized }
   end
@@ -17,8 +17,8 @@ describe(Sunspot::QueryBuilder) do
   private
 
   def normalize(query)
-    parser = Sunspot::QueryBuilder::SyntaxParser.new
+    parser = ::QueryBuilder::SyntaxParser.new
     tree = parser.parse(query)
-    Sunspot::QueryBuilder::Printer.generate_normalized_string(tree)
+    ::QueryBuilder::Printer.generate_normalized_string(tree)
   end
 end

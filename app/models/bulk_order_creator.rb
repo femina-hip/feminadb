@@ -70,7 +70,7 @@ class BulkOrderCreator
 
     ret = Customer.search_ids do
       if query
-        Sunspot::QueryBuilder::apply_string_to_search(query, self.instance_variable_get(:@search))
+        ::QueryBuilder::apply_string_to_search(query, self.instance_variable_get(:@search))
       end
       paginate(page: 1, per_page: lots)
     end
