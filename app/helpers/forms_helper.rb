@@ -1,4 +1,4 @@
-module Forms::ApplicationHelper
+module FormsHelper
   def region_field(object_name, method, options = {})
     collection_select(object_name, method, Region.order(:name), :id, :name, {:prompt => true}.merge(options))
   end

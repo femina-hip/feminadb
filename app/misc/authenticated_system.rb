@@ -1,5 +1,3 @@
-require_relative './oauth_strategy'
-
 module AuthenticatedSystem
   protected
 
@@ -20,7 +18,7 @@ module AuthenticatedSystem
   #
   def ensure_logged_in
     # may redirect, which ends all filters
-    t = OauthStrategy.authenticate(request)
+    t = ::OauthStrategy.authenticate(request)
     code = t[0]
     arg = t[1]
     case code

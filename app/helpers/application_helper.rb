@@ -1,7 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include GlossaryHelper
-  include Forms::ApplicationHelper
 
   def render_loading
     update_page do |page|
