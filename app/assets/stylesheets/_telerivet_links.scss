@@ -1,3 +1,10 @@
 form.new_telerivet_link {
   @include bootstrapy-form();
 }
+
+body.telerivet_links-new {
+  .customer-id-option {
+    .type { margin-left: 1rem; }
+    .address { margin-left: 1rem; }
+  }
+}

@@ -34,7 +34,7 @@ module FormsHelper
       method,
       [[ 'Search for a customer', '' ]],
       {},
-      forms_application_helper_add_class_to_options(options, 'customer-id-field')
+      forms_application_helper_add_class_to_options(options.except(:object), 'customer-id-field')
     )
   end
 
