@@ -39,7 +39,10 @@ $(document).on('click', 'a.in-modal-dialog', function(ev) {
         url: url,
         data: data,
         dataType: 'json',
-        success: (response) => $a.text(response.text),
+        success: (response) => {
+          $a.text(response.text)
+          if (response.url) $a.attr('href', response.url)
+        },
         error: (xhr, status, error) => {
           console.log("Error", status, error)
           alert("Error saving: ", error)
@@ -48,5 +51,7 @@ $(document).on('click', 'a.in-modal-dialog', function(ev) {
       })
     })
 
-  $modal.find('.modal-body').load(href + ' div.main form')
+  $modal.find('.modal-body').load(href + ' div.main form', null, function() {
+    $modal.find('input[type=number]:eq(0)').select().focus()
+  })
 })

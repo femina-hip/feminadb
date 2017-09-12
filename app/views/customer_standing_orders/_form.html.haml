@@ -7,10 +7,19 @@
   %tbody
     %tr
       %th Publication
-      %td= f.select(:publication_id, Publication.tracking_standing_orders.order(:name).collect{|p| [ p.name, p.id ]})
-    %tr
+      %td
+        - if @standing_order.persisted?
+          = @standing_order.publication.name
+        - else
+          = f.select(:publication_id, Publication.tracking_standing_orders.order(:name).collect{|p| [ p.name, p.id ]})
+    %tr.num-copies
       %th # Copies
-      %td= f.number_field(:num_copies, required: true, min: 1, step: 1)
+      %td
+        - if @standing_order.persisted?
+          = f.number_field(:num_copies, required: true, min: 0, step: 1)
+          %small <tt>0</tt> means <q>delete</q>
+        - else
+          = f.number_field(:num_copies, required: true, min: 1, step: 1)
     %tr
       %th Comments
       %td= f.text_field(:comments)

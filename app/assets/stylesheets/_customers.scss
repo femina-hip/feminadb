@@ -55,3 +55,10 @@ section.sms-messages {
     padding: .5rem;
   }
 }
+
+body.customers-index {
+  tr.num-copies {
+    input { width: 4rem; }
+    small { color: $faded_color; }
+  }
+}

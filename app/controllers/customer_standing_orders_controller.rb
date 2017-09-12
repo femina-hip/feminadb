@@ -11,7 +11,10 @@ class CustomerStandingOrdersController < ApplicationController
       customer.solr_index!
       respond_to do |format|
         format.html { redirect_to(customer) }
-        format.json { render(json: { text: @standing_order.num_copies.to_s }) }
+        format.json { render(json: {
+          text: @standing_order.num_copies.to_s,
+          url: edit_customer_standing_order_path(customer, @standing_order)
+        }) }
       end
     else
       @customer = customer
@@ -27,23 +30,30 @@ class CustomerStandingOrdersController < ApplicationController
 
   def update
     require_role 'edit-orders'
-    if update_with_audit(standing_order, standing_order_update_params)
+    success, text, next_edit_url = if standing_order_update_params[:num_copies].to_i > 0
+      [
+        update_with_audit(standing_order, standing_order_update_params),
+        standing_order_update_params[:num_copies],
+        edit_customer_standing_order_path(customer, standing_order)
+      ]
+    else
+      [
+        destroy_with_audit(standing_order),
+        '…',
+        new_customer_standing_order_path(customer)
+      ]
+    end
+
+    if success
       customer.solr_index!
       respond_to do |format|
         format.html { redirect_to(customer) }
-        format.json { render(json: { text: @standing_order.num_copies.to_s }) }
+        format.json { render(json: { text: text, url: next_edit_url }) }
       end
     else
       @customer = customer
       render(action: 'edit')
     end
-  end
-
-  def destroy
-    require_role 'edit-orders'
-    destroy_with_audit(standing_order)
-    customer.solr_index!
-    redirect_to(customer)
   end
 
   protected
