@@ -1,3 +1,5 @@
+require_relative './oauth_strategy'
+
 module AuthenticatedSystem
   protected
 
