@@ -1,5 +1,5 @@
 //= require underscore
-//= require jquery
+//= require jquery3
 //= require jquery_ujs
 //= require selectize
 //= require add-sms-numbers
@@ -11,3 +11,4 @@
 //= require load-sms-history
 //= require selectize
 //= require initializers/issue_fields
+//= require customer-new

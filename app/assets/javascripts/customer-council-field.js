@@ -19,7 +19,7 @@ $('form table.customer #customer_council').each(function() {
     $select.on('change', function(ev) {
       var council = $(ev.target).find('option:selected:not(.prompt)').text();
       if (council) {
-        $council.val(council);
+        $council.val(council).change();
         render();
       }
     });

@@ -44,16 +44,13 @@ class Customer < ActiveRecord::Base
     integer(:region_id)
     date(:created_at)
     string(:region) { region.name }
-    string(:council)
+    string(:council, stored: true)
     boolean(:council_valid) { council_valid? }
-    string(:name)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
     string(:category) { type.category }
-    text(:region) { region.name }
     text(:region_manager) { region.manager }
-    text(:council)
-    text(:name)
+    text(:name, stored: true)
     string(:sort_column) { [ region.name, council, name ].join("\0") }
     text(:delivery_address)
     text(:delivery_contact)
@@ -152,20 +149,15 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def self.fuzzy_find(region_id, council, name)
-    fuzz = "~0.5"
+  def self.fuzzy_find(region_id, name)
     search = Customer.search do
       with(:region_id, region_id)
-
-      adjust_solr_params do |params|
-        params[:fq] ||= []
-        council.split.each do |word|
-          params[:fq] << "council_text:#{RSolr.escape(word.downcase)}#{fuzz}"
-        end
-        name.split.each do |word|
-          params[:fq] << "name_text:#{RSolr.escape(word.downcase)}#{fuzz}"
+      any do
+        name.split.each do |name|
+          fulltext("#{name}~", fields: [ :name ])
         end
       end
+      paginate(per_page: 10)
     end
     search.raw_results
   end

@@ -1,6 +1,6 @@
 @import 'vars';
 
-table.customer, table.special-order, table.issue, table.club {
+table.customer, table.issue {
   width: 100%;
   margin: 1em auto;
   border: 1px solid $border_color;
@@ -94,20 +94,24 @@ table.customer {
   }
 
   div.similar {
-    border: 1px solid $border_color;
-    padding: 0 1em;
-    font-size: 0.75em;
+    font-size: 0.8em;
+
+    .customer-council {
+      &::before { content: ' (' }
+      &::after { content: ')' }
+    }
+
+    p {
+      margin-bottom: .5rem;
+    }
+
+    ul {
+      margin-top: .5rem;
+      padding-left: 1em;
+    }
 
     &.empty {
       display: none;
-    }
-
-    &.querying {
-      background-color: #f8e473;
-    }
-
-    &.match {
-      background-color: #f8c693;
     }
   }
 }

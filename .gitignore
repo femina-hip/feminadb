@@ -1,9 +1,6 @@
 .bundle
-db/*.sqlite3
 log/*
 tmp/**/*
 solr/
-public/javascripts/all.js
-public/stylesheets/all.css
 .sass-cache/
 .*.swp

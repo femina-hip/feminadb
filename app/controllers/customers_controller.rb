@@ -105,13 +105,21 @@ class CustomersController < ApplicationController
   end
 
   def index
-    @customers = search_for_customers(order: [ :sort_column ], includes: [ :region, :type ])
-
-    @publications = Publication.tracking_standing_orders.order(:name).all
+    @customer_ids = search_result_customer_ids
+    @customers = WillPaginate::Collection.create(requested_page, requested_per_page, @customer_ids.length) do |pager|
+      shown_ids = @customer_ids[pager.offset, pager.per_page].to_a
+      # We'll find by these IDs, but they won't be in order -- we need to order
+      # them ourselves.
+      by_id = Customer.find(shown_ids).index_by(&:id)
+      sorted_customers = shown_ids.collect { |id| by_id[id] }
+      pager.replace(sorted_customers)
+    end
 
     respond_to do |type|
       type.html do
-        @customer_ids = search_result_customer_ids
+        @search = search_result_facets
+        @publications = Publication.tracking_standing_orders.order(:name).all
+
         ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders ])
         # render index.haml
       end
@@ -123,7 +131,7 @@ class CustomersController < ApplicationController
 
   def similar
     customer = params[:customer]
-    @raw_results = Customer.fuzzy_find(customer[:region_id].to_i, customer[:council], customer[:name])
+    @raw_results = Customer.fuzzy_find(customer[:region_id].to_i, customer[:name])
 
     render(:json => @raw_results.collect { |r|
       {

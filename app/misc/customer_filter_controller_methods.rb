@@ -43,7 +43,30 @@ module CustomerFilterControllerMethods
         paginate(page: 1, per_page: lots)
       end
       ::QueryBuilder::apply_string_to_search(requested_q, search)
-      search.hits.collect(&:primary_key)
+      search.hits.collect { |h| h.primary_key.to_i }
+    end
+  end
+
+  def search_result_facets
+    @search_result_facets ||= begin
+      search = Customer.search do
+        paginate(page: 1, per_page: 1)
+
+        facet(:category, :sort => :index)
+        facet(:region, :sort => :index)
+        facet(:council, :sort => :index)
+        facet(:type, :sort => :index)
+        facet(:delivery_method, :sort => :index)
+        facet(:club, :sort => :index)
+
+        Customer.publications_tracking_standing_orders_for_indexing.each do |p|
+          sym = p.to_index_key.to_sym
+
+          dynamic(:standing) { facet(sym, :sort => :index) }
+        end
+      end
+      ::QueryBuilder::apply_string_to_search(requested_q, search)
+      search
     end
   end
 
