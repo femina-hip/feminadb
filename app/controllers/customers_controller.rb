@@ -105,7 +105,7 @@ class CustomersController < ApplicationController
   end
 
   def index
-    @customers = search_for_customers(order: [ :region, :council, :name ], includes: [ :region, :type ])
+    @customers = search_for_customers(order: [ :sort_column ], includes: [ :region, :type ])
 
     @publications = Publication.tracking_standing_orders.order(:name).all
 

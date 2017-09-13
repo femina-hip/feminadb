@@ -37,14 +37,13 @@ module CustomerFilterControllerMethods
 
   def search_result_customer_ids
     @search_result_customer_ids ||= begin
-      lots = 999999
-      @search = customer_search(
-        q: requested_q,
-        page: 1,
-        per_page: lots,
-        order: [ :region, :council, :name ]
-      )
-      @search.raw_results.collect{|r| r.primary_key.to_i}
+      search = Customer.search do
+        order_by(:sort_column)
+        lots = 999999
+        paginate(page: 1, per_page: lots)
+      end
+      ::QueryBuilder::apply_string_to_search(requested_q, search)
+      search.hits.collect(&:primary_key)
     end
   end
 

@@ -43,10 +43,10 @@ class Customer < ActiveRecord::Base
     integer(:id)
     integer(:region_id)
     date(:created_at)
-    string(:region, stored: true) { region.name }
-    string(:council, stored: true)
-    boolean(:council_valid, stored: true) { council_valid? }
-    string(:name, stored: true)
+    string(:region) { region.name }
+    string(:council)
+    boolean(:council_valid) { council_valid? }
+    string(:name)
     string(:delivery_method) { delivery_method.abbreviation }
     string(:type) { type.name }
     string(:category) { type.category }
@@ -54,6 +54,7 @@ class Customer < ActiveRecord::Base
     text(:region_manager) { region.manager }
     text(:council)
     text(:name)
+    string(:sort_column) { [ region.name, council, name ].join("\0") }
     text(:delivery_address)
     text(:delivery_contact)
     text(:primary_contact_sms_numbers)
