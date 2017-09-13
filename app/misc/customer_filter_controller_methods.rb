@@ -38,11 +38,11 @@ module CustomerFilterControllerMethods
   def search_result_customer_ids
     @search_result_customer_ids ||= begin
       search = Customer.search do
+        ::QueryBuilder::apply_string_to_search(requested_q, self.instance_variable_get('@search'))
         order_by(:sort_column)
         lots = 999999
         paginate(page: 1, per_page: lots)
       end
-      ::QueryBuilder::apply_string_to_search(requested_q, search)
       search.hits.collect { |h| h.primary_key.to_i }
     end
   end
@@ -50,6 +50,8 @@ module CustomerFilterControllerMethods
   def search_result_facets
     @search_result_facets ||= begin
       search = Customer.search do
+        ::QueryBuilder::apply_string_to_search(requested_q, self.instance_variable_get('@search'))
+
         paginate(page: 1, per_page: 1)
 
         facet(:category, :sort => :index)
@@ -65,7 +67,6 @@ module CustomerFilterControllerMethods
           dynamic(:standing) { facet(sym, :sort => :index) }
         end
       end
-      ::QueryBuilder::apply_string_to_search(requested_q, search)
       search
     end
   end
