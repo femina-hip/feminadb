@@ -3,5 +3,4 @@ Add region.femina_manager? (right now, manager appears in parentheses)
 Make "council" a drop-down, once and for all :)
 Add <-- / --> links on Customer pages to flip through search results
 Add tagging system (tags maintained by admin)
-Filter distribution-list Excel downloads by delivery method (instead of always showing all orders)
 Create a statistics dashboard

@@ -214,7 +214,7 @@ class Issue < ActiveRecord::Base
     CSV.generate do |csv|
       csv << headings
 
-      distribution_list_data.each do |order|
+      distribution_list_data(delivery_method).each do |order|
         sizes = find_box_sizes(order.num_copies)
 
         row = [
