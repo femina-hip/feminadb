@@ -1,8 +1,4 @@
 module CustomerFilterControllerMethods
-  def self.included(base)
-    base.before_action(:remember_q_and_page, only: :index)
-  end
-
   private
 
   AllInOnePage = 1 << 29 # some large number
@@ -39,27 +35,29 @@ module CustomerFilterControllerMethods
     customers
   end
 
-  def conditions
-    @conditions ||= begin
+  def search_result_customer_ids
+    @search_result_customer_ids ||= begin
       lots = 999999
-      @search = customer_search(:q => requested_q, :page => 1, :per_page => lots)
-      all_ids = @search.raw_results.collect{|r| r.primary_key.to_i}
-      {:customer_id => all_ids}
+      @search = customer_search(
+        q: requested_q,
+        page: 1,
+        per_page: lots,
+        order: [ :region, :council, :name ]
+      )
+      @search.raw_results.collect{|r| r.primary_key.to_i}
     end
   end
 
-  def requested_q
-    params[:q] ||= session[:customers_q] || ''
+  def conditions
+    @conditions ||= { customer_id: search_result_customer_ids }
   end
 
-  def remember_q_and_page
-    session[:customers_q] = params[:q] if params[:q]
-    session[:customers_page] = requested_page
+  def requested_q
+    params[:q] || ''
   end
 
   def requested_page
     return params[:page].to_i if params[:page].to_i > 0
-    return session[:customers_page] if not params[:q]
     1
   end
 

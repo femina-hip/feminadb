@@ -5,7 +5,6 @@
     %title FeminaDB
     %meta{'http-equiv' => 'content-type', :content => 'application/xhtml+xml;charset=UTF-8'}
     = csrf_meta_tag
-    = javascript_include_tag('application')
     = stylesheet_link_tag('application')
   %body{:class => "#{controller.controller_name}-#{controller.action_name}"}
     = render('application/nav', :is_admin => current_user.has_role?('admin'))
@@ -20,12 +19,4 @@
       %ul
         %li= link_to('Recent Data Changes', modifications_path)
 
-    #loading{:style => "display: none; background: url(#{image_path('fade.png')}) repeat;"}
-      .frame
-        .outer
-          .inner1
-            = image_tag 'loading.gif', :alt => '...'
-          .inner2
-            Loading...
-            %br
-            %span.fine-print In case of error, Refresh this page
+    = javascript_include_tag('application')

@@ -31,6 +31,8 @@
 
 = will_paginate(@customers)
 
+.customer-search-result{'data-q' => params[:q], 'data-page' => (params[:page] || '1'), 'data-customer-ids' => @customer_ids.join(' ')}
+
 %p.actions
   = link_to 'Export Data to Excel', customers_path(q: params[:q], format: :csv)
   - if current_user.has_role?('edit-orders')

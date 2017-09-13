@@ -36,6 +36,4 @@ $.fn.customer_id_field = function() {
   $(this).each(one_customer_id_field)
 }
 
-$(function() {
-  $('.customer-id-field').customer_id_field()
-})
+$('.customer-id-field').customer_id_field()

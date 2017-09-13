@@ -62,3 +62,42 @@ body.customers-index {
     small { color: $faded_color; }
   }
 }
+
+body.customers-show {
+  // JS will add ".customer-ids-nav"; we don't want the table to jump down
+  // after the JS adds it, so we'll make it position:absolute and set a margin
+  // above the table where it will fit in.
+  table.customer {
+    margin-top: 2rem;
+  }
+
+  .customer-ids-nav {
+    height: 0;
+    position: relative;
+
+    a {
+      display: block;
+      position: absolute;
+      top: 0;
+
+      &:not([href]) {
+        color: $faded_color;
+        cursor: pointer;
+      }
+
+      &.previous {
+        &::before {
+          content: '« ';
+        }
+
+        left: 0;
+      }
+      &.next {
+        &::after {
+          content: ' »';
+        }
+        right: 0;
+      }
+    }
+  }
+}

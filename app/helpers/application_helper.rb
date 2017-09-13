@@ -2,12 +2,6 @@
 module ApplicationHelper
   include GlossaryHelper
 
-  def render_loading
-    update_page do |page|
-      page.show :loading
-    end
-  end
-
   def render_pretty_header(title, &block)
     description = capture(&block)
 

@@ -111,6 +111,7 @@ class CustomersController < ApplicationController
 
     respond_to do |type|
       type.html do
+        @customer_ids = search_result_customer_ids
         ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders ])
         # render index.haml
       end
