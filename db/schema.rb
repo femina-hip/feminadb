@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912084713) do
+ActiveRecord::Schema.define(version: 20170913080720) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20170912084713) do
     t.integer "population"
     t.text "councils_separated_by_newline"
     t.integer "delivery_method_id", null: false
+    t.string "manager", default: "", null: false
   end
 
   create_table "standing_orders", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

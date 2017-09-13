@@ -51,6 +51,7 @@ class Customer < ActiveRecord::Base
     string(:type) { type.name }
     string(:category) { type.category }
     text(:region) { region.name }
+    text(:region_manager) { region.manager }
     text(:council)
     text(:name)
     text(:delivery_address)

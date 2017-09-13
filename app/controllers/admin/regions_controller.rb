@@ -51,6 +51,6 @@ class Admin::RegionsController < ApplicationController
   end
 
   def region_params
-    params.require(:region).permit(:name, :population, :delivery_method_id, :councils_separated_by_newline)
+    params.require(:region).permit(:name, :manager, :population, :delivery_method_id, :councils_separated_by_newline)
   end
 end

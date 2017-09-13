@@ -17,6 +17,16 @@ class Region < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  def name_and_manager
+    manager_part = if manager.blank?
+      ''
+    else
+      " (#{manager})"
+    end
+
+    name + manager_part
+  end
+
   def councils
     @councils ||= (councils_separated_by_newline || '')
       .split(/\r?\n/)

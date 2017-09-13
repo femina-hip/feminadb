@@ -4,6 +4,12 @@
   = f.text_field(:name)
 
 %p
+  %b Manager
+  %br
+  = f.text_field(:manager)
+  %span.instructions (Name of Femina employee who manages outreach in the region)
+
+%p
   %b Delivery Method
   %br
   = f.delivery_method_field(:delivery_method_id)

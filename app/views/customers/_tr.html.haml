@@ -1,5 +1,5 @@
 %tr{:class => cycle('odd', 'even'), :id => "customer-#{customer.id}"}
-  %td.region= customer.region.name
+  %td.region= customer.region.name_and_manager
   %td.council= customer.council
   %td.type
     %abbr{:title => customer.type.description}= customer.type.name
