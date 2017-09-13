@@ -8,45 +8,44 @@
 - num_results ||= nil
 
 .customer-search
-  %form.search{:method => :get, action: path}
+  %form.search{:method => :get, action: path}<
     - if params[:all]
       = hidden_field_tag(:all, params[:all])
-    %label{:for => 'q'} Search:
-    %input{:name => 'q', :value => params[:q]}
-    %input{:type => 'submit', :value => 'Search'}
-    %input{:type => 'reset', :value => 'Clear Search'}
+    %label{:for => 'q'}<> Search:
+    %input{:name => 'q', :value => params[:q]}<>
+    %input{:type => 'submit', :value => 'Search'}<>
+    %input{:type => 'reset', :value => 'Clear Search'}<>
+
   .help= link_to('Search tips and instructions', help_path(:find_customer))
 
-  .count
+  .count<
     - if num_results
-      %strong= num_results
-      Orders, out of
-    %strong= search.total
-    Customers
-
+      <strong>#{num_results}</strong> Orders, out of <strong>#{search.total} Customers
+    - else
+      <strong>#{search.total}</strong> Customers
   .facets
     %span.title Filter:
     %ul.facets
       - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:council, 'Council'], [:delivery_method, 'Delivery Method'], [:club, 'Has club?']].each do |facet_sym, title|
         - facet = @search.facet(facet_sym)
         - if facet.rows.length > 1
-          %li.facet
-            %h3= title
-            %ul.rows
+          %li.facet<
+            %h3<>= title
+            %ul.rows<>
               - facet.rows.each do |row|
-                %li.row
-                  %a{:href => url_for(q: refine_q(params[:q], facet_sym.to_s, row.value.to_s))}
-                    %span.value= row.value.to_s
-                    %span.count= number_with_delimiter(row.count)
+                %li.row<>
+                  %a{:href => url_for(q: refine_q(params[:q], facet_sym.to_s, row.value.to_s))}<>
+                    %span.value<>= row.value.to_s
+                    %span.count<>= number_with_delimiter(row.count)
       - publications = Customer.publications_tracking_standing_orders_for_indexing.collect{|p| [p.to_index_key.to_sym, p.name]}
       - if publications.any?{ |sym, name| @search.facet(:standing, sym).rows.length > 1 }
-        %li.facet
-          %h3 Standing
-          %ul.rows
+        %li.facet<
+          %h3<> Standing
+          %ul.rows<>
             - publications.each do |sym, name|
               - facet = @search.facet(:standing, sym)
               - facet.rows.each do |row|
-                %li.row
-                  %a{:href => url_for(q: refine_q(params[:q], "standing:#{sym}", row.value.to_s))}
-                    %span.value= "#{row.value ? 'Has' : 'Does not have'} Standing Orders for #{name}"
-                    %span.count= number_with_delimiter(row.count)
+                %li.row<>
+                  %a{:href => url_for(q: refine_q(params[:q], "standing:#{sym}", row.value.to_s))}<>
+                    %span.value<>= "#{row.value ? 'Has' : 'Does not have'} Standing Orders for #{name}"
+                    %span.count<>= number_with_delimiter(row.count)
