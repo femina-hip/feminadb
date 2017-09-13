@@ -110,7 +110,7 @@ class CustomersController < ApplicationController
       shown_ids = @customer_ids[pager.offset, pager.per_page].to_a
       # We'll find by these IDs, but they won't be in order -- we need to order
       # them ourselves.
-      by_id = Customer.find(shown_ids).index_by(&:id)
+      by_id = Customer.where(id: shown_ids).includes([ :region, :type, :standing_orders ]).index_by(&:id)
       sorted_customers = shown_ids.collect { |id| by_id[id] }
       pager.replace(sorted_customers)
     end
