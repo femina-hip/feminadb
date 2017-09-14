@@ -42,17 +42,15 @@ module Reports
         SELECT
           regions.name,
           regions.manager AS staff_member,
-          COUNT(*) AS n_schools,
+          regions.n_schools,
           SUM(schools.has_fema) AS n_schools_with_fema,
+          100 * SUM(schools.has_fema) / regions.n_schools AS percent_schools_with_fema,
           regions.population,
           SUM(schools.n_fema) AS n_fema,
           regions.population / SUM(schools.n_fema) AS population_per_fema,
-          SUM(schools.has_headmaster_telerivet) AS n_schools_with_headmaster_telerivet,
-          100 * SUM(schools.has_headmaster_telerivet) / COUNT(*) AS percent_schools_with_headmaster_telerivet,
           SUM(schools.has_fema * schools.has_headmaster_telerivet) AS n_schools_with_fema_and_headmaster_telerivet,
           100.0 * SUM(schools.has_fema * schools.has_headmaster_telerivet) / SUM(schools.has_fema) AS percent_fema_schools_with_headmaster_telerivet,
           SUM(schools.has_club) AS n_schools_with_club,
-          100.0 * SUM(schools.has_club) / COUNT(*) AS percent_schools_with_club,
           100.0 * SUM(schools.has_club) / SUM(schools.has_fema) AS percent_fema_schools_with_club
         FROM regions
         INNER JOIN (
@@ -75,7 +73,7 @@ module Reports
           FROM customers
           WHERE customer_type_id IN (SELECT id FROM customer_types WHERE name LIKE 'SS %')
         ) schools ON regions.id = schools.region_id
-        GROUP BY regions.name, regions.manager, regions.population
+        GROUP BY regions.name, regions.manager, regions.n_schools, regions.population
         ORDER BY regions.name
       EOT
 

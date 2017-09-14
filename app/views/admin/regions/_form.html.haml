@@ -21,6 +21,11 @@
   %span.instructions (Make sure this number has no commas)
 
 %p
+  %b Number of Secondary Schools (according to Ministry of Education)
+  %br
+  = f.text_field(:n_schools)
+
+%p
   %b Council names, separated by newlines
   %br
   = f.text_area(:councils_separated_by_newline)
