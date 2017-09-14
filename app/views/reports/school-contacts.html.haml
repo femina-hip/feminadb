@@ -1,0 +1,46 @@
+= render_pretty_header 'School Contacts' do
+  %p
+    See how well we're in contact with schools that receive Fema.
+
+  %p
+    ("School" here means "Educational Institution".)
+
+  %p
+    Remember: according to FeminaDB, a school only has a club when it has an
+    SMS number for a mentor. That means every school with a Club has a Telerivet
+    contact.
+
+%table.report
+  %thead
+    %tr
+      %th Region
+      %th Staff
+      %th Schools
+      %th with Fema
+      %th Population
+      %th Fema copies
+      %th Population per Fema copy
+      %th with Telerivet contacts
+      %th percent with Telerivet contacts
+      %th with Fema and Telerivet contacts
+      %th percent Fema schools with Telerivet contacts
+      %th Clubs
+      %th percent schools with Club
+      %th percent Fema schools with Club
+  %tbody
+    - @table.each do |row|
+      %tr{class: cycle('odd', 'even')}
+        %td.string= row[:name]
+        %td.string= row[:staff_member]
+        %td.number= number_with_delimiter(row[:n_schools])
+        %td.number= number_with_delimiter(row[:n_schools_with_fema])
+        %td.number= number_with_delimiter(row[:population])
+        %td.number= number_with_delimiter(row[:n_fema])
+        %td.number= number_with_delimiter(row[:population_per_fema].try(&:round))
+        %td.number= number_with_delimiter(row[:n_schools_with_telerivet])
+        %td.percent= number_to_percentage(row[:percent_schools_with_telerivet], precision: 1)
+        %td.number= number_with_delimiter(row[:n_schools_with_fema_and_telerivet])
+        %td.percent= number_to_percentage(row[:percent_fema_schools_with_telerivet], precision: 1)
+        %td.number= number_with_delimiter(row[:n_schools_with_club])
+        %td.percent= number_to_percentage(row[:percent_schools_with_club], precision: 1)
+        %td.percent= number_to_percentage(row[:percent_fema_schools_with_club], precision: 1)
