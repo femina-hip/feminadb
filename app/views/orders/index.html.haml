@@ -40,11 +40,10 @@
         %td.region= o.region
         %td.council= o.council
         %td.qty
-          - qty_text = o.num_copies > 0 ? number_with_delimiter(o.num_copies) : '…'
           - if current_user.has_role?('edit-orders')
-            = link_to(qty_text, (o.id.nil? ? new_order_path(issue_id: o.issue_id, customer_id: o.customer_id) : edit_order_path(o.id)), class: 'in-modal-dialog')
+            = link_to(number_with_delimiter(o.num_copies), (o.id.nil? ? new_issue_order_path(@issue, customer_id: o.customer_id) : edit_issue_order_path(@issue, o)), class: 'in-modal-dialog')
           - else
-            = qty_text
+            = number_with_delimiter(o.num_copies)
         %td.customer
           .cut-off
             - if o.customer_id

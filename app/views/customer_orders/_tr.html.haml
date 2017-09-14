@@ -1,0 +1,16 @@
+-# Required variables: `order`, an Order
+%tr{:class => order.comments.present? && 'has-comments' || ''}
+  %td.issue= link_to(order.issue.full_name, order.issue)
+  %td.order_date= order.order_date
+  %td.delivery_method= order.delivery_method
+  %td.num_copies
+    - if current_user.has_role?('edit-orders')
+      = link_to(number_with_delimiter(order.num_copies), edit_customer_order_path(@customer, order), class: 'in-modal-dialog')
+    - else
+      = number_with_delimiter(order.num_copies)
+  - if current_user.has_role?('edit-orders')
+    %td.actions
+      = button_to 'Delete', customer_order_path(@customer, order), data: { :confirm => 'Are you sure you want to delete this Order from this Customer?' }, :method => :delete
+- if order.comments.present?
+  %tr.comments
+    %td.comments{:colspan => current_user.has_role?('edit-orders') && 5 || 4}= order.comments

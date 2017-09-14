@@ -107,7 +107,7 @@ class CustomersController < ApplicationController
   def index
     @customer_ids = search_result_customer_ids
     @customers = WillPaginate::Collection.create(requested_page, requested_per_page, @customer_ids.length) do |pager|
-      shown_ids = @customer_ids[pager.offset, pager.per_page].to_a
+      shown_ids = @customer_ids[pager.offset, pager.per_page]
       # We'll find by these IDs, but they won't be in order -- we need to order
       # them ourselves.
       by_id = Customer.where(id: shown_ids).includes([ :region, :type, :standing_orders ]).index_by(&:id)

@@ -1,0 +1,33 @@
+-# Required variables: "f" => a form_for instance
+%p
+  %strong Customer:
+  = @order.customer.name
+  = f.hidden_field(:customer_id)
+  = f.hidden_field(:region, value: @order.customer.region.name)
+  = f.hidden_field(:council, value: @order.customer.council)
+  = f.hidden_field(:customer_name, value: @order.customer.name)
+  = f.hidden_field(:delivery_address, value: @order.customer.delivery_address)
+  = f.hidden_field(:delivery_contact, value: @order.customer.delivery_contact)
+
+  %br
+
+  %strong Issue:
+  = @order.issue.full_name
+  = f.hidden_field(:issue_id)
+
+.form-group
+  = f.label(:num_copies, 'Number of Copies')
+  - if @order.persisted?
+    = f.number_field(:num_copies, required: true, min: 0, step: 1)
+    %small <tt>0</tt> means <q>delete</q>
+  - else
+    = f.number_field(:num_copies, required: true, min: 1, step: 1)
+.form-group
+  = f.label(:delivery_method, 'Delivery Method')
+  = f.delivery_method_field(:delivery_method, method: :name, selected: @order.customer.delivery_method.name)
+.form-group
+  = f.label(:order_date, 'Order Date')
+  = f.date_field(:order_date)
+.form-group
+  = f.label(:comments, 'Comments')
+  = f.text_field(:comments)

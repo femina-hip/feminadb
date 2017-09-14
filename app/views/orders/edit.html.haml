@@ -1,0 +1,6 @@
+= error_messages_for :order
+
+.main
+  = form_for @order, :html => { :method => :patch } do |f|
+    = render :partial => 'form', :locals => { :f => f }
+    %button.debounced Save

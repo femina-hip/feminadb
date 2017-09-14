@@ -8,7 +8,14 @@ module FormsHelper
   end
 
   def delivery_method_field(object_name, method, options = {})
-    collection_select(object_name, method, DeliveryMethod.order(:abbreviation), :id, :full_name, {:prompt => true}.merge(options))
+    collection_select(
+      object_name,
+      method,
+      DeliveryMethod.order(:abbreviation),
+      options.delete(:method) || :id,
+      :full_name,
+      { prompt: true }.merge(options)
+    )
   end
 
   # issue field

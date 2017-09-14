@@ -2,7 +2,16 @@ class CustomerOrdersController < ApplicationController
   def new
     require_role 'edit-orders'
     @customer = customer
-    @order = customer.orders.build(order_date: Date.today)
+    @order = customer.orders.build(
+      customer_name: customer.name,
+      delivery_method: customer.delivery_method.name,
+      delivery_address: customer.delivery_address,
+      delivery_contact: customer.delivery_contact,
+      region: customer.region.name,
+      council: customer.council,
+      order_date: Date.today
+    )
+    render(layout: nil)
   end
 
   def create
@@ -11,28 +20,12 @@ class CustomerOrdersController < ApplicationController
     if @order.valid?
       respond_to do |format|
         format.html { redirect_to(customer) }
-        format.json { render(json: { text: @order.num_copies.to_s }) }
+        format.json { render(json: {
+          tr_html: render_to_string(partial: 'tr', locals: { order: @order }, formats: [ :html ])
+        }) }
       end
     else
       render(action: 'new')
-    end
-  end
-
-  def edit
-    require_role 'edit-orders'
-    @customer = customer
-    @order = order
-  end
-
-  def update
-    require_role 'edit-orders'
-    if update_with_audit(order, order_params)
-      respond_to do |format|
-        format.html { redirect_to(customer) }
-        format.json { render(json: { text: order.num_copies.to_s }) }
-      end
-    else
-      render(action: 'edit')
     end
   end
 

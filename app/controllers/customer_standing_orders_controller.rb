@@ -52,7 +52,7 @@ class CustomerStandingOrdersController < ApplicationController
       end
     else
       @customer = customer
-      render(action: 'edit')
+      render(action: 'edit', layout: nil)
     end
   end
 

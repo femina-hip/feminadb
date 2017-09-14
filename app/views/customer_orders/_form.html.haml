@@ -2,10 +2,9 @@
 %p
   %strong Customer:
   = @customer.name
-  = f.hidden_field(:customer_id)
-  = f.hidden_field(:region, value: @customer.region.name)
-  = f.hidden_field(:council, value: @customer.council)
-  = f.hidden_field(:customer_name, value: @customer.name)
+  = f.hidden_field(:region)
+  = f.hidden_field(:council)
+  = f.hidden_field(:customer_name)
 - if f.object.persisted?
   %p
     %strong Issue:
@@ -19,7 +18,7 @@
   = f.number_field(:num_copies, required: true, step: 1)
 .form-group
   = f.label(:delivery_method, 'Delivery Method')
-  = f.delivery_method_field(:delivery_method)
+  = f.delivery_method_field(:delivery_method, method: :name, selected: @order.customer.delivery_method)
 .form-group
   = f.label(:order_date, 'Order Date')
   = f.date_field(:order_date)

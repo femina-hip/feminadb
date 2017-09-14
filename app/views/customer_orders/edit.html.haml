@@ -1,8 +1,0 @@
-= error_messages_for :order
-
-= form_for @order, :url => customer_order_path(@customer, @order), :html => { :method => :patch } do |f|
-  = render :partial => 'form', :locals => { :f => f }
-  %button.debounced Save
-
-%p.actions
-  = link_to 'Back to Customer', customer_path(@customer)

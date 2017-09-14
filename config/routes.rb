@@ -21,7 +21,7 @@ Feminadb::Application.routes.draw do
     end
     resources :sms_messages, only: :index
     resources :standing_orders, :controller => 'customer_standing_orders'
-    resources :orders, :controller => 'customer_orders'
+    resources :orders, controller: 'customer_orders', only: [ :new, :create, :destroy ]
     resources :notes, :controller => 'customer_notes'
   end
 
@@ -34,13 +34,14 @@ Feminadb::Application.routes.draw do
       get :show_num_copies_by_council
     end
 
-    resources :notes, :controller => 'issue_notes'
-    resources :orders, :controller => 'issue_orders'
+    resources :notes, controller: 'issue_notes'
+    resources :orders, controller: 'issue_orders', only: :index
   end
 
   resources :standing_orders
 
-  resources :modifications, :only => :index
+  resources :modifications, only: :index
+  resources :orders, only: [ :new, :create, :edit, :update ]
   resources :bulk_order_creators, :only => [ :new, :create ]
 
   resources :telerivet_links

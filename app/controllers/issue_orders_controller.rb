@@ -4,27 +4,15 @@ class IssueOrdersController < ApplicationController
   respond_to(:html, :js)
 
   def index
-    @issue = issue
+    @issue = Issue.includes(:publication).find(params[:issue_id])
 
-    if params[:all]
-      customers = search_for_customers(
-        :order => [ :region, :council, :name ],
-        :includes => [ { region: :delivery_method }, :type ]
-      )
-
-      orders_by_customer_id = {}
-      @issue.orders.where(:customer_id => customers.collect(&:id)).each do |o|
-        orders_by_customer_id[o.customer_id] = o
-      end
-
-      @orders = customers.dup # WillPaginate magic
-      @orders.replace(customers.collect { |c| orders_by_customer_id[c.id] || build_order_for_customer(c) })
+    @orders = if params[:all]
+      issue_orders_for_customer_search(@issue)
     else
-      @orders = @issue.orders
-        .where(conditions)
-        .order(:delivery_method, :region, :council, :customer_name)
-        .paginate(:page => requested_page, :per_page => requested_per_page)
+      issue_orders(@issue)
     end
+
+    @search = search_result_facets
 
     respond_to do |format|
       format.html # index.haml
@@ -35,74 +23,49 @@ class IssueOrdersController < ApplicationController
     end
   end
 
-  def destroy
-    require_role 'edit-orders'
-    destroy_with_audit(order)
-    respond_to do |format|
-      format.html { redirect_to([ issue, :orders ]) }
-      format.js { render_json_response }
-    end
-  end
-
-  def create
-    require_role 'edit-orders'
-    order = create_with_audit(@issue.orders, order_params)
-    if order.valid?
-      respond_to do |format|
-        format.html { redirect_to([ issue, :orders ]) }
-        format.js { render_json_response }
-      end
-    else
-      raise Exception, 'invalid create parameters'
-    end
-  end
-
-  def update
-    require_role 'edit-orders'
-    if update_with_audit(order, order_params)
-      respond_to do |format|
-        format.html { redirect_to([ issue, :orders ]) }
-        format.js { render_json_response }
-      end
-    else
-      raise Exception, 'invalid update parameters'
-    end
-  end
-
   private
 
-  def render_json_response
-    render(:json => {
-      'td_html' => render_to_string(:partial => 'qty.html', :locals => { :order => @order })
-    })
+  # Returns Orders for all matched Customers.
+  #
+  # If a Customer doesn't have an Order for this issue, returns a stub Order
+  # for that Customer.
+  def issue_orders_for_customer_search(issue)
+    found_customer_ids = search_result_customer_ids
+    WillPaginate::Collection.create(requested_page, requested_per_page, found_customer_ids.length) do |pager|
+      shown_customer_ids = found_customer_ids[pager.offset, pager.per_page]
+      # We'll find by these IDs, but they won't be in order -- we need to order
+      # them ourselves.
+
+      order_by_customer_id = issue.orders
+        .where(customer_id: shown_customer_ids)
+        .includes(customer: [ { region: :delivery_method }, :type ])
+        .index_by(&:customer_id)
+
+      customer_by_id = Customer.where(id: shown_customer_ids - order_by_customer_id.keys)
+        .includes([ { region: :delivery_method }, :type ])
+        .index_by(&:id)
+
+      pager.replace(shown_customer_ids.map { |id| order_by_customer_id[id] || build_order_for_customer(customer_by_id[id]) })
+    end
   end
 
-  def issue
-    @issue ||= Issue.includes(:publication).find(params[:issue_id])
-  end
-
-  def order_params
-    params.require(:order).permit(
-      :customer_id,
-      :num_copies,
-      :region,
-      :council,
-      :customer_name,
-      :delivery_method,
-      :delivery_address,
-      :delivery_contact,
-      :comments
-    )
+  # Returns existing Orders for this Issue that match the Customer search.
+  def issue_orders(issue)
+    issue.orders
+      .where(customer_id: search_result_customer_ids)
+      .order(:delivery_method, :region, :council, :customer_name)
+      .paginate(page: requested_page, per_page: requested_per_page)
   end
 
   def build_order_for_customer(customer)
-    issue.orders.build(
+    @issue.orders.build(
       customer_id: customer.id,
       delivery_method: customer.delivery_method.name,
       region: customer.region.name,
       council: customer.council,
       customer_name: customer.name,
       num_copies: 0,
+      order_date: Date.today,
       delivery_address: customer.delivery_address,
       delivery_contact: customer.delivery_contact
     )
