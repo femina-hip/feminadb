@@ -271,17 +271,16 @@ function display_data(rows) {
   })
 
   councils.selectAll('path')
-    .transition()
-      .style('fill', function(d) {
-        var council = correct(d.id)
-        var value = data[council]
-        if (!value) {
-          //console.log('Council "' + council + '" is on map but not in CSV')
-          return 'white'
-        }
-        delete unmatchedCouncils[council]
-        return colorScale(value)
-      })
+    .style('fill', function(d) {
+      var council = correct(d.id)
+      var value = data[council]
+      if (!value) {
+        //console.log('Council "' + council + '" is on map but not in CSV')
+        return 'white'
+      }
+      delete unmatchedCouncils[council]
+      return colorScale(value)
+    })
 
   Object.keys(unmatchedCouncils).forEach(function(council) {
     //console.log('Council "' + council + '" is in CSV but not on map')
