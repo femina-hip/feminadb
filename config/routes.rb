@@ -38,6 +38,8 @@ Feminadb::Application.routes.draw do
     resources :orders, controller: 'issue_orders', only: :index
   end
 
+  resources :reports, only: :show
+
   resources :standing_orders
 
   resources :modifications, only: :index
