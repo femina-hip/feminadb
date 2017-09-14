@@ -1,0 +1,349 @@
+var WIDTH = 600
+var HEIGHT = 500
+
+var CsvPathTemplate = '/issues/ISSUE_ID/show_num_copies_by_council.csv'
+
+var svg
+var councils
+var legend
+var tooltip
+var data = {} // mapping from council name to number of copies
+
+var TzCorrections = {
+  'Arusha': 'Arusha DC',
+  'Arusha Urban': 'Arusha CC',
+  'Babati': 'Babati DC',
+  'Babati Urban': 'Babati TC',
+  'Bagamoyo': 'Bagamoyo DC',
+  'Bahi': 'Bahi DC',
+  'Bariadi': 'Bariadi DC',
+  'Bariadi Rural': 'Bariadi DC',
+  'Bariadi Urban': 'Bariadi TC',
+  'Biharamulo': 'Biharamulo MC',
+  'Buhigwe': 'Buhigwe DC',
+  'Bukoba': 'Bukoba DC',
+  'Bukoba Rural': 'Bukoba DC',
+  'Bukoba Urban': 'Bukoba MC',
+  'Bukombe': 'Bukombe DC',
+  'Bunda': 'Bunda DC',
+  'Busega': 'Busega DC',
+  'Butiama': 'Butiama DC',
+  'Butiam': 'Butiama DC',
+  'Chamwino': 'Chamwino DC',
+  'Chato': 'Chato DC',
+  'Chemba': 'Chemba DC',
+  'Chunya': 'Chunya DC',
+  'Dodoma': 'Dodoma MC',
+  'Dodoma Urban': 'Dodoma MC',
+  'Gairo': 'Gairo DC',
+  'Geita': 'Geita DC',
+  'Geita Rural': 'Geita DC',
+  'Hai': 'Hai DC',
+  'Hanang': 'Hanang DC',
+  'Handeni': 'Handeni DC',
+  'Handeni Mji': 'Handeni TC',
+  'Igunga': 'Igunga DC',
+  'Ikungi': 'Ikungi DC',
+  'Ilala': 'Ilala MC',
+  'Ileje': 'Ileje DC',
+  'Ilemela': 'Ilemela MC',
+  'Iramba': 'Iramba DC',
+  'Iringa': 'Iringa DC',
+  'Iringa Rural': 'Iringa DC',
+  'Iringa Urban': 'Iringa MC',
+  'Itilima': 'Itilima DC',
+  'Kahama': 'Kahama TC',
+  'Kahama Urban': 'Kahama TC',
+  'Kahama Township Authority': 'Kahama TC',
+  'Kakonko': 'Kakonko DC',
+  'Kalambo': 'Kalambo DC',
+  'Kaliua': 'Kaliua DC',
+  'Karagwe': 'Karagwe DC',
+  'Karatu': 'Karatu DC',
+  'Kasulu': 'Kasulu DC',
+  'Kasulu Township Authority': 'Kasulu TC',
+  'Kibaha': 'Kibaha DC',
+  'Kibaha Urban': 'Kibaha TC',
+  'Kibondo': 'Kibondo DC',
+  'Kigoma': 'Kigoma DC',
+  'Kigoma  Urban': 'Kigoma Ujiji MC',
+  'Kigoma Rural': 'Kigoma DC',
+  'Kigoma Urban': 'Kigoma Ujiji MC',
+  'Kilindi': 'Kilindi DC',
+  'Kilolo': 'Kilolo DC',
+  'Kilombero': 'Kilombero DC',
+  'Kilosa': 'Kilosa DC',
+  'Kilwa': 'Kilwa DC',
+  'Kinondoni': 'Kinondoni MC',
+  'Kisarawe': 'Kisarawe DC',
+  'Kishapu': 'Kishapu DC',
+  'Kiteto': 'Kiteto DC',
+  'Kondoa': 'Kondoa DC',
+  'Kongwa': 'Kongwa DC',
+  'Korogwe': 'Korogwe DC',
+  'Korogwe Township Authority': 'Korogwe TC',
+  'Kwimba': 'Kwimba DC',
+  'Kyela': 'Kyela DC',
+  'Kyerwa': 'Kyerwa DC',
+  'Lindi': 'Lindi DC',
+  'Lindi Rural': 'Lindi DC',
+  'Lindi Urban': 'Lindi MC',
+  'Liwale': 'Liwale DC',
+  'Longido': 'Longido DC',
+  'Ludewa': 'Ludewa DC',
+  'Lushoto': 'Lushoto DC',
+  'Mafia': 'Mafia DC',
+  'Mafinga Township Authority': 'Mafinga TC',
+  'Magu': 'Magu DC',
+  'Makambako': 'Makambako TC',
+  'Makambako Township Authority': 'Makambako TC',
+  'Makete': 'Makete DC',
+  'Manyoni': 'Manyoni DC',
+  'Masasi': 'Masasi DC',
+  'Masasi  Township Authority': 'Masasi TC',
+  'Maswa': 'Maswa DC',
+  'Mbeya': 'Mbeya DC',
+  'Mbeya Rural': 'Mbeya DC',
+  'Mbeya Urban': 'Mbeya CC',
+  'Mbinga': 'Mbinga DC',
+  'Mbogwe': 'Mbogwe DC',
+  'Mbozi': 'Mbozi DC',
+  'Mbulu': 'Mbulu DC',
+  'Meatu': 'Meatu DC',
+  'Meru': 'Meru DC',
+  'Misenyi': 'Missenyi DC',
+  'Missenyi': 'Missenyi DC',
+  'Misungwi': 'Misungwi DC',
+  'Mkalama': 'Mkalama DC',
+  'Mkinga': 'Mkinga DC',
+  'Mkuranga': 'Mkuranga DC',
+  'Mlele': 'Mlele DC',
+  'Momba': 'Momba DC',
+  'Monduli': 'Monduli DC',
+  'Morogoro': 'Morogoro DC',
+  'Morogoro Rural': 'Morogoro DC',
+  'Morogoro Urban': 'Morogoro MC',
+  'Moshi': 'Moshi DC',
+  'Moshi Rural': 'Moshi DC',
+  'Moshi Urban': 'Moshi MC',
+  'Mpanda': 'Mpanda DC',
+  'Mpanda Rural': 'Mpanda DC',
+  'Mpanda Urban': 'Mpanda MC',
+  'Mpwapwa': 'Mpwapwa DC',
+  'Msalala': 'Msalala DC',
+  'Mtwara': 'Mtwara DC',
+  'Mtwara Rural': 'Mtwara DC',
+  'Mtwara Urban': 'Mtwara MC',
+  'Mufindi': 'Mufindi DC',
+  'Muheza': 'Muheza DC',
+  'Muleba': 'Muleba DC',
+  'Musoma': 'Musoma DC',
+  'Musoma Rural': 'Musoma DC',
+  'Musoma Urban': 'Musoma MC',
+  'Mvomero': 'Mvomero DC',
+  'Mwanga': 'Mwanga DC',
+  'Nachingwea': 'Nachingwea DC',
+  'Nanyumbu': 'Nanyumbu DC',
+  'Newala': 'Newala DC',
+  'Ngara': 'Ngara DC',
+  'Ngorongoro': 'Ngorongoro DC',
+  'Njombe': 'Njombe DC',
+  'Njombe Rural': 'Njombe DC',
+  'Njombe Urban': 'Njombe TC',
+  'Nkasi': 'Nkasi DC',
+  'Nyamagana': 'Nyamagana MC',
+  "Nyang'hwale": "Nyang'hwale DC",
+  "Nyang'wale": "Nyang'hwale DC",
+  'Nyasa': 'Nyasa DC',
+  'Nzega': 'Nzega DC',
+  'Pangani': 'Pangani DC',
+  'Rombo': 'Rombo DC',
+  'Rorya': 'Rorya DC',
+  'Ruangwa': 'Ruangwa DC',
+  'Rufiji': 'Rufiji DC',
+  'Rungwe': 'Rungwe DC',
+  'Same': 'Same DC',
+  'Sengerema': 'Sengerema DC',
+  'Serengeti': 'Serengeti DC',
+  'Shinyanga': 'Shinyanga DC',
+  'Shinyanga Rural': 'Shinyanga DC',
+  'Shinyanga Urban': 'Shinyanga MC',
+  'Siha': 'Siha DC',
+  'Sikonge': 'Sikonge DC',
+  'Simanjiro': 'Simanjiro DC',
+  'Singida': 'Singida DC',
+  'Singida Rural': 'Singida DC',
+  'Singida Urban': 'Singida TC',
+  'Songea': 'Songea DC',
+  'Songea Rural': 'Songea DC',
+  'Songea Urban': 'Songea MC',
+  'Sumbawanga': 'Sumbawanga DC',
+  'Sumbawanga Rural': 'Sumbawanga DC',
+  'Sumbawanga Urban': 'Sumbawanga MC',
+  'Tabora': 'Tabora MC',
+  'Tabora Urban': 'Tabora MC',
+  'Tandahimba': 'Tandahimba DC',
+  'Tanga': 'Tanga CC',
+  'Tanga Urban': 'Tanga CC',
+  'Tarime': 'Tarime DC',
+  'Temeke': 'Temeke MC',
+  'Tunduma': 'Tunduma TC',
+  'Tunduru': 'Tunduru DC',
+  'Ukerewe': 'Ukerewe DC',
+  'Ulanga': 'Ulanga DC',
+  'Urambo': 'Urambo DC',
+  'Ushetu': 'Ushetu DC',
+  'Uvinza': 'Uvinza DC',
+  'Uyui': 'Uyui DC',
+  "Wanging'ombe": "Wanging'ombe DC",
+}
+
+function correct(tz_council_name) {
+  return TzCorrections[tz_council_name] || tz_council_name
+}
+
+function start_load_csv(url) {
+  d3.csv(url)
+    .row(function(d) { return { council: d.Council, value: +d['Number of Copies'] } })
+    .get(function(err, rows) {
+      if (err) return console.warn(err)
+      display_data(rows)
+    })
+}
+
+function display_map(geometry) {
+  tooltip = d3.tip()
+    .attr('class', 'map-tooltip')
+    .offset([ -8, 0 ])
+    .html(function(d) { return [
+      '<h4>', correct(d.id), '</h4>',
+      '<div class="count">', data[correct(d.id)] || 0, ' Copies</div>'
+    ].join('') })
+
+  svg = d3.select('#map').append('svg')
+    .attr('width', WIDTH)
+    .attr('height', HEIGHT)
+    .call(tooltip)
+
+  var projection = d3.geo.conicConformal()
+    .center([ 35, -6.26 ])
+    .rotate([ 0, 0 ])
+    .parallels([ -3, -9 ])
+    .scale(2590)
+    .translate([ WIDTH / 2 - 50, HEIGHT / 2 ])
+
+  var path = d3.geo.path().projection(projection)
+
+  councils = svg.append('g').attr('class', 'councils')
+
+  councils.selectAll('path')
+    .data(topojson.feature(geometry, geometry.objects.Districts).features)
+    .enter().append('path')
+      .attr('data-name', function(d) { return correct(d.id) })
+      .attr('d', path)
+      .style('stroke', 'black')
+      .style('stroke-width', '0.2')
+      .on('mouseover', function(d) { d3.select(this).style('stroke-width', '2'); tooltip.show.call(this, d) })
+      .on('mouseout', function(d) { d3.select(this).style('stroke-width', '0.2'); tooltip.hide.call(this, d) })
+
+  $('form#map-data').prop('disabled', false)
+  on_submit()
+}
+
+function display_data(rows) {
+  var values = rows
+    .map(function(row) { return row.value })
+    .filter(function(value) { return value > 0 })
+    .sort(function(a, b) { return a - b })
+  var minValue = values[0]
+  var maxValue = values[values.length - 1]
+
+  var colorScale = d3.scale.quantile()
+    .domain(values)
+    .range(['#edf8fb', '#b3cde3', '#8c96c6', '#88419d'])
+
+  data = {} // Map from council name to value
+  var unmatchedCouncils = {}
+  rows.forEach(function(row) {
+    var council = correct(row.council)
+    data[council] = row.value
+    unmatchedCouncils[council] = null
+  })
+
+  councils.selectAll('path')
+    .transition()
+      .style('fill', function(d) {
+        var council = correct(d.id)
+        var value = data[council]
+        if (!value) {
+          //console.log('Council "' + council + '" is on map but not in CSV')
+          return 'white'
+        }
+        delete unmatchedCouncils[council]
+        return colorScale(value)
+      })
+
+  Object.keys(unmatchedCouncils).forEach(function(council) {
+    //console.log('Council "' + council + '" is in CSV but not on map')
+  })
+
+  if (legend) legend.remove()
+
+  var legendFontSize = 14
+  var legendBoxSize = legendFontSize - 1
+  var legendSpacing = 6
+  var legendLineHeight = legendFontSize + legendSpacing
+
+  legend = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform', 'translate(420, 0)');
+
+  legend.selectAll('rect')
+    .data(colorScale.range())
+    .enter().append('rect')
+      .attr('y', function(d, i) { return i * legendLineHeight })
+      .attr('width', legendBoxSize)
+      .attr('height', legendBoxSize)
+      .style('fill', function(color) { return color })
+
+  legend.selectAll('text')
+    .data(colorScale.range().map(function(color) {
+      var d = colorScale.invertExtent(color)
+      d[0] = d[0] || values[0]
+      d[1] = d[1] || values[values.length - 1]
+      // For some reason, sometimes we get fractions from the above logic
+      d[0] = Math.round(d[0] + 0.25)
+      d[1] = Math.round(d[1] + 0.25)
+      return d
+    }))
+    .enter().append('text')
+      .attr('x', legendBoxSize + legendSpacing)
+      .attr('y', function(d, i) { return i * legendLineHeight + legendFontSize - 2 }) // the -2 looks nice
+      .text(function(d, i) {
+        if (i != colorScale.range().length - 1) { // colorScale retvals are [min,max)
+          d[1] -= 1
+        }
+        return d[0] + ' to ' + d[1]
+      })
+}
+
+d3.json('<%= asset_path('councils.json') %>', function(err, geometry) {
+  if (err) return console.warn(err)
+  display_map(geometry)
+})
+
+$(document).on('submit', 'form#map-data', function(ev) {
+  ev.preventDefault()
+  on_submit()
+})
+
+$(document).on('change', 'form#map-data select', function(ev) {
+  on_submit()
+})
+
+function on_submit() {
+  var $form = $('form#map-data')
+  var issue_id = $form.find('[name="filter[issue_id]"]').val()
+  var url = CsvPathTemplate.replace('ISSUE_ID', issue_id)
+  start_load_csv(url)
+}
