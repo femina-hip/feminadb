@@ -22,5 +22,5 @@
         %td= link_to 'Edit', edit_admin_region_path(region)
         %td= button_to 'Destroy', [ :admin, region ], method: :delete, data: { confirm: 'Are you sure you want to delete this Region?' }
     %tr
-      %td.add{:colspan => 4}
+      %td.add{:colspan => 5}
         = link_to 'Create New Region', new_admin_region_path
