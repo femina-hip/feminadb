@@ -1,9 +1,9 @@
 = render_pretty_header 'School Contacts' do
   %p
-    See how well we're in contact with schools that receive Fema.
+    See how well we're in contact with Schools that receive Fema.
 
   %p
-    ("School" here means "Educational Institution".)
+    ("School" here means "Secondary School.")
 
   %p
     Remember: according to FeminaDB, a school only has a club when it has an
@@ -20,10 +20,10 @@
       %th Population
       %th Fema copies
       %th Population per Fema copy
-      %th Schools with Telerivet contacts
-      %th percent of Schools with Telerivet contacts
-      %th Schools with Fema and Telerivet contacts
-      %th percent of Fema schools with Telerivet contacts
+      %th Schools with Headmaster Telerivet contacts
+      %th percent of Schools with Headmaster Telerivet contacts
+      %th Schools with Fema and Headmaster Telerivet contacts
+      %th percent of Fema schools with Headmaster Telerivet contacts
       %th Clubs
       %th percent of Schools with Club
       %th percent of Fema schools with Club
@@ -37,10 +37,10 @@
         %td.number= number_with_delimiter(row[:population])
         %td.number= number_with_delimiter(row[:n_fema])
         %td.number= number_with_delimiter(row[:population_per_fema].try(&:round))
-        %td.number= number_with_delimiter(row[:n_schools_with_telerivet])
-        %td.percent= number_to_percentage(row[:percent_schools_with_telerivet], precision: 1)
-        %td.number= number_with_delimiter(row[:n_schools_with_fema_and_telerivet])
-        %td.percent= number_to_percentage(row[:percent_fema_schools_with_telerivet], precision: 1)
+        %td.number= number_with_delimiter(row[:n_schools_with_headmaster_telerivet])
+        %td.percent= number_to_percentage(row[:percent_schools_with_headmaster_telerivet], precision: 1)
+        %td.number= number_with_delimiter(row[:n_schools_with_fema_and_headmaster_telerivet])
+        %td.percent= number_to_percentage(row[:percent_fema_schools_with_headmaster_telerivet], precision: 1)
         %td.number= number_with_delimiter(row[:n_schools_with_club])
         %td.percent= number_to_percentage(row[:percent_schools_with_club], precision: 1)
         %td.percent= number_to_percentage(row[:percent_fema_schools_with_club], precision: 1)
