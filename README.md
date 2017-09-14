@@ -35,3 +35,8 @@ Development mode
 4. In another temrinal, `rake sunspot:reindex` to build the index
 5. `rails s` to start a server
 6. Browse to http://localhost:3000 and log in with Google Apps credentials
+
+Sources
+-------
+
+`regions.n_schools` comes from http://opendata.go.tz/dataset/d7baa2ef-93cc-48b8-8296-efda80c288d8/resource/d633dd95-e3fd-4760-bad2-d1675572465f/download/List-of-Registered-Secondary-Schools-2016.csv
