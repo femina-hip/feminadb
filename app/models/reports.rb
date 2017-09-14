@@ -9,12 +9,6 @@ module Reports
             SELECT COUNT(*)
             FROM customers
             WHERE region_id = regions.id
-            AND customer_type_id IN (SELECT id FROM customer_types WHERE name LIKE 'SS %')
-          )) AS n_schools,
-          SUM((
-            SELECT COUNT(*)
-            FROM customers
-            WHERE region_id = regions.id
             AND customer_type_id IN (SELECT id FROM customer_types WHERE category = 'Educational Institutions')
             AND EXISTS (
               SELECT 1

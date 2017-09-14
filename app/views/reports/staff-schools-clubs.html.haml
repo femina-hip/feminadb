@@ -10,18 +10,16 @@
   %thead
     %tr<
       %th<> Staff member
-      %th<> # Schools
-      %th<> # Schools with Fema
-      %th<> # Schools with Clubs
-      %th<> % Fema schools with clubs
+      %th<> Schools with Fema
+      %th<> Schools with Clubs
+      %th<> Fema schools with clubs
   %tbody
     - @table.each do |row|
       %tr{class: cycle('odd', 'even')}<
-        %td.text<>= row[:staff_member]
-        %td.number<>= number_with_delimiter(row[:n_schools])
+        %td.string<>= row[:staff_member]
         %td.number<>= number_with_delimiter(row[:n_schools_with_fema])
         %td.number<>= number_with_delimiter(row[:n_clubs])
-        %td.percent<>= number_with_delimiter(row[:percent_fema_schools_with_clubs].round(2))
+        %td.percent<>= number_to_percentage(row[:percent_fema_schools_with_clubs], precision: 1)
 
 %p.actions
   = link_to('Export Data to Excel', report_path('staff-schools-clubs', format: :csv))
