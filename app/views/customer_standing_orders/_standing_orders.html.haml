@@ -18,8 +18,8 @@
     - standing_orders.each do |standing_order|
       %tr
         %td.publication= standing_order.publication.name
-        %td.num_copies= standing_order.num_copies
-        %td.created_at= standing_order.created_at.to_formatted_s(:long)
+        %td.num-copies= standing_order.num_copies
+        %td.created-at= standing_order.created_at.to_formatted_s(:long)
         %td.comments= standing_order.comments
         - if current_user.has_role? 'edit-orders'
           %td{:class => 'actions'}

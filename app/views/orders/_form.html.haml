@@ -24,7 +24,7 @@
     = f.number_field(:num_copies, required: true, min: 1, step: 1)
 .form-group
   = f.label(:delivery_method, 'Delivery Method')
-  = f.delivery_method_field(:delivery_method, method: :name, selected: @order.customer.delivery_method.name)
+  = f.delivery_method_field(:delivery_method, method: :name)
 .form-group
   = f.label(:order_date, 'Order Date')
   = f.date_field(:order_date)

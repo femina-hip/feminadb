@@ -12,8 +12,8 @@ table.customers, table.customer-orders, table.customer-standing-orders, table.cu
     }
 
     td {
-      font-family: Times, serif;
-      font-size: 0.9em;
+      font-family: serif;
+      font-size: 0.9rem;
       padding: .5rem .75rem;
 
       .add {
@@ -106,6 +106,10 @@ table.customers {
     width: 1em;
   }
 
+  td.customer-name {
+    max-width: 1em; // works with .cut-off
+  }
+
   td.standing-orders {
     text-align: right;
     font-family: monospace;
@@ -116,16 +120,7 @@ table.customers {
   }
 }
 
-table.customers td.standing-orders, table.issue-orders td.qty {
-  font-family: inherit;
-
-  div.frame {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: inherit;
-  }
-
+table.customers td.standing-orders, table.issue-orders td.qty, table.customer-orders td.num-copies {
   a {
     display: block;
     position: relative;
@@ -134,79 +129,24 @@ table.customers td.standing-orders, table.issue-orders td.qty {
     width: 100%;
     height: 100%;
   }
-
-  div.forms {
-    display: none;
-    position: absolute;
-    background-color: inherit;
-    top: 1em;
-    right: -10px;
-    padding: 9px;
-    border: 1px solid $border_color;
-    z-index: 1;
-
-    div.submitting {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: url(/images/fade-white.png) repeat;
-
-      p {
-        text-align: center;
-        font-weight: bold;
-        margin-top: 5em;
-
-        img {
-          padding-right: 6px;
-        }
-      }
-    }
-  }
-
-  h3 {
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .deselected h3 {
-    color: #999999;
-  }
-
-  p {
-    white-space: nowrap;
-  }
-
-  label {
-    white-space: nowrap;
-  }
-
-  input[type=text] {
-    width: 10em;
-  }
-
-  input.num_copies {
-    width: 4em;
-  }
 }
 
 table.customer-standing-orders {
-  td.publication, td.num_copies, td.request_date, td.created_at {
+  td.publication, td.num-copies, td.request-date, td.created-at {
     width: 1em;
   }
 
-  td.num_copies {
+  td.num-copies {
     text-align: right;
   }
 }
 
 table.customer-orders {
-  td.publication, td.issue_number, td.num_copies, td.order_date, td.status, td.delivery_method {
+  td.publication, td.issue_number, td.num-copies, td.order_date, td.status, td.delivery_method {
     width: 1em;
   }
 
-  td.num_copies {
+  td.num-copies {
     text-align: right;
   }
 
@@ -257,7 +197,7 @@ table.customer-standing-orders, table.customer-orders, table.customer-notes, tab
       width: 1em;
     }
 
-    td.num_copies, td.num_copies_requested {
+    td.num-copies {
       text-align: right;
     }
 
@@ -273,6 +213,14 @@ table.customer-standing-orders, table.customer-orders, table.customer-notes, tab
 }
 
 table.customer-orders {
+  td.num-copies, td.order-date, td.delivery-method, td.actions {
+    width: 1em;
+  }
+
+  td.issue, td.comments {
+    max-width: 1em; // works with .cut-off
+  }
+
   tr.has-comments td {
     border-bottom: 0;
   }

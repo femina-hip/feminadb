@@ -7,11 +7,11 @@
         = "Orders (#{orders.length})"
   %thead
     %tr
+      %th Qty
       %th Issue
       %th Order Date
       %th
         %abbr{:title => 'Delivery Method'} DM
-      %th Qty
       - if current_user.has_role?('edit-orders')
         %th
   %tbody

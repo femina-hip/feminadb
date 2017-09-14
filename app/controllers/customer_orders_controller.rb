@@ -1,7 +1,6 @@
 class CustomerOrdersController < ApplicationController
   def new
     require_role 'edit-orders'
-    @customer = customer
     @order = customer.orders.build(
       customer_name: customer.name,
       delivery_method: customer.delivery_method.name,
