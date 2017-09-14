@@ -44,3 +44,6 @@
         %td.number= number_with_delimiter(row[:n_schools_with_club])
         %td.percent= number_to_percentage(row[:percent_schools_with_club], precision: 1)
         %td.percent= number_to_percentage(row[:percent_fema_schools_with_club], precision: 1)
+
+%p.actions
+  = link_to('Export Data to Excel', report_path('school-contacts', format: :csv))

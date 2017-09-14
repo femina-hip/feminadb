@@ -22,3 +22,6 @@
         %td.number<>= number_with_delimiter(row[:n_schools_with_fema])
         %td.number<>= number_with_delimiter(row[:n_clubs])
         %td.percent<>= number_with_delimiter(row[:percent_fema_schools_with_clubs].round(2))
+
+%p.actions
+  = link_to('Export Data to Excel', report_path('staff-schools-clubs', format: :csv))
