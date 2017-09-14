@@ -333,3 +333,17 @@ table.audits {
     text-align: right;
   }
 }
+
+table.report {
+  th {
+    font-size: .8rem;
+    white-space: normal;
+    vertical-align: bottom;
+  }
+
+  td.number, td.percent {
+    font-family: monospace;
+    font-size: .9rem;
+    text-align: right;
+  }
+}
