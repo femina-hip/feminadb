@@ -86,38 +86,6 @@ ul.publications, ul.issues {
   text-align: center;
 }
 
-div.errorExplanation {
-  border: 2px solid black;
-  padding: 1em;
-  margin: 1em;
-  background: $error_background_color;
-  color: $error_color;
-
-  h2 {
-    margin: 0;
-    padding: 0;
-    font-size: 1.1em;
-    border-bottom: 2px solid black;
-  }
-
-  p {
-    margin: 1em 0 0 0;
-    padding: 0;
-  }
-
-  ul {
-    margin: 0 0 0 2em;
-    padding: 0;
-  }
-
-  input, select {
-    border: none;
-    background: inherit;
-    color: inherit;
-    padding: 2px;
-  }
-}
-
 @media print {
   nav, footer, header .logo { display: none; }
 }
