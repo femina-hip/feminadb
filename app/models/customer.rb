@@ -88,6 +88,7 @@ class Customer < ActiveRecord::Base
   has_many(:orders)
 
   validates_presence_of :region_id
+  validates_presence_of :council
   validates_presence_of :customer_type_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [ :region_id, :council ], :case_sensitive => false

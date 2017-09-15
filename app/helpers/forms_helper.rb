@@ -3,6 +3,10 @@ module FormsHelper
     collection_select(object_name, method, Region.order(:name), :id, :name, {:prompt => true}.merge(options))
   end
 
+  def council_field(object_name, method, options = {})
+    grouped_collection_select(object_name, method, Region.order(:name), :councils, :name, :to_s, :to_s, include_blank: 'Select a council')
+  end
+
   def customer_type_field(object_name, method, options = {})
     collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {:prompt => true}.merge(options))
   end

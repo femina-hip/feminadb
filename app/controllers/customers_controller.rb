@@ -42,35 +42,6 @@ class CustomersController < ApplicationController
     end
   end
 
-  def temp_bulk_rename_councils
-    require_role 'edit-customers'
-    @regions = Region.all
-    id_to_region = @regions.map{ |r| [ r.id, r ]}.to_h
-    @invalid_councils = Customer.connection.select_rows("SELECT customers.region_id, regions.name, customers.council, COUNT(*) AS n FROM customers INNER JOIN regions ON customers.region_id = regions.id WHERE council IS NOT NULL AND council <> '' GROUP BY customers.region_id, regions.name, customers.council ORDER BY regions.name, customers.council")
-      .map{ |arr| { region_id: arr[0], region_name: arr[1], council: arr[2], n: arr[3] } }
-      .reject{ |h| id_to_region[h[:region_id]].councils.include?(h[:council]) }
-  end
-
-  def temp_do_bulk_rename_councils
-    require_role 'edit-customers'
-    customer_ids = Customer.where(region_id: params[:region_id].to_i, council: params[:old_council].to_s).map(&:id)
-    Customer.where(id: customer_ids).update_all(council: params[:new_council].to_s)
-    updated_customers = Customer
-      .where(id: customer_ids)
-      .includes(
-        standing_orders: :publication,
-        region: :delivery_method,
-        type: nil,
-        notes: nil
-      )
-    for customer in updated_customers
-      customer.solr_index
-    end
-    updated_customers.last.solr_index! if updated_customers.length > 0 # commit
-    flash[:notice] = "Rewrote #{updated_customers.length} instances of '#{params[:old_council]}' to '#{params[:new_council]}'"
-    redirect_to(:temp_bulk_rename_councils_customers)
-  end
-
   def add_sms_number
     require_role 'edit-customers'
 

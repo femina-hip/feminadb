@@ -13,11 +13,10 @@
       %th Type
       %td= f.customer_type_field :customer_type_id
     %tr
-      %th Region
-      %td= f.region_field :region_id
-    %tr.last
       %th Council
-      %td= f.text_field :council
+      %td
+        = f.region_field(:region_id)
+        = f.council_field(:council)
 
   %thead
     %tr
