@@ -34,8 +34,8 @@ class Customer < ActiveRecord::Base
       auto_index: false,  # controllers handle indexing
       auto_remove: false, # controllers handle indexing
       include: [
-        { standing_orders: :publication },
         { region: :delivery_method },
+        :standing_orders,
         :type,
         :notes
       ]
@@ -63,6 +63,7 @@ class Customer < ActiveRecord::Base
     text(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
+    boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }
     boolean(:club) { has_club? }
     dynamic_integer(:standing_num_copies) do
       publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|

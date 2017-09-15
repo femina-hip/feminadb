@@ -146,7 +146,11 @@ class CustomersController < ApplicationController
   def autocomplete
     q = params[:q].to_s
     q += '*' if q.present?
-    customers = customer_search(q: q, order: [:region, :council, :name], page: 1, per_page: 10).results
+    customers = Customer.search do
+      ::QueryBuilder::apply_string_to_search(q, self.instance_variable_get(:@search))
+      paginate(page: 1, per_page: 10)
+      order_by(:sort_column)
+    end.results
     ActiveRecord::Associations::Preloader.new.preload(customers, [ :region, :type ])
 
     json = customers.map do |customer|
