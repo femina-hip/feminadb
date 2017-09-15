@@ -21,7 +21,6 @@ gem 'jquery-rails'
 gem 'responders'
 
 gem 'sass-rails'
-gem 'coffee-rails'
 gem 'uglifier'
 
 group :development do
