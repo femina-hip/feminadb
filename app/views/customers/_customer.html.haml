@@ -48,9 +48,6 @@
     %tr
       %th= glossary_term('Club Mentor SMS numbers')
       %td= show_sms_numbers(customer, :club_sms_numbers)
-    %tr
-      %th= glossary_term('Student SMS numbers')
-      %td= show_sms_numbers(customer, :student_sms_numbers)
     %tr.last
       %th= glossary_term('Expired SMS numbers')
       %td= show_sms_numbers(customer, :old_sms_numbers)

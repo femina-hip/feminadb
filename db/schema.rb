@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914122157) do
+ActiveRecord::Schema.define(version: 20170915135221) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20170914122157) do
     t.string "primary_contact_sms_numbers", default: "", null: false
     t.string "club_sms_numbers", default: "", null: false
     t.string "old_sms_numbers", default: "", null: false
-    t.string "student_sms_numbers", default: "", null: false
     t.string "delivery_contact", default: "", null: false
     t.text "telerivet_id_cache"
     t.string "headmaster_sms_numbers"

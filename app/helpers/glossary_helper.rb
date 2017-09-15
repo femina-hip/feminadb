@@ -11,7 +11,6 @@ module GlossaryHelper
     when 'Headmaster SMS numbers' then 'SMS numbers for school headmasters (and ONLY school headmasters), whom we can contact with Telerivet'
     when 'Primary Contact SMS numbers' then 'SMS numbers for the person who receives magazines from us, whom we can contact with Telerivet'
     when 'Club Mentor SMS numbers' then 'SMS numbers for Club Mentors, etc. (ONLY if a club exists), whom we can contact with Telerivet. If there is an SMS number here, that means the school has a club.'
-    when 'Student SMS numbers' then 'SMS numbers for students, current or former, whom we can contact with Telerivet'
     when 'Order' then 'The desire to transfer a certain number of Copies of a particular Issue from a Warehouse to a Customer'
     when 'Orders' then 'The desires to transfer a certain number of Copies of some particular Issues from a Warehouse to a Customer'
     when 'Delivery address' then 'How the person delivering Copies gets them to the recipient. If there is an intermediary, include all information: for instance, "via office A in village B, to school C in village D"'

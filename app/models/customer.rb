@@ -16,11 +16,6 @@ class Customer < ActiveRecord::Base
       singular: 'Club Mentor SMS number',
       plural: 'Club Mentor SMS numbers',
     },
-    student_sms_numbers: {
-      person: 'Student',
-      singular: 'Student SMS number',
-      plural: 'Student SMS numbers',
-    },
     old_sms_numbers: {
       person: 'Expired Contact',
       singular: 'SMS number that no longer applies',
@@ -56,7 +51,6 @@ class Customer < ActiveRecord::Base
     text(:delivery_contact)
     text(:primary_contact_sms_numbers)
     text(:club_sms_numbers)
-    text(:student_sms_numbers)
     text(:old_sms_numbers)
     text(:headmaster_sms_numbers)
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
