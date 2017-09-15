@@ -40,3 +40,8 @@ Sources
 -------
 
 `regions.n_schools` comes from http://opendata.go.tz/dataset/d7baa2ef-93cc-48b8-8296-efda80c288d8/resource/d633dd95-e3fd-4760-bad2-d1675572465f/download/List-of-Registered-Secondary-Schools-2016.csv
+
+`regions.population` comes from the NBS 2012 Census. To get the populations of
+Songwe and Mbeya, we looked to http://www.nbs.go.tz/nbs/takwimu/census2012/Tanzania_Total_Population_by_District-Regions-2016.xls
+-- it's the 2016 "projection", but since the total population is exactly the
+same as in 2012, we assume the breakdown is correct.
