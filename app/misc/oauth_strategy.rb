@@ -1,6 +1,7 @@
 module OauthStrategy
   # Either returns [ 'user', user ] or [ 'redirect', "http://some/url" ]
   def self.authenticate(request)
+    request.session.send(:load!) if Rails.env.test? # dunno. Capybara cookie something.
     if request.session[:user_email]
       authenticate_user(request)
     else

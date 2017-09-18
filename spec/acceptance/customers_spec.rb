@@ -12,10 +12,14 @@ feature "Edit standing orders from customer page", %q{
   end
   
   scenario "Get an 'edit standing order' form when there's a standing order" do
-    c = Customer.create!(name: 'name', council: 'council')
+    d = DeliveryMethod.create!(abbreviation: 'DM', name: 'delivery_method')
+    r = Region.create!(name: 'region', delivery_method_id: d.id)
+    t = CustomerType.create!(name: 'type', description: 'customer type')
+    c = Customer.create!(name: 'name', council: 'council', region_id: r.id, customer_type_id: t.id, delivery_address: 'address')
     p = Publication.create!(name: 'Fema')
     StandingOrder.create!(customer_id: c.id, publication_id: p.id, num_copies: 10)
     visit(customers_index)
+    puts page.html
 
     expect(page).to have_css("#customer-#{c.id}")
     within("#customer-#{c.id}") do
@@ -24,7 +28,7 @@ feature "Edit standing orders from customer page", %q{
   end
 
   scenario "Create a Standing Order using the form" do
-    c = Customer.make
+    c = Customer.create!(name: 'name', council: 'council')
     p = Publication.make
     visit(customers_index)
 

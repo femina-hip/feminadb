@@ -13,6 +13,7 @@ test:
   password: feminadb_test
   host: localhost
   encoding: utf8
+  flags: 65536 # CLIENT_MULTI_STATEMENTS, so we can do all TRUNCATE in one command
 
 production:
   adapter: mysql2

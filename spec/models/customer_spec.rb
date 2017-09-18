@@ -1,13 +1,8 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/../rails_helper'
 
 describe(Customer) do
   describe('starting from a clean database') do
-    before(:all) do
-      Region.delete_all
-      CustomerType.delete_all
-      DeliveryMethod.delete_all
-      Customer.delete_all
-      Customer.reindex
+    before(:each) do
       @delivery_method = DeliveryMethod.create!(:abbreviation => 'abbr', :name => 'name')
       @region = Region.create!(:name => 'region', :delivery_method_id => @delivery_method.id)
       @customer_type = CustomerType.create!(:name => 'type', :description => 'test type', :category => 'category')
