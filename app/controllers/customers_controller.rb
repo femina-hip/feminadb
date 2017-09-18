@@ -142,9 +142,12 @@ class CustomersController < ApplicationController
 
   def show
     @customer = customer
-
+    # preload
+    customer.region
+    customer.type
     ActiveRecord::Associations::Preloader.new.preload(@customer.standing_orders, :publication)
     ActiveRecord::Associations::Preloader.new.preload(@customer.orders, issue: :publication)
+    ActiveRecord::Associations::Preloader.new.preload(@customer.notes, :created_by_user)
   end
 
   private
