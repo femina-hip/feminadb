@@ -22,8 +22,7 @@
           %abbr{:title => "Standing Orders for #{publication.name}"}= publication.name
       %th Customer
   %tbody
-    - @customers.each do |customer|
-      = render('tr', :customer => customer, :publications => @publications)
+    = render(collection: @customers, partial: 'tr', as: :customer, locals: { publications: @publications })
     - if current_user.has_role? 'edit-customers'
       %tr
         %td.add{:colspan => 5 + @publications.length}
