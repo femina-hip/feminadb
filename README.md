@@ -15,9 +15,9 @@ Commands you may need:
 
 * `bundle install`: set up your development environment
 * `git add`, `git commit`, `git push`: push new code to GitHub
-* `cap production deploy`: deploy the latest GitHub code to the server
-* `cap production deploy:migrate`: run database migrations you've just pushed
-* `cap production reindex`: reindex the customer database (in case there's a bug)
+* `bin/cap production deploy`: deploy the latest GitHub code to the server
+* `bin/cap production deploy:migrate`: run database migrations you've just pushed
+* `bin/cap production reindex`: reindex the customer database (in case there's a bug)
 
 You may need to use `bundle exec` to run commands. For instance:
 `bundle exec cap production deploy`
