@@ -7,20 +7,19 @@ feature "Edit standing orders from customer page", %q{
 } do
 
   background do
-    r1 = Role.make(:name => 'edit-orders')
-    r2 = Role.make(:name => 'view')
-    User.make(:login => 'order-editor', :password => 'password', :roles => [r1, r2])
-    login('order-editor', 'password')
+    User.create!(email: 'order-editor@example.org', roles: 'edit-orders')
+    login('order-editor@example.org')
   end
   
   scenario "Get an 'edit standing order' form when there's a standing order" do
-    c = Customer.make
-    Publication.make
+    c = Customer.create!(name: 'name', council: 'council')
+    p = Publication.create!(name: 'Fema')
+    StandingOrder.create!(customer_id: c.id, publication_id: p.id, num_copies: 10)
     visit(customers_index)
 
-    page.should(have_css("#customer-#{c.id}"))
+    expect(page).to have_css("#customer-#{c.id}")
     within("#customer-#{c.id}") do
-      page.should(have_css("form.new_standing_order"))
+      expect(page).to have_css("form.new_standing_order")
     end
   end
 
@@ -37,11 +36,11 @@ feature "Edit standing orders from customer page", %q{
       click_button('Create Standing Order')
     end
 
-    StandingOrder.count.should == 1
+    expect(StandingOrder.count).to eq(1)
     so = StandingOrder.first
-    so.customer_id.should == c.id
-    so.publication_id.should == p.id
-    so.num_copies.should == 150
-    so.comments.should == 'Some comment'
+    expect(so.customer_id).to eq(c.id)
+    expect(so.publication_id).to eq(p.id)
+    expect(so.num_copies).to eq(150)
+    expect(so.comments).to eq('Some comment')
   end
 end

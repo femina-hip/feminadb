@@ -42,7 +42,6 @@ class Customer < ActiveRecord::Base
     string(:council, stored: true)
     boolean(:council_valid) { council_valid? }
     string(:delivery_method) { delivery_method.abbreviation }
-    string(:type) { type.name }
     string(:category) { type.category }
     text(:region_manager) { region.manager }
     text(:name, stored: true)
@@ -54,7 +53,7 @@ class Customer < ActiveRecord::Base
     text(:old_sms_numbers)
     text(:headmaster_sms_numbers)
     text(:customer_note_text) { notes.collect(&:note).join("\n") }
-    text(:type) { type.name }
+    string(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
     boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }

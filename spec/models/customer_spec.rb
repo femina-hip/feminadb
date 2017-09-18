@@ -17,104 +17,91 @@ describe(Customer) do
 
     describe('validation') do
       it 'should strip spaces from beginning of customer name' do
-        customer = build_customer('district', ' name')
+        customer = build_customer('council', ' name')
         customer.valid?
-        customer.name.should == 'name'
+        expect(customer.name).to eq('name')
       end
 
       it 'should strip spaces from end of customer name' do
-        customer = build_customer('district', 'name ')
+        customer = build_customer('council', 'name ')
         customer.valid?
-        customer.name.should == 'name'
+        expect(customer.name).to eq('name')
       end
 
       it 'should strip spaces from both sides of customer name' do
-        customer = build_customer('district', ' name ')
+        customer = build_customer('council', ' name ')
         customer.valid?
-        customer.name.should == 'name'
+        expect(customer.name).to eq('name')
       end
 
-      it 'should strip spaces from district' do
-        customer = build_customer(' district ', 'name')
+      it 'should strip spaces from council' do
+        customer = build_customer(' council ', 'name')
         customer.valid?
-        customer.district.should == 'district'
+        expect(customer.council).to eq('council')
       end
 
-      it 'should strip spaces from deliver_via' do
-        customer = build_customer('district', 'name', :deliver_via => ' deliver_via ')
+      it 'should strip spaces from delivery_address' do
+        customer = build_customer('council', 'name', :delivery_address => ' delivery_address ')
         customer.valid?
-        customer.deliver_via.should == 'deliver_via'
+        expect(customer.delivery_address).to eq('delivery_address')
       end
     end
 
     describe('fuzzy_find') do
       it 'should find an exact match' do
-        customer = create_customer!('district', 'name')
-        found = Customer.fuzzy_find(@region.id, 'district', 'name')
-        found.count.should == 1
+        customer = create_customer!('council', 'name')
+        found = Customer.fuzzy_find(@region.id, 'name')
+        expect(found.count).to eq(1)
       end
 
       it 'should find a match off by one character' do
-        customer = create_customer!('district', 'name')
-        found = Customer.fuzzy_find(@region.id, 'district', 'nam')
-        found.count.should == 1
+        customer = create_customer!('council', 'name')
+        found = Customer.fuzzy_find(@region.id, 'nam')
+        expect(found.count).to eq(1)
       end
 
       it 'should find a two-word match' do
-        customer = create_customer!('district', 'foo bar')
-        found = Customer.fuzzy_find(@region.id, 'district', 'foo baz')
-        found.count.should == 1
-      end
-
-      it 'should match a district with a space in the query' do
-        customer = create_customer!('district', 'name')
-        found = Customer.fuzzy_find(@region.id, 'district ', 'name')
-        found.count.should == 1
+        customer = create_customer!('council', 'foo bar')
+        found = Customer.fuzzy_find(@region.id, 'foo baz')
+        expect(found.count).to eq(1)
       end
 
       it 'should not match a completely different string' do
-        customer = create_customer!('district', 'name')
-        found = Customer.fuzzy_find(@region.id, 'district', 'somewhere')
-        found.count.should == 0
+        customer = create_customer!('council', 'name')
+        found = Customer.fuzzy_find(@region.id, 'somewhere')
+        expect(found.count).to eq(0)
       end
 
-      it 'should not match a deleted Customer' do
-        customer = create_customer!('district', 'name')
-        customer.soft_delete
-        Customer.reindex
-        found = Customer.fuzzy_find(@region.id, 'district', 'name')
-        found.count.should == 0
-      end
-
-      it 'should return region name, name and district without a DB hit' do
-        customer = create_customer!('district', 'name')
-        found = Customer.fuzzy_find(@region.id, 'district', 'name')
-        found.count.should == 1
+      it 'should return name and council without a DB hit' do
+        customer = create_customer!('council', 'name')
+        Customer.connection.execute('DELETE FROM customers')
+        found = Customer.fuzzy_find(@region.id, 'name')
+        expect(found.count).to eq(1)
         raw_result = found.first
-        raw_result.primary_key.to_i.should == customer.id
-        raw_result.stored(:region).should == @region.name
-        raw_result.stored(:district).should == 'district'
-        raw_result.stored(:name).should == 'name'
+        expect(raw_result.primary_key.to_i).to eq(customer.id)
+        expect(raw_result.stored(:council)).to eq('council')
+        expect(raw_result.stored(:name)).to eq('name')
       end
 
       it 'should match uppercase names' do
-        customer = create_customer!('district', 'NAME')
-        found = Customer.fuzzy_find(@region.id, 'district', 'NAME')
-        found.count.should == 1
+        customer = create_customer!('council', 'NAME')
+        found = Customer.fuzzy_find(@region.id, 'name')
+        expect(found.count).to eq(1)
       end
     end
 
-    def build_customer(district, name, options = {})
+    def build_customer(council, name, options = {})
       Customer.new({
-        :region_id => @region.id,
-        :customer_type_id => @customer_type.id,
-        :district => district,
-        :name => name
+        region_id: @region.id,
+        customer_type_id: @customer_type.id,
+        council: council,
+        name: name,
+        delivery_address: 'delivery address'
       }.merge(options))
     end
 
-    def create_customer!(district, name, options = {})
-      customer = build_customer(district, name, options)
+    def create_customer!(council, name, options = {})
+      customer = build_customer(council, name, options)
 
       customer.save!
       Customer.reindex(:include => [ { :region => :delivery_method }, :type ])

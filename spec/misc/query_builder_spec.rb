@@ -1,8 +1,8 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe(::QueryBuilder) do
   def self.t(description, query, normalized)
-    it(description) { normalize(query).should == normalized }
+    it(description) { expect(normalize(query)).to eq(normalized) }
   end
 
   t('handles a single word', 'foo', 'foo')
