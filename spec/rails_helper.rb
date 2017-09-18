@@ -12,7 +12,7 @@ def disable_transactions_forever
   # B) acceptance tests can use multiple simultaneous connections, leading to
   #    non-visibility
   ActiveRecord::ConnectionAdapters::Mysql2Adapter.class_eval do
-    def begin_transaction; end
+    def begin_db_transaction; end
     def begin_isolated_db_transaction(isolation); end
     def commit_db_transaction; end
     def exec_rollback_db_transaction; end
@@ -21,10 +21,7 @@ end
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
-
-  config.before(:all) do
-    disable_transactions_forever
-  end
+  config.before(:all) { disable_transactions_forever }
 
   config.before(:each) do
     Sunspot.remove_all

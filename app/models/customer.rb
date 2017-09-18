@@ -24,6 +24,10 @@ class Customer < ActiveRecord::Base
   }
   cattr_reader(:SMS_NUMBER_FIELDS)
 
+  def self.publications_tracking_standing_orders_for_indexing
+    Publication.tracking_standing_orders.all
+  end
+
   # Controllers index manually whenever anything might have changed.
   searchable(
       auto_index: false,  # controllers handle indexing
@@ -59,15 +63,17 @@ class Customer < ActiveRecord::Base
     text(:category) { type.category }
     boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }
     boolean(:club) { has_club? }
+
+    pubs = Customer.publications_tracking_standing_orders_for_indexing
     dynamic_integer(:standing_num_copies) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+      pubs.inject({}) do |hash, publication|
         key = publication.to_index_key
         value = standing_order_for(publication).try(:num_copies) || 0
         hash.merge!(key => value)
       end
     end
     dynamic_boolean(:standing) do
-      publications_tracking_standing_orders_for_indexing.inject({}) do |hash, publication|
+      pubs.inject({}) do |hash, publication|
         key = publication.to_index_key
         value = standing_order_for(publication) && true || false
         hash.merge!(key => value)
@@ -220,9 +226,5 @@ class Customer < ActiveRecord::Base
     if delivery_address =~ NEEDS_STRIPPING
       write_attribute(:delivery_address, delivery_address.strip)
     end
-  end
-
-  def self.publications_tracking_standing_orders_for_indexing
-    @@publications_tracking_standing_orders_for_indexing ||= Publication.tracking_standing_orders.all
   end
 end

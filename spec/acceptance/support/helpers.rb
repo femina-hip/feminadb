@@ -8,7 +8,9 @@ module HelperMethods
         user_email: login
       }
     }
-    Capybara.current_session.driver.browser.set_cookie(fake_request.cookie_jar.to_header)
+    fake_request.cookie_jar.each do |name, value|
+      Capybara.current_session.driver.browser.manage.add_cookie(name: name, value: value)
+    end
   end
 end
 

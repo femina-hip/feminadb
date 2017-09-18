@@ -44,7 +44,9 @@ Running tests
 =============
 
 1. `RAILS_ENV=test bin/rake db:migrate`
-1. In one shell, `RAILS_ENV=test rake sunspot:solr:run`
+1. Install [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)
+   and make sure `chromedriver` is in your `PATH`
+1. In one shell, `rake sunspot:solr:run`
 1. In another shell, `bin/rspec`
 
 Sources
