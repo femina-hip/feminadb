@@ -44,7 +44,8 @@ class Customer < ActiveRecord::Base
     string(:delivery_method) { delivery_method.abbreviation }
     string(:category) { type.category }
     text(:region_manager) { region.manager }
-    text(:name, stored: true)
+    string(:name, stored: true) # for autocomplete, skip DB hit
+    text(:name) # for search
     string(:sort_column) { [ region.name, council, name ].join("\0") }
     text(:delivery_address)
     text(:delivery_contact)
