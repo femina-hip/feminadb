@@ -15,8 +15,7 @@
       - if current_user.has_role?('edit-orders')
         %th
   %tbody
-    - orders.each do |order|
-      = render('customer_orders/tr', order: order)
+    = render(collection: orders, partial: 'customer_orders/tr', as: 'order')
     - if current_user.has_role?('edit-orders')
       %tr
         %td.add{:colspan => current_user.has_role?('edit-orders') && 5 || 4}
