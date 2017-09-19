@@ -3,8 +3,9 @@
   %thead.general-information
     %tr
       %th{:colspan => 2}
-        General Information:
         %b= customer.name
+        = customer_tags_field_data
+        = customer_tags_field(customer.id, customer.tag_ids)
   %tbody.general-information
     %tr.first
       %th Name
