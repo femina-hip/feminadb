@@ -115,7 +115,8 @@ module Reports
           smss.contact_type,
           regions.name AS region_name,
           customers.council,
-          customers.name
+          customers.name,
+          smss.customer_id
         FROM
           (
                   #{sql_i(0, 'headmaster')}
