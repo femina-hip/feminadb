@@ -25,7 +25,8 @@ module Reports
             AND customer_type_id IN (SELECT id FROM customer_types WHERE category = 'Educational Institutions')
           )) AS n_clubs
         FROM regions
-        GROUP BY manager
+        WHERE regions.manager <> ''
+        GROUP BY regions.manager
       EOT
 
       result
