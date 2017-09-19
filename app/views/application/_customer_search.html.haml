@@ -47,5 +47,5 @@
               - facet.rows.each do |row|
                 %li.row<>
                   %a{:href => url_for(q: refine_q(params[:q], "standing:#{sym}", row.value.to_s))}<>
-                    %span.value<>= "#{row.value ? 'Has' : 'Does not have'} Standing Orders for #{name}"
+                    %span.value<>= "#{row.value ? 'Has a Standing Order' : 'Has no Standing Order'} for #{name}"
                     %span.count<>= number_with_delimiter(row.count)
