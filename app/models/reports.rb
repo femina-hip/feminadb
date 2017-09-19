@@ -27,6 +27,7 @@ module Reports
         FROM regions
         WHERE regions.manager <> ''
         GROUP BY regions.manager
+        ORDER BY regions.manager
       EOT
 
       result
