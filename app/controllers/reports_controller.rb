@@ -5,6 +5,7 @@ class ReportsController < ApplicationController
     case params[:id]
     when 'staff-schools-clubs' then show_staff_schools_clubs
     when 'school-contacts' then show_school_contacts
+    when 'contact-list' then show_contact_list
     else raise ActiveRecord::RecordNotFound.new("Invalid report name: #{params[:id]}")
     end
   end
@@ -19,6 +20,11 @@ class ReportsController < ApplicationController
   def show_school_contacts
     @table = Reports.school_contacts
     respond('school-contacts')
+  end
+
+  def show_contact_list
+    @table = Reports.contact_list
+    respond('contact-list')
   end
 
   # Either sends @table to render(view_name), or renders @table as a CSV.

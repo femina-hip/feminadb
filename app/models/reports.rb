@@ -39,6 +39,7 @@ module Reports
         end
     end
 
+    # Returns info for each region concerning number of schools+contacts.
     def school_contacts
       result = Customer.connection.select_all <<-EOT
         SELECT
@@ -78,6 +79,68 @@ module Reports
         GROUP BY regions.name, regions.manager, regions.n_schools, regions.population
         ORDER BY regions.name
       EOT
+
+      result.to_hash.map(&:symbolize_keys!)
+    end
+
+    # Returns a row per phone number, for comparison with Telerivet
+    def contact_list
+      # We really want something like Postgres's UNNEST() to turn the String
+      # values like "+255123123123 +255234234234" into two rows. But MySQL can't
+      # do that. We simulate with a subquery.
+
+      def sql_regex_i(i, contact_type)
+        # SQL snippet. Regex will return the (i+1)th phone number from a string
+        # like "+255123123123, +255234234234" -- or the empty string if i is
+        # greater than the number of numbers.
+        "REGEXP_REPLACE(REGEXP_REPLACE(#{contact_type}_sms_numbers, '^([+][0-9]+[, ]*){0,#{i}}', ''), '[, ].*$', '')"
+      end
+
+      def sql_i(i, contact_type)
+        # Watch the missing escape on contact_type. (Types are hard-coded
+        # and don't have quotes.)
+        <<-EOT
+          SELECT
+            id AS customer_id,
+            '#{contact_type}' AS contact_type,
+            #{sql_regex_i(i, contact_type)} AS sms
+          FROM customers
+          WHERE #{sql_regex_i(i, contact_type)} <> ''
+        EOT
+      end
+
+      sql = <<-EOT
+        SELECT
+          smss.sms,
+          smss.contact_type,
+          regions.name AS region_name,
+          customers.council,
+          customers.name
+        FROM
+          (
+                  #{sql_i(0, 'headmaster')}
+            UNION #{sql_i(1, 'headmaster')}
+            UNION #{sql_i(2, 'headmaster')}
+            UNION #{sql_i(3, 'headmaster')}
+            UNION #{sql_i(4, 'headmaster')}
+            UNION #{sql_i(5, 'headmaster')}
+            UNION #{sql_i(6, 'headmaster')}
+            UNION #{sql_i(7, 'headmaster')}
+            UNION #{sql_i(0, 'club')}
+            UNION #{sql_i(1, 'club')}
+            UNION #{sql_i(2, 'club')}
+            UNION #{sql_i(3, 'club')}
+            UNION #{sql_i(4, 'club')}
+            UNION #{sql_i(5, 'club')}
+            UNION #{sql_i(6, 'club')}
+            UNION #{sql_i(7, 'club')}
+          ) smss
+        INNER JOIN customers ON smss.customer_id = customers.id
+        INNER JOIN regions ON customers.region_id = regions.id
+        ORDER BY regions.name, customers.council, smss.contact_type, customers.name
+      EOT
+
+      result = Customer.connection.select_all(sql)
 
       result.to_hash.map(&:symbolize_keys!)
     end

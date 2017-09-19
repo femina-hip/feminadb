@@ -1,0 +1,23 @@
+= render_pretty_header 'Contact List' do
+  %p
+    See all the Telerivet SMS contact numbers we have in FeminaDB.
+
+%table.report
+  %thead
+    %tr<
+      %th<> SMS
+      %th<> Contact
+      %th<> Region
+      %th<> Council
+      %th<> Name
+  %tbody
+    - @table.each do |row|
+      %tr{class: cycle('odd', 'even')}<
+        %td.number<>= row[:sms]
+        %td.string<>= row[:contact_type]
+        %td.string<>= row[:region_name]
+        %td.string<>= row[:council]
+        %td.string<>= row[:name]
+
+%p.actions
+  = link_to('Export Data to Excel', report_path('contact-list', format: :csv))
