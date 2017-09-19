@@ -4,6 +4,7 @@
 //= require selectize
 //= require add-sms-numbers
 //= require customer-id-field
+//= require customer-tags-field
 //= require customer-council-field
 //= require customer-search
 //= require in-modal-dialog

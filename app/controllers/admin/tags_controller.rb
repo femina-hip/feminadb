@@ -27,7 +27,7 @@ class Admin::TagsController < ApplicationController
   def update
     require_role 'admin'
     @tag = Tag.find(params[:id])
-    if update_with_audit(tag, tag_params)
+    if update_with_audit(@tag, tag_params)
       Sunspot.index(@tag.customers)
       redirect_to(admin_tags_url)
     else

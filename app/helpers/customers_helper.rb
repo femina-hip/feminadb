@@ -44,4 +44,12 @@ module CustomersHelper
       content_tag(:span, text, class: 'sms-number')
     end
   end
+
+  def customer_tags_field_data
+    content_tag(:div, '', class: 'tags-data', 'data-tags': Tag.all.to_a.to_json)
+  end
+
+  def customer_tags_field(customer_id, tag_ids)
+    content_tag(:div, '', class: 'customer-tags-field', 'data-customer-id': customer_id, 'data-tag-ids': tag_ids.join(','))
+  end
 end

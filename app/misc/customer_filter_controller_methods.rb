@@ -23,19 +23,21 @@ module CustomerFilterControllerMethods
 
         paginate(page: 1, per_page: 1)
 
-        facet(:category, :sort => :index)
-        facet(:region, :sort => :index)
-        facet(:council, :sort => :index)
-        facet(:type, :sort => :index)
-        facet(:delivery_method, :sort => :index)
+        facet(:category, sort: :index)
+        facet(:region, sort: :index)
+        facet(:council, sort: :index)
+        facet(:type, sort: :index)
+        facet(:delivery_method, sort: :index)
         facet(:has_headmaster_sms_number, sort: :index)
-        facet(:club, :sort => :index)
+        facet(:club, sort: :index)
 
         Customer.publications_tracking_standing_orders_for_indexing.each do |p|
           sym = p.to_index_key.to_sym
 
           dynamic(:standing) { facet(sym, :sort => :index) }
         end
+
+        facet(:tag, sort: :index)
       end
       search
     end

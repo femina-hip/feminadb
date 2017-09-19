@@ -41,6 +41,13 @@ Feminadb::Application.routes.draw do
 
   resources :standing_orders
 
+  resources :tags, only: [ :index ] do
+    member do
+      post :tag_customers
+      post :untag_customers
+    end
+  end
+
   resources :modifications, only: :index
   resources :orders, only: [ :new, :create, :edit, :update ]
   resources :bulk_order_creators, :only => [ :new, :create ]

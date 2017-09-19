@@ -1,5 +1,5 @@
 %tr{:class => cycle('odd', 'even'), :id => "customer-#{customer.id}"}<
-  %td.region<>= customer.region.name_and_manager
+  %td.region<>= customer.region.name
   %td.council<>= customer.council
   %td.type<>
     %abbr{:title => customer.type.description}= customer.type.name
@@ -15,4 +15,5 @@
       - if s.blank? && current_user.has_role?('edit-orders')
         = link_to('…', new_customer_standing_order_path(customer), class: 'in-modal-dialog')
   %td.customer-name<>
+    = customer_tags_field(customer.id, customer.tag_ids)
     .cut-off= link_to(customer.name, customer)

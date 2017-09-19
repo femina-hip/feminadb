@@ -33,10 +33,11 @@ class Customer < ActiveRecord::Base
       auto_index: false,  # controllers handle indexing
       auto_remove: false, # controllers handle indexing
       include: [
+        :notes,
         { region: :delivery_method },
         :standing_orders,
-        :type,
-        :notes
+        :tags,
+        :type
       ]
     ) do
     integer(:id)
@@ -51,6 +52,7 @@ class Customer < ActiveRecord::Base
     string(:name, stored: true) # for autocomplete, skip DB hit
     text(:name) # for search
     string(:sort_column) { [ region.name, council, name ].join("\0") }
+    string(:tag, multiple: true) { tags.map(&:name) }
     text(:delivery_address)
     text(:delivery_contact)
     text(:primary_contact_sms_numbers)
@@ -86,7 +88,7 @@ class Customer < ActiveRecord::Base
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:orders)
   has_many(:standing_orders)
-  has_and_belongs_to_many(:tags, dependent: :delete)
+  has_and_belongs_to_many(:tags, dependent: :delete, readonly: true)
 
   validates_presence_of :region_id
   validates_presence_of :council

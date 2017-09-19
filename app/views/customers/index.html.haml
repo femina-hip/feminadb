@@ -30,6 +30,7 @@
 
 = will_paginate(@customers)
 
+= customer_tags_field_data
 .customer-search-result{'data-q' => params[:q], 'data-page' => (params[:page] || '1'), 'data-customer-ids' => @customer_ids.join(' ')}
 
 %p.actions
