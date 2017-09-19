@@ -11,8 +11,14 @@
               = link_to("#{publication.name} (all Issues)", publication)
               - publication.issues.first(3).each do |issue|
                 %li.issue= link_to(issue.full_name, issue)
-    %li= link_to('Map', map_path)
     %li= link_to('Link Telerivet Contact', new_telerivet_link_path)
+    %li.has-dropdown
+      %a Reports
+      .dropdown
+        %ul
+          %li= link_to('Distribution Map', map_path)
+          %li= link_to('Staff schools/clubs', report_path('staff-schools-clubs'))
+          %li= link_to('School contacts', report_path('school-contacts'))
     %li= link_to('Help', help_path)
   .login
     You are

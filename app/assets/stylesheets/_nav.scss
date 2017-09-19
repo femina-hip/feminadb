@@ -26,12 +26,12 @@ nav#nav {
         color: $link_color;
       }
 
-      &:hover div.quick-publications {
+      &:hover div.quick-publications, &:hover div.dropdown {
         display: block;
       }
     }
 
-    div.quick-publications {
+    div.quick-publications, div.dropdown {
       display: none; /* unless we're hovering over its parent li */
       position: absolute;
       top: 1.3em;
