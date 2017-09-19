@@ -38,11 +38,9 @@ class Admin::TagsController < ApplicationController
   def destroy
     require_role 'admin'
     tag = Tag.find(params[:id])
-    if tag.customers.length > 0
-      flash[:notice] = 'Could not delete Tag: it is used by some Customers'
-    else
-      destroy_with_audit(tag)
-    end
+    customer_ids = tag.customer_ids
+    destroy_with_audit(tag)
+    Sunspot.index(Customer.find(customer_ids))
     redirect_to(admin_tags_url)
   end
 
