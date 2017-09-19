@@ -1,0 +1,10 @@
+%h1 Editing Tag
+
+= error_messages_for(:tag)
+
+= form_for(:tag, url: [ :admin, @tag ], html: { method: :patch }) do |f|
+  = render(partial: 'form', locals: { f: f })
+  %p
+    %button.debounced Save Tag
+
+= link_to('All Tags', [ :admin, :tags ])

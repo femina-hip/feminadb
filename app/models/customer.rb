@@ -84,8 +84,9 @@ class Customer < ActiveRecord::Base
   belongs_to(:type, class_name: 'CustomerType', foreign_key: 'customer_type_id')
   belongs_to(:region)
   has_many(:notes, class_name: 'CustomerNote')
-  has_many(:standing_orders)
   has_many(:orders)
+  has_many(:standing_orders)
+  has_and_belongs_to_many(:tags, dependent: :delete)
 
   validates_presence_of :region_id
   validates_presence_of :council

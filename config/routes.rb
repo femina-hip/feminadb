@@ -4,6 +4,7 @@ Feminadb::Application.routes.draw do
     resources :delivery_methods, :except => :show
     resources :regions
     resources :users
+    resources :tags
   end
 
   get '/councils/by-region.json', controller: 'councils', action: 'by_region_json'

@@ -1,6 +1,6 @@
 @import 'vars';
 
-table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.delivery-methods, table.audits, table.issues {
+table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.tags, table.delivery-methods, table.audits, table.issues {
   border: 2px solid $border_color;
   margin: 1em auto;
 
@@ -54,7 +54,7 @@ table.customers, table.customer-orders, table.customer-standing-orders, table.cu
 }
 
 // Tables which have no "thead.title"
-table.customers, table.issue-orders, table.report, table.distribution-list, table.customer-types, table.users, table.regions, table.delivery-methods, table.audits, table.issues {
+table.customers, table.issue-orders, table.report, table.distribution-list, table.customer-types, table.users, table.regions, table.tags, table.delivery-methods, table.audits, table.issues {
   thead {
     th {
       border-bottom: 0;

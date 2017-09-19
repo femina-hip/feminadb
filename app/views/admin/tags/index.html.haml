@@ -1,0 +1,21 @@
+= render_pretty_header 'Tags' do
+  %p You may edit the master list of Tags here.
+  %p
+    Tags are applied to Customers. They help generate searches.
+
+%table.tags
+  %thead
+    %tr
+      %th Name
+      %th
+      %th
+
+  %tbody
+    - @tags.each do |tag|
+      %tr{:class => cycle('odd', 'even')}
+        %td= render_tag(tag)
+        %td= link_to 'Edit', edit_admin_tag_path(tag)
+        %td= button_to 'Destroy', [ :admin, tag ], method: :delete, data: { confirm: 'Are you sure you want to delete this Tag?' }
+    %tr
+      %td.add{:colspan => 3}
+        = link_to 'Create New Tag', new_admin_tag_path
