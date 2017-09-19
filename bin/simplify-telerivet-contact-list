@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# Reads a TeleRivet contact list ("Contacts.csv") on standard input. Outputs a
+# simplified contact list with [ sms, contact_type, region_name, name, customer_id ]
+#
+# * sms looks like "+255123123123".
+# * contact_type is either "headmaster" or "club". (If a headmaster is also a
+#   club mentor, we'll output two rows.)
+# * customer_id is the one Telerivet reports.
+
+require 'csv'
+
+def dump_row(csv_out, row, contact_type, region_name)
+  customer_id = if (row['FeminaDB Link'] || '') =~ /customers\/(\d+)$/
+    $1
+  else
+    ''
+  end
+  csv_out << [
+    (row['Phone Number'] || '').sub(/^\^/, ''),
+    contact_type,
+    region_name,
+    row['Name'] || row["\ufeffName"] || '',
+    customer_id
+  ]
+end
+
+CSV($stdout) do |csv_out|
+  csv_out << %w(sms contact_type region_name name customer_id)
+
+  CSV($stdin, headers: :first_row, skip_blanks: true) do |csv_in|
+    csv_in.each do |row|
+      (row['Groups'] || '').split(/, /).each do |group|
+        if group =~ /^Fema Club Mentors (.*)/
+          dump_row(csv_out, row, 'club', $1)
+        end
+        if group =~ /Heads of School (.*)/
+          dump_row(csv_out, row, 'headmaster', $1)
+        end
+      end
+    end
+  end
+end
