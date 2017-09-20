@@ -67,7 +67,9 @@ class IssueOrdersController < ApplicationController
       num_copies: 0,
       order_date: Date.today,
       delivery_address: customer.delivery_address,
-      delivery_contact: customer.delivery_contact
+      delivery_contact: customer.delivery_contact,
+      primary_contact_sms_numbers: customer.primary_contact_sms_numbers,
+      headmaster_sms_numbers: customer.headmaster_sms_numbers
     )
   end
 end

@@ -58,8 +58,8 @@ class CustomerOrdersController < ApplicationController
       :council,
       :customer_name,
       :delivery_method,
-      :delivery_address,
-      :delivery_contact
+      :primary_contact_sms_numbers,
+      :headmaster_sms_numbers
     )
   end
 end

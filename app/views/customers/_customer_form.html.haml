@@ -17,14 +17,3 @@
       %td
         = f.region_field(:region_id)
         = f.council_field(:council)
-
-  %thead
-    %tr
-      %th{colspan: 2} Delivery Details
-  %tbody
-    %tr.first
-      %th= glossary_term('Delivery address')
-      %td= f.text_field :delivery_address
-    %tr.last
-      %th= glossary_term('Delivery contact')
-      %td= f.text_field :delivery_contact

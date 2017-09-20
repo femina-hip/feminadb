@@ -73,8 +73,6 @@ class Customer < ActiveRecord::Base
     text(:name) # for search
     string(:sort_column) { [ region.name, council, name ].join("\0") }
     string(:tag, multiple: true) { tags.map(&:name) }
-    text(:delivery_address)
-    text(:delivery_contact)
     text(:primary_contact_sms_numbers)
     text(:club_sms_numbers)
     text(:old_sms_numbers)
@@ -194,8 +192,6 @@ class Customer < ActiveRecord::Base
     council('Council')
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
-    delivery_address('Delivery address')
-    delivery_contact('Delivery contact')
     primary_contact_sms_numbers('Primary Contact SMS numbers')
     headmaster_sms_numbers('Headmaster SMS numbers')
     club_sms_numbers('Club SMS numbers')

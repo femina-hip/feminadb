@@ -141,10 +141,9 @@ class Issue < ActiveRecord::Base
     def region; @array[4]; end
     def council; @array[5]; end
     def customer_name; @array[6]; end
-    def delivery_address; @array[7]; end
-    def delivery_contact; @array[8]; end
-    def primary_contact_sms_numbers; @array[9]; end
-    def num_copies; @array[10]; end
+    def primary_contact_sms_numbers; @array[7]; end
+    def headmaster_sms_numbers; @array[8]; end
+    def num_copies; @array[9]; end
   end
 
   # Returns an Array of LightweightOrders with just enough info to build a
@@ -173,9 +172,8 @@ class Issue < ActiveRecord::Base
           orders.region,
           orders.council,
           orders.customer_name,
-          orders.delivery_address,
-          orders.delivery_contact,
           orders.primary_contact_sms_numbers,
+          orders.headmaster_sms_numbers,
           orders.num_copies
         FROM orders
         WHERE issue_id = #{id}
@@ -197,9 +195,8 @@ class Issue < ActiveRecord::Base
       'Region',
       'Council',
       'Final Recipient',
-      'Delivery Instructions',
-      'Delivery Contact',
       'Femina Contact',
+      'Headmaster',
       'Qty',
     ] + these_box_sizes.map { |n| "x#{n}" } + [
       # We ask for these fields to be filled in by the distribution company
@@ -224,9 +221,8 @@ class Issue < ActiveRecord::Base
           order.region,
           order.council,
           order.customer_name,
-          order.delivery_address,
-          order.delivery_contact,
           order.primary_contact_sms_numbers,
+          order.headmaster_sms_numbers,
           order.num_copies,
         ] + these_box_sizes.map { |bs| sizes[bs].to_s }
 

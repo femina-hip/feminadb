@@ -8,6 +8,8 @@
   = f.hidden_field(:customer_name, value: @order.customer.name)
   = f.hidden_field(:delivery_address, value: @order.customer.delivery_address)
   = f.hidden_field(:delivery_contact, value: @order.customer.delivery_contact)
+  = f.hidden_field(:primary_contact_sms_numbers, value: @order.customer.primary_contact_sms_numbers)
+  = f.hidden_field(:headmaster_sms_numbers, value: @order.customer.headmaster_sms_numbers)
 
   %br
 

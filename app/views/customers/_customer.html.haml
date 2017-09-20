@@ -26,16 +26,6 @@
       %th Inserted
       %td= customer.created_at && customer.created_at.to_formatted_s(:long) || '(date unknown)'
 
-  %thead.delivery-details
-    %tr
-      %th{:colspan => 2} Delivery Details
-  %tbody.delivery-details
-    %tr.first
-      %th= glossary_term('Delivery address')
-      %td= customer.delivery_address
-    %tr.last
-      %th= glossary_term('Delivery contact')
-      %td= customer.delivery_contact
   %thead.sms-numbers
     %tr
       %th{colspan: 2} SMS Numbers

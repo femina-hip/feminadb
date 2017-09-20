@@ -45,7 +45,5 @@ class Order < ActiveRecord::Base
     num_copies('Copies')
     order_date('Date')
     comments('Comment')
-    delivery_address('Delivery address')
-    delivery_contact('Delivery contact')
   end
 end

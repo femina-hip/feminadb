@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918131349) do
+ActiveRecord::Schema.define(version: 20170920130124) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170918131349) do
     t.string "headmaster_sms_numbers"
   end
 
-  create_table "customers_tags", primary_key: ["customer_id", "tag_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "customers_tags", primary_key: ["customer_id", "tag_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "customer_id", null: false
     t.bigint "tag_id", null: false
     t.index ["tag_id", "customer_id"], name: "index_customers_tags_on_tag_id_and_customer_id"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 20170918131349) do
     t.string "region", null: false
     t.string "delivery_method", null: false
     t.string "primary_contact_sms_numbers"
+    t.string "headmaster_sms_numbers"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["issue_id"], name: "index_orders_on_issue_id"
     t.index ["standing_order_id", "issue_id"], name: "index_orders_on_standing_order_id_and_issue_id_and_deleted_at"
@@ -148,7 +149,7 @@ ActiveRecord::Schema.define(version: 20170918131349) do
     t.index ["publication_id"], name: "index_standing_orders_on_publication_id"
   end
 
-  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
     t.string "color", null: false
   end

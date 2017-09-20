@@ -100,7 +100,8 @@ class BulkOrderCreator
         delivery_method,
         delivery_address,
         delivery_contact,
-        primary_contact_sms_numbers
+        primary_contact_sms_numbers,
+        headmaster_sms_numbers
       )
       SELECT
         customers.id,
@@ -115,11 +116,12 @@ class BulkOrderCreator
         delivery_methods.name,
         customers.delivery_address,
         customers.delivery_contact,
-        customers.primary_contact_sms_numbers
+        customers.primary_contact_sms_numbers,
+        customers.headmaster_sms_numbers
       FROM standing_orders
       INNER JOIN customers ON standing_orders.customer_id = customers.id
       INNER JOIN regions ON customers.region_id = regions.id
-      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
+      INNER JOIN delivery_methods ON regions.delivery_method_id = delivery_methods.id
       WHERE customers.id IN (#{allowed_customer_ids.join(',')})
                         AND standing_orders.publication_id = #{from_publication_id}
     """)
@@ -154,7 +156,8 @@ class BulkOrderCreator
         delivery_method,
         delivery_address,
         delivery_contact,
-        primary_contact_sms_numbers
+        primary_contact_sms_numbers,
+        headmaster_sms_numbers
       )
       SELECT
         orders.customer_id,
@@ -168,7 +171,8 @@ class BulkOrderCreator
         #{delivery_method_sql},
         customers.delivery_address,
         customers.delivery_contact,
-        customers.primary_contact_sms_numbers
+        customers.primary_contact_sms_numbers,
+        customers.headmaster_sms_numbers
       FROM orders
       INNER JOIN customers ON orders.customer_id = customers.id
       INNER JOIN regions ON customers.region_id = regions.id
@@ -207,7 +211,8 @@ class BulkOrderCreator
         delivery_method,
         delivery_address,
         delivery_contact,
-        primary_contact_sms_numbers
+        primary_contact_sms_numbers,
+        headmaster_sms_numbers
       )
       SELECT
         customers.id,
@@ -221,10 +226,11 @@ class BulkOrderCreator
         delivery_methods.name,
         customers.delivery_address,
         customers.delivery_contact,
-        customers.primary_contact_sms_numbers
+        customers.primary_contact_sms_numbers,
+        customers.headmaster_sms_numbers
       FROM customers
       INNER JOIN regions ON customers.region_id = regions.id
-      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
+      INNER JOIN delivery_methods ON regions.delivery_method_id = delivery_methods.id
       WHERE customers.id IN (#{allowed_customer_ids.join(',')})
     """)
   end
@@ -234,7 +240,7 @@ class BulkOrderCreator
       SELECT COUNT(*)
       FROM customers
       INNER JOIN regions ON customers.region_id = regions.id
-      INNER JOIN delivery_methods ON customers.delivery_method_id = delivery_methods.id
+      INNER JOIN delivery_methods ON regions.delivery_method_id = delivery_methods.id
       WHERE customers.id IN (#{allowed_customer_ids.join(',')})
     """)
   end
