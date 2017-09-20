@@ -5,21 +5,41 @@ class Customer < ActiveRecord::Base
       person: 'Primary contact',
       singular: 'Main contact SMS number',
       plural: 'Main contact SMS numbers',
+      telerivet_name: :name,
+      telerivet_groups: [
+        '+Audience',
+      ],
     },
     headmaster_sms_numbers: {
       person: 'Headmaster',
       singular: 'Headmaster SMS number',
       plural: 'Headmaster SMS numbers',
+      telerivet_name: :school_headmaster,
+      telerivet_groups: [
+        '+Audience',
+        '+Heads of School REGION',
+        '-Ex-Heads of School',
+      ],
     },
     club_sms_numbers: {
       person: 'Club Mentor',
       singular: 'Club Mentor SMS number',
       plural: 'Club Mentor SMS numbers',
+      telerivet_name: :school_mentor,
+      telerivet_groups: [
+        '+Audience',
+        '+Fema Club Mentors REGION',
+        '-Ex-Fema Club Mentors',
+      ],
     },
     old_sms_numbers: {
       person: 'Expired Contact',
       singular: 'SMS number that no longer applies',
       plural: 'SMS numbers that no longer apply',
+      telerivet_name: :expired,
+      telerivet_groups: [
+        '+Audience',
+      ],
     },
   }
   cattr_reader(:SMS_NUMBER_FIELDS)
@@ -112,21 +132,22 @@ class Customer < ActiveRecord::Base
   # SMS number in Telerivet.
   #
   # This method is safe: it will verify all parameters before writing them.
-  def add_sms_number(attribute, sms_number)
-    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !Customer.SMS_NUMBER_FIELDS.include?(attribute.to_sym)
-    raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
-
-    telerivet_id_cache[sms_number] ||= TelerivetBridge.ensure_customer_sms_link_and_return_id(id, sms_number)
-    assign_attributes(attribute => split_sms_numbers(attribute).push(sms_number).uniq.join(', '))
+  def add_sms_number(telerivet_link)
+    tl = telerivet_link
+    # cache the ID for later telerivet_contact_ids calls. But don't use "||="
+    # here: we need to call TelerivetBridge no matter what.
+    telerivet_id_cache[tl.sms_number] = TelerivetBridge.sync_telerivet_link_and_return_contact_id(tl)
+    assign_attributes(tl.attribute.to_sym => split_sms_numbers(tl.attribute.to_sym).push(tl.sms_number).uniq.join(', '))
   end
 
   # Removes an SMS number from the specified field.
   #
   # This method is safe: it will verify all parameters before writing them.
-  def remove_sms_number(attribute, sms_number)
-    raise ArgumentError.new("Invalid attribute for SMS number: #{attribute}") if !Customer.SMS_NUMBER_FIELDS.include?(attribute.to_sym)
-    raise ArgumentError.new("Invalid SMS number: #{sms_number}. Just copy/paste the number from Telerivet.") if !/\A\+\d+\z/.match(sms_number)
+  def remove_sms_number(telerivet_link)
+    attribute = telerivet_link.attribute
+    sms_number = telerivet_link.sms_number
 
+    TelerivetBridge.unsync_telerivet_link(telerivet_link)
     assign_attributes(attribute => split_sms_numbers(attribute).reject{ |sms| sms == sms_number }.join(', '))
   end
 

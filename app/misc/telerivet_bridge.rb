@@ -2,12 +2,70 @@ module TelerivetBridge
   MessagesPageSize = 200
 
   # Returns a contact ID
-  def self.ensure_customer_sms_link_and_return_id(customer_id, sms_number)
+  def self.ensure_telerivet_contact_and_return_id(telerivet_link)
+    Rails.logger.info("Project<#{project.id}>.get_or_create_contact(#{telerivet_link.sms_number})")
     project.get_or_create_contact({
-      phone_number: sms_number,
+      phone_number: telerivet_link.sms_number,
       lookup_key: 'phone_number',
-      vars: { feminadb_url: "https://db.feminahip.or.tz/customers/#{customer_id}" }
+      name: telerivet_link.telerivet_name,
+      vars: {
+        contact_name: telerivet_link.contact_name,
+        feminadb_url: "https://db.feminahip.or.tz/customers/#{telerivet_link.customer.id}",
+      }
     }).id
+  end
+
+  def self.ensure_telerivet_group_and_return_id(group_name)
+    Rails.logger.info("Project<#{project.id}>.get_or_create_group(#{group_name})")
+    group = project.get_or_create_group(group_name)
+    group.id
+  end
+
+  def self.ensure_contact_is_in_group(contact_id, group_id)
+    Rails.logger.info("Project<#{project.id}>.Contact<#{contact_id}>.add_to_group(Group<#{group_id}>)")
+    project.init_contact_by_id(contact_id)
+      .add_to_group(project.init_group_by_id(group_id))
+  end
+
+  def self.ensure_contact_is_not_in_group(contact_id, group_id)
+    Rails.logger.info("Project<#{project.id}>.Contact<#{contact_id}>.remove_from_group(Group<#{group_id}>)")
+    project.init_contact_by_id(contact_id)
+      .remove_from_group(project.init_group_by_id(group_id))
+  end
+
+  def self.sync_telerivet_link_and_return_contact_id(telerivet_link)
+    contact_id = ensure_telerivet_contact_and_return_id(telerivet_link)
+    for group_name in telerivet_link.telerivet_groups_to_add
+      group_id = ensure_telerivet_group_and_return_id(group_name)
+      ensure_contact_is_in_group(contact_id, group_id)
+    end
+    for group_name in telerivet_link.telerivet_groups_to_remove
+      group_id = ensure_telerivet_group_and_return_id(group_name)
+      ensure_contact_is_not_in_group(contact_id, group_id)
+    end
+    contact_id
+  end
+
+  def self.unsync_telerivet_link(telerivet_link)
+    Rails.logger.info("Project<#{project.id}>.get_or_create_contact(#{telerivet_link.sms_number})")
+    contact = project.get_or_create_contact({
+      phone_number: telerivet_link.sms_number,
+      lookup_key: 'phone_number',
+      name: telerivet_link.sms_number,
+    })
+    contact.vars.feminadb_url = "https://db.feminahip.or.tz/telerivet_links/new?sms_number=#{telerivet_link.sms_number.sub('+', '%2B')}"
+    Rails.logger.info("Project<#{project.id}>.Contact<#{contact.id}>.save")
+    contact.save
+    contact_id = contact.id
+
+    for group_name in (telerivet_link.telerivet_groups_to_add - [ 'Audience' ])
+      group_id = ensure_telerivet_group_and_return_id(group_name)
+      ensure_contact_is_not_in_group(contact_id, group_id)
+    end
+    for group_name in telerivet_link.telerivet_groups_to_remove
+      group_id = ensure_telerivet_group_and_return_id(group_name)
+      ensure_contact_is_in_group(contact_id, group_id)
+    end
   end
 
   # Returns an Array of SmsMessages

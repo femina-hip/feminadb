@@ -3,4 +3,4 @@
   - options_data = {}
   - if attribute == :old_sms_numbers
     - options_data[:confirm] = 'Are you sure you want to remove this SMS number? You must remove the link within Telerivet, too.'
-  = button_to('×', remove_sms_number_customer_path(customer, attribute, sms_number), method: 'delete', data: options_data)
+  = link_to('×', edit_customer_telerivet_link_path(customer.id, sms_number, attribute: attribute), class: 'in-modal-dialog')

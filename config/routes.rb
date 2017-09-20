@@ -22,6 +22,7 @@ Feminadb::Application.routes.draw do
     resources :standing_orders, :controller => 'customer_standing_orders'
     resources :orders, controller: 'customer_orders', only: [ :new, :create, :destroy ]
     resources :notes, :controller => 'customer_notes'
+    resources :telerivet_links, only: [ :new, :edit, :create, :destroy ]
   end
 
   resources :publications
@@ -52,8 +53,9 @@ Feminadb::Application.routes.draw do
   resources :orders, only: [ :new, :create, :edit, :update ]
   resources :bulk_order_creators, :only => [ :new, :create ]
 
-  resources :telerivet_links
   resource :map, only: :show
+
+  get 'telerivet_links/new' => 'telerivet_links#help'
 
   get 'help(/:doc)' => 'helps#show', :as => 'help'
 

@@ -1,13 +1,24 @@
 = error_messages_for :telerivet_link
 
-= form_for(@telerivet_link) do |f|
-  .form-group
-    = f.label(:sms_number, 'SMS number to add')
-    = f.sms_number_field(:sms_number, required: true)
-  .form-group
-    %label{for: 'customer_id-search'} Customer
-    = f.customer_id_field(:customer_id, required: true)
-  .form-group
-    = f.label(:attribute, 'This phone number is what to the customer?')
-    = f.select(:attribute, options_for_select(Customer.SMS_NUMBER_FIELDS.map { |attribute, descriptions| [ descriptions[:singular], attribute ] }))
-  %button.btn.btn-default.debounced{type: 'submit'} Submit
+.main
+  = form_for(@telerivet_link, url: customer_telerivet_links_path(customer_id: @telerivet_link.customer.id)) do |f|
+    = f.hidden_field(:attribute)
+    %h2
+      %small{style: 'font-weight: normal'} Create or link telerivet contact:
+      = @telerivet_link.telerivet_name
+    .form-group
+      = f.label(:sms_number, 'SMS number')
+      = f.sms_number_field(:sms_number, required: true)
+    .form-group
+      = f.label(:contact_name, 'Contact name (optional)')
+      = f.text_field(:contact_name, placeholder: 'Baba Malaika')
+    %button.btn.btn-default.debounced{type: 'submit'} Create or Link
+
+    %p FeminaDB will:
+    %ul
+      %li create a contact with this phone number in Telerivet if it does not exist
+      %li update the Telerivet contact names
+      - @telerivet_link.telerivet_groups_to_add.each do |group_name|
+        %li add this contact to the Telerivet group, <q>#{group_name}</q>
+      - @telerivet_link.telerivet_groups_to_remove.each do |group_name|
+        %li remove this contact from the Telerivet group, <q>#{group_name}</q>

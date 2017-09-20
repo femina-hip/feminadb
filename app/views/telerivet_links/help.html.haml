@@ -1,0 +1,26 @@
+= render_pretty_header 'This Telerivet Contact has no Customer' do
+  %p You can add one, though.
+
+%p
+  You clicked a Telerivet Contact's "FeminaDB" link to arrive here. But that
+  Contact isn't associated with a FeminaDB Customer.
+
+- if current_user.has_role?('edit-customers')
+  %h2 Linking from FeminaDB to Telerivet
+
+  %p
+    If your Telerivet contact is a Headmaster, Club Mentor or a contact we use
+    for delivery, please add it to the FeminaDB Customer now. Here's how:
+
+  %ol
+    %li Copy (Ctrl+C) the contact's phone number: <code>#{@sms_number.sub(/^ /, '+')}</code>
+    %li
+      Click <a href="#{customers_path}">Customers</a> above, find the relevant
+      Customer, and view its details page. (If the FeminaDB Customer does not
+      exist, please create it.)
+    %li
+      In the <code>SMS Numbers</code> section, click <code>New…</code>.
+    %li
+      Paste (Ctrl+V) the contact's phone number, and enter the name if you have
+      it.
+    %li Click <code>Create or Link</code>.
