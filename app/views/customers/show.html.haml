@@ -5,16 +5,16 @@
 
 = render(@customer)
 
+= render(:partial => 'customer_standing_orders/standing_orders', :locals => { :standing_orders => @customer.standing_orders })
+
 %section.sms-messages
   %h2 SMS history
   .sms-messages-container
     = link_to('Load SMS history', customer_sms_messages_path(@customer.id), class: 'load-sms-messages')
 
-= render(:partial => 'customer_standing_orders/standing_orders', :locals => { :standing_orders => @customer.standing_orders })
+= render(:partial => 'notes', :locals => { :customer => @customer })
 
 = render(:partial => 'customer_orders/orders', :locals => { :orders => @customer.orders })
-
-= render(:partial => 'notes', :locals => { :customer => @customer })
 
 %p.actions
   = link_to('Back to Customers', customers_path)
