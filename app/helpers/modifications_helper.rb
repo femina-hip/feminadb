@@ -5,8 +5,8 @@ module ModificationsHelper
     if audit.record_id
       klass_or_nil = audit.table_name.singularize.classify.safe_constantize
       record = klass_or_nil && klass_or_nil.find_by_id(audit.record_id) # find(id) can throw an exception. We want nil.
-      if record && record.respond_to?(:title)
-        text = "#{klass.model_name.human} #{audit.record_id}: #{record.title}"
+      if record && (record.respond_to?(:title) || record.respond_to?(:name))
+        text = "#{klass.model_name.human} #{audit.record_id}: #{record.respond_to?(:title) ? record.title : record.name}"
         if record.class.respond_to?(:can_visit_url?) && record.class.can_visit_url?
           link_to(text, record)
         else
@@ -29,9 +29,10 @@ module ModificationsHelper
       when 'customer_id' then format_customer_id(value)
       when 'customer_type_id' then format_customer_type_id(value)
       when 'delivery_method_id' then format_delivery_method_id(value)
-      when 'region_id' then format_region_id(value)
-      when 'publication_id' then format_publication_id(value)
       when 'issue_id' then format_issue_id(value)
+      when 'publication_id' then format_publication_id(value)
+      when 'region_id' then format_region_id(value)
+      when 'tag_id' then format_tag_id(value)
       else value
     end
   end
@@ -72,5 +73,11 @@ module ModificationsHelper
     return nil if id.nil?
     r = Region.find_by_id(id)
     r && "#{id} (#{r.name})" || id
+  end
+
+  def format_tag_id(id)
+    return nil if id.nil?
+    t = Tag.find_by_id(id)
+    t && "#{id} (#{t.name})" || id
   end
 end

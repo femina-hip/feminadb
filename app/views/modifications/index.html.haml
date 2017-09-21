@@ -26,7 +26,7 @@
               - if !params[:table_name] || !params[:row_id]
                 = link_to_record_history(audit)
             .user= "#{audit.action} by #{audit.user_email}"
-            .created_at= audit.created_at.to_s(:long)
+            .created_at #{audit.created_at.to_s(:long)} UTC
           - if audit.changed_attributes.length < 1
             %td.change_field
             %td.change_before
