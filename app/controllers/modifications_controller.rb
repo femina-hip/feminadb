@@ -8,8 +8,6 @@ class ModificationsController < ApplicationController
       order_by(:created_at, :desc)
       paginate(page: page, per_page: per_page)
     end.results
-
-    puts @audits.inspect
   end
 
   private

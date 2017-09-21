@@ -5,7 +5,7 @@ class Audit < ActiveRecord::Base
   searchable(auto_index: true) do
     integer(:record_id)
     string(:table_name)
-    date(:created_at)
+    time(:created_at)
     text(:all) { [ user_email, action, before.to_s.encode('utf-8'), after.to_s.encode('utf-8') ].join(' ') }
   end
 

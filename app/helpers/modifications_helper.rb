@@ -1,6 +1,5 @@
 module ModificationsHelper
   def show_record_identifier(audit)
-    puts audit.inspect
     klass = audit.table_name.singularize.classify.safe_constantize
 
     if audit.record_id
