@@ -128,5 +128,13 @@ table.customer {
 
   td.actions {
     text-align: center;
+
+    a, form {
+      margin: 0 1rem;
+    }
+
+    input[type=submit] {
+      padding: 0 .25rem;
+    }
   }
 }
