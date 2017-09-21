@@ -13,6 +13,8 @@
  *
  * @author Brian Reavis <brian@thirdroute.com>
  */
+// Changed by adamhooper:
+// * Always show placeholder, even if there are elements
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -2838,7 +2840,7 @@
 			if (!this.settings.placeholder) return;
 			var $input = this.$control_input;
 	
-			if (this.items.length) {
+			if (this.items.length && false) { // changed by adamhooper
 				$input.removeAttr('placeholder');
 			} else {
 				$input.attr('placeholder', this.settings.placeholder);
