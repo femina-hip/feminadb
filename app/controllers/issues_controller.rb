@@ -76,7 +76,10 @@ class IssuesController < ApplicationController
         @data = @issue.distribution_list_data(@delivery_method)
       end
       format.csv do
-        send_data(@issue.distribution_list_csv(@delivery_method), :filename => 'distribution_list.csv', :type => 'text/csv', :disposition => 'inline')
+        send_data(@issue.distribution_list_csv(@delivery_method), filename: 'distribution_list.csv', type: 'text/csv', disposition: 'inline')
+      end
+      format.xlsx do
+        send_data(@issue.distribution_list_xlsx(@delivery_method).read, filename: 'distribution_list.xslx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', disposition: 'inline')
       end
     end
   end

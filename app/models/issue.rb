@@ -184,11 +184,40 @@ class Issue < ActiveRecord::Base
   end
 
   def distribution_list_csv(delivery_method)
+    header, rows = distribution_list_spreadsheet_data(delivery_method)
+
+    CSV.generate do |csv|
+      csv << header
+      rows.each { |row| csv << row }
+    end
+  end
+
+  def distribution_list_xlsx(delivery_method)
+    header, rows = distribution_list_spreadsheet_data(delivery_method)
+
+    p = Axlsx::Package.new
+    p.workbook.add_worksheet(name: "#{publication.name} #{issue_number} Distribution List") do |sheet|
+      sheet.add_row(header)
+      rows.each { |row| sheet.add_row(row, types: [ nil, nil, nil, nil, nil, nil, :string, :string ]) }
+      sheet.column_widths(*(header.map { |x| nil }))
+      sheet.auto_filter = "A1:#{'ABCDEFGHIJKLMNOPQRSTUVWZYX'[header.length - 1]}1"
+      sheet.sheet_view.pane do |pane|
+        pane.top_left_cell = 'B2'
+        pane.state = :frozen_split
+        pane.y_split = 1
+        pane.active_pane = :bottom_right
+      end
+    end
+    p.use_shared_strings = true
+    p.to_stream
+  end
+
+  def distribution_list_spreadsheet_data(delivery_method)
     these_orders = orders
     these_orders = these_orders.where(delivery_method: delivery_method) if delivery_method
     these_box_sizes = order_box_sizes(these_orders)
 
-    headings = [
+    header = [
       'Order ID',
       'Customer ID',
       'Customer Type',
@@ -208,27 +237,27 @@ class Issue < ActiveRecord::Base
       'Comments'
     ]
 
-    CSV.generate do |csv|
-      csv << headings
+    rows = []
 
-      distribution_list_data(delivery_method).each do |order|
-        sizes = find_box_sizes(order.num_copies)
+    distribution_list_data(delivery_method).each do |order|
+      sizes = find_box_sizes(order.num_copies)
 
-        row = [
-          order.id,
-          order.customer_id,
-          order.customer_type,
-          order.region,
-          order.council,
-          order.customer_name,
-          order.primary_contact_sms_numbers,
-          order.headmaster_sms_numbers,
-          order.num_copies,
-        ] + these_box_sizes.map { |bs| sizes[bs].to_s }
+      row = [
+        order.id,
+        order.customer_id,
+        order.customer_type,
+        order.region,
+        order.council,
+        order.customer_name,
+        order.primary_contact_sms_numbers,
+        order.headmaster_sms_numbers,
+        order.num_copies,
+      ] + these_box_sizes.map { |bs| sizes[bs].to_i || '' }
 
-        csv << row
-      end
+      rows << row
     end
+
+    [ header, rows ]
   end
 
   def publication_name

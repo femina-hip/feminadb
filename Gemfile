@@ -1,5 +1,11 @@
 source 'https://rubygems.org'
 
+# We output xlsx spreadsheets instead of CSV, because Excel treats CSV cells
+# like "+255123123123" as numberic.
+# https://github.com/randym/axlsx/issues/234
+gem 'rubyzip', '>= 1.2.1' # axlsx dep
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
+
 gem 'comma'
 gem 'dynamic_form'
 gem 'font-awesome-rails'
