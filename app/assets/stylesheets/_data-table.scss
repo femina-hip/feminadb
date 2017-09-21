@@ -1,7 +1,8 @@
 @import 'vars';
 
-table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.inventory, table.users, table.regions, table.tags, table.delivery-methods, table.audits, table.issues {
+table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.users, table.regions, table.tags, table.delivery-methods, table.audits, table.issues {
   border: 2px solid $border_color;
+  width: 100%;
   margin: 1em auto;
 
   tbody {
@@ -73,7 +74,7 @@ table.customers, table.issue-orders, table.report, table.distribution-list, tabl
 }
 
 // Tables which have a "thead.title"
-table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request, table.inventory {
+table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-notes, table.distribution-quote-request {
   thead.title {
     th {
       font-weight: normal;
@@ -108,15 +109,6 @@ table.customers {
 
   td.customer-name {
     max-width: 1em; // works with .cut-off
-  }
-
-  td.standing-orders {
-    text-align: right;
-    font-family: monospace;
-  }
-
-  td.type, td.club {
-    text-align: center;
   }
 }
 
@@ -192,6 +184,10 @@ table.customer-standing-orders, table.customer-orders, table.customer-notes, tab
   width: 100%;
   margin-bottom: 1em;
 
+  thead.title th {
+    text-align: left;
+  }
+
   tbody {
     td.actions {
       width: 1em;
@@ -237,55 +233,7 @@ table.distribution-list {
   }
 }
 
-table.inventory {
-  width: 100%;
-
-  td {
-    vertical-align: top;
-    background: $even_background_color;
-  }
-
-  td.odd-col {
-    background: $odd_background_color;
-  }
-
-  tr.first {
-    height: 1em;
-  }
-
-  td.total {
-    font-weight: bold;
-    text-align: right;
-  }
-
-  td.comment {
-    padding-left: 1em;
-    color: $faded_color;
-  }
-
-  span.box-size {
-    font-size: 0.85em;
-    font-weight: normal;
-  }
-
-  th {
-    vertical-align: top;
-    text-align: left;
-  }
-
-  thead tr:first-child {
-    th {
-      padding-bottom: 0;
-    }
-
-    &+tr th {
-      padding-top: 0;
-    }
-  }
-}
-
 table.customer-standing-orders, table.customer-orders {
-  width: 95%;
   margin: 0.5em auto;
 
   thead {
@@ -303,18 +251,11 @@ table.customer-standing-orders, table.customer-orders {
       font-size: 1em;
       text-align: left;
       padding: 4px;
-
-      a.show-hide {
-        font-size: 0.8em;
-        color: #cccccc;
-        cursor: pointer;
-      }
     }
   }
 }
 
 table.audits {
-  width: 95%;
   margin: 0.5em auto;
 
   td {

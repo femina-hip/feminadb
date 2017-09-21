@@ -39,7 +39,6 @@ table.customer {
 }
 
 section.sms-messages {
-  width: 95%;
   margin: 1rem auto;
   border: 2px solid $border_color;
 
@@ -53,6 +52,10 @@ section.sms-messages {
 
   .sms-messages-container {
     padding: .5rem;
+  }
+
+  a.load-sms-messages {
+    font-family: serif;
   }
 }
 
