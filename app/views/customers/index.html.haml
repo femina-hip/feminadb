@@ -34,7 +34,11 @@
 .customer-search-result{'data-q' => params[:q], 'data-page' => (params[:page] || '1'), 'data-customer-ids' => @customer_ids.join(' ')}
 
 %p.actions
-  = link_to 'Export Data to Excel', customers_path(q: params[:q], format: :csv)
+  - if !@customers.empty?
+    Export as
+    = link_to('CSV', customers_path(q: params[:q], format: :csv))
+    or
+    = link_to('Excel', customers_path(q: params[:q], format: :xlsx))
   - if current_user.has_role?('edit-orders')
     |
     = link_to('Create Orders for everybody in this list', new_bulk_order_creator_path(:bulk_order_creator => {:search_string => params[:q]}))

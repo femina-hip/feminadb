@@ -106,7 +106,7 @@ class Customer < ActiveRecord::Base
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:orders)
   has_many(:standing_orders)
-  has_and_belongs_to_many(:tags, dependent: :delete, readonly: true)
+  has_and_belongs_to_many(:tags, dependent: :delete, readonly: true, order: :name)
 
   validates_presence_of :region_id
   validates_presence_of :council
@@ -195,6 +195,27 @@ class Customer < ActiveRecord::Base
     primary_contact_sms_numbers('Primary Contact SMS numbers')
     headmaster_sms_numbers('Headmaster SMS numbers')
     club_sms_numbers('Club SMS numbers')
+    tag_names_comma_separated('Tags')
+  end
+
+  def self.as_xlsx(customers)
+    p = Axlsx::Package.new
+    p.workbook.add_worksheet(name: 'Customers') do |sheet|
+      header = customers.first.to_comma_headers
+      types = header.map { |x| :string }
+      sheet.add_row(header)
+      customers.each { |customer| sheet.add_row(customer.to_comma, types: types) }
+      sheet.column_widths(*(header.map { |x| nil }))
+      sheet.auto_filter = "A1:#{'ABCDEFGHIJKLMNOPQRSTUVWZYX'[header.length - 1]}1"
+      sheet.sheet_view.pane do |pane|
+        pane.top_left_cell = 'B2'
+        pane.state = :frozen_split
+        pane.y_split = 1
+        pane.active_pane = :bottom_right
+      end
+    end
+    p.use_shared_strings = true
+    p.to_stream
   end
 
   # Returns all Telerivet contact IDs for all SMS numbers.
@@ -232,6 +253,14 @@ class Customer < ActiveRecord::Base
     @sms_number_attribute_cache ||= {}
     @sms_number_attribute_cache[sms_number] ||= @@SMS_NUMBER_FIELDS.keys
       .find { |attribute| split_sms_numbers(attribute).include?(sms_number) }
+  end
+
+  def tag_names
+    tags.map(&:name)
+  end
+
+  def tag_names_comma_separated
+    tag_names.join(',')
   end
 
   private

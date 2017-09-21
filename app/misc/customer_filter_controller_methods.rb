@@ -57,7 +57,7 @@ module CustomerFilterControllerMethods
   end
 
   def requested_per_page
-    if request.media_type == 'text/csv'
+    if params[:format] == 'csv' || params[:format] == 'xlsx'
       AllInOnePage
     else
       NormalPage

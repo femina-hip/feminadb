@@ -86,16 +86,19 @@ class CustomersController < ApplicationController
       pager.replace(sorted_customers)
     end
 
-    respond_to do |type|
-      type.html do
+    respond_to do |format|
+      format.html do
         @search = search_result_facets
         @publications = Publication.tracking_standing_orders.order(:name).all
 
         ActiveRecord::Associations::Preloader.new.preload(@customers, [ :standing_orders ])
         # render index.haml
       end
-      type.csv do
-        render(:csv => @customers)
+      format.csv do
+        render(csv: @customers, filename: 'customers.csv')
+      end
+      format.xlsx do
+        send_data(Customer.as_xlsx(@customers).read, filename: 'customers.xlsx')
       end
     end
   end
