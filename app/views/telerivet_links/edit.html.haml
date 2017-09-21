@@ -5,7 +5,8 @@
     %p FeminaDB will:
     %ul
       %li create a contact <q>#{@telerivet_link.sms_number}</q> in Telerivet if it does not exist
-      %li set its title in Telerivet to be <q>#{@telerivet_link.sms_number}</q>
+      - if @telerivet_link.telerivet_name
+        %li set its title in Telerivet to be <q>#{@telerivet_link.sms_number}</q>
       - if @telerivet_link.attribute.to_sym != :old_sms_numbers
         - (@telerivet_link.telerivet_groups_to_add - ['Audience']).each do |group_name|
           %li remove this contact from the Telerivet group, <q>#{group_name}</q>

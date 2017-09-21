@@ -17,7 +17,8 @@
     %p FeminaDB will:
     %ul
       %li create a contact with this phone number in Telerivet if it does not exist
-      %li update the Telerivet contact names
+      - if @telerivet_link.telerivet_name
+        %li update the Telerivet contact names
       - @telerivet_link.telerivet_groups_to_add.each do |group_name|
         %li add this contact to the Telerivet group, <q>#{group_name}</q>
       - @telerivet_link.telerivet_groups_to_remove.each do |group_name|

@@ -4,15 +4,28 @@ module TelerivetBridge
   # Returns a contact ID
   def self.ensure_telerivet_contact_and_return_id(telerivet_link)
     Rails.logger.info("Project<#{project.id}>.get_or_create_contact(#{telerivet_link.sms_number})")
-    project.get_or_create_contact({
+
+    options = {
       phone_number: telerivet_link.sms_number,
       lookup_key: 'phone_number',
-      name: telerivet_link.telerivet_name,
       vars: {
-        contact_name: telerivet_link.contact_name,
         feminadb_url: "https://db.feminahip.or.tz/customers/#{telerivet_link.customer.id}",
       }
-    }).id
+    }
+
+    if !telerivet_link.telerivet_name.blank?
+      # When adding "expired", do not touch Telerivet. Otherwise, do.
+      options[:name] = telerivet_link.telerivet_name
+    end
+
+    if !telerivet_link.contact_name.blank?
+      # Only set the contact name when the user provides one. (There are lots
+      # of contact names in Telerivet that aren't in FeminaDB, and we don't
+      # want to make them blank.)
+      options[:vars][:contact_name] = telerivet_link.contact_name
+    end
+
+    project.get_or_create_contact(options).id
   end
 
   def self.ensure_telerivet_group_and_return_id(group_name)
@@ -48,11 +61,15 @@ module TelerivetBridge
 
   def self.unsync_telerivet_link(telerivet_link)
     Rails.logger.info("Project<#{project.id}>.get_or_create_contact(#{telerivet_link.sms_number})")
-    contact = project.get_or_create_contact({
+    create_options = {
       phone_number: telerivet_link.sms_number,
       lookup_key: 'phone_number',
-      name: telerivet_link.sms_number,
-    })
+    }
+    if telerivet_link.telerivet_name
+      # When removing "expired", do not touch Telerivet. Otherwise, do.
+      create_options[:name] = telerivet_link.sms_number
+    end
+    contact = project.get_or_create_contact(create_options)
     contact.vars.feminadb_url = "https://db.feminahip.or.tz/telerivet_links/new?sms_number=#{telerivet_link.sms_number.sub('+', '%2B')}"
     Rails.logger.info("Project<#{project.id}>.Contact<#{contact.id}>.save")
     contact.save
