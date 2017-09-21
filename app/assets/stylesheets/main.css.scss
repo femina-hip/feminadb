@@ -30,7 +30,7 @@ div.main {
   margin: 1em;
 
   &>p, &>h1, &>h2, &>h3, &>ul {
-    margin-left: 168px;
+    margin-left: $logo_width;
     padding-left: 1em;
   }
 

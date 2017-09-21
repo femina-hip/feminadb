@@ -5,6 +5,7 @@ table.customer, table.issue {
   margin: 1em auto;
   border: 1px solid $border_color;
   background: $odd_background_color;
+  line-height: 1.5;
 
   a.show-hide {
     font-size: 0.8em;
@@ -113,5 +114,19 @@ table.customer {
     &.empty {
       display: none;
     }
+  }
+
+  .name-and-inserted {
+    display: flex;
+
+    span.inserted {
+      text-align: right;
+      flex: 1 1 auto;
+      font-size: .8rem;
+    }
+  }
+
+  td.actions {
+    text-align: center;
   }
 }

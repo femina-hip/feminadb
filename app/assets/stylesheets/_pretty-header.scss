@@ -7,11 +7,11 @@ header {
 
 div.logo {
   float: left;
-  width: 168px;
+  width: $logo_width;
 }
 
 div.pretty-header {
-  margin-left: 168px;
+  margin-left: $logo_width;
   padding-left: 1em;
 
   h1 {

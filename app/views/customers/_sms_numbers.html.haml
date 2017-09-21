@@ -1,0 +1,19 @@
+%section.sms-messages
+  %h2 SMS Numbers
+
+  %table.sms-numbers
+    %tr.first
+      %th= glossary_term('Primary Contact', 'Primary Contact SMS numbers')
+      %td= show_sms_numbers(customer, :primary_contact_sms_numbers)
+    %tr
+      %th= glossary_term('Headmaster', 'Headmaster SMS numbers')
+      %td= show_sms_numbers(customer, :headmaster_sms_numbers)
+    %tr
+      %th= glossary_term('Club Mentor', 'Club Mentor SMS numbers')
+      %td= show_sms_numbers(customer, :club_sms_numbers)
+    %tr.last
+      %th= glossary_term('Expired', 'Expired SMS numbers')
+      %td= show_sms_numbers(customer, :old_sms_numbers)
+
+  .sms-messages-container
+    = link_to('Load SMS history', customer_sms_messages_path(@customer.id), class: 'load-sms-messages')

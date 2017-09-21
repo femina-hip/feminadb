@@ -1,6 +1,6 @@
 module GlossaryHelper
-  def glossary_term(term)
-    content_tag(:abbr, term, :title => glossary_helper_definition(term))
+  def glossary_term(term, term_in_glossary = nil)
+    content_tag(:abbr, term, :title => glossary_helper_definition(term_in_glossary || term))
   end
 
   private

@@ -1,7 +1,7 @@
 @import 'vars';
 
 table.customers, table.customer-orders, table.customer-standing-orders, table.customer-notes, table.issue-orders, table.issue-notes, table.report, table.distribution-quote-request, table.distribution-list, table.customer-types, table.users, table.regions, table.tags, table.delivery-methods, table.audits, table.issues {
-  border: 2px solid $border_color;
+  border: 1px solid $border_color;
   width: 100%;
   margin: 1em auto;
 
@@ -16,10 +16,7 @@ table.customers, table.customer-orders, table.customer-standing-orders, table.cu
       font-family: serif;
       font-size: 0.9rem;
       padding: .6rem .75rem .4rem;
-
-      .add {
-        text-align: center;
-      }
+      vertical-align: top;
     }
 
     tr.even {
@@ -35,20 +32,20 @@ table.customers, table.customer-orders, table.customer-standing-orders, table.cu
     }
 
     tr.total {
-      border: 2px solid $border_color;
+      border: 1px solid $border_color;
       font-weight: bold;
       background: $alt_background_color;
     }
 
     tr.subtotal {
       background: $alt2_background_color;
-      border-bottom: 2px solid $border_color;
+      border-bottom: 1px solid $border_color;
       font-weight: bold;
     }
 
     tr.subsubtotal {
       background: $alt2_background_color;
-      border-bottom: 2px solid gray;
+      border-bottom: 1px solid gray;
       font-weight: bold;
     }
   }
