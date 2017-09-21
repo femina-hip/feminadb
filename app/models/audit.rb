@@ -2,6 +2,13 @@ class Audit < ActiveRecord::Base
   serialize(:before)
   serialize(:after)
 
+  searchable(auto_index: true) do
+    integer(:record_id)
+    string(:table_name)
+    date(:created_at)
+    text(:all) { [ user_email, action, before.to_s.encode('utf-8'), after.to_s.encode('utf-8') ].join(' ') }
+  end
+
   # Returns an Array of [ 'attribute', 'before', 'after' ]
   def changed_attributes
     @changed_attributes ||= begin

@@ -1,5 +1,6 @@
 module ModificationsHelper
   def show_record_identifier(audit)
+    puts audit.inspect
     klass = audit.table_name.singularize.classify.safe_constantize
 
     if audit.record_id
@@ -12,8 +13,10 @@ module ModificationsHelper
         else
           content_tag(:span, text)
         end
-      else
+      elsif record
         content_tag(:span, "#{klass.model_name.human} #{audit.record_id}")
+      else
+        content_tag(:span, "#{audit.table_name.singularize} #{audit.record_id}")
       end
     else
       content_tag(:span, "#{audit.table_name} #{audit.record_id || '(no ID)'}")

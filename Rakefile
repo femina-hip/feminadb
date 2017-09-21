@@ -7,6 +7,3 @@ require 'rake'
 require 'rake/testtask'
 
 Feminadb::Application.load_tasks
-
-require 'sunspot/rails/server'
-require 'sunspot/rails/tasks'

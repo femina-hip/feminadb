@@ -3,6 +3,18 @@
     This page lists what has changed recently in the database. It is for
     informative purposes only.
 
+  .search-parameters
+    - if !@search[:table_name].blank? && !@search[:record_id].blank?
+      .filtering
+        Filtering by #{@search[:table_name].singularize} #{@search[:record_id]}.
+        = link_to('Remove filter', modifications_path(q: @search[:q]))
+
+    %form{method: :get, action: modifications_path}<
+      %input{type: 'hidden', name: 'table_name', value: @search[:table_name]}<>
+      %input{type: 'hidden', name: 'record_id', value: @search[:record_id]}<>
+      %input{name: 'q', value: @search[:q], placeholder: 'Search'}<>
+      %button{type: 'submit'}<> Search
+
 - if @audits.empty?
   %p There are no modifications in the database
 - else
@@ -19,7 +31,7 @@
       - @audits.each do |audit|
         - rowspan = audit.changed_attributes.length || 1
         - rowclass = cycle('odd', 'even')
-        %tr{:class => rowclass}
+        %tr{class: rowclass, 'data-id': audit.id}
           %td.record{:rowspan => rowspan}
             .identifier
               = show_record_identifier(audit)
