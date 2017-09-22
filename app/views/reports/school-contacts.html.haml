@@ -15,31 +15,31 @@
     %tr
       %th Region
       %th Staff
-      %th Schools according to Ministry
-      %th Schools with Fema
-      %th Percent of Schools receiving Fema
       %th Population
-      %th School Fema copies
+      %th Total number of schools in region
+      %th Number of Fema Schools
+      %th Percent of Schools receiving Fema
+      %th Number of Fema Copies distributed to Schools
       %th Population per School Fema copy
-      %th Fema Schools with Headmaster Telerivet contacts
-      %th Percent of Fema schools with Headmaster Telerivet contacts
-      %th Clubs
-      %th Percent of Fema schools with Club
+      %th Number of Fema Clubs
+      %th Percent of Fema Schools with Fema Clubs
+      %th Number of Fema Schools with a Head of School phone number
+      %th Percent of Fema Schools with a Head of School phone number
   %tbody
     - @table.each do |row|
       %tr{class: cycle('odd', 'even')}
         %td.string= row[:name]
         %td.string= row[:staff_member]
+        %td.number= number_with_delimiter(row[:population])
         %td.number= number_with_delimiter(row[:n_schools])
         %td.number= number_with_delimiter(row[:n_schools_with_fema])
         %td.percent= number_to_percentage(row[:percent_schools_with_fema], precision: 1)
-        %td.number= number_with_delimiter(row[:population])
         %td.number= number_with_delimiter(row[:n_fema])
         %td.number= number_with_delimiter(row[:population_per_fema].try(&:round))
-        %td.number= number_with_delimiter(row[:n_schools_with_fema_and_headmaster_telerivet])
-        %td.percent= number_to_percentage(row[:percent_fema_schools_with_headmaster_telerivet], precision: 1)
         %td.number= number_with_delimiter(row[:n_schools_with_club])
         %td.percent= number_to_percentage(row[:percent_fema_schools_with_club], precision: 1)
+        %td.number= number_with_delimiter(row[:n_schools_with_fema_and_headmaster_telerivet])
+        %td.percent= number_to_percentage(row[:percent_fema_schools_with_headmaster_telerivet], precision: 1)
 
 %p.actions
   = link_to('Export Data to Excel', report_path('school-contacts', format: :csv))
