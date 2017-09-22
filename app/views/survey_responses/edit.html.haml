@@ -1,0 +1,24 @@
+= render_pretty_header('Link Customer to SurveyMonkey') do
+  %p
+    Make survey responses show up in Customer info.
+
+- if @survey_response.nil?
+  %p Contratulations -- there are no more survey responses to link in this Region.
+- else
+  %p Please find the Customer for the following survey response:
+
+  = error_messages_for(:survey_response)
+
+  = form_for(@survey_response) do |f|
+    %p
+      %strong Customer:
+      %br
+      = f.customer_id_field(:customer_id)
+
+    %button.debounced{type: 'submit'} Link this Response with this Customer
+    %button.debounced{type: 'submit'} Hide this Response from all Customers forever
+
+    %p
+      %strong Survey Response:
+
+    = render(partial: 'survey_responses/survey_response', locals: { survey_response: @survey_response })

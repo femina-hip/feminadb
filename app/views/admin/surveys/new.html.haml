@@ -1,7 +1,7 @@
 = render_pretty_header('Import Survey from SurveyMonkey') do
   %p Download (or refresh) all responses from a SurveyMonkey survey.
 
-= error_messages_for(@survey)
+= error_messages_for(:survey)
 
 = form_for([ :admin, @survey ], multipart: true) do |f|
   %p

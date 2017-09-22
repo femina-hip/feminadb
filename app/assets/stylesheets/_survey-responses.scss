@@ -1,0 +1,33 @@
+.survey-response {
+  border: 1px solid $border_color;
+  background: white;
+  padding: 1rem;
+
+  dl.survey-response-answers {
+    &>dt {
+      font-weight: bold;
+    }
+    &>dd {
+      margin: 0;
+    }
+
+    dl {
+      dt, dd {
+        display: inline;
+        margin: 0;
+      }
+
+      dt {
+        &::after {
+          content: ': ';
+        }
+      }
+
+      dd + dt {
+        &::before {
+          content: '; '
+        }
+      }
+    }
+  }
+}

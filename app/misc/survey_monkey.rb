@@ -2,17 +2,35 @@
 #
 # We'd love to use the API, but it costs too much. We'll parse CSVs instead.
 module SurveyMonkey
-  ValidQuestionTypes = Set.new([ :text, :list, :multi ])
+  ValidQuestionTypes = Set.new([ :text, :list, :key_value ])
 
   Answer = RubyImmutableStruct.new(:question_text, :type, :json) do
     def to_json; to_h.to_json; end
+
+    def self.from_json(json)
+      Answer.new(
+        question_text: json['question_text'],
+        type: json['type'].to_sym,
+        json: json['json']
+      )
+    end
   end
 
   Column = RubyImmutableStruct.new(:name, :index)
 
   Question = RubyImmutableStruct.new(:text, :type, :columns)
 
-  Response = RubyImmutableStruct.new(:respondent_id, :region_name, :start_date, :end_date, :answers)
+  Response = RubyImmutableStruct.new(:respondent_id, :region_name, :start_date, :end_date, :answers) do
+    def self.from_active_record(record)
+      Response.new(
+        respondent_id: record.sm_respondent_id,
+        region_name: record.region_name,
+        start_date: record.start_date,
+        end_date: record.end_date,
+        answers: JSON.parse(record.answers_json).map { |json| Answer.from_json(json) }
+      )
+    end
+  end
 
   Survey = RubyImmutableStruct.new(:questions, :responses) do
     def self.parse_csv_date(s)

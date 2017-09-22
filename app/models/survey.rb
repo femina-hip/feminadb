@@ -41,7 +41,9 @@ class Survey < ActiveRecord::Base
     survey.survey_responses.each do |response|
       sm_response = by_sm_respondent_id.delete(response.sm_respondent_id)
       response.update!(
-        region_name: sm_response.survey_name,
+        region_name: sm_response.region_name,
+        start_date: sm_response.start_date,
+        end_date: sm_response.end_date,
         answers_json: sm_response.answers.to_json
       )
     end
@@ -51,6 +53,8 @@ class Survey < ActiveRecord::Base
     by_sm_respondent_id.values.each do |sm_response|
       SurveyResponse.create!(
         survey_id: survey.id,
+        start_date: sm_response.start_date,
+        end_date: sm_response.end_date,
         region_name: sm_response.region_name,
         sm_respondent_id: sm_response.respondent_id,
         answers_json: sm_response.answers.to_json
