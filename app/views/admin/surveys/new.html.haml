@@ -3,8 +3,21 @@
 
 = error_messages_for(@survey)
 
-= form_for([ :admin, @survey ]) do |f|
+= form_for([ :admin, @survey ], multipart: true) do |f|
   %p
-    SurveyMonkey survey title:
-    = f.collection_select(:sm_id, @potential_surveys.sort_by(&:title), :sm_id, :title)
-  %button.debounced{type: :submit} Import from SurveyMonkey (may take ~30s)
+    %b= f.label(:id, 'Survey to update')
+    %br
+    = f.collection_select(:id, @surveys.sort_by(&:title), :id, :title, prompt: '(this is a survey never before uploaded to FeminaDB)')
+  %p
+    %b= f.label(:title, 'Survey title in FeminaDB')
+    %br
+    = f.text_field(:title)
+  %p
+    %b Exported CSV file with <em>all</em> results:
+    %br
+    = f.file_field(:csv)
+  %p
+    %button.debounced{type: :submit} Import from SurveyMonkey
+    %small
+      Any survey responses <em>not</em> in the CSV will be deleted from FeminaDB.
+

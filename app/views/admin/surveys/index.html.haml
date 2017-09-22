@@ -7,3 +7,4 @@
   - @surveys.each do |survey|
     %li
       %strong= survey.title
+      = button_to('Destroy', [ :admin, survey ], method: :delete, data: { confirm: 'Are you sure you want to delete this Survey and all its Responses?' })

@@ -18,30 +18,35 @@ class Admin::SurveysController < ApplicationController
   def new
     require_role('admin')
 
-    by_sm_id = Survey.order(created_at: :desc).index_by(&:sm_id)
-    @potential_surveys = SurveyMonkey.get_survey_summaries.map do |sm_survey|
-      PotentialSmSurvey.new(sm_survey.id, sm_survey.title, by_sm_id[sm_survey.id])
-    end
+    @surveys = Survey.order(:title).all
     @survey = Survey.new
-    @survey.errors.add(:sm_id, @error) if @error
   end
 
   def create
     require_role('admin')
 
-    status = Survey.create_or_refresh_from_surveymonkey_and_return_status(survey_params[:sm_id])
+    status = Survey.create_or_update_and_return_status(survey_params[:id], survey_params[:title], survey_params[:csv])
     if status.error
-      @error = status.error
-      new
+      @surveys = Survey.order(:title).all
+      @survey = Survey.new
+      @survey.errors.add(:sm_csv_text, status.error)
+      render('new')
     else
       flash[:notice] = "Imported '#{status.survey.title}': #{status.n_created} responses created, #{status.n_deleted} deleted, #{status.n_updated} updated"
       redirect_to(admin_surveys_path)
     end
   end
 
+  def destroy
+    require_role('admin')
+
+    Survey.find(params[:id]).destroy
+    redirect_to(admin_surveys_url)
+  end
+
   private
 
   def survey_params
-    params.require(:survey).permit(:sm_id)
+    params.require(:survey).permit(:id, :title, :csv)
   end
 end

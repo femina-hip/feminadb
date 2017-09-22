@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922064258) do
+ActiveRecord::Schema.define(version: 20170922111843) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at", null: false
@@ -154,16 +154,16 @@ ActiveRecord::Schema.define(version: 20170922064258) do
     t.integer "customer_id"
     t.integer "survey_id", null: false
     t.boolean "no_customer", default: false, null: false
-    t.string "sm_id", null: false
-    t.text "sm_data_json", null: false
+    t.string "region_name", default: "", null: false
+    t.string "sm_respondent_id", null: false
+    t.text "answers_json", null: false
   end
 
   create_table "surveys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", null: false
-    t.string "sm_id", null: false
-    t.text "sm_data_json", null: false
+    t.text "sm_data_csv", limit: 16777215, null: false
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|

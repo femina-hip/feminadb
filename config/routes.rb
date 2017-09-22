@@ -42,6 +42,7 @@ Feminadb::Application.routes.draw do
   resources :reports, only: :show
 
   resources :standing_orders
+  resources :survey_responses, only: [ :edit, :update ]
 
   resources :tags, only: [ :index ] do
     member do
