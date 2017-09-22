@@ -4,6 +4,7 @@ Feminadb::Application.routes.draw do
     resources :delivery_methods, :except => :show
     resources :regions
     resources :users
+    resources :surveys, only: [ :index, :new, :create, :destroy ]
     resources :tags
   end
 

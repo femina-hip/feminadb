@@ -15,6 +15,7 @@ gem 'mysql2', '~> 0.3.0'
 gem 'passenger' # this is how we run it in production
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'rake'
+gem 'ruby-immutable-struct'
 gem 'RedCloth'
 gem 'sunspot_rails'
 gem 'sunspot_solr'

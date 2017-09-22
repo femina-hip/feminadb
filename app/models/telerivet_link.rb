@@ -13,7 +13,7 @@ class TelerivetLink
     case attribute_data[:telerivet_name]
     when :name then customer ? customer.name : ''
     when :school_headmaster then "#{customer.name} #{customer.type.name.split(/\s/)[0]} HoS"
-    when :school_mentor then "#{customer.name} #{customer.type.name.split(/\s/)[0]} Club Mentor"
+    when :school_mentor then "#{customer.name} #{customer.type.name.split(/\s/)[0]} Mentor"
     # we don't change Telerivet data when adding an expired contact. We _just_
     # link to Telerivet.
     when :expired then nil

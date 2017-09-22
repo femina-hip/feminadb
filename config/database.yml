@@ -4,7 +4,7 @@ development:
   username: feminadb_dev
   password: feminadb_dev
   host: localhost
-  encoding: utf8
+  encoding: utf8mb4
 
 test:
   adapter: mysql2
@@ -12,7 +12,7 @@ test:
   username: feminadb_test
   password: feminadb_test
   host: localhost
-  encoding: utf8
+  encoding: utf8mb4
   flags: 65536 # CLIENT_MULTI_STATEMENTS, so we can do all TRUNCATE in one command
 
 production:
@@ -21,4 +21,4 @@ production:
   username: feminadb
   password: feminadb
   host: 127.0.0.1 # "localhost" makes the driver look for a socket in the wrong place. By default.
-  encoding: utf8
+  encoding: utf8mb4

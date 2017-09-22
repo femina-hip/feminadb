@@ -1,0 +1,10 @@
+= render_pretty_header('Import Survey from SurveyMonkey') do
+  %p Download (or refresh) all responses from a SurveyMonkey survey.
+
+= error_messages_for(@survey)
+
+= form_for([ :admin, @survey ]) do |f|
+  %p
+    SurveyMonkey survey title:
+    = f.collection_select(:sm_id, @potential_surveys.sort_by(&:title), :sm_id, :title)
+  %button.debounced{type: :submit} Import from SurveyMonkey (may take ~30s)

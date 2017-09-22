@@ -1,0 +1,9 @@
+= render_pretty_header('SurveyMonkey Surveys') do
+  %p All surveys imported from SurveyMonkey.
+
+= link_to('Import New Survey', new_admin_survey_path)
+
+%ul
+  - @surveys.each do |survey|
+    %li
+      %strong= survey.title
