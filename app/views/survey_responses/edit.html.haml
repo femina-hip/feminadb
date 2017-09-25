@@ -31,7 +31,10 @@
 
     %input{type: 'hidden', name: 'redirect_to', value: @redirect_to}
     %button.debounced{type: 'submit', class: 'a-customer'} Add Survey Response to Customer
-    %button.debounced{type: 'submit', class:'no-customer'} Hide Survey Response from all Customers forever
+    - if current_user.has_role?('admin')
+      .mark-spam{style: 'margin-top: 1rem'}
+        %small ... (admin-only, can't be undone) if there will never be a Customer for this Response,
+        %button.debounced{type: 'submit', class:'no-customer', 'data-confirm': 'Are you sure you want to hide this Survey Response from FeminaDB forever?'} Mark as Spam
 
     %p
       %strong Survey Response:
