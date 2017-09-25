@@ -25,8 +25,11 @@ class SurveyResponsesController < ApplicationController
     @survey_response = SurveyResponse.find(params[:id])
     @redirect_to = params[:redirect_to]
 
-    @survey_response.reviewed_at = params[:unreview] ? nil : DateTime.now
-    if update_with_audit(@survey_response, survey_response_params)
+    new_attributes = {
+      reviewed_at: params[:unreview] ? nil : DateTime.now,
+      customer_id: params[:unreview] ? nil : (survey_response_params[:customer_id] || nil)
+    }
+    if update_with_audit(@survey_response, new_attributes)
       redirect_to(@redirect_to)
     else
       render('edit')
