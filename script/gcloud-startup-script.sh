@@ -10,6 +10,7 @@ apt-get -yy -q install \
   bundler \
   git \
   haproxy \
+  letsencrypt \
   libcurl4-openssl-dev \
   libmariadb-client-lgpl-dev \
   libssl-dev \
