@@ -1,0 +1,27 @@
+= render_pretty_header('Survey-Response Linking') do
+  %p
+    See where we have Survey Responses we haven't linked to Customers.
+
+  %p
+    When we link Survey Responses a Customers, we can read the Responses
+    from the Customer page.
+
+%table.report
+  %thead
+    %tr<
+      %th<> Region
+      %th<> Linked Survey Responses
+      %th<> Unlinked Survey Responses
+      - if current_user.has_role?('edit-customers')
+        %th<>
+  %tbody
+    - @table.each do |row|
+      %tr{class: cycle('odd', 'even')}<
+        %td.string<>= row[:region_name]
+        %td.number<>= number_with_delimiter(row[:n_reviewed_survey_responses])
+        %td.number<>= number_with_delimiter(row[:n_unreviewed_survey_responses])
+        - if current_user.has_role?('edit-customers')
+          -# Show the <td> whether or not there's a link inside
+          %td.action<>
+            - if row[:n_unreviewed_survey_responses] > 0
+              = link_to('Link More', edit_survey_response_path('random-unlinked', region_name: row[:region_name]))

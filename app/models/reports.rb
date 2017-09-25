@@ -145,5 +145,21 @@ module Reports
 
       result.to_hash.map(&:symbolize_keys!)
     end
+
+    def survey_responses
+      result = SurveyResponse.connection.select_all <<-EOT
+        SELECT
+          region_name,
+          SUM(CASE reviewed_at IS NULL WHEN TRUE THEN 0 ELSE 1 END) AS n_reviewed_survey_responses,
+          SUM(CASE reviewed_at IS NULL WHEN TRUE THEN 1 ELSE 0 END) AS n_unreviewed_survey_responses
+        FROM survey_responses
+        GROUP BY region_name
+        ORDER BY region_name
+      EOT
+
+      puts result.to_hash.map(&:symbolize_keys!)
+        
+      result.to_hash
+    end
   end
 end

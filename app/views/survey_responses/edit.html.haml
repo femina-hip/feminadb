@@ -1,6 +1,7 @@
 = render_pretty_header('Link Customer to SurveyMonkey') do
   %p
-    Make survey responses show up in Customer info.
+    Make Survey Responses show up in Customer info by "linking" them, one
+    Survey Response at a time.
 
 - if @survey_response.nil?
   %p
@@ -14,9 +15,9 @@
       - if @n_missing_survey_responses == 1
         This is the final unlinked Survey Response in #{@region_name}.
       - else
-        There are only #{@n_missing_survey_responses} unlinked Survey Responses in #{@region_name}. Keep linking!
+        <strong>#{@region_name}</strong>: <strong>#{@n_missing_survey_responses}</strong> unlinked #{@n_missing_survey_responses == 1 ? 'Survey Response' : 'Survey Responses'}. Keep linking!
 
-  %p Please find the Customer for the following survey response:
+  %p Link the correct Customer to the following survey response:
 
   = error_messages_for(:survey_response)
 
