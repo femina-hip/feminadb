@@ -26,7 +26,7 @@ class SurveyResponsesController < ApplicationController
     @redirect_to = params[:redirect_to]
 
     @survey_response.reviewed_at = params[:unreview] ? nil : DateTime.now
-    if @survey_response.update_attributes(survey_response_params)
+    if update_with_audit(@survey_response, survey_response_params)
       redirect_to(@redirect_to)
     else
       render('edit')
