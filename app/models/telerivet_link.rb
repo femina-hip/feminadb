@@ -32,9 +32,9 @@ class TelerivetLink
   # case it returns "#{customer.name} SS"
   def customer_name_and_type_if_ss
     type_name = customer.type.name.split(/\s/).first
-    if name == 'SS'
+    if type_name == 'SS'
       "#{customer.name} SS"
-    elsif name == customer.name
+    elsif type_name == customer.name
       # "VETA" is the customer type and name. Output "VETA Mara".
       # (This doesn't apply if the customer name is already "VETA Mara".)
       "#{customer.name} #{customer.region.name}"
