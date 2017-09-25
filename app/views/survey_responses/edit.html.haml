@@ -3,8 +3,19 @@
     Make survey responses show up in Customer info.
 
 - if @survey_response.nil?
-  %p Contratulations -- there are no more survey responses to link in this Region.
+  %p
+    Contratulations! There are no more Survey Responses to link in #{@region_name}.
+    - if @region_name != 'Tanzania'
+      = link_to('Link the rest of Tanzania', edit_survey_response_path('random-unlinked'))
+      if you're having fun.
 - else
+  - if @n_missing_survey_responses
+    %p.progress
+      - if @n_missing_survey_responses == 1
+        This is the final unlinked Survey Response in #{@region_name}.
+      - else
+        There are only #{@n_missing_survey_responses} unlinked Survey Responses in #{@region_name}. Keep linking!
+
   %p Please find the Customer for the following survey response:
 
   = error_messages_for(:survey_response)

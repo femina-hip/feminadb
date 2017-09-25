@@ -3,8 +3,12 @@ class SurveyResponsesController < ApplicationController
     if params[:id] == 'random-unlinked'
       # Workflow: user will link this response to a customer and then link
       # another one.
+
       conditions = {}
       conditions[:region_name] = params[:region_name] if params[:region_name]
+      @region_name = params[:region_name] || 'Tanzania'
+      @n_missing_survey_responses = SurveyResponse.where(conditions).where(reviewed_at: nil).count
+
       @survey_response = SurveyResponse.find_random_unlinked(conditions)
       @redirect_to = edit_survey_response_path(region_name: params[:region_name])
     else
