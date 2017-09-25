@@ -35,6 +35,7 @@ $.fn.customer_id_field = function() {
           success: function(data) {
             _this.clearOptions() // https://github.com/selectize/selectize.js/issues/1053
             callback(data)
+            _this.refreshOptions(true) // if this isn't here, empty search result is rendered as the previous non-empty one
           }
         })
       }
