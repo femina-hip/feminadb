@@ -1,0 +1,28 @@
+= render_pretty_header 'Clubs Map' do
+  %p Here's a snapshot of our Fema Club locations.
+
+  %p
+    We count one Fema Club for each Customer that has a "Fema Club Mentor"
+    SMS number.
+
+#map
+
+%p Map data:
+
+%table.report#club_data
+  %thead<
+    %tr<
+      %th<> Region
+      %th<> Council
+      %th<> Number of Clubs
+  %tbody
+    - @table.each do |row|
+      %tr<
+        %td.region-name.string<>= row[:region_name]
+        %td.council.string<>= row[:council]
+        %td.n-clubs.number= number_with_delimiter(row[:n_clubs])
+
+%p.actions
+  = link_to('Export Data to Excel', report_path('clubs-map', format: :csv))
+
+= javascript_include_tag('clubs-map-bundle')

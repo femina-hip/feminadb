@@ -1,0 +1,128 @@
+//= require map-tz-corrections
+
+var WIDTH = 600
+var HEIGHT = 500
+
+function correct(tz_council_name) {
+  return TzCorrections[tz_council_name] || tz_council_name
+}
+
+function display_map(geometry) {
+  var data = read_data()
+
+  var tooltip = d3.tip()
+    .attr('class', 'map-tooltip')
+    .offset([ -8, 0 ])
+    .html(function(d) {
+      var council = correct(d.id)
+      var row = data.lookup[council]
+      var nClubs = row ? row.nClubs : 0
+      return [
+        '<h4>', correct(d.id), '</h4>',
+        '<div class="count">', nClubs, ' Clubs</div>'
+      ].join('')
+    })
+
+  var svg = d3.select('#map').append('svg')
+    .attr('width', WIDTH)
+    .attr('height', HEIGHT)
+    .call(tooltip)
+
+  // lots of this is copy/pasted from map.js.erb
+  var projection = d3.geo.conicConformal()
+    .center([ 35, -6.26 ])
+    .rotate([ 0, 0 ])
+    .parallels([ -3, -9 ])
+    .scale(2590)
+    .translate([ WIDTH / 2 - 50, HEIGHT / 2 ])
+
+  var path = d3.geo.path().projection(projection)
+
+  var councils = svg.append('g').attr('class', 'councils')
+
+  councils.selectAll('path')
+    .data(topojson.feature(geometry, geometry.objects.Districts).features)
+    .enter().append('path')
+      .attr('data-name', function(d) { return correct(d.id) })
+      .attr('d', path)
+      .style('stroke', 'black')
+      .style('stroke-width', '0.2')
+      .style('fill', function(d) {
+        var council = correct(d.id)
+        var row = data.lookup[council]
+        if (!row) return 'white'
+        return data.colorScale(row.nClubs)
+      })
+      .on('mouseover', function(d) { d3.select(this).style('stroke-width', '2'); tooltip.show.call(this, d) })
+      .on('mouseout', function(d) { d3.select(this).style('stroke-width', '0.2'); tooltip.hide.call(this, d) })
+
+  var legendFontSize = 14
+  var legendBoxSize = legendFontSize - 1
+  var legendSpacing = 6
+  var legendLineHeight = legendFontSize + legendSpacing
+
+  legend = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform', 'translate(420, 0)');
+
+  legend.selectAll('rect')
+    .data(data.colorScale.range())
+    .enter().append('rect')
+      .attr('y', function(d, i) { return i * legendLineHeight })
+      .attr('width', legendBoxSize)
+      .attr('height', legendBoxSize)
+      .style('fill', function(color) { return color })
+
+  legend.selectAll('text')
+    .data(data.colorScale.range().map(function(color) {
+      var d = data.colorScale.invertExtent(color)
+      d[0] = d[0] || values[0]
+      d[1] = d[1] || values[values.length - 1]
+      // For some reason, sometimes we get fractions from the above logic
+      d[0] = Math.round(d[0] + 0.25)
+      d[1] = Math.round(d[1] + 0.25)
+      return d
+    }))
+    .enter().append('text')
+      .attr('x', legendBoxSize + legendSpacing)
+      .attr('y', function(d, i) { return i * legendLineHeight + legendFontSize - 2 }) // the -2 looks nice
+      .text(function(d, i) {
+        if (i != data.colorScale.range().length - 1) { // colorScale retvals are [min,max)
+          d[1] -= 1
+        }
+        return d[0] + ' to ' + d[1] + ' Clubs'
+      })
+}
+
+function read_data() {
+  var rows = Array.prototype.map.call(document.querySelectorAll('table#club_data tbody tr'), function(tr) {
+    return {
+      regionName: tr.querySelector('td.region-name').textContent,
+      council: tr.querySelector('td.council').textContent,
+      nClubs: parseFloat(tr.querySelector('td.n-clubs').textContent.replace(/,/g, ''))
+    }
+  })
+
+  var lookup = {}
+  rows.forEach(function(row) { lookup[row.council] = row })
+
+  var values = rows
+    .map(function(row) { return row.nClubs })
+    .filter(function(value) { return value > 0 })
+    .sort(function(a, b) { return a - b })
+
+  var colorScale = d3.scale.quantile()
+    .domain(values)
+    .range(['#edf8fb', '#b3cde3', '#8c96c6', '#88419d'])
+
+  return {
+    rows: rows,
+    lookup: lookup,
+    colorScale: colorScale
+  }
+}
+
+d3.json('<%= asset_path('councils.json') %>', function(err, geometry) {
+  if (err) return console.warn(err)
+  display_map(geometry)
+})

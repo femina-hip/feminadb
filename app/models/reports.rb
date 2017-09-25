@@ -161,5 +161,21 @@ module Reports
         
       result.to_hash
     end
+
+    def clubs_map
+      result = SurveyResponse.connection.select_all <<-EOT
+        SELECT
+          regions.name AS region_name,
+          customers.council,
+          COUNT(*) AS n_clubs
+        FROM customers
+        INNER JOIN regions ON customers.region_id = regions.id
+        WHERE customers.club_sms_numbers <> ''
+        GROUP BY regions.name, customers.council
+        ORDER BY regions.name, customers.council
+      EOT
+
+      result.to_hash.map(&:symbolize_keys!)
+    end
   end
 end

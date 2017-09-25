@@ -7,6 +7,7 @@ class ReportsController < ApplicationController
     when 'school-contacts' then show_school_contacts
     when 'contact-list' then show_contact_list
     when 'survey-responses' then show_survey_responses
+    when 'clubs-map' then show_clubs_map
     else raise ActiveRecord::RecordNotFound.new("Invalid report name: #{params[:id]}")
     end
   end
@@ -31,6 +32,11 @@ class ReportsController < ApplicationController
   def show_survey_responses
     @table = Reports.survey_responses
     respond('survey-responses')
+  end
+
+  def show_clubs_map
+    @table = Reports.clubs_map
+    respond('clubs-map')
   end
 
   # Either sends @table to render(view_name), or renders @table as a CSV.
