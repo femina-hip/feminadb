@@ -7,6 +7,14 @@
     margin: .25rem 0 .75rem;
   }
 
+  .survey-response-meta {
+    display: block;
+
+    .updated-at {
+      display: inline-block;
+    }
+  }
+
   dl.survey-response-answers {
     &>dt {
       font-weight: bold;

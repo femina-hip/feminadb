@@ -1,8 +1,9 @@
 -# Params: 'survey_response', a SurveyResponse
 .survey-response
   .survey-response-meta
+    %strong #{survey_response.survey.title}
     .updated-at
-      Submitted
+      submitted
       %time{time: survey_response.end_date}= survey_response.end_date.to_formatted_s(:long)
 
   = render_survey_response_answers(survey_response.answers)

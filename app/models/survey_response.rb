@@ -1,5 +1,6 @@
 class SurveyResponse < ActiveRecord::Base
   belongs_to(:customer)
+  belongs_to(:survey)
 
   def self.find_random_unlinked(conditions = {})
     SurveyResponse
