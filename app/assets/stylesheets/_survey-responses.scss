@@ -3,6 +3,10 @@
   background: white;
   padding: 1rem;
 
+  p {
+    margin: .25rem 0 .75rem;
+  }
+
   dl.survey-response-answers {
     &>dt {
       font-weight: bold;

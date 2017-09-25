@@ -18,5 +18,20 @@ class SurveyResponsesController < ApplicationController
   end
 
   def update
+    @survey_response = SurveyResponse.find(params[:id])
+    @redirect_to = params[:redirect_to]
+
+    @survey_response.reviewed_at = DateTime.now
+    if @survey_response.update_attributes(survey_response_params)
+      redirect_to(@redirect_to)
+    else
+      render('edit')
+    end
+  end
+
+  private
+
+  def survey_response_params
+    params.require(:survey_response).permit(:customer_id)
   end
 end

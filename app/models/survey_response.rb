@@ -1,13 +1,11 @@
 class SurveyResponse < ActiveRecord::Base
   belongs_to(:customer)
 
-  validates_absence_of(:customer, if: :no_customer?)
-
   def self.find_random_unlinked(conditions = {})
     SurveyResponse
       .where(conditions)
       .where(customer_id: nil)
-      .where(no_customer: false)
+      .where(reviewed_at: nil)
       .order('RAND()').limit(1)
       .first
   end

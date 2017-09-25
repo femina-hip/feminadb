@@ -13,3 +13,4 @@
 //= require selectize
 //= require initializers/issue_fields
 //= require customer-new
+//= require survey-responses

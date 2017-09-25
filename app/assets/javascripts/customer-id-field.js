@@ -15,7 +15,10 @@ $.fn.customer_id_field = function() {
       labelField: 'name',
       searchField: '',
       create: false,
-      render: { option: option_template },
+      render: {
+        item: option_template,
+        option: option_template
+      },
       load: function(query, callback) {
         if (!query.length) return callback()
 

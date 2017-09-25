@@ -13,10 +13,14 @@
     %p
       %strong Customer:
       %br
+      -# hidden field allows submitting empty customer_id
+      = f.hidden_field(:customer_id, value: '')
+      -# customer_id_field allows choosing a customer id
       = f.customer_id_field(:customer_id)
 
-    %button.debounced{type: 'submit'} Link this Survey Response with this Customer
-    %button.debounced{type: 'submit'} Hide this Survey Response from all Customers forever
+    %input{type: 'hidden', name: 'redirect_to', value: @redirect_to}
+    %button.debounced{type: 'submit', class: 'a-customer'} Add Survey Response to Customer
+    %button.debounced{type: 'submit', class:'no-customer'} This Survey Response is not from a Customer
 
     %p
       %strong Survey Response:

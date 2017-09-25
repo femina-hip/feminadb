@@ -9,15 +9,37 @@ class TelerivetLink
     Customer.SMS_NUMBER_FIELDS[(override_attribute || attribute).to_sym]
   end
 
+  # Returns the name for Telerivet.
+  #
+  # For instance:
+  # * "VETA" => "VETA Mara Mentor"
+  # * "Arusha" => "Arusha SS HoS"
+  # * "TANWAT" => "TANWAT"
+  # * +255123123123
   def telerivet_name
     case attribute_data[:telerivet_name]
     when :name then customer ? customer.name : ''
-    when :school_headmaster then "#{customer.name} #{customer.type.name.split(/\s/)[0]} HoS"
-    when :school_mentor then "#{customer.name} #{customer.type.name.split(/\s/)[0]} Mentor"
+    when :school_headmaster then "#{customer_name_and_type_if_ss} HoS"
+    when :school_mentor then "#{customer_name_and_type_if_ss} Mentor"
     # we don't change Telerivet data when adding an expired contact. We _just_
     # link to Telerivet.
     when :expired then nil
     else sms_number
+    end
+  end
+
+  # Returns customer.name ... unless this is a secondary school, in which
+  # case it returns "#{customer.name} SS"
+  def customer_name_and_type_if_ss
+    type_name = customer.type.name.split(/\s/).first
+    if name == 'SS'
+      "#{customer.name} SS"
+    elsif name == customer.name
+      # "VETA" is the customer type and name. Output "VETA Mara".
+      # (This doesn't apply if the customer name is already "VETA Mara".)
+      "#{customer.name} #{customer.region.name}"
+    else
+      customer.name
     end
   end
 
