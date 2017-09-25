@@ -8,16 +8,32 @@
     %b= f.label(:id, 'Survey to update')
     %br
     = f.collection_select(:id, @surveys.sort_by(&:title), :id, :title, prompt: '(this is a survey never before uploaded to FeminaDB)')
+    %br
+    %span.help <small>Choose an existing survey if you want to update its responses to match the latest data from SurveyMonkey.</small>
+
   %p
     %b= f.label(:title, 'Survey title in FeminaDB')
     %br
     = f.text_field(:title)
+    %br
+    %span.help <small>Use the same survey name as in SurveyMonkey</small>
+
   %p
-    %b Exported CSV file with <em>all</em> results:
+    %b CSV file with <em>all</em> results:
     %br
     = f.file_field(:csv)
+    %br
+    %span.help <small>Any survey responses <em>not</em> in the CSV will be deleted from FeminaDB.</small>
   %p
     %button.debounced{type: :submit} Import from SurveyMonkey
-    %small
-      Any survey responses <em>not</em> in the CSV will be deleted from FeminaDB.
 
+.instructions{style: 'font-size: .9em; margin-top: 3rem;'}
+  %p To download a CSV from SurveyMonkey:
+
+  %ol
+    %li Browse to #{link_to('https://www.surveymonkey.net/dashboard/')}
+    %li Click the survey you'd like to export from SurveyMonkey
+    %li Click "Analyze Results"
+    %li Click "Exports" and then "New Export", "All Individual Responses"
+    %li Choose "XLS+" (with the Plus) and "Original View". Click "Export" and then download the ".zip" file.
+    %li Open the ".zip" file you downloaded, and extract <tt>CSV/[NAME OF SURVEY].csv</tt>. That's the file you should upload here.
