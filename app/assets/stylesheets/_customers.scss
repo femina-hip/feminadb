@@ -74,7 +74,7 @@ section.survey-responses {
   }
 
   .survey-response {
-    margin: 1rem;
+    margin: 1rem 1rem 0;
     height: 1rem;
     overflow: hidden;
 
@@ -96,10 +96,21 @@ section.survey-responses {
     padding: .5rem;
   }
 
+  p.empty {
+    font-size: .9rem;
+    margin: 1rem;
+  }
+
   p.link {
     font-size: .9rem;
     margin: 1rem;
     font-style: italic;
+  }
+
+  .unlink {
+    margin: .25rem 1rem 1rem;
+    text-align: right;
+    font-size: .9rem;
   }
 }
 

@@ -22,5 +22,6 @@
   - if !survey_responses.empty?
     %ul.survey-responses
       - survey_responses.each do |survey_response|
-        - puts survey_response.inspect
         %li= render(partial: 'survey_responses/survey_response', locals: { survey_response: survey_response })
+        - if current_user.has_role?('edit-customers')
+          .unlink= button_to('Unlink this Survey Response', survey_response_path(survey_response), method: 'patch', params: { 'survey_response[customer_id]' => nil, 'unreview' => true, 'redirect_to' => customer_path(@customer)}, 'data-confirm': 'Are you sure you want to remove this Survey Response from this Customer? You\'ll need to link it to another Customer later.')
