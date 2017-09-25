@@ -11,9 +11,12 @@
       %td= f.text_field :name
     %tr
       %th Type
-      %td= f.customer_type_field :customer_type_id
+      %td= f.customer_type_field(:customer_type_id)
     %tr
       %th Council
       %td
         = f.region_field(:region_id)
         = f.council_field(:council)
+    %tr.last
+      %th Delivery Address
+      %td= f.text_field(:delivery_address)

@@ -17,11 +17,15 @@
         = '-'
         = customer.type.description
     %tr
-      %th Region
-      %td= customer.region.name_and_manager
-    %tr.last
       %th Council
-      %td= customer.council
+      %td
+        = customer.region.name
+        = " / "
+        = customer.council
+        %small= " (#{customer.region.manager})"
+    %tr.last
+      %th Delivery Address
+      %td= customer.delivery_address
   %tfoot
     %tr
       %td.actions{colspan: 2}
