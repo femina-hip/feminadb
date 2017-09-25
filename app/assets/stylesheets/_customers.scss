@@ -98,6 +98,24 @@ body.customers-show .customer-tags-field {
   }
 }
 
+.customer-id-field {
+  span.name {
+    font-weight: bold;
+    padding-right: 1rem;
+  }
+
+  span.type {
+    color: $faded_color;
+    padding-right: 1rem;
+  }
+
+  span.council:not(:empty) {
+    &::before {
+      content: '/';
+    }
+  }
+}
+
 .customer-tags-field {
   min-width: 8rem; // for drop-down items
   width: auto;
