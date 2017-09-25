@@ -1,0 +1,26 @@
+-# Params:
+-# * survey_responses, an Array of SurveyResponses
+-# * region_name, a String
+-# * n_missing_survey_responses_in_region, an Integer
+%section.survey-responses
+  %h2 Survey Responses
+
+  - if survey_responses.empty?
+    %p.empty There are no Survey Responses for this Customer.
+
+  - if n_missing_survey_responses_in_region > 0
+    - singular = n_missing_survey_responses_in_region == 1
+    %p.link
+      - if singular
+        There is a Survey Response in #{region_name} that isn't linked to any Customer.
+      - else
+        There are #{n_missing_survey_responses_in_region} Survey Responses in #{region_name} that aren't linked to any Customer.
+
+      - if current_user.has_role?('edit-customers')
+        = link_to(singular ? 'Link it' : 'Link them', edit_survey_response_path('random-unlinked', region_name: region_name))
+
+  - if !survey_responses.empty?
+    %ul.survey-responses
+      - survey_responses.each do |survey_response|
+        - puts survey_response.inspect
+        %li= render(partial: 'survey_responses/survey_response', locals: { survey_response: survey_response })

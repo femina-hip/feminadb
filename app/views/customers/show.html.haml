@@ -11,6 +11,8 @@
 
 = render(partial: 'notes', :locals => { customer: @customer })
 
+= render(partial: 'survey_responses', locals: { survey_responses: @customer.survey_responses, region_name: @customer.region.name, n_missing_survey_responses_in_region: @n_missing_survey_responses_in_region })
+
 = render(partial: 'customer_orders/orders', locals: { orders: @customer.orders })
 
 %p.actions

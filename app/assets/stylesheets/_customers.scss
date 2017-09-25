@@ -59,6 +59,50 @@ section.sms-messages {
   }
 }
 
+section.survey-responses {
+  margin: 1rem auto;
+  border: 1px solid $border-color;
+
+  ul.survey-responses {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &>li {
+      margin-top: 1.5rem;
+    }
+  }
+
+  .survey-response {
+    margin: 1rem;
+    height: 1rem;
+    overflow: hidden;
+
+    &:not(.open) .survey-response-meta {
+      color: $link_color;
+    }
+
+    &.open {
+      overflow: auto;
+      height: auto;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    color: $alt_color;
+    background-color: $alt_background_color;
+    font: inherit;
+    padding: .5rem;
+  }
+
+  p.link {
+    font-size: .9rem;
+    margin: 1rem;
+    font-style: italic;
+  }
+}
+
 body.customers-index {
   tr.num-copies {
     input { width: 4rem; }

@@ -106,6 +106,7 @@ class Customer < ActiveRecord::Base
   has_many(:notes, class_name: 'CustomerNote')
   has_many(:orders)
   has_many(:standing_orders)
+  has_many(:survey_responses, -> { order(end_date: :desc) }, dependent: :nullify)
   has_and_belongs_to_many(:tags, dependent: :delete, readonly: true, order: :name)
 
   validates_presence_of :region_id

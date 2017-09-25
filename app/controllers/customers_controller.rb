@@ -146,11 +146,13 @@ class CustomersController < ApplicationController
   def show
     @customer = customer
     # preload
-    customer.region
-    customer.type
+    @customer.region
+    @customer.survey_responses.to_a
+    @customer.type
     ActiveRecord::Associations::Preloader.new.preload(@customer.standing_orders, :publication)
     ActiveRecord::Associations::Preloader.new.preload(@customer.orders, issue: :publication)
     ActiveRecord::Associations::Preloader.new.preload(@customer.notes, :created_by_user)
+    @n_missing_survey_responses_in_region = SurveyResponse.where(region_name: @customer.region.name).where(reviewed_at: nil).count
   end
 
   private
