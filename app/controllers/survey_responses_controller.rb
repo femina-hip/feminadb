@@ -1,5 +1,7 @@
 class SurveyResponsesController < ApplicationController
   def edit
+    require_role('edit-customers')
+
     if params[:id] == 'random-unlinked'
       # Workflow: user will link this response to a customer and then link
       # another one.
@@ -22,6 +24,8 @@ class SurveyResponsesController < ApplicationController
   end
 
   def update
+    require_role('edit-customers')
+
     @survey_response = SurveyResponse.find(params[:id])
     @redirect_to = params[:redirect_to]
 
