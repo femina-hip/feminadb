@@ -126,6 +126,9 @@ class Customer < ActiveRecord::Base
   def has_club?; club_sms_numbers.present?; end
   def council_valid?; region.councils.include?(council); end
   def delivery_method; region.delivery_method; end # better than has_one-through, because there's only one way to preload it
+  def attributes
+    super.merge(tag_names_comma_separated: tag_names_comma_separated)
+  end
 
   # Adds an SMS number to the specified field, ensuring there is a link for the
   # SMS number in Telerivet.
