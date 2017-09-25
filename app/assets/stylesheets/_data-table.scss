@@ -272,6 +272,9 @@ table.audits {
 }
 
 table.report {
+  width: auto;
+  max-width: 100%;
+
   th {
     font-size: .8rem;
     white-space: normal;
