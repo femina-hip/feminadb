@@ -196,6 +196,7 @@ class Customer < ActiveRecord::Base
     council('Council')
     type(:name => 'Type', :description => 'Type (long)')
     name('Name')
+    delivery_address('Delivery Address')
     primary_contact_sms_numbers('Primary Contact SMS numbers')
     headmaster_sms_numbers('Headmaster SMS numbers')
     club_sms_numbers('Club SMS numbers')
