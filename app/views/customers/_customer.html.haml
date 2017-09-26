@@ -32,5 +32,3 @@
         - if current_user.has_role?('edit-customers')
           = link_to('Edit Customer', edit_customer_path(customer))
         = link_to('Recent Changes', modifications_path(record_id: customer.id, table_name: Customer.table_name))
-        - if current_user.has_role?('edit-customers')
-          = button_to('Delete Customer', customer_path(customer), data: { confirm: 'Are you sure you want to delete this Customer?' }, method: :delete)

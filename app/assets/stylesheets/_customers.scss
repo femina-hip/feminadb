@@ -250,3 +250,11 @@ body.customers-show {
     }
   }
 }
+
+body.customers-edit div.delete {
+  form {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
