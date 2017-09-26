@@ -9,9 +9,9 @@
   %p
     %button.debounced Save
 
-%p.actions
-  = link_to 'Return without Saving', customer_path(@customer)
-
 - if current_user.has_role?('edit-customers')
   .delete
     = button_to('Delete Customer', customer_path(@customer), data: { confirm: 'Are you sure you want to delete this Customer? This cannot be undone.' }, method: :delete)
+
+%p.actions
+  = link_to 'Return without Saving', customer_path(@customer)
