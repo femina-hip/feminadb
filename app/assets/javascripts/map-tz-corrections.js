@@ -133,6 +133,7 @@ var TzCorrections = {
   'Mvomero': 'Mvomero DC',
   'Mwanga': 'Mwanga DC',
   'Nachingwea': 'Nachingwea DC',
+  'Namtumbo': 'Namtumbo DC',
   'Nanyumbu': 'Nanyumbu DC',
   'Newala': 'Newala DC',
   'Ngara': 'Ngara DC',
