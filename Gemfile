@@ -11,7 +11,7 @@ gem 'dynamic_form'
 gem 'font-awesome-rails'
 gem 'haml'
 gem 'jwt'
-gem 'mysql2', '~> 0.3.0'
+gem 'mysql2', '~> 0.4.10'
 gem 'passenger' # this is how we run it in production
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'rake'
