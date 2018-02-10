@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
     t.string "council"
     t.string "contact_name"
     t.datetime "created_at"
-    t.string "delivery_address", null: false
+    t.string "delivery_address", limit: 512, null: false
     t.string "primary_contact_sms_numbers", default: "", null: false
     t.string "club_sms_numbers", default: "", null: false
     t.string "old_sms_numbers", default: "", null: false
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
     t.date "order_date"
     t.string "council"
     t.string "customer_name"
-    t.string "delivery_address", default: "", null: false
+    t.string "delivery_address", limit: 512, null: false
     t.string "delivery_contact"
     t.string "region", null: false
     t.string "delivery_method", null: false

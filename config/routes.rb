@@ -14,6 +14,8 @@ Feminadb::Application.routes.draw do
     collection do
       get :similar
       get :autocomplete
+      get :bulk_rename_council
+      post :do_bulk_rename_council
     end
     member do
       post 'sms-numbers/:attribute', action: 'add_sms_number', as: 'add_sms_number'
