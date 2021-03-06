@@ -25,9 +25,9 @@ You may need to use `bundle exec` to run commands. For instance:
 Development mode
 ================
 
-1. Install [MariaDB](https://mariadb.org/). Create a user/pass/db named
-   `feminadb_dev` (give `feminadb_dev` ALL PRIVILEGES) and copy in data from the
-   [latest backup](https://console.cloud.google.com/storage/browser/feminadb-backups/?project=feminadb)
+1. Run [MariaDB](https://mariadb.org/). `docker run -p 127.0.0.1:3306:3306  --name feminadb-mariadb -e MYSQL_ALLOW_EMPTY_PASSWORD=true -e MYSQL_USER=feminadb_dev -e MYSQL_PASSWORD=feminadb_dev -e MYSQL_DATABASE=feminadb_dev mariadb:10 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci` and load the
+   [latest backup](https://console.cloud.google.com/storage/browser/feminadb-backups/?project=feminadb):
+   `zcat feminadb-????-??-??_??_??.sql.gz | mysql -h 127.0.0.1 -ufeminadb_dev -pfeminadb_dev feminadb_dev`
 2. [Install rbenv](https://github.com/rbenv/rbenv#installation) and
    [install ruby-build](https://github.com/rbenv/ruby-build#installation)
 3. `rbenv install` to install the version of Ruby that FeminaDB relies on

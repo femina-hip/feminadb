@@ -3,7 +3,7 @@ development:
   database: feminadb_dev
   username: feminadb_dev
   password: feminadb_dev
-  host: localhost
+  host: 127.0.0.1
   encoding: utf8mb4
 
 test:
