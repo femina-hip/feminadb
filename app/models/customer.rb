@@ -67,7 +67,6 @@ class Customer < ActiveRecord::Base
     date(:created_at)
     string(:region) { region.name }
     string(:council, stored: true)
-    boolean(:council_valid) { council_valid? }
     string(:delivery_method) { delivery_method.abbreviation }
     string(:category) { type.category }
     text(:region_manager) { region.manager }
@@ -129,7 +128,6 @@ class Customer < ActiveRecord::Base
   def self.can_visit_url?; true; end
   def title; name; end
   def has_club?; club_sms_numbers.present?; end
-  def council_valid?; region.councils.include?(council); end
   def delivery_method; region.delivery_method; end # better than has_one-through, because there's only one way to preload it
   def attributes
     super.merge(tag_names_comma_separated: tag_names_comma_separated)
