@@ -2,5 +2,6 @@
 log/*
 tmp/**/*
 solr/
+vendor/bundle/
 .sass-cache/
 .*.swp

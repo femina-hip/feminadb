@@ -1,10 +1,7 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 require 'sprockets/railtie'
-
-# Auto-require default libraries and those for the current Rails environment.
-Bundler.require :default, Rails.env
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -17,8 +14,5 @@ module Feminadb
 
     config.encoding = 'utf-8'
     config.time_zone = 'UTC'
-
-    # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters << :password
   end
 end

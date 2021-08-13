@@ -35,8 +35,8 @@ Development mode
 4. `gem install bundler` (make sure `which ruby` displays something like
    `~/.rbenv/shims/ruby` first -- that is, rbenv is installed correctly
 5. `bundle install`
-6. In one terminal, `rake sunspot:solr:run`
-7. In another temrinal, `rake sunspot:reindex` to build the index
+6. In one terminal, `export JAVA_HOME=/usr/lib/jvm/jre-1.8.0; bin/rake sunspot:solr:run`
+7. In another temrinal, `bin/rake sunspot:reindex` to build the index
 8. `bin/rails s` to start a server
 9. Browse to http://localhost:3000 and log in with Google Apps credentials
 

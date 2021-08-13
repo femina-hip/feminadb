@@ -1,4 +1,4 @@
-Feminadb::Application.configure do
+Rails.application.configure do
   config.action_controller.perform_caching = false
   config.assets.compress = false
   config.assets.debug = true

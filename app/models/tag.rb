@@ -3,7 +3,13 @@ class Tag < ActiveRecord::Base
   attribute(:light_or_dark, :string)
 
   def light_or_dark
-    if Sass::Script::Value::Color.from_hex(color).lightness > 50
+    rgb = color.sub('#', '').to_i(16)
+    r = rgb >> 16
+    g = (rgb >> 8) & 0xff
+    b = rgb & 0xff
+    luma = 0.2126 * r + 0.7152 * g + 0.0722 * b # ITU-R BT.709
+
+    if luma >= 128
       'light'
     else
       'dark'

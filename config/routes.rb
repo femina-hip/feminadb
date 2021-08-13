@@ -1,4 +1,4 @@
-Feminadb::Application.routes.draw do
+Rails.application.routes.draw do
   namespace :admin do
     resources :customer_types, :except => :show
     resources :delivery_methods, :except => :show

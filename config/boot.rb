@@ -1,8 +1,3 @@
-# Use Bundler (preferred)
-begin
-  require File.expand_path('../../.bundle/environment', __FILE__)
-rescue LoadError
-  require 'rubygems'
-  require 'bundler'
-  Bundler.setup
-end
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+
+require 'bundler/setup' # Set up gems listed in the Gemfile.

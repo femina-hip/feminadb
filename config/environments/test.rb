@@ -1,4 +1,4 @@
-Feminadb::Application.configure do
+Rails.application.configure do
   config.cache_classes = true
   config.whiny_nils = true
   config.action_controller.perform_caching = false

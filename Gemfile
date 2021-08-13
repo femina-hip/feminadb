@@ -1,17 +1,14 @@
 source 'https://rubygems.org'
 
 # We output xlsx spreadsheets instead of CSV, because Excel treats CSV cells
-# like "+255123123123" as numberic.
-# https://github.com/randym/axlsx/issues/234
-gem 'rubyzip', '>= 1.2.1' # axlsx dep
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
+# like "+255123123123" as numeric.
+gem 'caxlsx'
 
 gem 'comma'
 gem 'dynamic_form'
-gem 'font-awesome-rails'
 gem 'haml'
 gem 'jwt'
-gem 'mysql2', '~> 0.4.10'
+gem 'mysql2'
 gem 'passenger' # this is how we run it in production
 gem 'progress_bar' # for rake sunspot:reindex
 gem 'rake'
@@ -27,10 +24,17 @@ gem 'rails', '~> 5.1.4'
 gem 'jquery-rails'
 gem 'responders'
 
-gem 'sass-rails'
-gem 'uglifier'
+group :assets do
+  gem 'uglifier'
+end
+
+group :assets, :development do
+  gem 'sass-rails'
+  gem 'font-awesome-rails'
+end
 
 group :development do
+  gem 'puma'
   gem 'web-console'
   gem 'capistrano'
   gem 'capistrano-rbenv'
