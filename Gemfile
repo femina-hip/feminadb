@@ -28,7 +28,7 @@ group :assets do
   gem 'uglifier'
 end
 
-group :assets, :development do
+group :assets, :development, :test do
   gem 'sass-rails'
   gem 'font-awesome-rails'
 end

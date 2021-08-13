@@ -65,6 +65,7 @@ Rails.application.routes.draw do
 
   get 'oauth2callback' => 'auth#callback'
   get 'logout' => 'auth#logout'
+  get 'healthz' => 'application#healthz'
 
   root :to => 'customers#index'
 end

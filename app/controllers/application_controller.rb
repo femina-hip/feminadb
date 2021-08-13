@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include ::AuthenticatedSystem
   include ::Auditor
-  before_action(:ensure_logged_in)
+  before_action(:ensure_logged_in, except: 'healthz')
 
   protect_from_forgery
 
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   def current_user
     return unless session[:user_email]
     @current_user ||= User.find_by_email(session[:user_email])
+  end
+
+  def healthz
+    render(status: :ok, plain: 'OK')
   end
 
   protected
