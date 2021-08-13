@@ -11,6 +11,10 @@ module FormsHelper
     collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {:prompt => true}.merge(options))
   end
 
+  def school_levels_and_boarding_field(object_name, method, options = {})
+    select(object_name, method, SchoolLevelsAndBoarding::VALUES.invert.each_pair.to_a.sort)
+  end
+
   def delivery_method_field(object_name, method, options = {})
     collection_select(
       object_name,

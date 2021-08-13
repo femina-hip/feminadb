@@ -7,6 +7,7 @@
 //= require customer-tags-field
 //= require customer-council-field
 //= require customer-search
+//= require customer-form-is-school
 //= require in-modal-dialog
 //= require debounced-button
 //= require load-sms-history

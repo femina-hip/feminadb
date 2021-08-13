@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925060247) do
+ActiveRecord::Schema.define(version: 20210813183132) do
 
   create_table "audits", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at", null: false
@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 20170925060247) do
     t.string "table_name", null: false
     t.integer "record_id"
     t.string "action", null: false
-    t.text "before", null: false
-    t.text "after", null: false
-    t.index ["table_name", "record_id"], name: "index_audits_on_table_name_and_record_id"
+    t.text "before", limit: 16777215, null: false
+    t.text "after", limit: 16777215, null: false
+    t.index ["table_name", "record_id"], name: "index_audits_on_table_name_and_record_id", length: { table_name: 191 }
   end
 
   create_table "bulk_order_creators", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
 
   create_table "customer_notes", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer "customer_id"
-    t.text "note", limit: 16777215
+    t.text "note", limit: 4294967295
     t.datetime "created_at"
     t.integer "created_by"
     t.index ["customer_id"], name: "index_customer_notes_on_customer_id"
@@ -61,13 +61,14 @@ ActiveRecord::Schema.define(version: 20170925060247) do
     t.string "council"
     t.string "contact_name"
     t.datetime "created_at"
-    t.string "delivery_address", limit: 512, null: false
+    t.string "delivery_address", null: false
     t.string "primary_contact_sms_numbers", default: "", null: false
     t.string "club_sms_numbers", default: "", null: false
     t.string "old_sms_numbers", default: "", null: false
     t.string "delivery_contact", default: "", null: false
-    t.text "telerivet_id_cache"
+    t.text "telerivet_id_cache", limit: 16777215
     t.string "headmaster_sms_numbers"
+    t.string "school_levels_and_boarding", limit: 16
   end
 
   create_table "customers_tags", primary_key: ["customer_id", "tag_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -89,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
 
   create_table "issue_notes", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer "issue_id", null: false
-    t.text "note", null: false
+    t.text "note", limit: 16777215, null: false
     t.datetime "created_at", null: false
     t.integer "created_by"
     t.index ["issue_id"], name: "index_issue_notes_on_issue_id"
@@ -112,7 +113,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
     t.date "order_date"
     t.string "council"
     t.string "customer_name"
-    t.string "delivery_address", limit: 512, null: false
+    t.string "delivery_address", default: "", null: false
     t.string "delivery_contact"
     t.string "region", null: false
     t.string "delivery_method", null: false
@@ -132,7 +133,7 @@ ActiveRecord::Schema.define(version: 20170925060247) do
   create_table "regions", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string "name"
     t.integer "population"
-    t.text "councils_separated_by_newline"
+    t.text "councils_separated_by_newline", limit: 16777215
     t.integer "delivery_method_id", null: false
     t.string "manager", default: "", null: false
     t.integer "n_schools", default: 0

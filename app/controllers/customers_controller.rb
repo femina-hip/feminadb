@@ -200,7 +200,8 @@ class CustomersController < ApplicationController
       :region_id,
       :council,
       :delivery_address,
-      :delivery_contact
+      :delivery_contact,
+      :school_levels_and_boarding,
     )
   end
 end

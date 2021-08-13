@@ -1,4 +1,6 @@
 class Customer < ActiveRecord::Base
+  attribute :school_levels_and_boarding, :school_levels_and_boarding, default: nil
+
   NEEDS_STRIPPING = /(^\s)|(\s$)/
   @@SMS_NUMBER_FIELDS = {
     primary_contact_sms_numbers: {
@@ -50,16 +52,16 @@ class Customer < ActiveRecord::Base
 
   # Controllers index manually whenever anything might have changed.
   searchable(
-      auto_index: false,  # controllers handle indexing
-      auto_remove: false, # controllers handle indexing
-      include: [
-        :notes,
-        { region: :delivery_method },
-        :standing_orders,
-        :tags,
-        :type
-      ]
-    ) do
+    auto_index: false,  # controllers handle indexing
+    auto_remove: false, # controllers handle indexing
+    include: [
+      :notes,
+      { region: :delivery_method },
+      :standing_orders,
+      :tags,
+      :type
+    ]
+  ) do
     integer(:id)
     integer(:region_id)
     date(:created_at)
@@ -81,8 +83,11 @@ class Customer < ActiveRecord::Base
     string(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
-    boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }
+    boolean(:has_headmaster_sms_number) { is_school? ? !headmaster_sms_numbers.blank? : nil }
     boolean(:club) { has_club? }
+    boolean(:boarding_school) { is_school? ? is_boarding_school? : nil }
+    boolean(:day_school) { is_school? ? is_day_school? : nil }
+    string(:school_levels) { is_school? ? school_levels : nil }
 
     pubs = Customer.publications_tracking_standing_orders_for_indexing
     dynamic_integer(:standing_num_copies) do
@@ -128,6 +133,31 @@ class Customer < ActiveRecord::Base
   def delivery_method; region.delivery_method; end # better than has_one-through, because there's only one way to preload it
   def attributes
     super.merge(tag_names_comma_separated: tag_names_comma_separated)
+  end
+
+  def is_school?
+    self.type.name =~ /^SS\b/
+  end
+
+  def is_boarding_school?
+    %w(a_boarding ao_boarding o_boarding a_boarding_o_day).include?(school_levels_and_boarding)
+  end
+
+  def is_day_school?
+    %w(a_day ao_day o_day a_boarding_o_day).include?(school_levels_and_boarding)
+  end
+
+  def school_levels
+    {
+      'a_boarding' => 'A',
+      'a_day' => 'A',
+      'o_boarding' => 'O',
+      'o_day' => 'O',
+      'ao_boarding' => 'A+O',
+      'ao_day' => 'A+O',
+      'a_boarding_o_day' => 'A+O',
+      '' => 'unknown'
+    }[school_levels_and_boarding]
   end
 
   # Adds an SMS number to the specified field, ensuring there is a link for the

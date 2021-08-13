@@ -258,3 +258,11 @@ body.customers-edit div.delete {
     text-align: center;
   }
 }
+
+body.customers-edit, body.customers-new {
+  form:not(.is-school) {
+    tr.school-levels {
+      display: none;
+    }
+  }
+}
