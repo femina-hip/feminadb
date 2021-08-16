@@ -6,7 +6,7 @@ $(document).on('click', 'a.load-sms-messages', function(ev) {
   var href = $a.attr('href')
   $a.remove() // So we can add it back if there's an error
 
-  $container.empty().append('<div class="loading"><i class="fa fa-spinner fa-spin"></i> Loading SMS messages…</div>')
+  $container.empty().append('<div class="loading"><div class="spinner"><div></div></div> Loading SMS messages…</div>')
   $container.load(href, function(_, status, xhr) {
     if (status === 'error') {
       console.warn('Error loading ' + href, xhr)

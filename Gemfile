@@ -14,7 +14,7 @@ gem 'progress_bar' # for rake sunspot:reindex
 gem 'rake'
 gem 'ruby-immutable-struct'
 gem 'RedCloth'
-gem 'sunspot_rails'
+gem 'sunspot_rails'  # Requires Ruby <3.0 until sunspot_rails v>2.5.0. https://github.com/sunspot/sunspot/pull/1004
 gem 'sunspot_solr'
 gem 'telerivet'
 gem 'treetop'
@@ -30,7 +30,6 @@ end
 
 group :assets, :development, :test do
   gem 'sass-rails'
-  gem 'font-awesome-rails'
 end
 
 group :development do

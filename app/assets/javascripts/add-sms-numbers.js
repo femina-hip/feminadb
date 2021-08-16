@@ -6,7 +6,7 @@ $(document).on('submit', 'form.new-sms-number', function(ev) {
 
   function set_loading() {
     $form.prop('disabled', true)
-    $button.prepend('<span class="loading"><i class="fa fa-spinner fa-spin"></i></span>')
+    $button.prepend('<div class="loading"><div class="spinner"><div></div></div></div>')
   }
 
   function unset_loading() {

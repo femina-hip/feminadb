@@ -10,7 +10,7 @@ $('body.customers-new').each(function() {
   }
 
   function showLoading() {
-    $similar.empty().append('<p><span class="loading"><i class="fa fa-spinner fa-spin"></i></span></p>')
+    $similar.empty().append('<p><div class="spinner"><div/></div></p>')
   }
 
   function showSimilarCustomers(data) {

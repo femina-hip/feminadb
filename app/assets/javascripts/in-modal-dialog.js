@@ -19,7 +19,7 @@ $(document).on('click', 'a.in-modal-dialog', function(ev) {
             '<h3>Edit</h3>',
             '<a class="modal-dismiss" href="#">&times;</a>',
           '</div>',
-          '<div class="modal-body"><div class="loading"><i class="fa fa-spin fa-spinner"></i> Loading...</div></div>',
+          '<div class="modal-body"><div class="loading"><div class="spinner"><div></div></div>Loading...</div></div>',
         '</div>',
       '</div>',
     '</div>'
