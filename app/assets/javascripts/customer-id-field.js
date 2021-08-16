@@ -1,5 +1,5 @@
 $.fn.customer_id_field = function() {
-  const option_template = _.template([
+  var option_template = _.template([
     '<div class="customer-id-option">',
       '<span class="name"><%- name %></span>',
       '<span class="type"><%- type.name %></span>',
