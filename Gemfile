@@ -20,7 +20,7 @@ gem 'telerivet'
 gem 'treetop'
 gem 'will_paginate'
 
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2.0'
 gem 'jquery-rails'
 gem 'responders'
 
