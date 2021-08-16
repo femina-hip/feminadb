@@ -29,7 +29,7 @@
         %th Value after change
     %tbody
       - @audits.each do |audit|
-        - rowspan = audit.changed_attributes.length || 1
+        - rowspan = [1, audit.changed_attributes.length].max
         - rowclass = cycle('odd', 'even')
         %tr{class: rowclass, 'data-id': audit.id}
           %td.record{:rowspan => rowspan}
