@@ -201,7 +201,9 @@ class CustomersController < ApplicationController
       :council,
       :delivery_address,
       :delivery_contact,
-      :school_levels_and_boarding,
+      :secondary_school_levels,
+      :secondary_school_residence,
+      :secondary_school_sexes,
     )
   end
 end

@@ -1,6 +1,4 @@
 class Customer < ActiveRecord::Base
-  attribute :school_levels_and_boarding, :school_levels_and_boarding, default: nil
-
   NEEDS_STRIPPING = /(^\s)|(\s$)/
   @@SMS_NUMBER_FIELDS = {
     primary_contact_sms_numbers: {
@@ -84,9 +82,9 @@ class Customer < ActiveRecord::Base
     text(:category) { type.category }
     boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }
     boolean(:club) { has_club? }
-    boolean(:boarding_school) { is_secondary_school? ? is_boarding_school? : nil }
-    boolean(:day_school) { is_secondary_school? ? is_day_school? : nil }
-    string(:school_levels) { is_secondary_school? ? school_levels : nil }
+    string(:secondary_school_levels) { is_secondary_school? ? secondary_school_levels : nil }
+    string(:secondary_school_residence) { is_secondary_school? ? secondary_school_residence : nil }
+    string(:secondary_school_sexes) { is_secondary_school? ? secondary_school_sexes : nil }
 
     pubs = Customer.publications_tracking_standing_orders_for_indexing
     dynamic_integer(:standing_num_copies) do
@@ -137,25 +135,97 @@ class Customer < ActiveRecord::Base
     self.type.name =~ /^SS\b/
   end
 
-  def is_boarding_school?
-    %w(a_boarding ao_boarding o_boarding a_boarding_o_day).include?(school_levels_and_boarding)
+  def secondary_school_levels
+    case [secondary_school_levels_a, secondary_school_levels_o]
+    when [false, false]
+      'unknown'  # appears in search index
+    when [false, true]
+      'O'
+    when [true, false]
+      'A'
+    else
+      'A+O'
+    end
   end
 
-  def is_day_school?
-    %w(a_day ao_day o_day a_boarding_o_day).include?(school_levels_and_boarding)
+  def secondary_school_levels_description
+    case [secondary_school_levels_a, secondary_school_levels_o]
+    when [false, false]
+      'unknown'
+    when [false, true]
+      'O-level'
+    when [true, false]
+      'A-level'
+    else
+      'Both A-level and O-level'
+    end
   end
 
-  def school_levels
-    {
-      'a_boarding' => 'A',
-      'a_day' => 'A',
-      'o_boarding' => 'O',
-      'o_day' => 'O',
-      'ao_boarding' => 'A+O',
-      'ao_day' => 'A+O',
-      'a_boarding_o_day' => 'A+O',
-      '' => 'unknown'
-    }[school_levels_and_boarding]
+  def secondary_school_levels=(value)
+    self.secondary_school_levels_a = /A/.match?(value)
+    self.secondary_school_levels_o = /O/.match?(value)
+  end
+
+  def secondary_school_residence
+    case [secondary_school_residence_boarding, secondary_school_residence_day]
+    when [false, false]
+      'unknown'  # appears in search index
+    when [false, true]
+      'day'
+    when [true, false]
+      'boarding'
+    else
+      'boarding+day'
+    end
+  end
+
+  def secondary_school_residence_description
+    case [secondary_school_residence_boarding, secondary_school_residence_day]
+    when [false, false]
+      'unknown'
+    when [false, true]
+      'Day'
+    when [true, false]
+      'Boarding'
+    else
+      'Both Boarding and Day'
+    end
+  end
+
+  def secondary_school_residence=(value)
+    self.secondary_school_residence_boarding = /boarding/.match?(value)
+    self.secondary_school_residence_day = /day/.match?(value)
+  end
+
+  def secondary_school_sexes
+    case [secondary_school_sexes_boys, secondary_school_sexes_girls]
+    when [false, false]
+      'unknown'  # appears in search index
+    when [false, true]
+      'girls'
+    when [true, false]
+      'boys'
+    when [true, true]
+      'co-ed'
+    end
+  end
+
+  def secondary_school_sexes_description
+    case [secondary_school_sexes_boys, secondary_school_sexes_girls]
+    when [false, false]
+      'unknown'
+    when [false, true]
+      'Girls'
+    when [true, false]
+      'Boys'
+    when [true, true]
+      'Co-ed'
+    end
+  end
+
+  def secondary_school_sexes=(value)
+    self.secondary_school_sexes_boys = /boys|co-ed/.match?(value)
+    self.secondary_school_sexes_girls = /girls|co-ed/.match?(value)
   end
 
   # Adds an SMS number to the specified field, ensuring there is a link for the

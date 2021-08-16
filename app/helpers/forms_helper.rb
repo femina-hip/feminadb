@@ -8,11 +8,49 @@ module FormsHelper
   end
 
   def customer_type_field(object_name, method, options = {})
-    collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {:prompt => true}.merge(options))
+    collection_select(object_name, method, CustomerType.order(:name), :id, :full_name, {prompt: true}.merge(options))
   end
 
-  def school_levels_and_boarding_field(object_name, method, options = {})
-    select(object_name, method, SchoolLevelsAndBoarding::VALUES.invert.each_pair.to_a.sort)
+  def secondary_school_levels_field(object_name, method, options = {})
+    select(
+      object_name,
+      method,
+      [
+        ['Unknown', 'unknown'],
+        ['A-level', 'A'],
+        ['O-level', 'O'],
+        ['Both A-level and O-level', 'A+O'],
+      ],
+      options
+    )
+  end
+
+  def secondary_school_residence_field(object_name, method, options = {})
+    select(
+      object_name,
+      method,
+      [
+        ['Unknown', 'unknown'],
+        ['Boarding', 'boarding'],
+        ['Day', 'day'],
+        ['Both Boarding and Day', 'boarding+day'],
+      ],
+      options
+    )
+  end
+
+  def secondary_school_sexes_field(object_name, method, options = {})
+    select(
+      object_name,
+      method,
+      [
+        ['Unknown', 'unknown'],
+        ['Boys', 'boys'],
+        ['Girls', 'girls'],
+        ['Co-ed', 'co-ed'],
+      ],
+      options
+    )
   end
 
   def delivery_method_field(object_name, method, options = {})

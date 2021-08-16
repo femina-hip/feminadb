@@ -18,8 +18,15 @@
         = customer.type.description
     - if ['SS (PR)', 'SS (PU)' ].include?(customer.type.name)
       %tr
-        %th School Levels
-        %td= SchoolLevelsAndBoarding.describe(customer.school_levels_and_boarding)
+        %th School Details
+        %td
+          %dl.school-details
+            %dt Levels
+            %dd= customer.secondary_school_levels_description
+            %dt Boarding
+            %dd= customer.secondary_school_residence_description
+            %dt Sexes
+            %dd= customer.secondary_school_sexes_description
     %tr
       %th Council
       %td

@@ -68,7 +68,12 @@ ActiveRecord::Schema.define(version: 20210813183132) do
     t.string "delivery_contact", default: "", null: false
     t.text "telerivet_id_cache", limit: 16777215
     t.string "headmaster_sms_numbers"
-    t.string "school_levels_and_boarding", limit: 16
+    t.boolean "secondary_school_levels_a", default: false, null: false, comment: "If True, teaches A-level; if _a and _o are both False, unknown"
+    t.boolean "secondary_school_levels_o", default: false, null: false, comment: "If True, teaches O-level; if _a and _o are both False, unknown"
+    t.boolean "secondary_school_residence_boarding", default: false, null: false, comment: "If True, some students board; if _boarding and _day are both False, unknown"
+    t.boolean "secondary_school_residence_day", default: false, null: false, comment: "If True, some students go home at night; if _boarding and _day are both False, unknown"
+    t.boolean "secondary_school_sexes_boys", default: false, null: false, comment: "If True, some students are boys; if _boys and _girls are both False, unknown"
+    t.boolean "secondary_school_sexes_girls", default: false, null: false, comment: "If True, some students are girls; if _boys and _girls are both False, unknown"
   end
 
   create_table "customers_tags", primary_key: ["customer_id", "tag_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|

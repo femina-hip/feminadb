@@ -12,9 +12,18 @@
     %tr
       %th Type
       %td= f.customer_type_field(:customer_type_id)
-    %tr.school-levels
-      %th School Levels
-      %td= f.school_levels_and_boarding_field(:school_levels_and_boarding)
+    %tr.school-details
+      %th School Details
+      %td
+        %label
+          Levels
+          = f.secondary_school_levels_field(:secondary_school_levels)
+        %label
+          Boarding
+          = f.secondary_school_residence_field(:secondary_school_residence)
+        %label
+          Sexes
+          = f.secondary_school_sexes_field(:secondary_school_sexes)
     %tr
       %th Council
       %td

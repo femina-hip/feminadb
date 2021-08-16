@@ -26,7 +26,7 @@
   .facets
     %span.title Filter:
     %ul.facets
-      - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:council, 'Council'], [:delivery_method, 'Delivery Method'], [:school_levels, 'School Levels'], [:boarding_school, 'Is boarding school?'], [:day_school, 'Is day school?'], [:club, 'Has club?'], [:has_headmaster_sms_number, 'Has headmaster SMS?'], [:tag, 'Tag']].each do |facet_sym, title|
+      - [[:type, 'Type'], [:category, 'Category'], [:region, 'Region'], [:council, 'Council'], [:delivery_method, 'Delivery Method'], [:secondary_school_levels, 'School Levels'], [:secondary_school_residence, 'School Boarding'], [:secondary_school_sexes, 'School Sexes'], [:club, 'Has club?'], [:has_headmaster_sms_number, 'Has headmaster SMS?'], [:tag, 'Tag']].each do |facet_sym, title|
         - facet = @search.facet(facet_sym)
         - if facet.rows.length > 1
           %li.facet<
