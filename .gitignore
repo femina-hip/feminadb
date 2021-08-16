@@ -5,5 +5,3 @@ solr/
 vendor/bundle/
 .sass-cache/
 .*.swp
-
-/config/master.key
