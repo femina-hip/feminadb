@@ -82,11 +82,11 @@ class Customer < ActiveRecord::Base
     string(:type) { type.name }
     text(:type_description) { type.description }
     text(:category) { type.category }
-    boolean(:has_headmaster_sms_number) { is_school? ? !headmaster_sms_numbers.blank? : nil }
+    boolean(:has_headmaster_sms_number) { !headmaster_sms_numbers.blank? }
     boolean(:club) { has_club? }
-    boolean(:boarding_school) { is_school? ? is_boarding_school? : nil }
-    boolean(:day_school) { is_school? ? is_day_school? : nil }
-    string(:school_levels) { is_school? ? school_levels : nil }
+    boolean(:boarding_school) { is_secondary_school? ? is_boarding_school? : nil }
+    boolean(:day_school) { is_secondary_school? ? is_day_school? : nil }
+    string(:school_levels) { is_secondary_school? ? school_levels : nil }
 
     pubs = Customer.publications_tracking_standing_orders_for_indexing
     dynamic_integer(:standing_num_copies) do
@@ -133,7 +133,7 @@ class Customer < ActiveRecord::Base
     super.merge(tag_names_comma_separated: tag_names_comma_separated)
   end
 
-  def is_school?
+  def is_secondary_school?
     self.type.name =~ /^SS\b/
   end
 
