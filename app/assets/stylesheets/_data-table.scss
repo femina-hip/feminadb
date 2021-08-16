@@ -230,24 +230,12 @@ table.distribution-list {
   }
 }
 
-table.customer-standing-orders, table.customer-orders {
-  margin: 0.5em auto;
-
+table.customer-standing-orders, table.customer-orders, table.customer-notes {
   thead {
     th {
       padding-top: 4px;
       padding-bottom: 4px;
       text-align: left;
-    }
-  }
-
-  thead.title {
-    border: none;
-
-    th {
-      font-size: 1em;
-      text-align: left;
-      padding: 4px;
     }
   }
 }
