@@ -203,7 +203,7 @@ class CustomersController < ApplicationController
       :delivery_contact,
       :secondary_school_levels,
       :secondary_school_residence,
-      :secondary_school_sexes,
+      :secondary_school_sex,
     )
   end
 end

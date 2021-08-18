@@ -84,7 +84,7 @@ class Customer < ActiveRecord::Base
     boolean(:club) { has_club? }
     string(:secondary_school_levels) { is_secondary_school? ? secondary_school_levels : nil }
     string(:secondary_school_residence) { is_secondary_school? ? secondary_school_residence : nil }
-    string(:secondary_school_sexes) { is_secondary_school? ? secondary_school_sexes : nil }
+    string(:secondary_school_sex) { is_secondary_school? ? secondary_school_sex : nil }
 
     pubs = Customer.publications_tracking_standing_orders_for_indexing
     dynamic_integer(:standing_num_copies) do
@@ -197,7 +197,7 @@ class Customer < ActiveRecord::Base
     self.secondary_school_residence_day = /day/.match?(value)
   end
 
-  def secondary_school_sexes
+  def secondary_school_sex
     case [secondary_school_sexes_boys, secondary_school_sexes_girls]
     when [false, false]
       'unknown'  # appears in search index
@@ -210,7 +210,7 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def secondary_school_sexes_description
+  def secondary_school_sex_description
     case [secondary_school_sexes_boys, secondary_school_sexes_girls]
     when [false, false]
       'unknown'
@@ -223,7 +223,7 @@ class Customer < ActiveRecord::Base
     end
   end
 
-  def secondary_school_sexes=(value)
+  def secondary_school_sex=(value)
     self.secondary_school_sexes_boys = /boys|co-ed/.match?(value)
     self.secondary_school_sexes_girls = /girls|co-ed/.match?(value)
   end

@@ -29,7 +29,7 @@ module CustomerFilterControllerMethods
         facet(:type, sort: :index)
         facet(:secondary_school_levels, sort: :index)
         facet(:secondary_school_residence, sort: :index)
-        facet(:secondary_school_sexes, sort: :index)
+        facet(:secondary_school_sex, sort: :index)
         facet(:delivery_method, sort: :index)
         facet(:has_headmaster_sms_number, sort: :index)
         facet(:club, sort: :index)

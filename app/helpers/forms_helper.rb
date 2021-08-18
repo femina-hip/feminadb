@@ -39,7 +39,7 @@ module FormsHelper
     )
   end
 
-  def secondary_school_sexes_field(object_name, method, options = {})
+  def secondary_school_sex_field(object_name, method, options = {})
     select(
       object_name,
       method,
