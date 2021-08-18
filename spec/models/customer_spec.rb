@@ -99,7 +99,7 @@ describe(Customer) do
       customer = build_customer(council, name, options)
 
       customer.save!
-      Customer.reindex(:include => [ { :region => :delivery_method }, :type ])
+      Customer.reindex(include: [ { :region => :delivery_method }, :type ])
 
       customer
     end
