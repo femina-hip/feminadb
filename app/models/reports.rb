@@ -30,13 +30,15 @@ module Reports
         ORDER BY regions.manager
       EOT
 
-      result
-        .to_h
-        .map do |row|
-          row.symbolize_keys!
-          row[:percent_fema_schools_with_clubs] = 100.0 * row[:n_clubs] / row[:n_schools_with_fema]
-          row
-        end
+      result.rows.map do |row|
+        staff_member, n_schools_with_fema, n_clubs = row
+        {
+          staff_member: staff_member,
+          n_schools_with_fema: n_schools_with_fema,
+          n_clubs: n_clubs,
+          percent_fema_schools_with_clubs: 100.0 * n_clubs / n_schools_with_fema,
+        }
+      end
     end
 
     # Returns info for each region concerning number of schools+contacts.
@@ -80,7 +82,7 @@ module Reports
         ORDER BY regions.name
       EOT
 
-      result.to_h.map(&:symbolize_keys!)
+      result.to_a.map(&:symbolize_keys)
     end
 
     # Returns a row per phone number, for comparison with Telerivet
@@ -143,7 +145,7 @@ module Reports
 
       result = Customer.connection.select_all(sql)
 
-      result.to_h.map(&:symbolize_keys!)
+      result.to_a.map(&:symbolize_keys)
     end
 
     def survey_responses
@@ -157,9 +159,7 @@ module Reports
         ORDER BY region_name
       EOT
 
-      puts result.to_h.map(&:symbolize_keys!)
-        
-      result.to_h
+      result.to_a.map(&:symbolize_keys)
     end
 
     def clubs_map
@@ -175,7 +175,7 @@ module Reports
         ORDER BY regions.name, customers.council
       EOT
 
-      result.to_h.map(&:symbolize_keys!)
+      result.to_a.map(&:symbolize_keys)
     end
   end
 end
