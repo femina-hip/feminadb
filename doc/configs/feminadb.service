@@ -1,0 +1,13 @@
+[Unit]
+Description=FeminaDB web server
+Wants=feminadb-index.service
+
+[Service]
+Restart=always
+User=rails
+EnvironmentFile=/opt/rails/feminadb/env
+WorkingDirectory=/opt/rails/feminadb/current
+ExecStart=/opt/rails/.rbenv/bin/rbenv exec bundle exec passenger start
+
+[Install]
+WantedBy=multi-user.target

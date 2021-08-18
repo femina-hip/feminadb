@@ -1,0 +1,7 @@
+# /opt/rails/feminadb/env
+SECRET_KEY_BASE="???"
+OAUTH_CLIENT_ID="???.apps.googleusercontent.com"
+OAUTH_CLIENT_SECRET="???"
+TELERIVET_API_KEY="???"
+TELERIVET_PROJECT_ID="???"
+SURVEYMONKEY_API_ACCESS_TOKEN="???"

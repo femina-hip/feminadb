@@ -8,20 +8,17 @@ apt-get -yy -q update
 apt-get -yy -q install \
   build-essential \
   bundler \
+  certbot \
+  cron \
   git \
   haproxy \
-  letsencrypt \
   libcurl4-openssl-dev \
-  libmariadb-client-lgpl-dev \
+  libmariadb-dev \
   libssl-dev \
   mariadb-client \
   mariadb-server \
   nodejs \
-  nodejs-legacy \
   openjdk-8-jre-headless \
-  ruby \
-  ruby-dev \
-  ruby-passenger \
   zlib1g-dev
 
-useradd -d /opt/rails -m -U -r rails
+useradd -d /opt/rails -m -U -r rails -s /bin/bash

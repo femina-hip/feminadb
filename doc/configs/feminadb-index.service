@@ -1,0 +1,12 @@
+[Unit]
+Description=Indexing service used by FeminaDB to find customers
+
+[Service]
+User=rails
+Restart=always
+Environment="RAILS_ENV=production"
+WorkingDirectory=/opt/rails/feminadb/current
+ExecStart=/opt/rails/.rbenv/bin/rbenv exec bundle exec rake sunspot:solr:run
+
+[Install]
+WantedBy=multi-user.target
