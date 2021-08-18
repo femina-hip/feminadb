@@ -31,7 +31,7 @@ module Reports
       EOT
 
       result
-        .to_hash
+        .to_h
         .map do |row|
           row.symbolize_keys!
           row[:percent_fema_schools_with_clubs] = 100.0 * row[:n_clubs] / row[:n_schools_with_fema]
@@ -80,7 +80,7 @@ module Reports
         ORDER BY regions.name
       EOT
 
-      result.to_hash.map(&:symbolize_keys!)
+      result.to_h.map(&:symbolize_keys!)
     end
 
     # Returns a row per phone number, for comparison with Telerivet
@@ -143,7 +143,7 @@ module Reports
 
       result = Customer.connection.select_all(sql)
 
-      result.to_hash.map(&:symbolize_keys!)
+      result.to_h.map(&:symbolize_keys!)
     end
 
     def survey_responses
@@ -157,9 +157,9 @@ module Reports
         ORDER BY region_name
       EOT
 
-      puts result.to_hash.map(&:symbolize_keys!)
+      puts result.to_h.map(&:symbolize_keys!)
         
-      result.to_hash
+      result.to_h
     end
 
     def clubs_map
@@ -175,7 +175,7 @@ module Reports
         ORDER BY regions.name, customers.council
       EOT
 
-      result.to_hash.map(&:symbolize_keys!)
+      result.to_h.map(&:symbolize_keys!)
     end
   end
 end
